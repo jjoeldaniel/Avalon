@@ -1,5 +1,5 @@
 # PawBot
-PawBot is a discord bot that includes moderation, utility, react-messages, and various fun commands! 
+PawBot is a Discord bot that includes moderation, utility, react-messages, and various fun commands! 
 
 ![Image of dog smiling](https://i.imgur.com/Wfm9pl8.png)
  
