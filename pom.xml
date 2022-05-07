@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.joel</groupId>
-    <artifactId>DiscordPaw</artifactId>
+    <artifactId>Discord-Bot</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
