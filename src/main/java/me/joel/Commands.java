@@ -17,7 +17,7 @@ public class Commands extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
 
         // Checks if user
-        if (!event.getAuthor().isBot() ) {
+        if (!event.getAuthor().isBot() && event.isFromGuild()) {
 
             // Grabs user input
             String messageSent = event.getMessage().getContentRaw();
@@ -30,9 +30,9 @@ public class Commands extends ListenerAdapter {
 
                     // Commands list
                     if (botInput[1].equalsIgnoreCase("help")) {
-                        String user = event.getAuthor().getName();
-                        String server = event.getGuild().getName();
-                        event.getTextChannel().sendMessage(printCommands()).queue();
+                        User user = event.getAuthor();
+                        // DM's user
+                        user.openPrivateChannel().flatMap(channel -> channel.sendMessage(printCommands())).queue();
                     }
 
                     // Ping

@@ -22,7 +22,7 @@ public class ModCommands extends ListenerAdapter {
             String messageSent = event.getMessage().getContentRaw().toLowerCase();
             String[]botInput = messageSent.split(" ", 4);
 
-            if (!event.getAuthor().isBot() && messageSent.startsWith(prefix)) {
+            if (!event.getAuthor().isBot() && messageSent.startsWith(prefix) && event.isFromGuild()) {
 
                 // Kick
                 try {

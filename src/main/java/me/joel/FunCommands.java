@@ -12,7 +12,7 @@ public class FunCommands extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
         // Checks if user
-        if (!event.getAuthor().isBot()) {
+        if (!event.getAuthor().isBot() && event.isFromGuild()) {
 
             // Grabs user input
             String messageSent = event.getMessage().getContentRaw();

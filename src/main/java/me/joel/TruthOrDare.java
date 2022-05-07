@@ -160,7 +160,7 @@ public class TruthOrDare extends ListenerAdapter {
         String messageSent = (event.getMessage().getContentRaw()).toLowerCase();
         String[]botInput = messageSent.split(" ", 2);
 
-        if ((!event.getAuthor().isBot()) && botInput[0].equalsIgnoreCase(prefix)) {
+        if ((!event.getAuthor().isBot()) && botInput[0].equalsIgnoreCase(prefix) && event.isFromGuild()) {
                 try {
                         if (botInput[1].equals("truth")) {
                             event.getTextChannel().sendMessage(Objects.requireNonNull(event.getMember()).getAsMention() + "'s turn: \n\n" + askTruth()).queue();
