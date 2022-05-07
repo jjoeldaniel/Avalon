@@ -15,5 +15,5 @@ PawBot is a discord bot that includes moderation, utility, react-messages, and v
 
  **3) What permissions does PawBot require?**
  
-   Due to the use of moderation commands, PawBot requires admin persmissions and for its role to be moved up as high as possible in the role heirarchy.
+   Due to the use of moderation commands, PawBot requires admin permissions and for its role to be moved up as high as possible in the role hierarchy.
    
