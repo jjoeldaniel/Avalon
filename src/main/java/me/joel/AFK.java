@@ -26,7 +26,7 @@ public class AFK extends ListenerAdapter {
                         if (botInput[1].equalsIgnoreCase("afk")) {
                             try {
                                 String userName = Objects.requireNonNull(event.getMember()).getEffectiveName();
-                                event.getMember().modifyNickname("[AFK] " + userName).queue();
+                                event.getMember().modifyNickname("(AFK) " + userName).queue();
                                 System.out.println(userName + " is now AFK");
                             } catch (Exception except) {
                                 System.out.println("Can't rename owner/equal role!");
@@ -35,7 +35,7 @@ public class AFK extends ListenerAdapter {
                 }
 
                 // Return from AFK
-                if (Objects.requireNonNull(event.getMember()).getEffectiveName().startsWith("[AFK] ")) {
+                if (Objects.requireNonNull(event.getMember()).getEffectiveName().startsWith("(AFK) ")) {
                     String user = event.getMember().getEffectiveName();
                     System.out.println(user + " returned from AFK");
                     String[] userName = user.split(" ", 2);
@@ -44,7 +44,7 @@ public class AFK extends ListenerAdapter {
                 }
 
                 // Mentioning AFK users
-                if ((Objects.requireNonNull(event.getMessage().getMentionedMembers().get(0))).getEffectiveName().contains("[AFK]")) {
+                if ((Objects.requireNonNull(event.getMessage().getMentionedMembers().get(0))).getEffectiveName().contains("(AFK)")) {
                     event.getTextChannel().sendMessage("Mentioned member is AFK, " + Objects.requireNonNull(event.getMember()).getAsMention() + "!").queue();
                 }
 
