@@ -10,7 +10,7 @@ public class Paw {
 
     public static void main(String[] args) throws LoginException {
 
-        JDA jda = JDABuilder.createDefault("bot key")
+        JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GiQFVZ.R99fX4D0BwZNrtfbV_W6zo9DqQ262DSwv6M2Sc")
                 .setActivity(Activity.playing("ur mom"))
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())
