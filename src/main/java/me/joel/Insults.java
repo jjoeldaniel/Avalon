@@ -50,7 +50,7 @@ public class Insults extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if (!event.getAuthor().isBot() && event.isFromGuild()) {
+        if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getTextChannel().isNSFW()) {
             String message = (event.getMessage().getContentRaw()).toLowerCase();
 
             // Trigger words
