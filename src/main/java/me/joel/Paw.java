@@ -20,6 +20,7 @@ public class Paw {
                 .addEventListeners(new ReactMessages())
                 .addEventListeners(new AFK())
                 .addEventListeners(new FunCommands())
+                .addEventListeners(new Music())
                 .build();
 
     }

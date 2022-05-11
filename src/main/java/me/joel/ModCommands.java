@@ -39,6 +39,18 @@ public class ModCommands extends ListenerAdapter {
                     }
                 } catch (Exception ignore) {}
 
+                // Owner broadcast
+                try {
+                    if (botInput[1].equals("broadcast") && event.getAuthor().getId().equals("205862976689799168")) {
+                        String channelID = botInput[2];
+                        String message = botInput[3];
+
+                        Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendTyping().queue();
+                        Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessage(message).queue();
+                    }
+                }
+                catch (Exception ignore) {}
+
                 // Ban
                 try {
                     if (botInput[1].equals("ban") && Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS)) {
