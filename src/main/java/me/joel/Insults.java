@@ -57,7 +57,8 @@ public class Insults extends ListenerAdapter {
             try {
                 if (isInsult(message)) {
                     event.getGuildChannel().sendTyping().queue();
-                    event.getTextChannel().sendMessage(randomInsult()).queue();
+                    String insult = randomInsult();
+                    event.getTextChannel().sendMessage(insult).queue();
                 }
             }
             catch (Exception except) {

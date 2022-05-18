@@ -61,7 +61,7 @@ public class ModCommands extends ListenerAdapter {
 
                         event.getGuild().ban(target, 0, botInput[3]).queue();
                         event.getChannel().sendMessage(targetName + " has been banned.").queue();
-                        System.out.println("[SUCCESS] " + targetName + " has been banned with reason " + botInput[3] + " in  " + server);
+                        System.out.println("[SUCCESS] " + targetName + " has been banned with reason '" + botInput[3] + "' in  " + server);
 
                     }
                 }
