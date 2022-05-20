@@ -45,7 +45,7 @@ public class ReactMessages extends ListenerAdapter {
             String messageSent = event.getMessage().getContentRaw().toLowerCase();
 
             // Kae
-            if (messageSent.contains("kae")) {
+            if (messageSent.contains("kae ") || messageSent.contains("kae")) {
                 int num = Util.randomWithRange(0, 100);
                 if (num > 50) {
                     event.getTextChannel().sendMessage(kaeResponse()).queue();
