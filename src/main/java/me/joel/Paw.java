@@ -6,12 +6,17 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Paw {
 
-    public static void main(String[] args) throws LoginException {
+    static int num = 0;
+
+    public static void main(String[] args) throws LoginException, InterruptedException {
 
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GaS_YW.cooVvNzOJY2HEqBtNBLb04Rsdjp0vu6NB-pHeo")
-                .setActivity(Activity.playing("ur mom"))
+
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())
                 .addEventListeners(new Insults())
@@ -22,6 +27,11 @@ public class Paw {
                 .addEventListeners(new FunCommands())
                 .addEventListeners(new Music())
                 .build();
+
+        jda.awaitReady();
+        int guildNum = jda.getGuilds().size();
+        jda.getPresence().setActivity(Activity.listening(" " + (guildNum) + " servers!" ));
+
 
     }
 
