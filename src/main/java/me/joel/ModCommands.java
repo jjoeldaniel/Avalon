@@ -43,7 +43,7 @@ public class ModCommands extends ListenerAdapter {
 
                 // Admin broadcast
                 try {
-                    if (botInput[1].equals("broadcast") && Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR)) {
+                    if (botInput[1].equals("broadcast") && Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) || Objects.requireNonNull(event.getMember()).getId().equals("205862976689799168")) {
                         String channelID = botInput[2];
                         String message = botInputCaseSens[3];
 
