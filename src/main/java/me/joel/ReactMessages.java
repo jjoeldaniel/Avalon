@@ -47,19 +47,13 @@ public class ReactMessages extends ListenerAdapter {
             // Kae
             if (messageSent.contains("kae ") || messageSent.contains("kae")) {
                 int num = Util.randomWithRange(0, 100);
-                if (num > 50) {
-                    event.getTextChannel().sendMessage(kaeResponse()).queue();
-                }
+                if (num > 50) event.getTextChannel().sendMessage(kaeResponse()).queue();
 
             }
             // Goodnight
-            if (messageSent.equalsIgnoreCase("goodnight")) {
-                event.getTextChannel().sendMessage("goodnight sweetie!").queue();
-            }
+            if (messageSent.equalsIgnoreCase("goodnight")) event.getTextChannel().sendMessage("goodnight sweetie!").queue();
             // Spectrum
-            if (messageSent.contains("spectrum")) {
-                event.getTextChannel().sendMessage(spectrumResponse()).queue();
-            }
+            if (messageSent.contains("spectrum")) event.getTextChannel().sendMessage(spectrumResponse()).queue();
 
         }
     }
