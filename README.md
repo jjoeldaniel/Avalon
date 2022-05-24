@@ -44,3 +44,5 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
 `paw ban (user) (reason)` : Bans user with required reason
 
 `paw timeout (user)` : Times out user (Default: 1hr)
+
+`paw broadcast (channelID) (text)` : Sends message as PawBot
