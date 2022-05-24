@@ -2,6 +2,8 @@ package me.joel;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+import java.util.Objects;
 import java.util.Random;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.entities.User;
@@ -59,7 +61,7 @@ public class Commands extends ListenerAdapter {
                     } // Target
                     if (botInput[1].equalsIgnoreCase("av")) {
                         try {
-                            String userPFP = event.getMember().getEffectiveAvatarUrl();
+                            String userPFP = Objects.requireNonNull(event.getMember()).getEffectiveAvatarUrl();
                             //String userPFP = event.getAuthor().getEffectiveAvatarUrl();
                             event.getTextChannel().sendMessage(userPFP).queue();
                         }
