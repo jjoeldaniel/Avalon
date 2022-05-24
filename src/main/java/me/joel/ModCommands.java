@@ -20,6 +20,8 @@ public class ModCommands extends ListenerAdapter {
         try {
 
             String messageSent = event.getMessage().getContentRaw().toLowerCase();
+            String messageSentCaseSens = event.getMessage().getContentRaw();
+            String[]botInputCaseSens = messageSentCaseSens.split(" ", 4);
             String[]botInput = messageSent.split(" ", 4);
 
             if (!event.getAuthor().isBot() && messageSent.startsWith(prefix) && event.isFromGuild()) {
@@ -39,11 +41,11 @@ public class ModCommands extends ListenerAdapter {
                     }
                 } catch (Exception ignore) {}
 
-                // Owner broadcast
+                // Admin broadcast
                 try {
-                    if (botInput[1].equals("broadcast") && event.getAuthor().getId().equals("205862976689799168")) {
+                    if (botInput[1].equals("broadcast") && Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR)) {
                         String channelID = botInput[2];
-                        String message = botInput[3];
+                        String message = botInputCaseSens[3];
 
                         Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendTyping().queue();
                         Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessage(message).queue();
