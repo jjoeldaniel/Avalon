@@ -1,12 +1,16 @@
 package me.joel;
 
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.Random;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.managers.AudioManager;
 
 public class Commands extends ListenerAdapter {
 
@@ -36,6 +40,28 @@ public class Commands extends ListenerAdapter {
                         User user = event.getAuthor();
                         // DM's user
                         user.openPrivateChannel().flatMap(channel -> channel.sendMessage(printCommands())).queue();
+                    }
+
+                    // Music
+                    if (botInput[1].equalsIgnoreCase("play")) {
+                        if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                            event.getTextChannel().sendMessage("You need to be in a voice channel to use `paw play`");
+                            return;
+                        }
+
+                        final AudioManager audioManager = event.getGuild().getAudioManager();
+                        final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+
+                        audioManager.openAudioConnection(memberChannel);
+
+                        String link = String.join(" ", botInput[2]);
+
+                        if (!isURL(link)) {
+                            link = "ytsearch:" + link + " audio";
+                        }
+
+                        PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
+
                     }
 
                     // Ping
@@ -76,4 +102,13 @@ public class Commands extends ListenerAdapter {
         }
     }
 
+    public boolean isURL(String url) {
+        try {
+            new URI(url);
+            return true;
+        }
+        catch (URISyntaxException e) {
+            return false;
+        }
+    }
 }

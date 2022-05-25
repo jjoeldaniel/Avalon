@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Paw {
                 .addEventListeners(new ReactMessages())
                 .addEventListeners(new AFK())
                 .addEventListeners(new FunCommands())
-                .addEventListeners(new Music())
+                .enableCache(CacheFlag.VOICE_STATE)
                 .build();
 
         jda.awaitReady();
