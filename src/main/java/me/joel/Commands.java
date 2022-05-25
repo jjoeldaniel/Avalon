@@ -77,7 +77,6 @@ public class Commands extends ListenerAdapter {
                     if (botInput[1].equalsIgnoreCase("av")) {
                         try {
                             if (!botInput[2].isEmpty()) {
-                                //User target = event.getMessage().getMentionedUsers().get(0);
                                 Member target = event.getMessage().getMentionedMembers().get(0);
                                 String targetPFP = target.getEffectiveAvatarUrl();
                                 event.getTextChannel().sendMessage(targetPFP).queue();
@@ -89,7 +88,6 @@ public class Commands extends ListenerAdapter {
                     if (botInput[1].equalsIgnoreCase("av")) {
                         try {
                             String userPFP = Objects.requireNonNull(event.getMember()).getEffectiveAvatarUrl();
-                            //String userPFP = event.getAuthor().getEffectiveAvatarUrl();
                             event.getTextChannel().sendMessage(userPFP).queue();
                         }
                         catch (Exception ignored) {}
