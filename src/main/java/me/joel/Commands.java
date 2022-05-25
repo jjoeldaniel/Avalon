@@ -59,6 +59,7 @@ public class Commands extends ListenerAdapter {
 
                         audioManager.openAudioConnection(memberChannel);
                         Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
+                        assert bot != null;
                         event.getGuild().deafen(bot, true).queue();
 
                         PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
