@@ -45,23 +45,23 @@ public class Commands extends ListenerAdapter {
                     // Music
                     if (botInput[1].equalsIgnoreCase("play")) {
                         if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                            event.getTextChannel().sendMessage("You need to be in a voice channel to use `paw play`");
+                            event.getTextChannel().sendMessage("You need to be in a voice channel to use `paw play`").queue();
                             return;
                         }
 
                         final AudioManager audioManager = event.getGuild().getAudioManager();
                         final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
 
-                        audioManager.openAudioConnection(memberChannel);
-
                         String link = String.join(" ", botInput[2]);
-
                         if (!isURL(link)) {
                             link = "ytsearch:" + link + " audio";
                         }
 
-                        PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
+                        audioManager.openAudioConnection(memberChannel);
+                        Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
+                        event.getGuild().deafen(bot, true).queue();
 
+                        PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
                     }
 
                     // Ping
