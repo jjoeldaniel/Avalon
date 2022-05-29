@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
-import java.util.Random;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -44,6 +43,8 @@ public class Commands extends ListenerAdapter {
 
                     // Music
                     if (botInput[1].equalsIgnoreCase("play")) {
+
+                        // Checks requester voice state
                         if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                             event.getTextChannel().sendMessage("You need to be in a voice channel to use `paw play`").queue();
                             return;
@@ -51,17 +52,20 @@ public class Commands extends ListenerAdapter {
 
                         final AudioManager audioManager = event.getGuild().getAudioManager();
                         final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
-
                         String link = String.join(" ", botInput[2]);
+
+                        // FIXME: Searches if invalid link
                         if (!isURL(link)) {
                             link = "ytsearch:" + link + " audio";
                         }
 
+                        // Joins VC
                         audioManager.openAudioConnection(memberChannel);
                         Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
                         assert bot != null;
                         event.getGuild().deafen(bot, true).queue();
 
+                        // Plays song
                         PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
                     }
 
@@ -101,6 +105,7 @@ public class Commands extends ListenerAdapter {
         }
     }
 
+    // Validates link
     public boolean isURL(String url) {
         try {
             new URI(url);
