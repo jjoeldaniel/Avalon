@@ -41,7 +41,7 @@ public class Paw {
         jda.upsertCommand("avatar", "Sends user avatar")
                 .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
                 .queue();
-        jda.upsertCommand("whoIs", "Provides user information")
+        jda.upsertCommand("whois", "Provides user information")
                 .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
                 .queue();
 
