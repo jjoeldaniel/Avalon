@@ -63,7 +63,6 @@ public class Paw {
 //                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in")
 //                    .queue();
         }
-        jda.updateCommands().queue();
 
     }
 

@@ -2,18 +2,14 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Channel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
 import java.awt.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Time;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -333,13 +329,30 @@ public class Commands extends ListenerAdapter {
                 assert target != null;
                 target.kick().queue();
 
+                if (target.isOwner()) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setTitle("You can't kick this person!")
+                            .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                            .setColor(Color.PINK)
+                            .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle(target.getEffectiveName() + " has been kicked")
                         .setImage(target.getEffectiveAvatarUrl())
                         .setColor(Color.PINK);
                 event.replyEmbeds(builder.build()).queue();
             }
-            catch (Exception e) {System.out.println("Invalid kick attempted"); }
+            catch (Exception e) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("You can't kick this person!")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Color.PINK)
+                        .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
         }
 
         // Ban
@@ -358,6 +371,15 @@ public class Commands extends ListenerAdapter {
                 assert target != null;
                 target.ban(0).queue();
 
+                if (target.isOwner()) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setTitle("You can't ban this person!")
+                            .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                            .setColor(Color.PINK)
+                            .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle(target.getEffectiveName() + " has been banned")
                         .setImage(target.getEffectiveAvatarUrl())
@@ -365,7 +387,14 @@ public class Commands extends ListenerAdapter {
 
                 event.replyEmbeds(builder.build()).queue();
             }
-            catch (Exception e) {System.out.println("Invalid ban attempted"); }
+            catch (Exception e) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("You can't ban this person!")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Color.PINK)
+                        .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
         }
 
         // Timeout
@@ -391,7 +420,14 @@ public class Commands extends ListenerAdapter {
 
                 event.replyEmbeds(builder.build()).queue();
             }
-            catch (Exception e) {System.out.println("Invalid timeout attempted"); }
+            catch (Exception e) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("You can't time out this person!")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Color.PINK)
+                        .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
         }
 
 //        // Broadcast
