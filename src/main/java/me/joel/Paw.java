@@ -40,6 +40,8 @@ public class Paw {
         jda.upsertCommand("ping", "Sends pong").queue();
         jda.upsertCommand("bark", "Barks").queue();
         jda.upsertCommand("meow", "Meows").queue();
+        jda.upsertCommand("avatar", "Sends user avatar").queue();
+        jda.updateCommands().queue();
 
     }
 

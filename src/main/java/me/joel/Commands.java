@@ -2,7 +2,6 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -11,7 +10,6 @@ import java.awt.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
-import java.util.Random;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.entities.User;
@@ -28,7 +26,6 @@ public class Commands extends ListenerAdapter {
         // Help Command
         if (event.getName().equals("help")) {
             event.getInteraction().getUser();
-            User user = event.getInteraction().getUser();
             // DMs user
             EmbedBuilder builder = new EmbedBuilder()
                     .setColor(Color.PINK)
@@ -63,7 +60,6 @@ public class Commands extends ListenerAdapter {
 
         // 8Ball Command
         if (event.getName().equals("8ball")) {
-            Random rand = new Random();
             int randomResult = Util.randomWithRange(1, 19);
             String userMessage = "";
 
@@ -101,7 +97,6 @@ public class Commands extends ListenerAdapter {
 
         // Truth Command
         if (event.getName().equals("truth")) {
-            Random rand = new Random();
             int num = Util.randomWithRange(0, 100);
             String[] truth = new String[101];
 
@@ -141,7 +136,7 @@ public class Commands extends ListenerAdapter {
             truth[33] = "What’s something that overwhelms you?";
             truth[34] = "What was the greatest day of your life?";
             truth[35] = "How many people have you kissed?";
-            truth[36] = "What’s your most absurd dealbreaker?";
+            truth[36] = "What’s your most absurd deal-breaker?";
             truth[37] = "What’s the scariest thing that’s ever happened to you?";
             truth[38] = "What’s the last purchase you regretted?";
             truth[39] = "Who was your first love?";
@@ -217,7 +212,6 @@ public class Commands extends ListenerAdapter {
 
         // Dare Command
         if (event.getName().equals("dare")) {
-            Random rand = new Random();
             int num = Util.randomWithRange(0, 23);
             String[] dare = new String[24];
 
@@ -227,7 +221,7 @@ public class Commands extends ListenerAdapter {
             dare[3] = "Let the person above you pick your profile picture for the next 24 hours.";
             dare[4] = "Send the 11th picture in your photo gallery.";
             dare[5] = "Let the person above you pick your discord status for the next 24 hours.";
-            dare[6] = "Show everyone a screenshot of your most recent DM's.";
+            dare[6] = "Show everyone a screenshot of your most recent DMs.";
             dare[7] = "Say two honest things about everyone else in the group.";
             dare[8] = "Tell everyone an embarrassing story about yourself.";
             dare[9] = "Pretend to be the person above for 10 minutes.";
@@ -255,14 +249,41 @@ public class Commands extends ListenerAdapter {
         }
 
         // Furry Commands
-            if (event.getName().equals("bark")) {
-                String bark = ("BARK BARK BARK GRRRRRRR GRRRRRRR GRRRRR GROWLS BARK BARK BARK WOOF WOOF GRRRR GRRRR RAWRRRRR BARK BARK BARK ARF ARF GRRRR RAH RAH RAH GRRRRRRRR SNARLS GROWLS BARK BARK BARK SNARLS GRRR GRRR GRRRRRR AWO AWO AWOOOOOOOOOOOO GRRRRR BARK BARK WOOF WOOF WOOF BARK BARK AWOOOOOO GRR GRR GRRRR");
-                event.reply(bark).queue();
+        if (event.getName().equals("bark")) {
+            String bark = ("BARK BARK BARK GRRRRRRR GRRRRRRR GRRRRR GROWLS BARK BARK BARK WOOF WOOF GRRRR GRRRR RAWRRRRR BARK BARK BARK ARF ARF GRRRR RAH RAH RAH GRRRRRRRR SNARLS GROWLS BARK BARK BARK SNARLS GRRR GRRR GRRRRRR AWO AWO AWOOOOOOOOOOOO GRRRRR BARK BARK WOOF WOOF WOOF BARK BARK AWOOOOOO GRR GRR GRRRR");
+            event.reply(bark).queue();
+        }
+        if (event.getName().equals("meow")) {
+            String meow = ("MEOWW HISSSSSSSSSSSS PURRRRRRR MEOWWWW MEOOOOOOOOOOOOOWWWWWWWW FEED ME BITCH PURRRR MEOWWWWW HISSSSSSSSSSSS MEOWW MEOWWWW MEOOOOOOOOOOOOOWWWWWWWW PURR MEOW MEOW MEOW MEOW MEOW YOU FAT FUCK FEED ME MEOWWW");
+            event.reply(meow).queue();
+        }
+
+        // Avatar Commands
+        if (event.getName().equals("avatar")) {
+            try {
+
+                User user = event.getUser();
+                String targetPFP;
+                String targetName;
+
+                if (event.isFromGuild()) {
+                    Member member = event.getMember();
+                    assert member != null;
+                    targetPFP = member.getEffectiveAvatarUrl();
+                    targetName = user.getName() + "#" + user.getDiscriminator();
+                }
+                else {
+                    targetPFP = event.getUser().getEffectiveAvatarUrl();
+                    targetName = user.getName() + "#" + user.getDiscriminator();
+                }
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle(targetName)
+                        .setImage(targetPFP)
+                        .setColor(Color.PINK);
+                event.replyEmbeds(builder.build()).queue();
             }
-            if (event.getName().equals("meow")) {
-                String meow = ("MEOWW HISSSSSSSSSSSS PURRRRRRR MEOWWWW MEOOOOOOOOOOOOOWWWWWWWW FEED ME BITCH PURRRR MEOWWWWW HISSSSSSSSSSSS MEOWW MEOWWWW MEOOOOOOOOOOOOOWWWWWWWW PURR MEOW MEOW MEOW MEOW MEOW YOU FAT FUCK FEED ME MEOWWW");
-                event.reply(meow).queue();
-            }
+            catch (Exception ignored) {}
+        }
     }
 
     @Override
@@ -337,8 +358,7 @@ public class Commands extends ListenerAdapter {
                             event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
                         }
                         catch (Exception ignored) {}
-                    } // Author
-
+                    }
                 }
 
                 catch (Exception ignore) {}
