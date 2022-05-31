@@ -36,8 +36,8 @@ public class Commands extends ListenerAdapter {
                                         `/truth` : Requests truth
                                         `/dare` : Requests dare
                                         `paw afk` : Sets AFK status
-                                        `paw av (input)` : Retrieves author (or target) profile picture
-                                        `/8ball` : Asks the magic 8ball a question
+                                        `/avatar (user)` : Retrieves user (or target) profile picture
+                                        `/8ball (question)` : Asks the magic 8ball a question
                                         `/bark` : Self explanatory
                                         `/meow` : ^^^
                                         `paw play (YT Link)` : Plays music""", false)
