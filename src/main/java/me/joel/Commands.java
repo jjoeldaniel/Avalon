@@ -296,7 +296,8 @@ public class Commands extends ListenerAdapter {
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.PINK)
                         .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
-                event.replyEmbeds(builder.build()).queue();
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
             }
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
@@ -320,7 +321,8 @@ public class Commands extends ListenerAdapter {
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.PINK)
                         .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
-                event.replyEmbeds(builder.build()).queue();
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
             }
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
@@ -345,7 +347,8 @@ public class Commands extends ListenerAdapter {
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Color.PINK)
                         .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
-                event.replyEmbeds(builder.build()).queue();
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
             }
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
