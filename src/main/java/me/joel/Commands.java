@@ -45,9 +45,9 @@ public class Commands extends ListenerAdapter {
                                         `/meow` : ^^^
                                         `paw play (YT Link)` : Plays music""", false)
                     .addField("Moderation Commands", """
-                                        `paw kick (user) (reason)` : Kicks user with required reason\s
-                                        `paw ban (user) (reason)` : Bans user with required reason
-                                        `paw timeout (user)` : Times out user (Default: 1hr)
+                                        `/kick (user)` : Kicks user
+                                        `/ban (user)` : Bans user
+                                        `/timeout (user)` : Times out user (Default: 1hr)
                                         `paw broadcast (channelID) (text)` : Sends message as PawBot""", false);
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
