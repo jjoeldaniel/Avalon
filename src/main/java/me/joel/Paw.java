@@ -7,17 +7,10 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Paw {
-
-    static int num = 0;
-
     public static void main(String[] args) throws LoginException, InterruptedException {
 
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.Gamtz3.a7DObfsPstEU4B4g5GBWi4wYOQH-kwpg1j8fa0")
