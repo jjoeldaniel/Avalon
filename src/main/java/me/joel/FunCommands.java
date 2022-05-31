@@ -1,14 +1,17 @@
 package me.joel;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.Random;
 
 public class FunCommands extends ListenerAdapter {
 
     String prefix = "paw";
+    String userMessage = "";
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
@@ -45,30 +48,36 @@ public class FunCommands extends ListenerAdapter {
                         try {
                             if (!botInput[2].equalsIgnoreCase("")) {
                                 switch (randomResult) {
-                                    case 1 -> event.getTextChannel().sendMessage("It is certain.").queue();
-                                    case 2 -> event.getTextChannel().sendMessage("It is decidedly so.").queue();
-                                    case 3 -> event.getTextChannel().sendMessage("Without a doubt.").queue();
-                                    case 4 -> event.getTextChannel().sendMessage("Yes definitely.").queue();
-                                    case 5 -> event.getTextChannel().sendMessage("You may rely on it.").queue();
-                                    case 6 -> event.getTextChannel().sendMessage("As I see it, yes.").queue();
-                                    case 7 -> event.getTextChannel().sendMessage("Outlook good.").queue();
-                                    case 8 -> event.getTextChannel().sendMessage("Yes.").queue();
-                                    case 9 -> event.getTextChannel().sendMessage("Signs point to yes.").queue();
-                                    case 10 -> event.getTextChannel().sendMessage("Reply hazy, try again.").queue();
-                                    case 11 -> event.getTextChannel().sendMessage("Ask again later.").queue();
-                                    case 12 -> event.getTextChannel().sendMessage("Better not tell you now.").queue();
-                                    case 13 -> event.getTextChannel().sendMessage("Cannot predict now.").queue();
-                                    case 14 -> event.getTextChannel().sendMessage("Concentrate and ask again.").queue();
-                                    case 15 -> event.getTextChannel().sendMessage("Don't count on it.").queue();
-                                    case 16 -> event.getTextChannel().sendMessage("My reply is no.").queue();
-                                    case 17 -> event.getTextChannel().sendMessage("My sources say no.").queue();
-                                    case 18 -> event.getTextChannel().sendMessage("Outlook not so good.").queue();
-                                    case 19 -> event.getTextChannel().sendMessage("Very doubtful.").queue();
+                                    case 1 -> userMessage = "It is certain.";
+                                    case 2 -> userMessage = ("It is decidedly so.");
+                                    case 3 -> userMessage = ("Without a doubt.");
+                                    case 4 -> userMessage = ("Yes definitely.");
+                                    case 5 -> userMessage = ("You may rely on it.");
+                                    case 6 -> userMessage = ("As I see it, yes.");
+                                    case 7 -> userMessage = ("Outlook good.");
+                                    case 8 -> userMessage = ("Yes.");
+                                    case 9 -> userMessage = ("Signs point to yes.");
+                                    case 10 -> userMessage = ("Reply hazy, try again.");
+                                    case 11 -> userMessage = ("Ask again later.");
+                                    case 12 -> userMessage = ("Better not tell you now.");
+                                    case 13 -> userMessage = ("Cannot predict now.");
+                                    case 14 -> userMessage = ("Concentrate and ask again.");
+                                    case 15 -> userMessage = ("Don't count on it.");
+                                    case 16 -> userMessage = ("My reply is no.");
+                                    case 17 -> userMessage = ("My sources say no.");
+                                    case 18 -> userMessage = ("Outlook not so good.");
+                                    case 19 -> userMessage = ("Very doubtful.");
                                 }
                             }
-                        } catch (Exception exception) {
-                            event.getTextChannel().sendMessage("Try entering something.").queue();
-                        }
+                        } catch (Exception exception) { userMessage = ("Try entering something.");}
+
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setTitle("8Ball")
+                                .setColor(Color.PINK)
+                                .setThumbnail("https://cdn.discordapp.com/attachments/810456406620241931/981063293428957244/unknown.png?size=4096")
+                                .addField(userMessage, "", false);
+
+                        event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
                     }
 
                 }
