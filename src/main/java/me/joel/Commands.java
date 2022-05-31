@@ -259,29 +259,28 @@ public class Commands extends ListenerAdapter {
 
         // Avatar Commands
         if (event.getName().equals("avatar")) {
-            try {
+            String targetName;
+            String targetPFP;
 
-                User user = event.getUser();
-                String targetPFP;
-                String targetName;
-
-                if (event.isFromGuild()) {
-                    Member member = event.getMember();
-                    assert member != null;
-                    targetPFP = member.getEffectiveAvatarUrl();
-                    targetName = user.getName() + "#" + user.getDiscriminator();
-                }
-                else {
-                    targetPFP = event.getUser().getEffectiveAvatarUrl();
-                    targetName = user.getName() + "#" + user.getDiscriminator();
-                }
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setTitle(targetName)
-                        .setImage(targetPFP)
-                        .setColor(Color.PINK);
-                event.replyEmbeds(builder.build()).queue();
+            // DMs
+            if (!event.isFromGuild()) {
+                User user = Objects.requireNonNull(event.getOption("user")).getAsUser();
+                targetName = user.getName() + "#" + user.getDiscriminator();
+                targetPFP = user.getEffectiveAvatarUrl();
             }
-            catch (Exception ignored) {}
+            // Server
+            else {
+                Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
+                assert member != null;
+                targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
+                targetPFP = member.getEffectiveAvatarUrl();
+            }
+            // Embed
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setTitle(targetName)
+                    .setImage(targetPFP)
+                    .setColor(Color.PINK);
+            event.replyEmbeds(builder.build()).queue();
         }
 
         // AFK Command
