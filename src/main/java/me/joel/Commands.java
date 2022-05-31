@@ -16,7 +16,7 @@ public class Commands extends ListenerAdapter {
     String prefix = "paw";
 
     static String printCommands() {
-        return "General Commands\n\n`paw ping` : Pings bot\n`paw truth` : Requests truth\n`paw dare` : Requests dare\n`paw afk` : Sets AFK status\n`paw av (input)` : Retrieves author (or target) profile picture\n`paw 8ball (input)` : Asks the magic 8ball a question\n\nModeration Commands\n\n`paw kick (user) (reason)` : Kicks user with required reason \n`paw ban (user) (reason)` : Bans user with required reason\n`paw timeout (user)` : Times out user (Default: 1hr)\n`paw broadcast (channelID) (text)` : Sends message as PawBot";
+        return "**General Commands**\n\n`paw ping` : Pings bot\n`paw truth` : Requests truth\n`paw dare` : Requests dare\n`paw afk` : Sets AFK status\n`paw av (input)` : Retrieves author (or target) profile picture\n`paw 8ball (input)` : Asks the magic 8ball a question\n`paw play (YT Link)` : Plays music\n\n**Moderation Commands**\n\n`paw kick (user) (reason)` : Kicks user with required reason \n`paw ban (user) (reason)` : Bans user with required reason\n`paw timeout (user)` : Times out user (Default: 1hr)\n`paw broadcast (channelID) (text)` : Sends message as PawBot";
     }
 
     @Override
