@@ -62,7 +62,6 @@ public class Commands extends ListenerAdapter {
         }
 
         // 8Ball Command
-        // FIXME: Add command parameters
         if (event.getName().equals("8ball")) {
             Random rand = new Random();
             int randomResult = Util.randomWithRange(1, 19);

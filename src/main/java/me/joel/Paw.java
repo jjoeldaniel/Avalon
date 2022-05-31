@@ -30,6 +30,9 @@ public class Paw {
         jda.awaitReady();
         int guildNum = jda.getGuilds().size();
         jda.getPresence().setActivity(Activity.listening(" " + (guildNum) + " servers!" ));
+
+        // FIXME: Add command parameters
+        // Commands List
         jda.upsertCommand("help", "Command list").queue();
         jda.upsertCommand("8ball", "Asks the magic 8ball a question").queue();
         jda.upsertCommand("truth", "Generates a random truth/dare question").queue();
