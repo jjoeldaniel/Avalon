@@ -21,18 +21,22 @@ public class Paw {
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())
                 .addEventListeners(new Insults())
-                .addEventListeners(new TruthOrDare())
                 .addEventListeners(new ModCommands())
                 .addEventListeners(new ReactMessages())
                 .addEventListeners(new AFK())
-                .addEventListeners(new FunCommands())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .build();
 
         jda.awaitReady();
         int guildNum = jda.getGuilds().size();
         jda.getPresence().setActivity(Activity.listening(" " + (guildNum) + " servers!" ));
-
+        jda.upsertCommand("help", "Command list").queue();
+        jda.upsertCommand("8ball", "Asks the magic 8ball a question").queue();
+        jda.upsertCommand("truth", "Generates a random truth/dare question").queue();
+        jda.upsertCommand("dare", "Generates a random truth/dare question").queue();
+        jda.upsertCommand("ping", "Sends pong").queue();
+        jda.upsertCommand("bark", "Barks").queue();
+        jda.upsertCommand("meow", "Meows").queue();
 
     }
 
