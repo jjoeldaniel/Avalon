@@ -11,6 +11,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.awt.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +29,7 @@ public class Commands extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
-        // Help Command
+        // Help
         if (event.getName().equals("help")) {
             event.getInteraction().getUser();
             EmbedBuilder builder = new EmbedBuilder()
@@ -52,7 +55,7 @@ public class Commands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
 
-        // Ping Command
+        // Ping
         if (event.getName().equals("ping")) {
             EmbedBuilder builder = new EmbedBuilder()
                     .setTitle("Pong!")
@@ -60,7 +63,7 @@ public class Commands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
 
-        // 8Ball Command
+        // 8Ball
         if (event.getName().equals("8ball")) {
             int randomResult = Util.randomWithRange(1, 19);
             String output = "null";
@@ -97,7 +100,7 @@ public class Commands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).queue();
         }
 
-        // Truth Command
+        // Truth
         if (event.getName().equals("truth")) {
             int num = Util.randomWithRange(0, 100);
             String[] truth = new String[101];
@@ -212,7 +215,7 @@ public class Commands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).queue();
         }
 
-        // Dare Command
+        // Dare
         if (event.getName().equals("dare")) {
             int num = Util.randomWithRange(0, 23);
             String[] dare = new String[24];
@@ -250,7 +253,7 @@ public class Commands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).queue();
         }
 
-        // Furry Commands
+        // Furry
         if (event.getName().equals("bark")) {
             String bark = ("BARK BARK BARK GRRRRRRR GRRRRRRR GRRRRR GROWLS BARK BARK BARK WOOF WOOF GRRRR GRRRR RAWRRRRR BARK BARK BARK ARF ARF GRRRR RAH RAH RAH GRRRRRRRR SNARLS GROWLS BARK BARK BARK SNARLS GRRR GRRR GRRRRRR AWO AWO AWOOOOOOOOOOOO GRRRRR BARK BARK WOOF WOOF WOOF BARK BARK AWOOOOOO GRR GRR GRRRR");
             event.reply(bark).queue();
@@ -260,7 +263,7 @@ public class Commands extends ListenerAdapter {
             event.reply(meow).queue();
         }
 
-        // Avatar Commands
+        // Avatar
         if (event.getName().equals("avatar")) {
             String targetName;
             String targetPFP;
@@ -286,7 +289,33 @@ public class Commands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).queue();
         }
 
-        // AFK Command
+        // AFK
+
+        // Whois Command
+        if (event.getName().equals("whois")) {
+            Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
+            assert member != null;
+            User user = member.getUser();
+            LocalDateTime joinTime = member.getTimeJoined().toLocalDateTime();
+            LocalDateTime creationDate = user.getTimeCreated().toLocalDateTime();
+            int numRoles = member.getRoles().size();
+            String roles = "";
+            for (int i = 0; i < numRoles; ++i) {
+                roles += "<@&" +member.getRoles().get(i).getId() + "> ";
+            }
+
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setDescription(user.getAsMention())
+                    .setAuthor(user.getName() + "#" + user.getDiscriminator(), user.getAvatarUrl(), user.getAvatarUrl())
+                    .setThumbnail(user.getEffectiveAvatarUrl())
+                    .addField("Joined", joinTime.getMonthValue() + "/" + joinTime.getDayOfMonth() + "/" + joinTime.getYear() , true)
+                    .addField("Created", creationDate.getMonthValue() + "/" + creationDate.getDayOfMonth() + "/" + creationDate.getYear() , true)
+                    .addField("Roles [" + numRoles + "]", roles, false)
+                    .setFooter("ID: " + user.getId())
+                    .setColor(Color.PINK);
+
+            event.replyEmbeds(builder.build()).queue();
+        }
 
         // Kick
         if (event.getName().equals("kick")) {

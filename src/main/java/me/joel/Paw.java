@@ -41,9 +41,6 @@ public class Paw {
         jda.upsertCommand("avatar", "Sends user avatar")
                 .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
                 .queue();
-        jda.upsertCommand("whois", "Provides user information")
-                .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
-                .queue();
 
         // Loops through guilds and registers commands
         for (int i = 0; i < guildNum; ++i) {
@@ -59,10 +56,14 @@ public class Paw {
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Kicks selected user")
                     .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true)
                     .queue();
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("whois", "Provides user information")
+                    .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
+                    .queue();
 //            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
 //                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in")
 //                    .queue();
         }
+        jda.updateCommands().queue();
 
     }
 
