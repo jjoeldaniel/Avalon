@@ -298,9 +298,10 @@ public class Commands extends ListenerAdapter {
                         .setTitle(target.getEffectiveName() + " has been kicked")
                         .setImage(target.getEffectiveAvatarUrl())
                         .setColor(Color.PINK);
+
+                event.replyEmbeds(builder.build()).queue();
             }
             catch (Exception e) {System.out.println("Invalid kick attempted"); }
-
         }
 
         // Ban
@@ -314,6 +315,8 @@ public class Commands extends ListenerAdapter {
                         .setTitle(target.getEffectiveName() + " has been banned")
                         .setImage(target.getEffectiveAvatarUrl())
                         .setColor(Color.PINK);
+
+                event.replyEmbeds(builder.build()).queue();
             }
             catch (Exception e) {System.out.println("Invalid ban attempted"); }
         }
@@ -329,14 +332,16 @@ public class Commands extends ListenerAdapter {
                         .setTitle(target.getEffectiveName() + " has been timed out")
                         .setImage(target.getEffectiveAvatarUrl())
                         .setColor(Color.PINK);
+
+                event.replyEmbeds(builder.build()).queue();
             }
             catch (Exception e) {System.out.println("Invalid timeout attempted"); }
         }
 
-        // Broadcast
-        if (event.getName().equals("broadcast")) {
-            Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsTextChannel();
-        }
+//        // Broadcast
+//        if (event.getName().equals("broadcast")) {
+//            Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsTextChannel();
+//        }
     }
 
     @Override

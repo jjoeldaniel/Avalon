@@ -54,20 +54,18 @@ public class Paw {
             String guildID = guild.getId();
 
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("kick", "Kicks selected user")
-                .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user")
-                .queue();
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("ban", "Kicks selected user")
-                .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user")
-                .queue();
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Kicks selected user")
-                .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user")
-                .queue();
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Kicks selected user")
-                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in")
+                    .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user")
                     .queue();
-
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("ban", "Kicks selected user")
+                    .addOption(OptionType.MENTIONABLE, "user", "Bans selected user")
+                    .queue();
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Kicks selected user")
+                    .addOption(OptionType.MENTIONABLE, "user", "Times out selected user")
+                    .queue();
+//            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
+//                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in")
+//                    .queue();
         }
-
 
     }
 
