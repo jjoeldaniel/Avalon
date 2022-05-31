@@ -1,6 +1,7 @@
 package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Channel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -289,6 +290,14 @@ public class Commands extends ListenerAdapter {
 
         // Kick
         if (event.getName().equals("kick")) {
+            if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.KICK_MEMBERS)) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("You don't have access to this command!")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Color.PINK)
+                        .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
+                event.replyEmbeds(builder.build()).queue();
+            }
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
                 assert target != null;
@@ -298,7 +307,6 @@ public class Commands extends ListenerAdapter {
                         .setTitle(target.getEffectiveName() + " has been kicked")
                         .setImage(target.getEffectiveAvatarUrl())
                         .setColor(Color.PINK);
-
                 event.replyEmbeds(builder.build()).queue();
             }
             catch (Exception e) {System.out.println("Invalid kick attempted"); }
@@ -306,6 +314,14 @@ public class Commands extends ListenerAdapter {
 
         // Ban
         if (event.getName().equals("ban")) {
+            if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS)) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("You don't have access to this command!")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Color.PINK)
+                        .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
+                event.replyEmbeds(builder.build()).queue();
+            }
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
                 assert target != null;
@@ -323,6 +339,14 @@ public class Commands extends ListenerAdapter {
 
         // Timeout
         if (event.getName().equals("timeout")) {
+            if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MODERATE_MEMBERS)) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("You don't have access to this command!")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Color.PINK)
+                        .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
+                event.replyEmbeds(builder.build()).queue();
+            }
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
                 assert target != null;
