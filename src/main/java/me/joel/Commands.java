@@ -284,6 +284,8 @@ public class Commands extends ListenerAdapter {
             }
             catch (Exception ignored) {}
         }
+
+        // AFK Command
     }
 
     @Override
