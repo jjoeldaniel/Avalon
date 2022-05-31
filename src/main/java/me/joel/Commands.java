@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,7 +49,9 @@ public class Commands extends ListenerAdapter {
                                         `/ban (user)` : Bans user
                                         `/timeout (user)` : Times out user (Default: 1hr)
                                         `paw broadcast (channelID) (text)` : Sends message as PawBot""", false);
-            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            event.replyEmbeds(builder.build()).setEphemeral(true)
+                    .addActionRow(
+                            Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
         }
 
         // Ping
@@ -467,6 +470,7 @@ public class Commands extends ListenerAdapter {
                         // FIXME: Searches if invalid link
                         if (!isURL(link)) {
                             link = "ytsearch:" + link + " audio";
+                            System.out.println(link);
                         }
 
                         // Joins VC
