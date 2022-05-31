@@ -5,6 +5,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import java.util.ArrayList;
@@ -34,15 +36,16 @@ public class Paw {
         // FIXME: Add command parameters
         // Commands List
         jda.upsertCommand("help", "Command list").queue();
-        jda.upsertCommand("8ball", "Asks the magic 8ball a question").queue();
+        jda.upsertCommand("8ball", "Asks the magic 8ball a question")
+                        .addOption(OptionType.STRING, "question", "Your question to the 8ball")
+                        .queue();
         jda.upsertCommand("truth", "Generates a random truth/dare question").queue();
         jda.upsertCommand("dare", "Generates a random truth/dare question").queue();
         jda.upsertCommand("ping", "Sends pong").queue();
         jda.upsertCommand("bark", "Barks").queue();
         jda.upsertCommand("meow", "Meows").queue();
-        jda.upsertCommand("avatar", "Sends user avatar").queue();
-        jda.updateCommands().queue();
-
+        jda.upsertCommand("avatar", "Sends user avatar")
+                .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar").queue();
     }
 
 }

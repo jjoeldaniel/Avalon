@@ -60,36 +60,36 @@ public class Commands extends ListenerAdapter {
         // 8Ball Command
         if (event.getName().equals("8ball")) {
             int randomResult = Util.randomWithRange(1, 19);
-            String userMessage = "";
+            String output = "null";
+            switch (randomResult) {
+                case 1 -> output = "It is certain.";
+                case 2 -> output = ("It is decidedly so.");
+                case 3 -> output = ("Without a doubt.");
+                case 4 -> output = ("Yes definitely.");
+                case 5 -> output = ("You may rely on it.");
+                case 6 -> output = ("As I see it, yes.");
+                case 7 -> output = ("Outlook good.");
+                case 8 -> output = ("Yes.");
+                case 9 -> output = ("Signs point to yes.");
+                case 10 -> output = ("Reply hazy, try again.");
+                case 11 -> output = ("Ask again later.");
+                case 12 -> output = ("Better not tell you now.");
+                case 13 -> output = ("Cannot predict now.");
+                case 14 -> output = ("Concentrate and ask again.");
+                case 15 -> output = ("Don't count on it.");
+                case 16 -> output = ("My reply is no.");
+                case 17 -> output = ("My sources say no.");
+                case 18 -> output = ("Outlook not so good.");
+                case 19 -> output = ("Very doubtful.");
+            }
+            String question = Objects.requireNonNull(event.getOption("question")).getAsString();
 
-            try {
-                switch (randomResult) {
-                    case 1 -> userMessage = "It is certain.";
-                    case 2 -> userMessage = ("It is decidedly so.");
-                    case 3 -> userMessage = ("Without a doubt.");
-                    case 4 -> userMessage = ("Yes definitely.");
-                    case 5 -> userMessage = ("You may rely on it.");
-                    case 6 -> userMessage = ("As I see it, yes.");
-                    case 7 -> userMessage = ("Outlook good.");
-                    case 8 -> userMessage = ("Yes.");
-                    case 9 -> userMessage = ("Signs point to yes.");
-                    case 10 -> userMessage = ("Reply hazy, try again.");
-                    case 11 -> userMessage = ("Ask again later.");
-                    case 12 -> userMessage = ("Better not tell you now.");
-                    case 13 -> userMessage = ("Cannot predict now.");
-                    case 14 -> userMessage = ("Concentrate and ask again.");
-                    case 15 -> userMessage = ("Don't count on it.");
-                    case 16 -> userMessage = ("My reply is no.");
-                    case 17 -> userMessage = ("My sources say no.");
-                    case 18 -> userMessage = ("Outlook not so good.");
-                    case 19 -> userMessage = ("Very doubtful.");
-                }
-            } catch (Exception exception) { userMessage = ("Try entering something.");}
             EmbedBuilder builder = new EmbedBuilder()
                     .setTitle("8Ball")
                     .setColor(Color.PINK)
                     .setThumbnail("https://cdn.discordapp.com/attachments/810456406620241931/981063293428957244/unknown.png?size=4096")
-                    .addField(userMessage, "", false);
+                    .addField("Your question:", question, false)
+                    .addField(output, "", false);
 
             event.replyEmbeds(builder.build()).queue();
         }
