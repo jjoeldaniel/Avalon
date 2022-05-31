@@ -26,7 +26,6 @@ public class Commands extends ListenerAdapter {
         // Help Command
         if (event.getName().equals("help")) {
             event.getInteraction().getUser();
-            // DMs user
             EmbedBuilder builder = new EmbedBuilder()
                     .setColor(Color.PINK)
                     .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
