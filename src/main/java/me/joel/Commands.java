@@ -37,7 +37,7 @@ public class Commands extends ListenerAdapter {
                     // Commands list
                     if (botInput[1].equalsIgnoreCase("help")) {
                         User user = event.getAuthor();
-                        // DM's user
+                        // DMs user
                         user.openPrivateChannel().flatMap(channel -> channel.sendMessage(printCommands())).queue();
                     }
 
