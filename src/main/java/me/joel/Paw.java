@@ -39,7 +39,11 @@ public class Paw {
         jda.upsertCommand("bark", "Barks").queue();
         jda.upsertCommand("meow", "Meows").queue();
         jda.upsertCommand("avatar", "Sends user avatar")
-                .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true).queue();
+                .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
+                .queue();
+        jda.upsertCommand("whoIs", "Provides user information")
+                .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
+                .queue();
 
         // Loops through guilds and registers commands
         for (int i = 0; i < guildNum; ++i) {
