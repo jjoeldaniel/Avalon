@@ -5,12 +5,14 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Paw {
 
@@ -23,22 +25,21 @@ public class Paw {
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())
                 .addEventListeners(new Insults())
-                .addEventListeners(new ModCommands())
                 .addEventListeners(new ReactMessages())
                 .addEventListeners(new AFK())
                 .enableCache(CacheFlag.VOICE_STATE)
-                .build();
+                .build()
+                .awaitReady();
 
-        jda.awaitReady();
+        // Sets status as # of guilds bot is member of
         int guildNum = jda.getGuilds().size();
         jda.getPresence().setActivity(Activity.listening(" " + (guildNum) + " servers!" ));
 
-        // FIXME: Add command parameters
         // Commands List
         jda.upsertCommand("help", "Command list").queue();
         jda.upsertCommand("8ball", "Asks the magic 8ball a question")
-                        .addOption(OptionType.STRING, "question", "Your question to the 8ball")
-                        .queue();
+                .addOption(OptionType.STRING, "question", "Your question to the 8ball")
+                .queue();
         jda.upsertCommand("truth", "Generates a random truth/dare question").queue();
         jda.upsertCommand("dare", "Generates a random truth/dare question").queue();
         jda.upsertCommand("ping", "Sends pong").queue();
@@ -46,6 +47,28 @@ public class Paw {
         jda.upsertCommand("meow", "Meows").queue();
         jda.upsertCommand("avatar", "Sends user avatar")
                 .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar").queue();
+
+        // Loops through guilds and registers commands
+        for (int i = 0; i < guildNum; ++i) {
+            Guild guild = jda.getGuilds().get(i);
+            String guildID = guild.getId();
+
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("kick", "Kicks selected user")
+                .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user")
+                .queue();
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("ban", "Kicks selected user")
+                .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user")
+                .queue();
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Kicks selected user")
+                .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user")
+                .queue();
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Kicks selected user")
+                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in")
+                    .queue();
+
+        }
+
+
     }
 
 }

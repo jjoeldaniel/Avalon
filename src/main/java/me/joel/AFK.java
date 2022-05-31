@@ -1,5 +1,8 @@
 package me.joel;
 
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Mentions;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +47,10 @@ public class AFK extends ListenerAdapter {
                 }
 
                 // Mentioning AFK users
-                if ((Objects.requireNonNull(event.getMessage().getMentionedMembers().get(0))).getEffectiveName().contains("(AFK)")) {
+                String userID = (event.getMessage().getMentions().getUsers().get(0).getId());
+                Member member = event.getGuild().getMemberById(userID);
+                assert member != null;
+                if (member.getEffectiveName().contains("(AFK)")) {
                     event.getTextChannel().sendMessage("Mentioned member is AFK, " + Objects.requireNonNull(event.getMember()).getAsMention() + "!").queue();
                 }
 

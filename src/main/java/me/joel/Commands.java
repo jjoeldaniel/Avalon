@@ -1,6 +1,7 @@
 package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Channel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -10,6 +11,7 @@ import java.awt.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.entities.User;
@@ -284,6 +286,57 @@ public class Commands extends ListenerAdapter {
         }
 
         // AFK Command
+
+        // Kick
+        if (event.getName().equals("kick")) {
+            Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
+            try {
+                assert target != null;
+                target.kick().queue();
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle(target.getEffectiveName() + " has been kicked")
+                        .setImage(target.getEffectiveAvatarUrl())
+                        .setColor(Color.PINK);
+            }
+            catch (Exception e) {System.out.println("Invalid kick attempted"); }
+
+        }
+
+        // Ban
+        if (event.getName().equals("ban")) {
+            Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
+            try {
+                assert target != null;
+                target.ban(0).queue();
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle(target.getEffectiveName() + " has been banned")
+                        .setImage(target.getEffectiveAvatarUrl())
+                        .setColor(Color.PINK);
+            }
+            catch (Exception e) {System.out.println("Invalid ban attempted"); }
+        }
+
+        // Timeout
+        if (event.getName().equals("timeout")) {
+            Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
+            try {
+                assert target != null;
+                target.timeoutFor(1, TimeUnit.HOURS).queue();
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle(target.getEffectiveName() + " has been timed out")
+                        .setImage(target.getEffectiveAvatarUrl())
+                        .setColor(Color.PINK);
+            }
+            catch (Exception e) {System.out.println("Invalid timeout attempted"); }
+        }
+
+        // Broadcast
+        if (event.getName().equals("broadcast")) {
+            Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsTextChannel();
+        }
     }
 
     @Override
@@ -328,42 +381,9 @@ public class Commands extends ListenerAdapter {
                         // Plays song
                         PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
                     }
-
-                    // Gets user profile picture
-                    if (botInput[1].equalsIgnoreCase("av")) {
-                        try {
-                            if (!botInput[2].isEmpty()) {
-                                Member target = event.getMessage().getMentionedMembers().get(0);
-                                String targetName = target.getEffectiveName();
-                                String targetPFP = target.getEffectiveAvatarUrl();
-                                EmbedBuilder builder = new EmbedBuilder()
-                                        .setTitle(targetName)
-                                        .setImage(targetPFP)
-                                        .setColor(Color.PINK);
-                                event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
-                                return;
-                            }
-                        }
-                        catch (Exception ignored) {}
-                    } // Target
-                    if (botInput[1].equalsIgnoreCase("av")) {
-                        try {
-                            String targetPFP = Objects.requireNonNull(event.getMember()).getEffectiveAvatarUrl();
-                            Member target = event.getMember();
-                            String targetName = target.getEffectiveName();
-                            EmbedBuilder builder = new EmbedBuilder()
-                                    .setTitle(targetName)
-                                    .setImage(targetPFP)
-                                    .setColor(Color.PINK);
-                            event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
-                        }
-                        catch (Exception ignored) {}
-                    }
                 }
-
                 catch (Exception ignore) {}
             }
-
         }
     }
 
