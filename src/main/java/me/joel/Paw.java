@@ -31,7 +31,7 @@ public class Paw {
         // Commands List
         jda.upsertCommand("help", "Command list").queue();
         jda.upsertCommand("8ball", "Asks the magic 8ball a question")
-                .addOption(OptionType.STRING, "question", "Your question to the 8ball")
+                .addOption(OptionType.STRING, "question", "Your question to the 8ball", true)
                 .queue();
         jda.upsertCommand("truth", "Generates a random truth/dare question").queue();
         jda.upsertCommand("dare", "Generates a random truth/dare question").queue();
@@ -39,7 +39,7 @@ public class Paw {
         jda.upsertCommand("bark", "Barks").queue();
         jda.upsertCommand("meow", "Meows").queue();
         jda.upsertCommand("avatar", "Sends user avatar")
-                .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar").queue();
+                .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true).queue();
 
         // Loops through guilds and registers commands
         for (int i = 0; i < guildNum; ++i) {
@@ -47,13 +47,13 @@ public class Paw {
             String guildID = guild.getId();
 
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("kick", "Kicks selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user")
+                    .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true)
                     .queue();
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("ban", "Kicks selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Bans selected user")
+                    .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true)
                     .queue();
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Kicks selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Times out selected user")
+                    .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true)
                     .queue();
 //            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
 //                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in")
