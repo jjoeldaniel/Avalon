@@ -58,15 +58,15 @@ public class Paw {
 
             // Kick
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("kick", "Kicks selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true)
+                    .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false)
                     .queue();
             // Ban
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("ban", "Bans selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true)
+                    .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false)
                     .queue();
             // Timeout
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Time-outs selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true)
+                    .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false)
                     .queue();
             // Whois
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("whois", "Provides user information")

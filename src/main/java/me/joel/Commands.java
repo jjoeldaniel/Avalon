@@ -41,15 +41,16 @@ public class Commands extends ListenerAdapter {
                                         `/dare` : Requests dare
                                         `/afk` : Sets AFK status
                                         `/avatar (user)` : Retrieves user (or target) profile picture
-                                        `/8ball (question)` : Asks the magic 8ball a question
+                                        `/8ball (message)` : Asks the magic 8ball a question
                                         `/bark` : Self explanatory
                                         `/meow` : ^^^
+                                        `/confess` : Sends anonymous confession
                                         `paw play (YT Link)` : Plays music""", false)
                     .addField("Moderation Commands", """
-                                        `/kick (user)` : Kicks user
-                                        `/ban (user)` : Bans user
-                                        `/timeout (user)` : Times out user (Default: 1hr)
-                                        `/broadcast (channelID) (text)` : Sends message as PawBot""", false);
+                                        `/kick (user) (reason)` : Kicks user with optional reason
+                                        `/ban (user) (reason)` : Bans user with optional reason
+                                        `/timeout (user) (length)` : Times out user (Default: 1hr)
+                                        `/broadcast (channel) (message)` : Sends message as PawBot""", false);
             event.replyEmbeds(builder.build()).setEphemeral(true)
                     .addActionRow(
                             Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
@@ -240,6 +241,7 @@ public class Commands extends ListenerAdapter {
         if (event.getName().equals("kick")) {
             if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.KICK_MEMBERS)) return;
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
+            String reason = null;
             try {
                 assert target != null;
                 target.kick().queue();
@@ -254,8 +256,22 @@ public class Commands extends ListenerAdapter {
                     return;
                 }
 
+                // Check for reason
+                try { reason = Objects.requireNonNull(event.getOption("reason")).getAsString(); }
+                catch (Exception ignore) {}
+
+                if (reason == null) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setTitle(target.getEffectiveName() + " has been kicked")
+                            .setImage(target.getEffectiveAvatarUrl())
+                            .setColor(Color.PINK);
+                    event.replyEmbeds(builder.build()).queue();
+                    return;
+                }
+
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle(target.getEffectiveName() + " has been kicked")
+                        .addField("Reason", reason, false)
                         .setImage(target.getEffectiveAvatarUrl())
                         .setColor(Color.PINK);
                 event.replyEmbeds(builder.build()).queue();
@@ -274,6 +290,7 @@ public class Commands extends ListenerAdapter {
         if (event.getName().equals("ban")) {
             if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS)) return;
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
+            String reason = null;
             try {
                 assert target != null;
                 target.ban(0).queue();
@@ -287,8 +304,23 @@ public class Commands extends ListenerAdapter {
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
                 }
+
+                // Check for reason
+                try { reason = Objects.requireNonNull(event.getOption("reason")).getAsString(); }
+                catch (Exception ignore) {}
+
+                if (reason == null) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setTitle(target.getEffectiveName() + " has been banned")
+                            .setImage(target.getEffectiveAvatarUrl())
+                            .setColor(Color.PINK);
+                    event.replyEmbeds(builder.build()).queue();
+                    return;
+                }
+
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle(target.getEffectiveName() + " has been banned")
+                        .addField("Reason", reason, false)
                         .setImage(target.getEffectiveAvatarUrl())
                         .setColor(Color.PINK);
 
@@ -308,9 +340,20 @@ public class Commands extends ListenerAdapter {
         if (event.getName().equals("timeout")) {
             if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MODERATE_MEMBERS)) return;
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
+            long length = 0;
+
+            try { length = Objects.requireNonNull(event.getOption("length")).getAsLong(); }
+            catch (Exception ignore) {}
+
             try {
                 assert target != null;
-                target.timeoutFor(1, TimeUnit.HOURS).queue();
+
+                if (length == 0) {
+                    target.timeoutFor(1, TimeUnit.HOURS).queue();
+                }
+                else {
+                    target.timeoutFor(length, TimeUnit.HOURS).queue();
+                }
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle(target.getEffectiveName() + " has been timed out")
