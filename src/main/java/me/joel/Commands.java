@@ -188,7 +188,8 @@ public class Commands extends ListenerAdapter {
             String channelID = "";
 
             EmbedBuilder builder = new EmbedBuilder()
-                    .addField("Anonymous Confession", "\"" + message + "\"", true)
+                    .setTitle("Anonymous Confession")
+                    .setDescription("\"" + message + "\"")
                     .setColor(Util.randColor());
 
             // Find confessions channel
@@ -202,7 +203,8 @@ public class Commands extends ListenerAdapter {
             Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessageEmbeds(builder.build()).queue();
 
             EmbedBuilder builder2 = new EmbedBuilder()
-                    .addField("Confession Submitted", "\"" + message + "\"", true)
+                    .setTitle("Confession Submitted")
+                    .setDescription("\"" + message + "\"")
                     .setColor(Util.randColor());
 
             event.replyEmbeds(builder2.build()).setEphemeral(true).queue();
