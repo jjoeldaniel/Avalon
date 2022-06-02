@@ -29,41 +29,63 @@ public class Paw {
         jda.getPresence().setActivity(Activity.listening(" " + (guildNum) + " servers!" ));
 
         // Commands List
-        jda.upsertCommand("help", "Command list").queue();
-        jda.upsertCommand("8ball", "Asks the magic 8ball a question")
-                .addOption(OptionType.STRING, "question", "Your question to the 8ball", true)
-                .queue();
-        jda.upsertCommand("truth", "Generates a random truth/dare question").queue();
-        jda.upsertCommand("dare", "Generates a random truth/dare question").queue();
-        jda.upsertCommand("ping", "Sends pong").queue();
-        jda.upsertCommand("bark", "Barks").queue();
-        jda.upsertCommand("meow", "Meows").queue();
-        jda.upsertCommand("avatar", "Sends user avatar")
-                .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
-                .queue();
+
+            // Help
+            jda.upsertCommand("help", "Command list").queue();
+            // 8Ball
+            jda.upsertCommand("8ball", "Asks the magic 8ball a question")
+                    .addOption(OptionType.STRING, "question", "Your question to the 8ball", true)
+                    .queue();
+            // Truth
+            jda.upsertCommand("truth", "Generates a random truth/dare question").queue();
+            // Dare
+            jda.upsertCommand("dare", "Generates a random truth/dare question").queue();
+            // Ping
+            jda.upsertCommand("ping", "Sends pong").queue();
+            // Bark
+            jda.upsertCommand("bark", "Barks").queue();
+            // Meow
+            jda.upsertCommand("meow", "Meows").queue();
+            // Avatar
+            jda.upsertCommand("avatar", "Sends user avatar")
+                    .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
+                    .queue();
 
         // Loops through guilds and registers commands
         for (int i = 0; i < guildNum; ++i) {
             Guild guild = jda.getGuilds().get(i);
             String guildID = guild.getId();
 
+            // Kick
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("kick", "Kicks selected user")
                     .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true)
                     .queue();
+            // Ban
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("ban", "Bans selected user")
                     .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true)
                     .queue();
+            // Timeout
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Time-outs selected user")
                     .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true)
                     .queue();
+            // Whois
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("whois", "Provides user information")
                     .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
                     .queue();
+            // AFK
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("afk", "Sets user AFK").queue();
+            // Broadcast
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
                     .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
                     .queue();
         }
+
+        // Guild specific commands
+
+            // Paw Patrol confession command
+            Objects.requireNonNull(jda.getGuildById("645471751316307998")).upsertCommand("confess", "Posts an anonymous confession")
+                    .addOption(OptionType.STRING, "message", "Confession message", true)
+                    .queue();
 
     }
 

@@ -27,6 +27,8 @@ public class Commands extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
+        int confessNum = 1;
+
         // Help
         if (event.getName().equals("help")) {
             event.getInteraction().getUser();
@@ -182,7 +184,18 @@ public class Commands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).queue();
         }
 
-        // AFK
+        // Confess
+        if (event.getName().equals("confess") && Objects.requireNonNull(event.getGuild()).getId().equals("645471751316307998")) {
+            String message = Objects.requireNonNull(event.getOption("message")).getAsString();
+            EmbedBuilder builder = new EmbedBuilder()
+                    .addField("Anonymous Confession #" + confessNum++, message, true)
+                    .setColor(Util.randColor());
+            Objects.requireNonNull(Objects.requireNonNull(event.getGuild()).getTextChannelById("974241959902318613")).sendMessageEmbeds(builder.build()).queue();
+            EmbedBuilder builder2 = new EmbedBuilder()
+                    .addField("", "Confession submitted!", true)
+                    .setColor(Util.randColor());
+            event.replyEmbeds(builder2.build()).setEphemeral(true).queue();
+        }
 
         // Whois Command
         if (event.getName().equals("whois")) {
