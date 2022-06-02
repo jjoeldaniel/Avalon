@@ -185,14 +185,26 @@ public class Commands extends ListenerAdapter {
         // Confess
         if (event.getName().equals("confess")) {
             String message = Objects.requireNonNull(event.getOption("message")).getAsString();
+            String channelID = "";
+
             EmbedBuilder builder = new EmbedBuilder()
-                    .addField("Anonymous Confession", message, true)
+                    .addField("Anonymous Confession", "\"" + message + "\"", true)
                     .setColor(Util.randColor());
-            Objects.requireNonNull(event.getGuild()).getTextChannelsByName("confessions", true).get(0).sendMessageEmbeds(builder.build()).queue();
+
+            // Find confessions channel
+            int channelNum = Objects.requireNonNull(event.getGuild()).getTextChannels().size();
+            for (int i = 0; i < channelNum; ++i) {
+                if (event.getGuild().getTextChannels().get(i).getName().contains("confessions")) {
+                    channelID = event.getGuild().getTextChannels().get(i).getId();
+                }
+            }
+
+            Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessageEmbeds(builder.build()).queue();
+
             EmbedBuilder builder2 = new EmbedBuilder()
-                    .setTitle("Confession Submitted!")
-                    .addField("Message!", message, true)
+                    .addField("Confession Submitted", "\"" + message + "\"", true)
                     .setColor(Util.randColor());
+
             event.replyEmbeds(builder2.build()).setEphemeral(true).queue();
         }
 
