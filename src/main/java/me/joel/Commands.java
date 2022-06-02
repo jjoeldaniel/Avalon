@@ -2,6 +2,7 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Channel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -48,7 +49,7 @@ public class Commands extends ListenerAdapter {
                                         `/kick (user)` : Kicks user
                                         `/ban (user)` : Bans user
                                         `/timeout (user)` : Times out user (Default: 1hr)
-                                        `paw broadcast (channelID) (text)` : Sends message as PawBot""", false);
+                                        `/broadcast (channelID) (text)` : Sends message as PawBot""", false);
             event.replyEmbeds(builder.build()).setEphemeral(true)
                     .addActionRow(
                             Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
@@ -326,10 +327,20 @@ public class Commands extends ListenerAdapter {
             }
         }
 
-//        // Broadcast
-//        if (event.getName().equals("broadcast")) {
-//            Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsTextChannel();
-//        }
+        // Broadcast
+        if (event.getName().equals("broadcast")) {
+            Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsTextChannel();
+            String message = Objects.requireNonNull(event.getOption("message")).getAsString();
+
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setTitle("Message sent!")
+                    .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                    .setColor(Color.PINK)
+                    .addField("Message", message, false);
+
+            event.getTextChannel().sendMessage(message).queue();
+            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+        }
     }
 
     @Override

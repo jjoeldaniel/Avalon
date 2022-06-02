@@ -61,7 +61,7 @@ public class Paw {
                     .queue();
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("afk", "Sets user AFK").queue();
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
-                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in").addOption(OptionType.STRING, "message", "Broadcast message", true)
+                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
                     .queue();
         }
 
