@@ -39,7 +39,7 @@ public class Commands extends ListenerAdapter {
                                         `/ping` : Pings bot
                                         `/truth` : Requests truth
                                         `/dare` : Requests dare
-                                        `paw afk` : Sets AFK status
+                                        `/afk` : Sets AFK status
                                         `/avatar (user)` : Retrieves user (or target) profile picture
                                         `/8ball (question)` : Asks the magic 8ball a question
                                         `/bark` : Self explanatory
@@ -211,7 +211,8 @@ public class Commands extends ListenerAdapter {
         }
 
         // Kick
-        if (event.getName().equals("kick") && Objects.requireNonNull(event.getMember()).hasPermission(Permission.KICK_MEMBERS)) {
+        if (event.getName().equals("kick")) {
+            if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.KICK_MEMBERS)) return;
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
                 assert target != null;
@@ -244,7 +245,8 @@ public class Commands extends ListenerAdapter {
         }
 
         // Ban
-        if (event.getName().equals("ban") && Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS)) {
+        if (event.getName().equals("ban")) {
+            if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS)) return;
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
                 assert target != null;
@@ -277,7 +279,8 @@ public class Commands extends ListenerAdapter {
         }
 
         // Timeout
-        if (event.getName().equals("timeout") && Objects.requireNonNull(event.getMember()).hasPermission(Permission.MODERATE_MEMBERS)) {
+        if (event.getName().equals("timeout")) {
+            if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MODERATE_MEMBERS)) return;
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
                 assert target != null;
@@ -301,7 +304,8 @@ public class Commands extends ListenerAdapter {
         }
 
         // Broadcast
-        if (event.getName().equals("broadcast") && (Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR))) {
+        if (event.getName().equals("broadcast")) {
+            if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR)) return;
             Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsTextChannel();
             String message = Objects.requireNonNull(event.getOption("message")).getAsString();
 
