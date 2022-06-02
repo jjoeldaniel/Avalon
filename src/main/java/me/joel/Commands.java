@@ -192,9 +192,9 @@ public class Commands extends ListenerAdapter {
             LocalDateTime joinTime = member.getTimeJoined().toLocalDateTime();
             LocalDateTime creationDate = user.getTimeCreated().toLocalDateTime();
             int numRoles = member.getRoles().size();
-            String roles = "";
+            StringBuilder roles = new StringBuilder();
             for (int i = 0; i < numRoles; ++i) {
-                roles += "<@&" +member.getRoles().get(i).getId() + "> ";
+                roles.append("<@&").append(member.getRoles().get(i).getId()).append("> ");
             }
 
             EmbedBuilder builder = new EmbedBuilder()
@@ -203,7 +203,7 @@ public class Commands extends ListenerAdapter {
                     .setThumbnail(user.getEffectiveAvatarUrl())
                     .addField("Joined", joinTime.getMonthValue() + "/" + joinTime.getDayOfMonth() + "/" + joinTime.getYear() , true)
                     .addField("Created", creationDate.getMonthValue() + "/" + creationDate.getDayOfMonth() + "/" + creationDate.getYear() , true)
-                    .addField("Roles [" + numRoles + "]", roles, false)
+                    .addField("Roles [" + numRoles + "]", roles.toString(), false)
                     .setFooter("ID: " + user.getId())
                     .setColor(Color.PINK);
 
