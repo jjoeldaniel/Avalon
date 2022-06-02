@@ -56,7 +56,6 @@ public class Insults extends ListenerAdapter {
             // Trigger words
             try {
                 if (isInsult(message)) {
-                    event.getGuildChannel().sendTyping().queue();
                     String insult = randomInsult();
                     int num = Util.randomWithRange(0, 100);
                     if (num > 50) event.getTextChannel().sendMessage(insult).queue();

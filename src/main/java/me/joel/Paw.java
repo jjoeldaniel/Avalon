@@ -50,18 +50,19 @@ public class Paw {
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("kick", "Kicks selected user")
                     .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true)
                     .queue();
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("ban", "Kicks selected user")
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("ban", "Bans selected user")
                     .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true)
                     .queue();
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Kicks selected user")
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Time-outs selected user")
                     .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true)
                     .queue();
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("whois", "Provides user information")
                     .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
                     .queue();
-//            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
-//                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in")
-//                    .queue();
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("afk", "Sets user AFK").queue();
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
+                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in").addOption(OptionType.STRING, "message", "Broadcast message", true)
+                    .queue();
         }
 
     }

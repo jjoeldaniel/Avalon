@@ -51,7 +51,7 @@ public class ReactMessages extends ListenerAdapter {
 
             }
             // Goodnight
-            if (messageSent.equalsIgnoreCase("goodnight")) event.getTextChannel().sendMessage("goodnight sweetie!").queue();
+            if (messageSent.contains("goodnight")) event.getTextChannel().sendMessage("goodnight sweetie!").queue();
             // Spectrum
             if (messageSent.contains("spectrum")) event.getTextChannel().sendMessage(spectrumResponse()).queue();
 
