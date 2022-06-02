@@ -1,5 +1,6 @@
 package me.joel;
 
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Channel;
@@ -14,15 +15,12 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
 public class Commands extends ListenerAdapter {
-
-    String prefix = "paw";
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -46,13 +44,20 @@ public class Commands extends ListenerAdapter {
                                         `/8ball (message)` : Asks the magic 8ball a question
                                         `/bark` : Self explanatory
                                         `/meow` : ^^^
-                                        `/confess` : Sends anonymous confession
-                                        `paw play (YT Link)` : Plays music""", false)
+                                        `/confess` : Sends anonymous confession""", false)
                     .addField("Moderation Commands", """
                                         `/kick (user) (reason)` : Kicks user with optional reason
                                         `/ban (user) (reason)` : Bans user with optional reason
                                         `/timeout (user) (length)` : Times out user (Default: 1hr)
-                                        `/broadcast (channel) (message)` : Sends message as PawBot""", false);
+                                        `/broadcast (channel) (message)` : Sends message as PawBot""", false)
+                    .addField("Music Commands", """
+                                        `/play (song)` : Accepts names and YT links
+                                        `/pause` : Pauses playback
+                                        `/resume` : Resumes playback
+                                        `/clear` : Clears queue
+                                        `/queue` : Displays song queue
+                                        `/skip` : Skips song""", false);
+
             event.replyEmbeds(builder.build()).setEphemeral(true)
                     .addActionRow(
                             Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
@@ -404,11 +409,14 @@ public class Commands extends ListenerAdapter {
                 final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
                 String link = Objects.requireNonNull(event.getOption("song")).getAsString();
 
-                // FIXME: Takes multiple attempts at input
+                Util.wait(1000);
+
                 if (!isURL(link)) {
                     link = ("ytsearch:" + link + " audio");
                     System.out.print("Invalid link\nNew link: " + link);
                 }
+
+                Util.wait(1000);
 
                 // Joins VC
                 audioManager.openAudioConnection(memberChannel);
@@ -447,6 +455,88 @@ public class Commands extends ListenerAdapter {
         if (event.getName().equals("skip")) {
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
             event.reply("Song skipped").queue();
+        }
+
+        // Queue
+        if (event.getName().equals("queue")) {
+
+            String currentSong = "None";
+            currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            int queueSize = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size();
+            Object[] playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.toArray();
+            int trackNum = 1;
+            System.out.print("queueSize = " + queueSize);
+
+            if (queueSize == 0) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong, false)
+                        .setColor(Util.randColor());
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
+            if (queueSize == 1) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong, false)
+                        .addField("[" + trackNum + "]", playlist[0].toString(), false)
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
+            if (queueSize == 2) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong, false)
+                        .addField("[" + trackNum + "]", playlist[0].toString(), false)
+                        .addField("[" + trackNum + "]", playlist[1].toString(), false)
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+                event.replyEmbeds(builder.build()).queue();
+                return;
+
+            }
+            if (queueSize == 3) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong, false)
+                        .addField("[" + trackNum + "]", playlist[0].toString(), false)
+                        .addField("[" + trackNum + "]", playlist[1].toString(), false)
+                        .addField("[" + trackNum + "]", playlist[2].toString(), false)
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+                event.replyEmbeds(builder.build()).queue();
+                return;
+
+            }
+            if (queueSize == 4) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong, false)
+                        .addField("[" + trackNum + "]", playlist[0].toString(), false)
+                        .addField("[" + trackNum + "]", playlist[1].toString(), false)
+                        .addField("[" + trackNum + "]", playlist[2].toString(), false)
+                        .addField("[" + trackNum + "]", playlist[3].toString(), false)
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
+            if (queueSize >= 5) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong, false)
+                        .addField("[" + trackNum + "]", playlist[0].toString(), false)
+                        .addField("[" + trackNum + "]", playlist[1].toString(), false)
+                        .addField("[" + trackNum + "]", playlist[2].toString(), false)
+                        .addField("[" + trackNum + "]", playlist[3].toString(), false)
+                        .addField("[" + trackNum + "]", playlist[4].toString(), false)
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+                event.replyEmbeds(builder.build()).queue();
+            }
+
         }
 
     }

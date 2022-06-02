@@ -98,6 +98,9 @@ public class Paw {
             // Skip
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("skip", "Skips song")
                     .queue();
+            // Queue
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("queue", "Displays music queue")
+                    .queue();
         }
 
     }
