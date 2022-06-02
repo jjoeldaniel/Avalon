@@ -27,6 +27,8 @@ public class Commands extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
+        final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+
         // Help
         if (event.getName().equals("help")) {
             event.getInteraction().getUser();
@@ -389,55 +391,64 @@ public class Commands extends ListenerAdapter {
             Objects.requireNonNull(Objects.requireNonNull(event.getGuild()).getTextChannelById(channelID)).sendMessage(message).queue();
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
-    }
 
-    @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
-
-        // Checks if user
-        if (!event.getAuthor().isBot() && event.isFromGuild()) {
-
-            // Grabs user input
-            String messageSent = event.getMessage().getContentRaw();
-            String[]botInput = messageSent.split(" ", 3);
-
-            // Checks for valid command
-            if (botInput[0].equalsIgnoreCase(prefix)) {
-
-                try {
-
-                    // Music
-                    if (botInput[1].equalsIgnoreCase("play")) {
-
-                        // Checks requester voice state
-                        if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                            event.getTextChannel().sendMessage("You need to be in a voice channel to use `paw play`").queue();
-                            return;
-                        }
-
-                        final AudioManager audioManager = event.getGuild().getAudioManager();
-                        final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
-                        String link = String.join(" ", botInput[2]);
-
-                        // FIXME: Searches if invalid link
-                        if (!isURL(link)) {
-                            link = "ytsearch:" + link + " audio";
-                            System.out.println(link);
-                        }
-
-                        // Joins VC
-                        audioManager.openAudioConnection(memberChannel);
-                        Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
-                        assert bot != null;
-                        event.getGuild().deafen(bot, true).queue();
-
-                        // Plays song
-                        PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
-                    }
+        // Play
+        if (event.getName().equals("play")) {
+            try {
+                // Checks requester voice state
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                    event.getTextChannel().sendMessage("You need to be in a voice channel to use `/play`").queue();
+                    return;
                 }
-                catch (Exception ignore) {}
+                event.deferReply().queue();
+                final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+                String link = Objects.requireNonNull(event.getOption("song")).getAsString();
+
+                // FIXME: Takes multiple attempts at input
+                if (!isURL(link)) {
+                    link = ("ytsearch:" + link + " audio");
+                    System.out.print("Invalid link\nNew link: " + link);
+                }
+
+                // Joins VC
+                audioManager.openAudioConnection(memberChannel);
+                Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
+                assert bot != null;
+                event.getGuild().deafen(bot, true).queue();
+
+                // Plays song
+                PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
             }
+            catch (Exception exception) {
+                System.out.println("Error occurred during playback");
+            }
+            event.getHook().sendMessage("Song queued").setEphemeral(true).queue();
         }
+
+        // Pause
+        if (event.getName().equals("pause")) {
+            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(true);
+            event.reply("Playback paused").setEphemeral(true).queue();
+        }
+
+        // Resume
+        if (event.getName().equals("resume")) {
+            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(false);
+            event.reply("Playback resumed").setEphemeral(true).queue();
+        }
+
+        // Clear
+        if (event.getName().equals("clear")) {
+            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.destroy();
+            event.reply("Queue cleared").queue();
+        }
+
+        // Skip
+        if (event.getName().equals("skip")) {
+            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
+            event.reply("Song skipped").queue();
+        }
+
     }
 
     // Validates link

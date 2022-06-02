@@ -82,6 +82,22 @@ public class Paw {
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("confess", "Posts an anonymous confession")
                     .addOption(OptionType.STRING, "message", "Confession message", true)
                     .queue();
+            // Play
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("play", "Requests a song")
+                    .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true)
+                    .queue();
+            // Pause
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("pause", "Pause playback")
+                    .queue();
+            // Resume
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("resume", "Resume playback")
+                    .queue();
+            // Clear
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("clear", "Clears queue")
+                    .queue();
+            // Skip
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("skip", "Skips song")
+                    .queue();
         }
 
     }
