@@ -307,6 +307,8 @@ public class Commands extends ListenerAdapter {
         if (event.getName().equals("broadcast")) {
             if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR)) return;
             Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsTextChannel();
+            assert channel != null;
+            String channelID = channel.getId();
             String message = Objects.requireNonNull(event.getOption("message")).getAsString();
 
             EmbedBuilder builder = new EmbedBuilder()
@@ -315,7 +317,7 @@ public class Commands extends ListenerAdapter {
                     .setColor(Color.PINK)
                     .addField("Message", message, false);
 
-            event.getTextChannel().sendMessage(message).queue();
+            Objects.requireNonNull(Objects.requireNonNull(event.getGuild()).getTextChannelById(channelID)).sendMessage(message).queue();
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
     }
