@@ -211,16 +211,7 @@ public class Commands extends ListenerAdapter {
         }
 
         // Kick
-        if (event.getName().equals("kick")) {
-            if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.KICK_MEMBERS)) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setTitle("You don't have access to this command!")
-                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                        .setColor(Color.PINK)
-                        .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                return;
-            }
+        if (event.getName().equals("kick") && Objects.requireNonNull(event.getMember()).hasPermission(Permission.KICK_MEMBERS)) {
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
                 assert target != null;
@@ -253,16 +244,7 @@ public class Commands extends ListenerAdapter {
         }
 
         // Ban
-        if (event.getName().equals("ban")) {
-            if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS)) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setTitle("You don't have access to this command!")
-                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                        .setColor(Color.PINK)
-                        .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                return;
-            }
+        if (event.getName().equals("ban") && Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS)) {
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
                 assert target != null;
@@ -295,16 +277,7 @@ public class Commands extends ListenerAdapter {
         }
 
         // Timeout
-        if (event.getName().equals("timeout")) {
-            if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MODERATE_MEMBERS)) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setTitle("You don't have access to this command!")
-                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                        .setColor(Color.PINK)
-                        .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                return;
-            }
+        if (event.getName().equals("timeout") && Objects.requireNonNull(event.getMember()).hasPermission(Permission.MODERATE_MEMBERS)) {
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             try {
                 assert target != null;
@@ -328,7 +301,7 @@ public class Commands extends ListenerAdapter {
         }
 
         // Broadcast
-        if (event.getName().equals("broadcast")) {
+        if (event.getName().equals("broadcast") && (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS))) {
             Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsTextChannel();
             String message = Objects.requireNonNull(event.getOption("message")).getAsString();
 
