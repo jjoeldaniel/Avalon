@@ -78,14 +78,11 @@ public class Paw {
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
                     .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
                     .queue();
-        }
-
-        // Guild specific commands
-
-            // Paw Patrol confession command
-            Objects.requireNonNull(jda.getGuildById("645471751316307998")).upsertCommand("confess", "Posts an anonymous confession")
+            // Confess
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("confess", "Posts an anonymous confession")
                     .addOption(OptionType.STRING, "message", "Confession message", true)
                     .queue();
+        }
 
     }
 

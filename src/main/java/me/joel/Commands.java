@@ -27,8 +27,6 @@ public class Commands extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
-        int confessNum = 1;
-
         // Help
         if (event.getName().equals("help")) {
             event.getInteraction().getUser();
@@ -185,14 +183,15 @@ public class Commands extends ListenerAdapter {
         }
 
         // Confess
-        if (event.getName().equals("confess") && Objects.requireNonNull(event.getGuild()).getId().equals("645471751316307998")) {
+        if (event.getName().equals("confess")) {
             String message = Objects.requireNonNull(event.getOption("message")).getAsString();
             EmbedBuilder builder = new EmbedBuilder()
-                    .addField("Anonymous Confession #" + confessNum++, message, true)
+                    .addField("Anonymous Confession", message, true)
                     .setColor(Util.randColor());
-            Objects.requireNonNull(Objects.requireNonNull(event.getGuild()).getTextChannelById("974241959902318613")).sendMessageEmbeds(builder.build()).queue();
+            Objects.requireNonNull(event.getGuild()).getTextChannelsByName("confessions", true).get(0).sendMessageEmbeds(builder.build()).queue();
             EmbedBuilder builder2 = new EmbedBuilder()
-                    .addField("", "Confession submitted!", true)
+                    .setTitle("Confession Submitted!")
+                    .addField("Message!", message, true)
                     .setColor(Util.randColor());
             event.replyEmbeds(builder2.build()).setEphemeral(true).queue();
         }
