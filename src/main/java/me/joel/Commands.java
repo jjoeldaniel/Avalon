@@ -1,5 +1,6 @@
 package me.joel;
 
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Channel;
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -429,7 +431,7 @@ public class Commands extends ListenerAdapter {
             catch (Exception exception) {
                 System.out.println("Error occurred during playback");
             }
-            event.getHook().sendMessage("Song queued").setEphemeral(true).queue();
+            event.getHook().sendMessage("--").queue();
         }
 
         // Pause
@@ -461,15 +463,15 @@ public class Commands extends ListenerAdapter {
 
             String currentSong = "None";
             currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            String currentArtist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().author;
             int queueSize = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size();
-            Object[] playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.toArray();
-            int trackNum = 1;
+            List<AudioTrack> playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
             System.out.print("queueSize = " + queueSize);
 
             if (queueSize == 0) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong, false)
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
                         .setColor(Util.randColor());
                 event.replyEmbeds(builder.build()).queue();
                 return;
@@ -478,7 +480,7 @@ public class Commands extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", currentSong, false)
-                        .addField("[" + trackNum + "]", playlist[0].toString(), false)
+                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
@@ -488,8 +490,8 @@ public class Commands extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", currentSong, false)
-                        .addField("[" + trackNum + "]", playlist[0].toString(), false)
-                        .addField("[" + trackNum + "]", playlist[1].toString(), false)
+                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
+                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
@@ -500,9 +502,9 @@ public class Commands extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", currentSong, false)
-                        .addField("[" + trackNum + "]", playlist[0].toString(), false)
-                        .addField("[" + trackNum + "]", playlist[1].toString(), false)
-                        .addField("[" + trackNum + "]", playlist[2].toString(), false)
+                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
+                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
+                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
@@ -513,10 +515,10 @@ public class Commands extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", currentSong, false)
-                        .addField("[" + trackNum + "]", playlist[0].toString(), false)
-                        .addField("[" + trackNum + "]", playlist[1].toString(), false)
-                        .addField("[" + trackNum + "]", playlist[2].toString(), false)
-                        .addField("[" + trackNum + "]", playlist[3].toString(), false)
+                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
+                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
+                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
+                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
@@ -526,11 +528,11 @@ public class Commands extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", currentSong, false)
-                        .addField("[" + trackNum + "]", playlist[0].toString(), false)
-                        .addField("[" + trackNum + "]", playlist[1].toString(), false)
-                        .addField("[" + trackNum + "]", playlist[2].toString(), false)
-                        .addField("[" + trackNum + "]", playlist[3].toString(), false)
-                        .addField("[" + trackNum + "]", playlist[4].toString(), false)
+                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
+                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
+                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
+                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
+                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
