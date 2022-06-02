@@ -410,14 +410,10 @@ public class Commands extends ListenerAdapter {
                 final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
                 String link = Objects.requireNonNull(event.getOption("song")).getAsString();
 
-                Util.wait(1000);
-
                 if (!isURL(link)) {
                     link = ("ytsearch:" + link + " audio");
                     System.out.print("Invalid link\nNew link: " + link);
                 }
-
-                Util.wait(1000);
 
                 // Joins VC
                 audioManager.openAudioConnection(memberChannel);
@@ -462,9 +458,21 @@ public class Commands extends ListenerAdapter {
         if (event.getName().equals("queue")) {
 
             String currentSong = "None";
-            currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            String currentArtist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().author;
             int queueSize = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size();
+
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .setDescription("No songs currently playing")
+                        .setColor(Util.randColor());
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
+
+            String currentArtist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().author;
             List<AudioTrack> playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
             System.out.print("queueSize = " + queueSize);
 
@@ -479,7 +487,7 @@ public class Commands extends ListenerAdapter {
             if (queueSize == 1) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong, false)
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
                         .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
@@ -489,7 +497,7 @@ public class Commands extends ListenerAdapter {
             if (queueSize == 2) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong, false)
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
                         .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
                         .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
                         .setColor(Util.randColor())
@@ -501,7 +509,7 @@ public class Commands extends ListenerAdapter {
             if (queueSize == 3) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong, false)
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
                         .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
                         .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
                         .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
@@ -514,7 +522,7 @@ public class Commands extends ListenerAdapter {
             if (queueSize == 4) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong, false)
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
                         .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
                         .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
                         .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
@@ -524,15 +532,100 @@ public class Commands extends ListenerAdapter {
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }
-            if (queueSize >= 5) {
+            if (queueSize == 5) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong, false)
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
                         .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
                         .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
                         .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
                         .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
                         .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
+            if (queueSize == 6) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
+                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
+                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
+                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
+                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
+                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
+                        .addField("[6]", playlist.get(5).getInfo().title + " by " + playlist.get(5).getInfo().author, false)
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
+            if (queueSize == 7) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
+                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
+                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
+                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
+                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
+                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
+                        .addField("[6]", playlist.get(5).getInfo().title + " by " + playlist.get(5).getInfo().author, false)
+                        .addField("[7]", playlist.get(6).getInfo().title + " by " + playlist.get(6).getInfo().author, false)
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
+            if (queueSize == 8) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
+                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
+                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
+                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
+                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
+                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
+                        .addField("[6]", playlist.get(5).getInfo().title + " by " + playlist.get(5).getInfo().author, false)
+                        .addField("[7]", playlist.get(6).getInfo().title + " by " + playlist.get(6).getInfo().author, false)
+                        .addField("[8]", playlist.get(7).getInfo().title + " by " + playlist.get(7).getInfo().author, false)
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
+            if (queueSize == 9) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
+                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
+                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
+                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
+                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
+                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
+                        .addField("[6]", playlist.get(5).getInfo().title + " by " + playlist.get(5).getInfo().author, false)
+                        .addField("[7]", playlist.get(6).getInfo().title + " by " + playlist.get(6).getInfo().author, false)
+                        .addField("[8]", playlist.get(7).getInfo().title + " by " + playlist.get(7).getInfo().author, false)
+                        .addField("[9]", playlist.get(8).getInfo().title + " by " + playlist.get(8).getInfo().author, false)
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
+            if (queueSize >= 10) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Queue [" + queueSize + "]")
+                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
+                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
+                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
+                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
+                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
+                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
+                        .addField("[6]", playlist.get(5).getInfo().title + " by " + playlist.get(5).getInfo().author, false)
+                        .addField("[7]", playlist.get(6).getInfo().title + " by " + playlist.get(6).getInfo().author, false)
+                        .addField("[8]", playlist.get(7).getInfo().title + " by " + playlist.get(7).getInfo().author, false)
+                        .addField("[9]", playlist.get(8).getInfo().title + " by " + playlist.get(8).getInfo().author, false)
+                        .addField("[10]", playlist.get(9).getInfo().title + " by " + playlist.get(9).getInfo().author, false)
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
