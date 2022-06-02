@@ -301,7 +301,7 @@ public class Commands extends ListenerAdapter {
         }
 
         // Broadcast
-        if (event.getName().equals("broadcast") && (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS))) {
+        if (event.getName().equals("broadcast") && (Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR))) {
             Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsTextChannel();
             String message = Objects.requireNonNull(event.getOption("message")).getAsString();
 
