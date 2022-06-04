@@ -21,6 +21,7 @@ public class Paw {
                 .addEventListeners(new AFK())
                 .addEventListeners(new MusicCommands())
                 .addEventListeners(new ModCommands())
+                .addEventListeners(new AFKReturn())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .build()
                 .awaitReady();
@@ -106,6 +107,9 @@ public class Paw {
                     .queue();
             // Queue
             Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("queue", "Displays music queue")
+                    .queue();
+            // AFK
+            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("afk", "Enables/disables AFK status")
                     .queue();
         }
 

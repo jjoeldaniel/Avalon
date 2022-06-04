@@ -9,15 +9,12 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
 public class Commands extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-
-        final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
         // Help
         if (event.getName().equals("help")) {
@@ -59,28 +56,6 @@ public class Commands extends ListenerAdapter {
             EmbedBuilder builder = new EmbedBuilder()
                     .setTitle("Pong!")
                     .setColor(Color.PINK);
-            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-        }
-
-        // AFK
-        if (event.getName().equals("afk")) {
-
-            try {
-                String userName = Objects.requireNonNull(event.getMember()).getEffectiveName();
-                event.getMember().modifyNickname("(AFK) " + userName).queue();
-                System.out.println(userName + " is now AFK");
-            } catch (Exception except) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .addField("", "Can't rename owner/equal role", false)
-                        .setColor(Color.PINK);
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                return;
-            }
-
-            EmbedBuilder builder = new EmbedBuilder()
-                    .addField("", "You have now been set to AFK!", false)
-                    .setColor(Color.PINK);
-
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
 
