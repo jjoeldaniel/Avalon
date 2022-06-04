@@ -19,24 +19,32 @@ public class AFK extends ListenerAdapter {
 
             try {
 
-                String userID = (event.getMessage().getMentions().getUsers().get(0).getId());
-                Member member = event.getGuild().getMemberById(userID);
+                Member member = event.getMessage().getMember();
                 assert member != null;
 
                 // Return from AFK
-                if (Objects.requireNonNull(event.getMember()).getEffectiveName().startsWith("(AFK) ")) {
-                    String user = event.getMember().getEffectiveName();
-                    System.out.println(user + " returned from AFK");
-                    String[] userName = user.split(" ", 2);
-                    event.getMember().modifyNickname(userName[1]).queue();
+                if (member.getEffectiveName().startsWith("(AFK)")) {
+                    System.out.println("AFK Member returned");
+                    String user = Objects.requireNonNull(event.getMember()).getEffectiveName();
+                    StringBuilder username = new StringBuilder()
+                            .append(user)
+                            .delete(0, 5);
+                    member.modifyNickname(username.toString()).queue();
                     event.getTextChannel().sendMessage("Welcome back, " + event.getMember().getAsMention() + "!").queue();
                 }
+
+            }
+            catch (Exception ignore) {}
+        }
+        if (!event.getAuthor().isBot() && event.isFromGuild()) {
+
+            try {
+                Member member = event.getMessage().getMentions().getMembers().get(0);
 
                 // Mentioning AFK users
                 if (member.getEffectiveName().contains("(AFK)")) {
                     event.getTextChannel().sendMessage("Mentioned member is AFK, " + Objects.requireNonNull(event.getMember()).getAsMention() + "!").queue();
                 }
-
             }
             catch (Exception ignore) {}
         }
