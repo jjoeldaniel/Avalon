@@ -9,8 +9,6 @@ import java.util.Objects;
 
 public class AFK extends ListenerAdapter {
 
-    String prefix = "paw";
-
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
