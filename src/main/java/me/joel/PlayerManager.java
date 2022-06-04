@@ -74,12 +74,16 @@ public class PlayerManager {
                     String songSeconds = String.valueOf(seconds);
                     if (seconds < 10) songSeconds = "0" + seconds;
 
+                    // Thumbnail
+                    String trackThumbnail = Util.getThumbnail(tracks.get(0).getInfo().uri);
+
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setAuthor("Now playing")
                             .setTitle(tracks.get(0).getInfo().title, tracks.get(0).getInfo().uri)
                             .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                             .setThumbnail("https://c.tenor.com/QkpPd0KqgpgAAAAM/dog-feel-music-cute.gif")
+                            .setThumbnail(trackThumbnail)
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false);
 
                     textChannel.sendMessageEmbeds(builder.build()).queue();
