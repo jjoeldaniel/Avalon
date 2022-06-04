@@ -17,7 +17,6 @@ public class Paw {
 
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())
-                .addEventListeners(new Insults())
                 .addEventListeners(new ReactMessages())
                 .addEventListeners(new AFK())
                 .addEventListeners(new MusicCommands())

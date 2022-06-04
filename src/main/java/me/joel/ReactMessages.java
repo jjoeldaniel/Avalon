@@ -5,6 +5,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class ReactMessages extends ListenerAdapter {
 
@@ -34,6 +36,41 @@ public class ReactMessages extends ListenerAdapter {
         return spectrumResponse.get(num);
     }
 
+    private static boolean isInsult(String message) {
+
+        return message.contains("fuck") || (message.contains("cunt")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
+    }
+
+    private static String randomInsult () {
+        Random rand = new Random();
+
+        List<String> insultList = new ArrayList<>();
+        insultList.add("No you");
+        insultList.add("Fuck you");
+        insultList.add("Your mom");
+        insultList.add("Stfu");
+        insultList.add("Bruh");
+        insultList.add("Dickhead");
+        insultList.add("Asshole");
+        insultList.add("Idiot");
+        insultList.add("You can do better");
+        insultList.add("Stfu inbred");
+        insultList.add("Bitch pls");
+        insultList.add("Shut your mouth");
+        insultList.add("You disgust me");
+        insultList.add("Fuck off");
+        insultList.add("Dumbfuck");
+        insultList.add("Dumbass");
+        insultList.add("You're dumb");
+        insultList.add("Fuck off midget");
+        insultList.add("I'll fucking roundhouse kick you in the teeth, dumbfuck");
+        insultList.add("Shut the fuck up, literally no one is paying attention");
+        insultList.add("Minorly whore");
+
+        int num = rand.nextInt(insultList.size());
+
+        return insultList.get(num);
+    }
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
@@ -54,6 +91,12 @@ public class ReactMessages extends ListenerAdapter {
             if (messageSent.contains("goodnight")) event.getTextChannel().sendMessage("goodnight sweetie!").queue();
             // Spectrum
             if (messageSent.contains("spectrum")) event.getTextChannel().sendMessage(spectrumResponse()).queue();
+            // Insult
+            if (isInsult(messageSent)) {
+                String insult = randomInsult();
+                int num = Util.randomWithRange(0, 100);
+                if (num > 50) event.getTextChannel().sendMessage(insult).queue();
+            }
 
         }
     }
