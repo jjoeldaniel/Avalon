@@ -23,8 +23,13 @@ public class Util {
         dogs.add("https://c.tenor.com/0vy31sXqwYcAAAAj/dog-doggo.gif");
         dogs.add("https://c.tenor.com/9TsiJq--SsEAAAAj/doge-dance.gif");
 
-        int num = randomWithRange(0, dogs.size()+1);
+        int num = randomWithRange(0, dogs.size());
         return dogs.get(num);
+    }
+
+    // Discord GIF to PNG
+    public static String gifToPNG(String link) {
+        return link.replace("gif", "png");
     }
 
     // Random color
