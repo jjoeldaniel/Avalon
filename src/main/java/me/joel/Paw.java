@@ -20,6 +20,8 @@ public class Paw {
                 .addEventListeners(new Insults())
                 .addEventListeners(new ReactMessages())
                 .addEventListeners(new AFK())
+                .addEventListeners(new MusicCommands())
+                .addEventListeners(new ModCommands())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .build()
                 .awaitReady();

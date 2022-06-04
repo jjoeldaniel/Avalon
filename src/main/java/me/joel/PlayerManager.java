@@ -7,6 +7,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -44,12 +45,21 @@ public class PlayerManager {
             public void trackLoaded(AudioTrack audioTrack) {
                 musicManager.scheduler.queue(audioTrack);
 
-                textChannel.sendMessage("Adding to queue **`")
-                        .append(audioTrack.getInfo().title)
-                        .append("`** by **`")
-                        .append(audioTrack.getInfo().author)
-                        .append("`**")
-                        .queue();
+                // Time from ms to m:s
+                long trackLength = audioTrack.getInfo().length;
+                long minutes = (trackLength / 1000) / 60;
+                long seconds = ((trackLength / 1000) % 60);
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setAuthor("Now playing")
+                        .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
+                        .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                        .setThumbnail("https://c.tenor.com/QkpPd0KqgpgAAAAM/dog-feel-music-cute.gif")
+                        .addField("Requested by:", MusicCommands.member.getAsMention(), false);
+
+                System.out.println("Song queued");
+                textChannel.sendMessageEmbeds(builder.build()).queue();
             }
 
             @Override
@@ -57,12 +67,22 @@ public class PlayerManager {
                 final List<AudioTrack> tracks = audioPlaylist.getTracks();
                 if (!tracks.isEmpty()) {
                     musicManager.scheduler.queue(tracks.get(0));
-                    textChannel.sendMessage("Adding to queue **`")
-                            .append(tracks.get(0).getInfo().title)
-                            .append("`** by **`")
-                            .append(tracks.get(0).getInfo().author)
-                            .append("`**")
-                            .queue();
+
+                    // Time from ms to m:s
+                    long trackLength = tracks.get(0).getInfo().length;
+                    long minutes = (trackLength / 1000) / 60;
+                    long seconds = ((trackLength / 1000) % 60);
+
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setAuthor("Now playing")
+                            .setTitle(tracks.get(0).getInfo().title, tracks.get(0).getInfo().uri)
+                            .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                            .setThumbnail("https://c.tenor.com/QkpPd0KqgpgAAAAM/dog-feel-music-cute.gif")
+                            .addField("Requested by:", MusicCommands.member.getAsMention(), false);
+
+                    System.out.println("Song queued");
+                    textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
             }
 
