@@ -21,89 +21,37 @@ public class Commands extends ListenerAdapter {
 
         // Help
         if (event.getName().equals("help")) {
-            if (event.getName().equals("mod")) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Color.PINK)
-                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
-                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
-                        .addField("Moderation Commands", """
-                                `/kick (user) (reason)` : Kicks user with optional reason
-                                `/ban (user) (reason)` : Bans user with optional reason
-                                `/timeout (user) (length)` : Times out user (Default: 1hr)
-                                `/broadcast (channel) (message)` : Sends message as PawBot""", false);
-                event.replyEmbeds(builder.build()).setEphemeral(true)
-                        .addActionRow(
-                                Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
-            }
-            if (event.getName().equals("music")) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Color.PINK)
-                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
-                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
-                        .addField("Music Commands", """
-                                `/play (song)` : Accepts names and YT links
-                                `/pause` : Pauses playback
-                                `/resume` : Resumes playback
-                                `/clear` : Clears queue
-                                `/queue` : Displays song queue
-                                `/skip` : Skips song""", false);
-                event.replyEmbeds(builder.build()).setEphemeral(true)
-                        .addActionRow(
-                                Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
-            }
-            if (event.getName().equals("general")) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Color.PINK)
-                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
-                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
-                        .addField("General Commands", """
-                                `/help` : Lists commands
-                                `/ping` : Pings bot
-                                `/truth` : Requests truth
-                                `/dare` : Requests dare
-                                `/afk` : Sets AFK status
-                                `/avatar (user)` : Retrieves user (or target) profile picture
-                                `/8ball (message)` : Asks the magic 8ball a question
-                                `/bark` : Self explanatory
-                                `/meow` : ^^^
-                                `/confess` : Sends anonymous confession""", false);
-                event.replyEmbeds(builder.build()).setEphemeral(true)
-                        .addActionRow(
-                                Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
-            }
-            else {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Color.PINK)
-                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
-                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
-                        .addField("General Commands", """
-                                        `/help` : Lists commands
-                                        `/ping` : Pings bot
-                                        `/truth` : Requests truth
-                                        `/dare` : Requests dare
-                                        `/afk` : Sets AFK status
-                                        `/avatar (user)` : Retrieves user (or target) profile picture
-                                        `/8ball (message)` : Asks the magic 8ball a question
-                                        `/bark` : Self explanatory
-                                        `/meow` : ^^^
-                                        `/confess` : Sends anonymous confession""", false)
-                        .addField("Moderation Commands", """
-                                        `/kick (user) (reason)` : Kicks user with optional reason
-                                        `/ban (user) (reason)` : Bans user with optional reason
-                                        `/timeout (user) (length)` : Times out user (Default: 1hr)
-                                        `/broadcast (channel) (message)` : Sends message as PawBot""", false)
-                        .addField("Music Commands", """
-                                        `/play (song)` : Accepts names and YT links
-                                        `/pause` : Pauses playback
-                                        `/resume` : Resumes playback
-                                        `/clear` : Clears queue
-                                        `/queue` : Displays song queue
-                                        `/skip` : Skips song""", false);
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setColor(Color.PINK)
+                    .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
+                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
+                    .addField("General Commands", """
+                                    `/help` : Lists commands
+                                    `/ping` : Pings bot
+                                    `/truth` : Requests truth
+                                    `/dare` : Requests dare
+                                    `/afk` : Sets AFK status
+                                    `/avatar (user)` : Retrieves user (or target) profile picture
+                                    `/8ball (message)` : Asks the magic 8ball a question
+                                    `/bark` : Self explanatory
+                                    `/meow` : ^^^
+                                    `/confess` : Sends anonymous confession""", false)
+                    .addField("Moderation Commands", """
+                                    `/kick (user) (reason)` : Kicks user with optional reason
+                                    `/ban (user) (reason)` : Bans user with optional reason
+                                    `/timeout (user) (length)` : Times out user (Default: 1hr)
+                                    `/broadcast (channel) (message)` : Sends message as PawBot""", false)
+                    .addField("Music Commands", """
+                                    `/play (song)` : Accepts names and YT links
+                                    `/pause` : Pauses playback
+                                    `/resume` : Resumes playback
+                                    `/clear` : Clears queue
+                                    `/queue` : Displays song queue
+                                    `/skip` : Skips song""", false);
 
-                event.replyEmbeds(builder.build()).setEphemeral(true)
-                        .addActionRow(
-                                Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
-            }
+            event.replyEmbeds(builder.build()).setEphemeral(true)
+                    .addActionRow(
+                            Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
         }
 
         // Ping
