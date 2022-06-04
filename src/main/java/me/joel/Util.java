@@ -1,6 +1,7 @@
 package me.joel;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Util {
@@ -9,6 +10,21 @@ public class Util {
     public static int randomWithRange(int min, int max) {
         Random rand = new Random();
         return rand.nextInt(min, max);
+    }
+
+    // Random dog thumbnail
+    public static String randomThumbnail() {
+        ArrayList<String> dogs = new ArrayList<>();
+        dogs.add("https://c.tenor.com/HxNhwwXRcdEAAAAj/brickhill-bh.gif");
+        dogs.add("https://c.tenor.com/eRTjXVkts5kAAAAj/pug-dog.gif");
+        dogs.add("https://c.tenor.com/BpGpliwaBcMAAAAj/dogjam-dog.gif");
+        dogs.add("https://c.tenor.com/l6wuj9Zdl6wAAAAj/dancing-doge.gif");
+        dogs.add("https://c.tenor.com/V4jrINyqhGcAAAAj/dance-dancing.gif");
+        dogs.add("https://c.tenor.com/0vy31sXqwYcAAAAj/dog-doggo.gif");
+        dogs.add("https://c.tenor.com/9TsiJq--SsEAAAAj/doge-dance.gif");
+
+        int num = randomWithRange(0, dogs.size()+1);
+        return dogs.get(num);
     }
 
     // Random color

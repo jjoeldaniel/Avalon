@@ -37,7 +37,6 @@ public class MusicCommands extends ListenerAdapter {
 
                 if (!isURL(link)) {
                     link = ("ytsearch:" + link + " audio");
-                    System.out.println("Invalid link. New link: " + link);
                 }
 
                 // Joins VC
@@ -93,6 +92,7 @@ public class MusicCommands extends ListenerAdapter {
             }
             catch (Exception ignore) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                         .setTitle("Queue [" + queueSize + "]")
                         .setDescription("No songs currently playing")
                         .setColor(Util.randColor());
@@ -101,34 +101,41 @@ public class MusicCommands extends ListenerAdapter {
             }
 
             String currentArtist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().author;
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             List<AudioTrack> playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
-            System.out.print("queueSize = " + queueSize);
 
             if (queueSize == 0) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), Objects.requireNonNull(event.getGuild().getIconUrl())))
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
-                        .setColor(Util.randColor());
+                        .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
+                        .setColor(Util.randColor())
+                        .setThumbnail(Util.randomThumbnail())
+                        .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }
             if (queueSize == 1) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
+                        .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
                         .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
                         .setColor(Util.randColor())
+                        .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }
             if (queueSize == 2) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
-                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
-                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
+                        .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
+                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(0).getInfo().uri) + ")\n", false)
+                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(1).getInfo().uri) + ")\n", false)
                         .setColor(Util.randColor())
+                        .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
                 return;
@@ -136,12 +143,14 @@ public class MusicCommands extends ListenerAdapter {
             }
             if (queueSize == 3) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
-                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
-                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
-                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
+                        .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
+                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(0).getInfo().uri) + ")\n", false)
+                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(1).getInfo().uri) + ")\n", false)
+                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(2).getInfo().uri) + ")\n", false)
                         .setColor(Util.randColor())
+                        .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
                 return;
@@ -149,111 +158,125 @@ public class MusicCommands extends ListenerAdapter {
             }
             if (queueSize == 4) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
-                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
-                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
-                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
-                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
+                        .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
+                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(0).getInfo().uri) + ")\n", false)
+                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(1).getInfo().uri) + ")\n", false)
+                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(2).getInfo().uri) + ")\n", false)
+                        .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(3).getInfo().uri) + ")\n", false)
                         .setColor(Util.randColor())
+                        .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }
             if (queueSize == 5) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
-                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
-                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
-                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
-                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
-                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
+                        .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
+                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(0).getInfo().uri) + ")\n", false)
+                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(1).getInfo().uri) + ")\n", false)
+                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(2).getInfo().uri) + ")\n", false)
+                        .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(3).getInfo().uri) + ")\n", false)
+                        .addField("[5]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(4).getInfo().uri) + ")\n", false)
                         .setColor(Util.randColor())
+                        .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }
             if (queueSize == 6) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
-                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
-                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
-                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
-                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
-                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
-                        .addField("[6]", playlist.get(5).getInfo().title + " by " + playlist.get(5).getInfo().author, false)
+                        .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
+                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(0).getInfo().uri) + ")\n", false)
+                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(1).getInfo().uri) + ")\n", false)
+                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(2).getInfo().uri) + ")\n", false)
+                        .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(3).getInfo().uri) + ")\n", false)
+                        .addField("[5]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(4).getInfo().uri) + ")\n", false)
+                        .addField("[6]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(5).getInfo().uri) + ")\n", false)
                         .setColor(Util.randColor())
+                        .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }
             if (queueSize == 7) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
-                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
-                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
-                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
-                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
-                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
-                        .addField("[6]", playlist.get(5).getInfo().title + " by " + playlist.get(5).getInfo().author, false)
-                        .addField("[7]", playlist.get(6).getInfo().title + " by " + playlist.get(6).getInfo().author, false)
+                        .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
+                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(0).getInfo().uri) + ")\n", false)
+                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(1).getInfo().uri) + ")\n", false)
+                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(2).getInfo().uri) + ")\n", false)
+                        .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(3).getInfo().uri) + ")\n", false)
+                        .addField("[5]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(4).getInfo().uri) + ")\n", false)
+                        .addField("[6]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(5).getInfo().uri) + ")\n", false)
+                        .addField("[7]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(6).getInfo().uri) + ")\n", false)
                         .setColor(Util.randColor())
+                        .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }
             if (queueSize == 8) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
-                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
-                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
-                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
-                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
-                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
-                        .addField("[6]", playlist.get(5).getInfo().title + " by " + playlist.get(5).getInfo().author, false)
-                        .addField("[7]", playlist.get(6).getInfo().title + " by " + playlist.get(6).getInfo().author, false)
-                        .addField("[8]", playlist.get(7).getInfo().title + " by " + playlist.get(7).getInfo().author, false)
+                        .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
+                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(0).getInfo().uri) + ")\n", false)
+                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(1).getInfo().uri) + ")\n", false)
+                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(2).getInfo().uri) + ")\n", false)
+                        .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(3).getInfo().uri) + ")\n", false)
+                        .addField("[5]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(4).getInfo().uri) + ")\n", false)
+                        .addField("[6]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(5).getInfo().uri) + ")\n", false)
+                        .addField("[7]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(6).getInfo().uri) + ")\n", false)
+                        .addField("[8]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(7).getInfo().uri) + ")\n", false)
                         .setColor(Util.randColor())
+                        .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }
             if (queueSize == 9) {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                         .setTitle("Queue [" + queueSize + "]")
-                        .addField("Currently playing", currentSong + " by " + currentArtist, false)
-                        .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
-                        .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
-                        .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
-                        .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
-                        .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
-                        .addField("[6]", playlist.get(5).getInfo().title + " by " + playlist.get(5).getInfo().author, false)
-                        .addField("[7]", playlist.get(6).getInfo().title + " by " + playlist.get(6).getInfo().author, false)
-                        .addField("[8]", playlist.get(7).getInfo().title + " by " + playlist.get(7).getInfo().author, false)
-                        .addField("[9]", playlist.get(8).getInfo().title + " by " + playlist.get(8).getInfo().author, false)
+                        .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
+                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(0).getInfo().uri) + ")\n", false)
+                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(1).getInfo().uri) + ")\n", false)
+                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(2).getInfo().uri) + ")\n", false)
+                        .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(3).getInfo().uri) + ")\n", false)
+                        .addField("[5]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(4).getInfo().uri) + ")\n", false)
+                        .addField("[6]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(5).getInfo().uri) + ")\n", false)
+                        .addField("[7]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(6).getInfo().uri) + ")\n", false)
+                        .addField("[8]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(7).getInfo().uri) + ")\n", false)
+                        .addField("[9]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(8).getInfo().uri) + ")\n", false)
                         .setColor(Util.randColor())
+                        .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }
             EmbedBuilder builder = new EmbedBuilder()
+                    .setAuthor(event.getGuild().getName(), Objects.requireNonNull(event.getGuild().getIconUrl(), event.getGuild().getIconUrl()))
                     .setTitle("Queue [" + queueSize + "]")
-                    .addField("Currently playing", currentSong + " by " + currentArtist, false)
-                    .addField("[1]", playlist.get(0).getInfo().title + " by " + playlist.get(0).getInfo().author, false)
-                    .addField("[2]", playlist.get(1).getInfo().title + " by " + playlist.get(1).getInfo().author, false)
-                    .addField("[3]", playlist.get(2).getInfo().title + " by " + playlist.get(2).getInfo().author, false)
-                    .addField("[4]", playlist.get(3).getInfo().title + " by " + playlist.get(3).getInfo().author, false)
-                    .addField("[5]", playlist.get(4).getInfo().title + " by " + playlist.get(4).getInfo().author, false)
-                    .addField("[6]", playlist.get(5).getInfo().title + " by " + playlist.get(5).getInfo().author, false)
-                    .addField("[7]", playlist.get(6).getInfo().title + " by " + playlist.get(6).getInfo().author, false)
-                    .addField("[8]", playlist.get(7).getInfo().title + " by " + playlist.get(7).getInfo().author, false)
-                    .addField("[9]", playlist.get(8).getInfo().title + " by " + playlist.get(8).getInfo().author, false)
-                    .addField("[10]", playlist.get(9).getInfo().title + " by " + playlist.get(9).getInfo().author, false)
+                    .addField("Currently playing", "[" + currentSong + "](" + PlayerManager.getThumbnail(currentURI) + ")\n", false)
+                    .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(0).getInfo().uri) + ")\n", false)
+                    .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(1).getInfo().uri) + ")\n", false)
+                    .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(2).getInfo().uri) + ")\n", false)
+                    .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(3).getInfo().uri) + ")\n", false)
+                    .addField("[5]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(4).getInfo().uri) + ")\n", false)
+                    .addField("[6]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(5).getInfo().uri) + ")\n", false)
+                    .addField("[7]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(6).getInfo().uri) + ")\n", false)
+                    .addField("[8]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(7).getInfo().uri) + ")\n", false)
+                    .addField("[9]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(8).getInfo().uri) + ")\n", false)
+                    .addField("[10]", "[" + playlist.get(3).getInfo().title + "](" + PlayerManager.getThumbnail(playlist.get(9).getInfo().uri) + ")\n", false)
                     .setColor(Util.randColor())
+                    .setThumbnail(Util.randomThumbnail())
                     .setFooter("Use /help for a list of music commands!");
             event.replyEmbeds(builder.build()).queue();
 
