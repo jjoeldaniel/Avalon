@@ -260,10 +260,6 @@ public class MusicCommands extends ListenerAdapter {
         }
     }
 
-    // Grabs event member
-    public Member getMember() {
-        return member;
-    }
     // Validates links
     public boolean isURL(String url) {
         try {
