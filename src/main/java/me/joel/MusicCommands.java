@@ -53,7 +53,7 @@ public class MusicCommands extends ListenerAdapter {
                 System.out.println("Error occurred during playback");
             }
 
-            event.getHook().sendMessage(".").queue();
+            event.getHook().sendMessage("sent").queue();
             event.getHook().deleteOriginal().queue();
         }
 

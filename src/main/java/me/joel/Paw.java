@@ -33,7 +33,15 @@ public class Paw {
         // Commands List
 
             // Help
-            jda.upsertCommand("help", "Command list").queue();
+            jda.upsertCommand("help", "Command list")
+                    .addSubcommands().setName("moderation")
+                    .addSubcommands().setName("music")
+                    .addSubcommands().setName("general")
+
+//                    .addOption(OptionType.SUB_COMMAND_GROUP, "mod", "Lists only moderation commands", false)
+//                    .addOption(OptionType.SUB_COMMAND_GROUP, "music", "Lists only music commands", false)
+//                    .addOption(OptionType.SUB_COMMAND_GROUP, "general", "Lists only general commands", false)
+                    .queue();
             // 8Ball
             jda.upsertCommand("8ball", "Asks the magic 8ball a question")
                     .addOption(OptionType.STRING, "question", "Your question to the 8ball", true)
