@@ -58,7 +58,6 @@ public class PlayerManager {
                         .setThumbnail("https://c.tenor.com/QkpPd0KqgpgAAAAM/dog-feel-music-cute.gif")
                         .addField("Requested by:", MusicCommands.member.getAsMention(), false);
 
-                System.out.println("Song queued");
                 textChannel.sendMessageEmbeds(builder.build()).queue();
             }
 
@@ -72,16 +71,17 @@ public class PlayerManager {
                     long trackLength = tracks.get(0).getInfo().length;
                     long minutes = (trackLength / 1000) / 60;
                     long seconds = ((trackLength / 1000) % 60);
+                    String songSeconds = String.valueOf(seconds);
+                    if (seconds < 10) songSeconds = "0" + seconds;
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setAuthor("Now playing")
                             .setTitle(tracks.get(0).getInfo().title, tracks.get(0).getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                             .setThumbnail("https://c.tenor.com/QkpPd0KqgpgAAAAM/dog-feel-music-cute.gif")
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false);
 
-                    System.out.println("Song queued");
                     textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
             }

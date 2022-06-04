@@ -48,6 +48,7 @@ public class MusicCommands extends ListenerAdapter {
 
                 // Plays song
                 PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(30);
             }
             catch (Exception exception) {
                 System.out.println("Error occurred during playback");
