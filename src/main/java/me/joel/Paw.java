@@ -31,6 +31,11 @@ public class Paw {
 
         // Commands List
 
+            /* TODO List:
+            TODO: Overhaul queue
+            TODO:
+             */
+
             // Help
             jda.upsertCommand("help", "Command list").queue();
             // 8Ball

@@ -50,12 +50,15 @@ public class PlayerManager {
                 long minutes = (trackLength / 1000) / 60;
                 long seconds = ((trackLength / 1000) % 60);
 
+                // Thumbnail
+                String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
+
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setAuthor("Now playing")
                         .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
                         .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
-                        .setThumbnail("https://c.tenor.com/QkpPd0KqgpgAAAAM/dog-feel-music-cute.gif")
+                        .setThumbnail(trackThumbnail)
                         .addField("Requested by:", MusicCommands.member.getAsMention(), false);
 
                 textChannel.sendMessageEmbeds(builder.build()).queue();
@@ -75,7 +78,6 @@ public class PlayerManager {
                     if (seconds < 10) songSeconds = "0" + seconds;
 
                     // Thumbnail
-                    //String trackThumbnail = Util.getThumbnail(tracks.get(0).getInfo().uri);
                     String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
 
                     EmbedBuilder builder = new EmbedBuilder()
@@ -83,7 +85,6 @@ public class PlayerManager {
                             .setAuthor("Now playing")
                             .setTitle(tracks.get(0).getInfo().title, tracks.get(0).getInfo().uri)
                             .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
-                            .setThumbnail("https://c.tenor.com/QkpPd0KqgpgAAAAM/dog-feel-music-cute.gif")
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false);
 
@@ -111,6 +112,7 @@ public class PlayerManager {
     // Gets YouTube thumbnail
     public static String getThumbnail(String link) {
 
+        System.out.println("Link: " + link);
         int linkLength = link.length() + 1;
         String linkPrefix = "https://img.youtube.com/vi/";
         String linkSuffix = "/0.jpg";
