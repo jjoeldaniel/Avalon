@@ -75,7 +75,8 @@ public class PlayerManager {
                     if (seconds < 10) songSeconds = "0" + seconds;
 
                     // Thumbnail
-                    String trackThumbnail = Util.getThumbnail(tracks.get(0).getInfo().uri);
+                    //String trackThumbnail = Util.getThumbnail(tracks.get(0).getInfo().uri);
+                    String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -107,4 +108,17 @@ public class PlayerManager {
         return INSTANCE;
     }
 
+    // Gets YouTube thumbnail
+    public static String getThumbnail(String link) {
+
+        int linkLength = link.length() + 1;
+        String linkPrefix = "https://img.youtube.com/vi/";
+        String linkSuffix = "/0.jpg";
+        StringBuilder stringBuilder = new StringBuilder()
+                .append(link)
+                .delete(0, linkLength - 12);
+        String videoID = stringBuilder.toString();
+
+        return linkPrefix + videoID + linkSuffix;
+    }
 }

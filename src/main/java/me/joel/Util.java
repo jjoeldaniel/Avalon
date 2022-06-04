@@ -21,21 +21,6 @@ public class Util {
         return new Color(num1, num2, num3);
     }
 
-    // Thumbnail Builder for YouTube
-    public static String getThumbnail(String link) {
-
-        int linkLength = link.length() + 1;
-        String linkPrefix = "https://img.youtube.com/vi/";
-        String linkSuffix = "/0.jpg";
-        StringBuilder stringBuilder = new StringBuilder()
-                .append(link)
-                .delete(0, linkLength - 12);
-        String videoID = stringBuilder.toString();
-
-        return linkPrefix + videoID + linkSuffix;
-    }
-
-
     public static void wait(int ms)
     {
         try
