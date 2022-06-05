@@ -56,7 +56,10 @@ public class MusicCommands extends ListenerAdapter {
                 System.out.println("Error occurred during playback");
             }
 
-            event.getHook().sendMessage("sent").queue();
+            EmbedBuilder builder = new EmbedBuilder()
+                    .addField("Song queued", "If you see this message, an error has occurred!", false);
+
+            event.getHook().sendMessageEmbeds(builder.build()).queue();
             event.getHook().deleteOriginal().queue();
         }
 
