@@ -30,7 +30,8 @@ public class MusicCommands extends ListenerAdapter {
                 if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setDescription("You need to be in a voice channel to use `/play`!");
+                            .setDescription("You need to be in a voice channel to use `/play`!")
+                            .setFooter("Use /help for a list of music commands!");
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
                 }
@@ -57,7 +58,7 @@ public class MusicCommands extends ListenerAdapter {
             }
 
             EmbedBuilder builder = new EmbedBuilder()
-                    .addField("Song queued", "If you see this message, an error has occurred!", false);
+                    .addField("Song queued", "If you still see this message, an error has occurred!", false);
 
             event.getHook().sendMessageEmbeds(builder.build()).queue();
             event.getHook().deleteOriginal().queue();
@@ -70,7 +71,8 @@ public class MusicCommands extends ListenerAdapter {
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setDescription("Playback paused")
-                        .setColor(Util.randColor());
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
@@ -78,7 +80,8 @@ public class MusicCommands extends ListenerAdapter {
 
             EmbedBuilder builder = new EmbedBuilder()
                     .setDescription("Error occurred attempting to pause playback")
-                    .setColor(Util.randColor());
+                    .setColor(Util.randColor())
+                    .setFooter("Use /help for a list of music commands!");
 
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
@@ -91,7 +94,8 @@ public class MusicCommands extends ListenerAdapter {
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setDescription("Playback resumed")
-                        .setColor(Util.randColor());
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
@@ -107,13 +111,23 @@ public class MusicCommands extends ListenerAdapter {
         // Clear
         if (event.getName().equals("clear")) {
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.destroy();
-            event.reply("Queue cleared").queue();
+
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setDescription("Queue cleared")
+                    .setFooter("Use /help for a list of music commands!");
+
+            event.replyEmbeds(builder.build()).queue();
         }
 
         // Skip
         if (event.getName().equals("skip")) {
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
-            event.reply("Song skipped").queue();
+
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setDescription("Song skipped")
+                    .setFooter("Use /help for a list of music commands!");
+
+            event.replyEmbeds(builder.build()).queue();
         }
 
         // Queue
@@ -130,7 +144,9 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .setDescription("No songs currently playing")
-                        .setColor(Util.randColor());
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
+
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }

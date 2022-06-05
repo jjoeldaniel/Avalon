@@ -55,11 +55,12 @@ public class PlayerManager {
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
-                        .setAuthor("Now playing")
+                        .setAuthor("Added to queue")
                         .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
                         .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
                         .setThumbnail(trackThumbnail)
-                        .addField("Requested by:", MusicCommands.member.getAsMention(), false);
+                        .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                        .setFooter("Use /help for a list of music commands!");
 
                 textChannel.sendMessageEmbeds(builder.build()).queue();
             }
@@ -82,11 +83,12 @@ public class PlayerManager {
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setAuthor("Now playing")
+                            .setAuthor("Added to queue")
                             .setTitle(tracks.get(0).getInfo().title, tracks.get(0).getInfo().uri)
                             .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                             .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", MusicCommands.member.getAsMention(), false);
+                            .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                            .setFooter("Use /help for a list of music commands!");
 
                     textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
