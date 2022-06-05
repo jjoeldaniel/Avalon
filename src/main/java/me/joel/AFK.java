@@ -1,6 +1,7 @@
 package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -19,6 +20,17 @@ public class AFK extends ListenerAdapter {
 
                 Member member = event.getMember();
                 assert member != null;
+
+                // Check for admin/owner
+                if (member.getPermissions().contains(Permission.ADMINISTRATOR) || member.isOwner()) {
+
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setDescription("Owner/Admins cannot use /afk!")
+                            .setColor(Util.randColor());
+
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
 
                 // Return from AFK
                 if (member.getEffectiveName().startsWith("(AFK)")) {
@@ -47,8 +59,16 @@ public class AFK extends ListenerAdapter {
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
 
+            }
+            // Exception Catch
+            catch (Exception exception) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("Unknown error occurred, try again later!")
+                        .setFooter("Make sure PawBots role is set as high as possible in the role hierarchy if this error continues to occur!")
+                        .setColor(Util.randColor());
 
-            } catch (Exception ignore) {}
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
 
         }
     }
