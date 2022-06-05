@@ -44,6 +44,7 @@ public class Commands extends ListenerAdapter {
                                     `/resume` : Resumes playback
                                     `/clear` : Clears queue
                                     `/queue` : Displays song queue
+                                    `/playing` : Displays currently playing song
                                     `/skip` : Skips song""", false);
 
             event.replyEmbeds(builder.build()).setEphemeral(true)

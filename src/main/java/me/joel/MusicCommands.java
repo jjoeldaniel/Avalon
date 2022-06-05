@@ -86,6 +86,41 @@ public class MusicCommands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
 
+        // Playing
+        if (event.getName().equals("playing")) {
+
+            try {
+                AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+
+                // Time from ms to m:s
+                long trackLength = track.getInfo().length;
+                long minutes = (trackLength / 1000) / 60;
+                long seconds = ((trackLength / 1000) % 60);
+                String songSeconds = String.valueOf(seconds);
+                if (seconds < 10) songSeconds = "0" + seconds;
+
+                // Thumbnail
+                String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
+
+                // Embed
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setAuthor("Now Playing")
+                        .setTitle(track.getInfo().title, track.getInfo().uri)
+                        .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                        .setThumbnail(trackThumbnail)
+                        .setFooter("Use /help for a list of music commands!");
+
+                event.replyEmbeds(builder.build()).queue();
+
+            }
+            catch (Exception exception) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .addField("No song is playing!", "If you still see this message, an error has occurred!", false);
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
+        }
+
         // Resume
         if (event.getName().equals("resume")) {
 
@@ -159,6 +194,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                        .addBlankField(false)
                         .setColor(Util.randColor())
                         .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
@@ -170,6 +206,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                        .addBlankField(false)
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .setColor(Util.randColor())
                         .setThumbnail(Util.randomThumbnail())
@@ -182,6 +219,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                        .addBlankField(false)
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .setColor(Util.randColor())
@@ -196,6 +234,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                        .addBlankField(false)
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                         .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
@@ -211,6 +250,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                        .addBlankField(false)
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                         .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
@@ -226,6 +266,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                        .addBlankField(false)
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                         .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
@@ -242,6 +283,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                        .addBlankField(false)
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                         .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
@@ -259,6 +301,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                        .addBlankField(false)
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                         .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
@@ -277,6 +320,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                        .addBlankField(false)
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                         .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
@@ -296,6 +340,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                         .setTitle("Queue [" + queueSize + "]")
                         .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                        .addBlankField(false)
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                         .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
@@ -315,6 +360,7 @@ public class MusicCommands extends ListenerAdapter {
                     .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                     .setTitle("Queue [" + queueSize + "]")
                     .addField("Currently playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false)
                     .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                     .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                     .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)

@@ -34,7 +34,7 @@ public class Paw {
 
             /* TODO List:
             TODO: Overhaul queue
-            TODO:
+            TODO: Add Now Playing (in PlayerManager)
              */
 
             // Help
@@ -63,54 +63,58 @@ public class Paw {
             Guild guild = jda.getGuilds().get(i);
             String guildID = guild.getId();
 
-            // Kick
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("kick", "Kicks selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false)
-                    .queue();
-            // Ban
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("ban", "Bans selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false)
-                    .queue();
-            // Timeout
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Time-outs selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false)
-                    .queue();
-            // Whois
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("whois", "Provides user information")
-                    .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
-                    .queue();
-            // AFK
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("afk", "Sets user AFK").queue();
-            // Broadcast
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
-                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
-                    .queue();
-            // Confess
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("confess", "Posts an anonymous confession")
-                    .addOption(OptionType.STRING, "message", "Confession message", true)
-                    .queue();
-            // Play
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("play", "Requests a song")
-                    .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true)
-                    .queue();
-            // Pause
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("pause", "Pause playback")
-                    .queue();
-            // Resume
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("resume", "Resume playback")
-                    .queue();
-            // Clear
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("clear", "Clears queue")
-                    .queue();
-            // Skip
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("skip", "Skips song")
-                    .queue();
-            // Queue
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("queue", "Displays music queue")
-                    .queue();
-            // AFK
-            Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("afk", "Enables/disables AFK status")
-                    .queue();
+            // Mod Commands
+                // Kick
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("kick", "Kicks selected user")
+                        .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false)
+                        .queue();
+                // Ban
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("ban", "Bans selected user")
+                        .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false)
+                        .queue();
+                // Timeout
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("timeout", "Time-outs selected user")
+                        .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false)
+                        .queue();
+                // Broadcast
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
+                        .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
+                        .queue();
+            // General Commands
+                // Whois
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("whois", "Provides user information")
+                        .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
+                        .queue();
+                // Confess
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("confess", "Posts an anonymous confession")
+                        .addOption(OptionType.STRING, "message", "Confession message", true)
+                        .queue();
+                // AFK
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("afk", "Enables/disables AFK status")
+                        .queue();
+            // Music Commands
+                // Play
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("play", "Requests a song")
+                        .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true)
+                        .queue();
+                // Pause
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("pause", "Pause playback")
+                        .queue();
+                // Resume
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("resume", "Resume playback")
+                        .queue();
+                // Clear
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("clear", "Clears queue")
+                        .queue();
+                // Skip
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("skip", "Skips song")
+                        .queue();
+                // Queue
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("queue", "Displays music queue")
+                        .queue();
+                // Playing
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("playing", "Displays currently playing song")
+                        .queue();
         }
 
     }
