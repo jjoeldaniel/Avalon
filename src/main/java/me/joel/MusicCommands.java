@@ -28,7 +28,10 @@ public class MusicCommands extends ListenerAdapter {
             try {
                 // Checks requester voice state
                 if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    event.getTextChannel().sendMessage("You need to be in a voice channel to use `/play`").queue();
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in a voice channel to use `/play`!");
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
                 }
                 event.deferReply().queue();
