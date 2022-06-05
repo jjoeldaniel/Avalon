@@ -89,14 +89,14 @@ public class ReactMessages extends ListenerAdapter {
 
             }
             // Goodnight
-            if (messageSent.contains("goodnight")) {
+            if (messageSent.contains("goodnight") || messageSent.contains("good night")) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setDescription("goodnight sweetie!");
                 event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
             }
             // Good morning
-            if (messageSent.contains("good morning")) {
+            if (messageSent.contains("goodmorning") || messageSent.contains("good morning")) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setDescription("good morning sweetie!");
