@@ -1,5 +1,6 @@
 package me.joel;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -88,7 +89,19 @@ public class ReactMessages extends ListenerAdapter {
 
             }
             // Goodnight
-            if (messageSent.contains("goodnight")) event.getTextChannel().sendMessage("goodnight sweetie!").queue();
+            if (messageSent.contains("goodnight")) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("goodnight sweetie!");
+                event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
+            }
+            // Good morning
+            if (messageSent.contains("good morning")) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("good morning sweetie!");
+                event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
+            }
             // Spectrum
             if (messageSent.contains("spectrum")) event.getTextChannel().sendMessage(spectrumResponse()).queue();
             // Insult
