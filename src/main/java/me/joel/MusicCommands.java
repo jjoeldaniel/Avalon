@@ -65,14 +65,43 @@ public class MusicCommands extends ListenerAdapter {
 
         // Pause
         if (event.getName().equals("pause")) {
-            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(true);
-            event.reply("Playback paused").setEphemeral(true).queue();
+            if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused()) {
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(true);
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("Playback paused")
+                        .setColor(Util.randColor());
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setDescription("Error occurred attempting to pause playback")
+                    .setColor(Util.randColor());
+
+            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
 
         // Resume
         if (event.getName().equals("resume")) {
-            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(false);
-            event.reply("Playback resumed").setEphemeral(true).queue();
+
+            if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused()) {
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(false);
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("Playback resumed")
+                        .setColor(Util.randColor());
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
+            }
+
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setDescription("Error occurred attempting to resume playback")
+                    .setColor(Util.randColor());
+
+            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
 
         // Clear
