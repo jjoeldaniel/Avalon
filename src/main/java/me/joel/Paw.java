@@ -68,7 +68,8 @@ public class Paw {
                     .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
                     .queue();
 
-            jda.updateCommands().queue();
+            //jda.updateCommands().queue();
+
         // Loops through guilds and registers commands
         for (int i = 0; i < guildNum; ++i) {
             Guild guild = jda.getGuilds().get(i);
