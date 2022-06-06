@@ -1,48 +1,73 @@
 # PawBot
 PawBot is a Discord bot that includes moderation, utility, react-messages, and various fun commands! 
 
-![Image of dog smiling](https://i.imgur.com/Wfm9pl8.png)
+![Image of corgi sitting down](https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096|width)
  
  ## **FAQ**
  
  ### **1) What is the command list?**
  
-   Use `paw help` to be DM'd the complete commands list.
+   Use `/help all` to be DM'd the complete commands list.
     
  ### **2) What functions does PawBot provide?**
  
-   PawBot currently supports Moderation Commands (Kick, Ban, Timeout), Utility commands (ping, av, afk) and Fun commands (8ball, truth or dare).
+   PawBot currently supports Music, Moderation commands (kick, ban, timeout, broadcast), Utility commands (ping, av, afk) and Fun commands (8ball, truth or dare).
 
  ### **3) What permissions does PawBot require?**
  
-   Due to the use of moderation commands, PawBot requires admin permissions and for its role to be moved up as high as possible in the role hierarchy.
+   PawBot requires admin permissions and for its role to be moved up as high as possible in the role hierarchy.
    
 ## Commands List
 
 **General Commands**
 
-`paw ping` : Pings bot
+`/help (all/general/mod/music)` : Lists commands
 
-`paw truth` : Requests truth
+`/ping` : Pings bot
 
+`/truth` : Requests truth
 
-`paw dare` : Requests dare
+`/dare` : Requests dare
 
+`/afk` : Sets AFK status
 
-`paw afk` : Sets AFK status
+`/avatar (user)` : Retrieves user (or target) profile picture
 
+`/8ball (message)` : Asks the magic 8ball a question
 
-`paw av (input)` : Retrieves author (or target) profile picture
+`/bark` : Self explanatory
 
+`/meow` : ^^^
 
-`paw 8ball (input)` : Asks the magic 8ball a question
+`/confess` : Sends anonymous confession
+
 
 **Moderation Commands**
 
-`paw kick (user) (reason)` : Kicks user with required reason
+`/kick (user) (reason)` : Kicks user with optional reason
 
-`paw ban (user) (reason)` : Bans user with required reason
+`/ban (user) (reason)` : Bans user with optional reason
 
-`paw timeout (user)` : Times out user (Default: 1hr)
+`/timeout (user) (length)` : Times out user (Default: 1hr)
 
-`paw broadcast (channelID) (text)` : Sends message as PawBot
+`/broadcast (channel) (message)` : Sends message as PawBot
+
+
+**Music Commands**
+
+`/play (song)` : Accepts names and YT links
+
+`/pause` : Pauses playback
+
+`/resume` : Resumes playback
+
+`/clear` : Clears queue
+
+`/queue` : Displays song queue
+
+`/playing` : Displays currently playing song
+
+`/skip` : Skips song
+
+
+
