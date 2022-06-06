@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Paw {
     public static void main(String[] args) throws LoginException, InterruptedException {
 
-        JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.G50opB.K4KjnA_GZrsIFgac5E-uOr1Q9Ou6ORmNnew8dw")
+        JDA jda = JDABuilder.createDefault("token")
 
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())
@@ -53,10 +53,13 @@ public class Paw {
             jda.upsertCommand("8ball", "Asks the magic 8ball a question")
                     .addOption(OptionType.STRING, "question", "Your question to the 8ball", true)
                     .queue();
-            // Truth
-            jda.upsertCommand("truth", "Generates a random truth/dare question").queue();
-            // Dare
-            jda.upsertCommand("dare", "Generates a random truth/dare question").queue();
+            // Truth or Dare
+            SubcommandData truth = new SubcommandData("truth", "Generates a random truth question");
+            SubcommandData dare = new SubcommandData("dare", "Generates a random dare question");
+            jda.upsertCommand("truthOrDare", "Generates a random truth/dare question")
+                    .addSubcommands(truth)
+                    .addSubcommands(dare)
+                    .queue();
             // Ping
             jda.upsertCommand("ping", "Sends pong").queue();
             // Bark

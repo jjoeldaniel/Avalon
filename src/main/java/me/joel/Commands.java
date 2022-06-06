@@ -162,28 +162,31 @@ public class Commands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).queue();
         }
 
-        // Truth
-        if (event.getName().equals("truth")) {
-            String truth = truthordare.truth();
+        // Truth or Dare
+        if (event.getName().equals("truthOrDare")) {
 
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setTitle("Truth or Dare")
-                    .addField("Truth: ", truth, false)
-                    .setColor(Color.PINK);
+            if (Objects.equals(event.getSubcommandName(), "truth")) {
+                String truth = truthordare.truth();
 
-            event.replyEmbeds(builder.build()).queue();
-        }
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Truth or Dare")
+                        .addField("Truth: ", truth, false)
+                        .setColor(Color.PINK);
 
-        // Dare
-        if (event.getName().equals("dare")) {
-            String dare = truthordare.dare();
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
 
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setTitle("Truth or Dare")
-                    .addField("Dare: ", dare, false)
-                    .setColor(Color.PINK);
+            if (Objects.equals(event.getSubcommandName(), "dare")) {
+                String dare = truthordare.dare();
 
-            event.replyEmbeds(builder.build()).queue();
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Truth or Dare")
+                        .addField("Dare: ", dare, false)
+                        .setColor(Color.PINK);
+
+                event.replyEmbeds(builder.build()).queue();
+            }
         }
 
         // Furry
