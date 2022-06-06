@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Paw {
     public static void main(String[] args) throws LoginException, InterruptedException {
 
-        JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GzRTcq.usGhzEV0P_RCoC9Dz2lZDrhGjO5r5kJAiRUrKw")
+        JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.G50opB.K4KjnA_GZrsIFgac5E-uOr1Q9Ou6ORmNnew8dw")
 
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())

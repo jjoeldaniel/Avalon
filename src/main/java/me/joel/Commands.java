@@ -25,7 +25,7 @@ public class Commands extends ListenerAdapter {
                 if (Objects.equals(event.getSubcommandName(), "general")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
-                            .setTitle("PawBot Commands", "https://github.com/joelrico/Discord-Bot)")
+                            .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
                             .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                             .addField("General Commands", """
                                     `/help (all, general, mod, music)` : Lists commands
@@ -41,14 +41,14 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/Discord-Bot", "Github")).queue();
+                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
                     return;
                 }
                 // Moderation
                 if (Objects.equals(event.getSubcommandName(), "mod")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
-                            .setTitle("PawBot Commands", "https://github.com/joelrico/Discord-Bot)")
+                            .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
                             .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                             .addField("Moderation Commands", """
                                     `/kick (user) (reason)` : Kicks user with optional reason
@@ -58,14 +58,14 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/Discord-Bot", "Github")).queue();
+                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
                     return;
                 }
                 // Music
                 if (Objects.equals(event.getSubcommandName(), "music")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
-                            .setTitle("PawBot Commands", "https://github.com/joelrico/Discord-Bot)")
+                            .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
                             .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                             .addField("Music Commands", """
                                     `/play (song)` : Accepts names and YT links
@@ -78,13 +78,13 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/Discord-Bot", "Github")).queue();
+                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
                     return;
                 }
                 if (Objects.equals(event.getSubcommandName(), "all")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
-                            .setTitle("PawBot Commands", "https://github.com/joelrico/Discord-Bot)")
+                            .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
                             .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                             .addField("General Commands", """
                                     `/help (all, general, mod, music)` : Lists commands
@@ -113,7 +113,7 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/Discord-Bot", "Github")).queue();
+                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
                 }
         }
 
