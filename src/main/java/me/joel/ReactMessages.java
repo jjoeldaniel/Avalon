@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class ReactMessages extends ListenerAdapter {
 
-    private static String kaeResponse() {
+    private static EmbedBuilder kaeResponse() {
 
         ArrayList<String> kaeReply = new ArrayList<>();
         kaeReply.add("Fun fact: Did you know Kae is 4'11?");
@@ -22,10 +22,12 @@ public class ReactMessages extends ListenerAdapter {
 
         int num = Util.randomWithRange(0, kaeReply.size());
 
-        return kaeReply.get(num);
+        return new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setDescription(kaeReply.get(num));
     }
 
-    private static String spectrumResponse() {
+    private static EmbedBuilder spectrumResponse() {
 
         ArrayList<String> spectrumResponse = new ArrayList<>();
         spectrumResponse.add("Fun fact: Did you know Spectrum servers are powered by 3 hamsters on a wheel?");
@@ -34,7 +36,9 @@ public class ReactMessages extends ListenerAdapter {
 
         int num = Util.randomWithRange(0, spectrumResponse.size());
 
-        return spectrumResponse.get(num);
+        return new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setDescription(spectrumResponse.get(num));
     }
 
     private static boolean isInsult(String message) {
@@ -42,7 +46,7 @@ public class ReactMessages extends ListenerAdapter {
         return message.contains("fuck") || (message.contains("cunt")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
     }
 
-    private static String randomInsult () {
+    private static EmbedBuilder randomInsult () {
         Random rand = new Random();
 
         List<String> insultList = new ArrayList<>();
@@ -70,7 +74,9 @@ public class ReactMessages extends ListenerAdapter {
 
         int num = rand.nextInt(insultList.size());
 
-        return insultList.get(num);
+        return new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setDescription(insultList.get(num));
     }
 
     @Override
@@ -85,7 +91,7 @@ public class ReactMessages extends ListenerAdapter {
             // Kae
             if (messageSent.contains("kae")) {
                 int num = Util.randomWithRange(0, 100);
-                if (num > 50) event.getTextChannel().sendMessage(kaeResponse()).queue();
+                if (num > 50) event.getTextChannel().sendMessageEmbeds(kaeResponse().build()).queue();
 
             }
             // Goodnight
@@ -103,12 +109,11 @@ public class ReactMessages extends ListenerAdapter {
                 event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
             }
             // Spectrum
-            if (messageSent.contains("spectrum")) event.getTextChannel().sendMessage(spectrumResponse()).queue();
+            if (messageSent.contains("spectrum")) event.getTextChannel().sendMessageEmbeds(spectrumResponse().build()).queue();
             // Insult
             if (isInsult(messageSent)) {
-                String insult = randomInsult();
                 int num = Util.randomWithRange(0, 100);
-                if (num > 50) event.getTextChannel().sendMessage(insult).queue();
+                if (num > 50) event.getTextChannel().sendMessageEmbeds(randomInsult().build()).queue();
             }
 
         }
