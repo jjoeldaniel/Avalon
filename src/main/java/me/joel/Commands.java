@@ -163,7 +163,7 @@ public class Commands extends ListenerAdapter {
         }
 
         // Truth or Dare
-        if (event.getName().equals("truthOrDare")) {
+        if (event.getName().equals("truthordare")) {
 
             if (Objects.equals(event.getSubcommandName(), "truth")) {
                 String truth = truthordare.truth();

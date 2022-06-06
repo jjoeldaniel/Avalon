@@ -56,7 +56,7 @@ public class Paw {
             // Truth or Dare
             SubcommandData truth = new SubcommandData("truth", "Generates a random truth question");
             SubcommandData dare = new SubcommandData("dare", "Generates a random dare question");
-            jda.upsertCommand("truthOrDare", "Generates a random truth/dare question")
+            jda.upsertCommand("truthordare", "Generates a random truth/dare question")
                     .addSubcommands(truth)
                     .addSubcommands(dare)
                     .queue();
