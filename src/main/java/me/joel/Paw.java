@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
@@ -43,7 +42,9 @@ public class Paw {
             SubcommandData modHelp = new SubcommandData("mod", "Lists moderation commands");
             SubcommandData generalHelp = new SubcommandData("general", "Lists general commands");
             SubcommandData musicHelp = new SubcommandData("music", "Lists music commands");
-            jda.upsertCommand("help", "Lists all commands")
+            SubcommandData allHelp = new SubcommandData("all", "Lists all commands");
+            jda.upsertCommand("help", "Lists commands")
+                    .addSubcommands(allHelp)
                     .addSubcommands(generalHelp)
                     .addSubcommands(modHelp)
                     .addSubcommands(musicHelp)
@@ -67,6 +68,7 @@ public class Paw {
                     .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
                     .queue();
 
+            jda.updateCommands().queue();
         // Loops through guilds and registers commands
         for (int i = 0; i < guildNum; ++i) {
             Guild guild = jda.getGuilds().get(i);
