@@ -28,7 +28,7 @@ public class Commands extends ListenerAdapter {
                             .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
                             .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
                             .addField("General Commands", """
-                                    `/help` : Lists commands
+                                    `/help (all, general, mod, music)` : Lists commands
                                     `/ping` : Pings bot
                                     `/truth` : Requests truth
                                     `/dare` : Requests dare
@@ -87,7 +87,7 @@ public class Commands extends ListenerAdapter {
                             .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
                             .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
                             .addField("General Commands", """
-                                    `/help` : Lists commands
+                                    `/help (all, general, mod, music)` : Lists commands
                                     `/ping` : Pings bot
                                     `/truth` : Requests truth
                                     `/dare` : Requests dare
