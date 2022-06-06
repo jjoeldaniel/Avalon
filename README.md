@@ -17,6 +17,10 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
  
    PawBot requires admin permissions and for its role to be moved up as high as possible in the role hierarchy.
    
+ ### **4) Where can I contact you if I have questions?**
+ 
+   Feel free to add me on Discord at joel#0005
+   
 ## Commands List
 
 **General Commands**
