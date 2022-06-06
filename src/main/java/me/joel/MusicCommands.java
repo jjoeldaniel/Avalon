@@ -66,7 +66,7 @@ public class MusicCommands extends ListenerAdapter {
 
         // Pause
         if (event.getName().equals("pause")) {
-            if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused()) {
+            if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
                 PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(true);
 
                 EmbedBuilder builder = new EmbedBuilder()
@@ -79,7 +79,7 @@ public class MusicCommands extends ListenerAdapter {
             }
 
             EmbedBuilder builder = new EmbedBuilder()
-                    .setDescription("Error occurred attempting to pause playback")
+                    .setDescription("No song is playing or an error has occurred!")
                     .setColor(Util.randColor())
                     .setFooter("Use /help for a list of music commands!");
 
@@ -116,7 +116,7 @@ public class MusicCommands extends ListenerAdapter {
             }
             catch (Exception exception) {
                 EmbedBuilder builder = new EmbedBuilder()
-                        .addField("No song is playing!", "If you still see this message, an error has occurred!", false);
+                        .setDescription("No song is playing!");
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
         }
@@ -124,7 +124,7 @@ public class MusicCommands extends ListenerAdapter {
         // Resume
         if (event.getName().equals("resume")) {
 
-            if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused()) {
+            if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
                 PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(false);
 
                 EmbedBuilder builder = new EmbedBuilder()
@@ -137,7 +137,7 @@ public class MusicCommands extends ListenerAdapter {
             }
 
             EmbedBuilder builder = new EmbedBuilder()
-                    .setDescription("Error occurred attempting to resume playback")
+                    .setDescription("No song is playing or an error has occurred!")
                     .setColor(Util.randColor());
 
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
@@ -149,7 +149,8 @@ public class MusicCommands extends ListenerAdapter {
 
             EmbedBuilder builder = new EmbedBuilder()
                     .setDescription("Queue cleared")
-                    .setFooter("Use /help for a list of music commands!");
+                    .setFooter("Use /help for a list of music commands!")
+                    .setColor(Util.randColor());
 
             event.replyEmbeds(builder.build()).queue();
         }
@@ -160,7 +161,8 @@ public class MusicCommands extends ListenerAdapter {
 
             EmbedBuilder builder = new EmbedBuilder()
                     .setDescription("Song skipped")
-                    .setFooter("Use /help for a list of music commands!");
+                    .setFooter("Use /help for a list of music commands!")
+                    .setColor(Util.randColor());
 
             event.replyEmbeds(builder.build()).queue();
         }

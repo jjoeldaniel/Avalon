@@ -6,7 +6,9 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import java.util.Objects;
 
@@ -38,7 +40,14 @@ public class Paw {
              */
 
             // Help
-            jda.upsertCommand("help", "Command list").queue();
+            SubcommandData modHelp = new SubcommandData("mod", "Lists moderation commands");
+            SubcommandData generalHelp = new SubcommandData("general", "Lists general commands");
+            SubcommandData musicHelp = new SubcommandData("music", "Lists music commands");
+            jda.upsertCommand("help", "Lists all commands")
+                    .addSubcommands(generalHelp)
+                    .addSubcommands(modHelp)
+                    .addSubcommands(musicHelp)
+                    .queue();
             // 8Ball
             jda.upsertCommand("8ball", "Asks the magic 8ball a question")
                     .addOption(OptionType.STRING, "question", "Your question to the 8ball", true)
