@@ -25,8 +25,8 @@ public class Commands extends ListenerAdapter {
                 if (Objects.equals(event.getSubcommandName(), "general")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
-                            .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
-                            .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
+                            .setTitle("PawBot Commands", "https://github.com/joelrico/Discord-Bot)")
+                            .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                             .addField("General Commands", """
                                     `/help (all, general, mod, music)` : Lists commands
                                     `/ping` : Pings bot
@@ -41,15 +41,15 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
+                                    Button.link("https://github.com/joelrico/Discord-Bot", "Github")).queue();
                     return;
                 }
                 // Moderation
                 if (Objects.equals(event.getSubcommandName(), "mod")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
-                            .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
-                            .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
+                            .setTitle("PawBot Commands", "https://github.com/joelrico/Discord-Bot)")
+                            .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                             .addField("Moderation Commands", """
                                     `/kick (user) (reason)` : Kicks user with optional reason
                                     `/ban (user) (reason)` : Bans user with optional reason
@@ -58,15 +58,15 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
+                                    Button.link("https://github.com/joelrico/Discord-Bot", "Github")).queue();
                     return;
                 }
                 // Music
                 if (Objects.equals(event.getSubcommandName(), "music")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
-                            .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
-                            .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
+                            .setTitle("PawBot Commands", "https://github.com/joelrico/Discord-Bot)")
+                            .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                             .addField("Music Commands", """
                                     `/play (song)` : Accepts names and YT links
                                     `/pause` : Pauses playback
@@ -78,14 +78,14 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
+                                    Button.link("https://github.com/joelrico/Discord-Bot", "Github")).queue();
                     return;
                 }
                 if (Objects.equals(event.getSubcommandName(), "all")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
-                            .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot)")
-                            .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/e1e13fc10a86846545c1aa02ec102e40.png?size=4096")
+                            .setTitle("PawBot Commands", "https://github.com/joelrico/Discord-Bot)")
+                            .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                             .addField("General Commands", """
                                     `/help (all, general, mod, music)` : Lists commands
                                     `/ping` : Pings bot
@@ -113,7 +113,7 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
+                                    Button.link("https://github.com/joelrico/Discord-Bot", "Github")).queue();
                 }
         }
 
