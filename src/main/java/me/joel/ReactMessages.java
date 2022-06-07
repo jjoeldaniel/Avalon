@@ -1,6 +1,7 @@
 package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -83,7 +84,7 @@ public class ReactMessages extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
         // Checks if user
-        if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getTextChannel().isNSFW()) {
+        if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getTextChannel().isNSFW() && (event.isFromType(ChannelType.TEXT) || event.isFromType(ChannelType.VOICE))) {
 
             // Grabs user input
             String messageSent = event.getMessage().getContentRaw().toLowerCase();
