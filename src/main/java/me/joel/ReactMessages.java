@@ -54,7 +54,7 @@ public class ReactMessages extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
         // Checks if user
-        if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getTextChannel().isNSFW() && (event.isFromType(ChannelType.TEXT) || event.isFromType(ChannelType.VOICE))) {
+        if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getTextChannel().isNSFW() && (event.isFromType(ChannelType.TEXT))) {
 
             // Grabs user input
             String messageSent = event.getMessage().getContentRaw().toLowerCase();
