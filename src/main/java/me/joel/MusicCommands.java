@@ -51,16 +51,16 @@ public class MusicCommands extends ListenerAdapter {
 
                 // Plays song
                 PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
-                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(30);
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
             }
             catch (Exception exception) {
                 System.out.println("Error occurred during playback");
             }
 
             EmbedBuilder builder = new EmbedBuilder()
-                    .addField("Song queued", "If you still see this message, an error has occurred!", false);
+                    .setDescription("If you still see this message, an error has occurred!");
 
-            event.getHook().sendMessageEmbeds(builder.build()).queue();
+            event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
             event.getHook().deleteOriginal().queue();
         }
 
