@@ -145,6 +145,8 @@ public class MusicCommands extends ListenerAdapter {
 
         // Clear
         if (event.getName().equals("clear")) {
+
+            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.clear();
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.destroy();
 
             EmbedBuilder builder = new EmbedBuilder()
