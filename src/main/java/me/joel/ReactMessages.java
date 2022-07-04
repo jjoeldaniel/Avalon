@@ -60,23 +60,26 @@ public class ReactMessages extends ListenerAdapter {
             String messageSent = event.getMessage().getContentRaw().toLowerCase();
 
             // Goodnight
-            if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.contains(" gn ") || messageSent.contains(" gn")) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setDescription("goodnight sweetie!");
-                event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
+            if (messageSent.contains("goodnight") || messageSent.contains("good night")) {
+                if (Util.randomWithRange(0, 100) > 50) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("goodnight sweetie!");
+                    event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
+                }
             }
             // Good morning
-            if (messageSent.contains("goodmorning") || messageSent.contains("good morning") || messageSent.contains(" gm ") || messageSent.contains(" gm")) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setDescription("good morning sweetie!");
-                event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
+            if (messageSent.contains("goodmorning") || messageSent.contains("good morning")) {
+                if (Util.randomWithRange(0, 100) > 50) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("good morning sweetie!");
+                    event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
+                }
             }
             // Insult
             if (isInsult(messageSent)) {
-                int num = Util.randomWithRange(0, 100);
-                if (num > 50) event.getTextChannel().sendMessageEmbeds(randomInsult().build()).queue();
+                if (Util.randomWithRange(0, 100) > 50) event.getTextChannel().sendMessageEmbeds(randomInsult().build()).queue();
             }
 
         }
