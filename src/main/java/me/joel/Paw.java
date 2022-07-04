@@ -37,6 +37,7 @@ public class Paw {
             TODO: Overhaul queue
             TODO: Add Now Playing (in PlayerManager)
              */
+        //jda.updateCommands().queue();
 
             // Help
             SubcommandData modHelp = new SubcommandData("mod", "Lists moderation commands");
@@ -70,8 +71,6 @@ public class Paw {
             jda.upsertCommand("avatar", "Sends user avatar")
                     .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
                     .queue();
-
-            //jda.updateCommands().queue();
 
         // Loops through guilds and registers commands
         for (int i = 0; i < guildNum; ++i) {
