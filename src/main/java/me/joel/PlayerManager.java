@@ -44,6 +44,7 @@ public class PlayerManager {
 
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
+                System.out.println("Loading playlist...");
                 musicManager.scheduler.queue(audioTrack);
 
                 // Time from ms to m:s
@@ -68,25 +69,27 @@ public class PlayerManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
+                System.out.println("Loading playlist...");
+
+                for (AudioTrack track : audioPlaylist.getTracks()) {
+                    musicManager.scheduler.queue(track);
+                }
+
                 final List<AudioTrack> tracks = audioPlaylist.getTracks();
                 if (!tracks.isEmpty()) {
                     musicManager.scheduler.queue(tracks.get(0));
 
-                    // Time from ms to m:s
-                    long trackLength = tracks.get(0).getInfo().length;
-                    long minutes = (trackLength / 1000) / 60;
-                    long seconds = ((trackLength / 1000) % 60);
-                    String songSeconds = String.valueOf(seconds);
-                    if (seconds < 10) songSeconds = "0" + seconds;
-
                     // Thumbnail
                     String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
 
+                    // Playlist size
+                    int playlistSize = audioPlaylist.getTracks().size();
+
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setAuthor("Added to queue")
-                            .setTitle(tracks.get(0).getInfo().title, tracks.get(0).getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                            .setAuthor("Playlist queued")
+                            .setTitle(audioPlaylist.getName())
+                            .setDescription("`[" + playlistSize + "] songs`")
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
@@ -97,7 +100,11 @@ public class PlayerManager {
 
             @Override
             public void noMatches() {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("No song found!");
 
+                textChannel.sendMessageEmbeds(builder.build()).queue();
             }
 
             @Override
