@@ -48,7 +48,7 @@ public class MusicCommands extends ListenerAdapter {
                     event.getGuild().deafen(bot, true).queue();
 
                     // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlay2(event.getTextChannel(), link);
+                    PlayerManager.getINSTANCE().loadAndPlayNoURI(event.getTextChannel(), link);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
                 }
                 else {

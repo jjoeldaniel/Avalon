@@ -113,7 +113,7 @@ public class PlayerManager {
             }
         });
     }
-    public void loadAndPlay2(TextChannel textChannel, String trackURL) {
+    public void loadAndPlayNoURI(TextChannel textChannel, String trackURL) {
         final GuildMusicManager musicManager = this.getMusicManager(textChannel.getGuild());
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
@@ -160,7 +160,7 @@ public class PlayerManager {
                 long seconds = ((trackLength / 1000) % 60);
 
                 // Thumbnail
-                String trackThumbnail = audioTrack.getInfo().uri;
+                String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
