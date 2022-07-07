@@ -44,7 +44,7 @@ public class PlayerManager {
 
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
-                System.out.println("Loading playlist...");
+                System.out.println("Loading track...");
                 musicManager.scheduler.queue(audioTrack);
 
                 // Time from ms to m:s
@@ -96,6 +96,82 @@ public class PlayerManager {
 
                     textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
+            }
+
+            @Override
+            public void noMatches() {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("No song found!");
+
+                textChannel.sendMessageEmbeds(builder.build()).queue();
+            }
+
+            @Override
+            public void loadFailed(FriendlyException e) {
+
+            }
+        });
+    }
+    public void loadAndPlay2(TextChannel textChannel, String trackURL) {
+        final GuildMusicManager musicManager = this.getMusicManager(textChannel.getGuild());
+
+        this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
+
+            @Override
+            public void trackLoaded(AudioTrack audioTrack) {
+                System.out.println("Loading track...");
+                musicManager.scheduler.queue(audioTrack);
+
+                // Time from ms to m:s
+                long trackLength = audioTrack.getInfo().length;
+                long minutes = (trackLength / 1000) / 60;
+                long seconds = ((trackLength / 1000) % 60);
+
+                // Thumbnail
+                String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setAuthor("Added to queue")
+                        .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
+                        .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                        .setThumbnail(trackThumbnail)
+                        .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                        .setFooter("Use /help for a list of music commands!");
+
+                textChannel.sendMessageEmbeds(builder.build()).queue();
+            }
+
+            @Override
+            public void playlistLoaded(AudioPlaylist audioPlaylist) {
+                System.out.println("Loading track...");
+
+                final List<AudioTrack> tracks = audioPlaylist.getTracks();
+                if (!tracks.isEmpty()) {
+                    musicManager.scheduler.queue(tracks.get(0));
+                }
+
+                AudioTrack audioTrack = tracks.get(0);
+
+                // Time from ms to m:s
+                long trackLength = audioTrack.getInfo().length;
+                long minutes = (trackLength / 1000) / 60;
+                long seconds = ((trackLength / 1000) % 60);
+
+                // Thumbnail
+                String trackThumbnail = audioTrack.getInfo().uri;
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setAuthor("Added to queue")
+                        .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
+                        .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                        .setThumbnail(trackThumbnail)
+                        .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                        .setFooter("Use /help for a list of music commands!");
+
+                textChannel.sendMessageEmbeds(builder.build()).queue();
             }
 
             @Override

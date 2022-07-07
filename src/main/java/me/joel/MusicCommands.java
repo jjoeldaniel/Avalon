@@ -41,17 +41,27 @@ public class MusicCommands extends ListenerAdapter {
 
                 if (!isURL(link)) {
                     link = ("ytsearch:" + link + " audio");
+                    // Joins VC
+                    audioManager.openAudioConnection(memberChannel);
+                    Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
+                    assert bot != null;
+                    event.getGuild().deafen(bot, true).queue();
+
+                    // Plays song
+                    PlayerManager.getINSTANCE().loadAndPlay2(event.getTextChannel(), link);
+                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
                 }
+                else {
+                    // Joins VC
+                    audioManager.openAudioConnection(memberChannel);
+                    Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
+                    assert bot != null;
+                    event.getGuild().deafen(bot, true).queue();
 
-                // Joins VC
-                audioManager.openAudioConnection(memberChannel);
-                Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
-                assert bot != null;
-                event.getGuild().deafen(bot, true).queue();
-
-                // Plays song
-                PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
-                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                    // Plays song
+                    PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
+                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                }
             }
             catch (Exception exception) {
                 System.out.println("Error occurred during playback");
