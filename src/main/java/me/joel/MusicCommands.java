@@ -25,7 +25,9 @@ public class MusicCommands extends ListenerAdapter {
 
         // Play
         if (event.getName().equals("play")) {
-            for (int i = 0; i < 3; ++i) {
+            // Loops 'i' times due to occasional issues which result in songs not properly being queued
+            // Unsure of how to fix core issue, this is a solid fix for now, however
+            for (int i = 0; i < 5; ++i) {
                 try {
                     // Checks requester voice state
                     if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
