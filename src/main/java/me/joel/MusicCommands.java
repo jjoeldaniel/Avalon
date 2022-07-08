@@ -25,53 +25,72 @@ public class MusicCommands extends ListenerAdapter {
 
         // Play
         if (event.getName().equals("play")) {
-            try {
-                // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+            for (int i = 0; i < 3; ++i) {
+                try {
+                    // Checks requester voice state
+                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setDescription("You need to be in a voice channel to use `/play`!")
+                                .setFooter("Use /help for a list of music commands!");
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                        return;
+                    }
+                    event.deferReply().queue();
+                    final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+                    String link = Objects.requireNonNull(event.getOption("song")).getAsString();
+                    System.out.println("Link: " + link);
+
+                    // TODO: Add Spotify support
+                    // Spotify links
+                    if (link.contains("spotify.com")) {
+                        System.out.println("Input type: SPOTIFY");
+                    }
+                    // Invalid links
+                    else if (!isURL(link)) {
+                        link = ("ytsearch:" + link + " audio");
+                        System.out.println("Input type: NON_URI");
+                        // Joins VC
+                        audioManager.openAudioConnection(memberChannel);
+                        Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
+                        assert bot != null;
+                        event.getGuild().deafen(bot, true).queue();
+
+                        // Plays song
+                        PlayerManager.getINSTANCE().loadAndPlayNoURI(event.getTextChannel(), link);
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                    }
+                    // Valid links (Basically just YouTube)
+                    else {
+                        System.out.println("Input type: YOUTUBE");
+                        // Joins VC
+                        audioManager.openAudioConnection(memberChannel);
+                        Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
+                        assert bot != null;
+                        event.getGuild().deafen(bot, true).queue();
+
+                        // Plays song
+                        PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+
+                    }
                     EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("You need to be in a voice channel to use `/play`!")
-                            .setFooter("Use /help for a list of music commands!");
-                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    return;
-                }
-                event.deferReply().queue();
-                final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
-                String link = Objects.requireNonNull(event.getOption("song")).getAsString();
+                            .setDescription("If you still see this message, an error has occurred!");
+                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    event.getHook().deleteOriginal().queue();
 
-                if (!isURL(link)) {
-                    link = ("ytsearch:" + link + " audio");
-                    // Joins VC
-                    audioManager.openAudioConnection(memberChannel);
-                    Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
-                    assert bot != null;
-                    event.getGuild().deafen(bot, true).queue();
-
-                    // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlayNoURI(event.getTextChannel(), link);
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                    break;
                 }
-                else {
-                    // Joins VC
-                    audioManager.openAudioConnection(memberChannel);
-                    Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
-                    assert bot != null;
-                    event.getGuild().deafen(bot, true).queue();
 
-                    // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                catch (Exception exception) { // Add real exception handling later
+                    System.out.println("Error occurred during playback");
                 }
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("If you still see this message, an error has occurred!");
+                event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                event.getHook().deleteOriginal().queue();
             }
-            catch (Exception exception) {
-                System.out.println("Error occurred during playback");
-            }
-
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setDescription("If you still see this message, an error has occurred!");
-
-            event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
-            event.getHook().deleteOriginal().queue();
         }
 
         // Pause
@@ -179,6 +198,7 @@ public class MusicCommands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).queue();
         }
 
+        // TODO: Overhaul queue
         // Queue
         if (event.getName().equals("queue")) {
 
