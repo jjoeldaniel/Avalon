@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +28,7 @@ public class ModCommands extends ListenerAdapter {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't kick this person!")
                             .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                            .setColor(Color.PINK)
+                            .setColor(Util.randColor())
                             .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
@@ -43,7 +42,7 @@ public class ModCommands extends ListenerAdapter {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle(target.getEffectiveName() + " has been kicked")
                             .setImage(target.getEffectiveAvatarUrl())
-                            .setColor(Color.PINK);
+                            .setColor(Util.randColor());
                     event.replyEmbeds(builder.build()).queue();
                     return;
                 }
@@ -52,14 +51,14 @@ public class ModCommands extends ListenerAdapter {
                         .setTitle(target.getEffectiveName() + " has been kicked")
                         .addField("Reason", reason, false)
                         .setImage(target.getEffectiveAvatarUrl())
-                        .setColor(Color.PINK);
+                        .setColor(Util.randColor());
                 event.replyEmbeds(builder.build()).queue();
             }
             catch (Exception e) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("You can't kick this person!")
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                        .setColor(Color.PINK)
+                        .setColor(Util.randColor())
                         .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
@@ -78,7 +77,7 @@ public class ModCommands extends ListenerAdapter {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't ban this person!")
                             .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                            .setColor(Color.PINK)
+                            .setColor(Util.randColor())
                             .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
@@ -92,7 +91,7 @@ public class ModCommands extends ListenerAdapter {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle(target.getEffectiveName() + " has been banned")
                             .setImage(target.getEffectiveAvatarUrl())
-                            .setColor(Color.PINK);
+                            .setColor(Util.randColor());
                     event.replyEmbeds(builder.build()).queue();
                     return;
                 }
@@ -101,7 +100,7 @@ public class ModCommands extends ListenerAdapter {
                         .setTitle(target.getEffectiveName() + " has been banned")
                         .addField("Reason", reason, false)
                         .setImage(target.getEffectiveAvatarUrl())
-                        .setColor(Color.PINK);
+                        .setColor(Util.randColor());
 
                 event.replyEmbeds(builder.build()).queue();
             }
@@ -109,7 +108,7 @@ public class ModCommands extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("You can't ban this person!")
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                        .setColor(Color.PINK)
+                        .setColor(Util.randColor())
                         .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
@@ -137,7 +136,7 @@ public class ModCommands extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle(target.getEffectiveName() + " has been timed out")
                         .setImage(target.getEffectiveAvatarUrl())
-                        .setColor(Color.PINK);
+                        .setColor(Util.randColor());
 
                 event.replyEmbeds(builder.build()).queue();
             }
@@ -145,7 +144,7 @@ public class ModCommands extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("You can't time out this person!")
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                        .setColor(Color.PINK)
+                        .setColor(Util.randColor())
                         .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
@@ -162,7 +161,7 @@ public class ModCommands extends ListenerAdapter {
             EmbedBuilder builder = new EmbedBuilder()
                     .setTitle("Message sent!")
                     .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                    .setColor(Color.PINK)
+                    .setColor(Util.randColor())
                     .addField("Message", message, false);
 
             Objects.requireNonNull(Objects.requireNonNull(event.getGuild()).getTextChannelById(channelID)).sendMessage(message).queue();
