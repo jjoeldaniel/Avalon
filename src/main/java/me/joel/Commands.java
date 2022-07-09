@@ -122,7 +122,7 @@ public class Commands extends ListenerAdapter {
         // Invite
         if (event.getName().equals("invite")) {
             EmbedBuilder builder = new EmbedBuilder()
-                    .setTitle("Invite Link", "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&scope=applications.commands")
+                    .setTitle("Invite Link", "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot")
                     .setColor(Util.randColor());
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
