@@ -89,6 +89,7 @@ public class Commands extends ListenerAdapter {
                             .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                             .addField("General Commands", """
                                     `/help (all, general, mod, music)` : Lists commands
+                                    `/invite` : Returns bot invite link
                                     `/ping` : Pings bot
                                     `/truth` : Requests truth
                                     `/dare` : Requests dare
