@@ -32,13 +32,6 @@ public class Paw {
         jda.getPresence().setActivity(Activity.listening(" " + (guildNum) + " servers!" ));
 
         // Commands List
-
-            /* TODO List:
-            TODO: Overhaul queue
-            TODO: Add Now Playing (in PlayerManager)
-             */
-        //jda.updateCommands().queue();
-
             // Help
             SubcommandData modHelp = new SubcommandData("mod", "Lists moderation commands");
             SubcommandData generalHelp = new SubcommandData("general", "Lists general commands");
@@ -54,6 +47,8 @@ public class Paw {
             jda.upsertCommand("8ball", "Asks the magic 8ball a question")
                     .addOption(OptionType.STRING, "question", "Your question to the 8ball", true)
                     .queue();
+            // Invite
+            jda.upsertCommand("invite", "Returns bot invite link").queue();
             // Truth or Dare
             SubcommandData truth = new SubcommandData("truth", "Generates a random truth question");
             SubcommandData dare = new SubcommandData("dare", "Generates a random dare question");
