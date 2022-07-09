@@ -117,11 +117,19 @@ public class Commands extends ListenerAdapter {
                 }
         }
 
+        // Invite
+        if (event.getName().equals("invite")) {
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setTitle("Invite Link", "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&scope=applications.commands")
+                    .setColor(Util.randColor());
+            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+        }
+
         // Ping
         if (event.getName().equals("ping")) {
             EmbedBuilder builder = new EmbedBuilder()
                     .setTitle("Pong!")
-                    .setColor(Color.PINK);
+                    .setColor(Util.randColor());
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
 
@@ -154,7 +162,7 @@ public class Commands extends ListenerAdapter {
 
             EmbedBuilder builder = new EmbedBuilder()
                     .setTitle("8Ball")
-                    .setColor(Color.PINK)
+                    .setColor(Util.randColor())
                     .setThumbnail("https://cdn.discordapp.com/attachments/810456406620241931/981063293428957244/unknown.png?size=4096")
                     .addField("Your question:", question, false)
                     .addField(output, "", false);
@@ -171,7 +179,7 @@ public class Commands extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Truth or Dare")
                         .addField("Truth: ", truth, false)
-                        .setColor(Color.PINK);
+                        .setColor(Util.randColor());
 
                 event.replyEmbeds(builder.build()).queue();
                 return;
@@ -183,7 +191,7 @@ public class Commands extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Truth or Dare")
                         .addField("Dare: ", dare, false)
-                        .setColor(Color.PINK);
+                        .setColor(Util.randColor());
 
                 event.replyEmbeds(builder.build()).queue();
             }
@@ -221,7 +229,7 @@ public class Commands extends ListenerAdapter {
             EmbedBuilder builder = new EmbedBuilder()
                     .setTitle(targetName)
                     .setImage(targetPFP)
-                    .setColor(Color.PINK);
+                    .setColor(Util.randColor());
             event.replyEmbeds(builder.build()).queue();
         }
 
@@ -275,7 +283,7 @@ public class Commands extends ListenerAdapter {
                         .addField("Created", creationDate.getMonthValue() + "/" + creationDate.getDayOfMonth() + "/" + creationDate.getYear(), true)
                         .addField("Roles [" + numRoles + "]", roles.toString(), false)
                         .setFooter("ID: " + user.getId())
-                        .setColor(Color.PINK);
+                        .setColor(Util.randColor());
 
                 event.replyEmbeds(builder.build()).queue();
                 return;
@@ -289,7 +297,7 @@ public class Commands extends ListenerAdapter {
                         .addField("Created", creationDate.getMonthValue() + "/" + creationDate.getDayOfMonth() + "/" + creationDate.getYear(), true)
                         .addField("Roles [" + numRoles + "]", roles.toString(), false)
                         .setFooter("ID: " + user.getId())
-                        .setColor(Color.PINK);
+                        .setColor(Util.randColor());
 
                 event.replyEmbeds(builder.build()).queue();
             }
