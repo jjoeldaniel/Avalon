@@ -265,69 +265,17 @@ public class MusicCommands extends ListenerAdapter {
                     .setThumbnail(Util.randomThumbnail())
                     .setFooter("Use /help for a list of music commands!");
 
-            if (queueSize == 1) {
-                EmbedBuilder builder = new EmbedBuilder();
-                builder.copyFrom(queue);
-                builder
-                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false);
-                event.getHook().sendMessageEmbeds(builder.build()).queue();
-            }
-            else if (queueSize == 2) {
-                EmbedBuilder builder = new EmbedBuilder();
-                builder.copyFrom(queue);
-                builder
-                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
-                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false);
-                event.getHook().sendMessageEmbeds(builder.build()).queue();
+            EmbedBuilder page1 = new EmbedBuilder();
+            page1.copyFrom(queue);
 
-            }
-            else if (queueSize == 3) {
-                EmbedBuilder builder = new EmbedBuilder();
-                builder.copyFrom(queue);
-                builder
-                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
-                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
-                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false);
-                event.getHook().sendMessageEmbeds(builder.build()).queue();
-
-            }
-            else if (queueSize == 4) {
-                EmbedBuilder builder = new EmbedBuilder();
-                builder.copyFrom(queue);
-                builder
-                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
-                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
-                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
-                        .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + playlist.get(3).getInfo().uri + ")\n", false);
-                event.getHook().sendMessageEmbeds(builder.build()).queue();
-            }
-            else if (queueSize == 5) {
-                EmbedBuilder builder = new EmbedBuilder();
-                builder.copyFrom(queue);
-                builder
-                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
-                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
-                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
-                        .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + playlist.get(3).getInfo().uri + ")\n", false)
-                        .addField("[5]", "[" + playlist.get(4).getInfo().title + "](" + playlist.get(4).getInfo().uri + ")\n", false);
-                event.getHook().sendMessageEmbeds(builder.build()).queue();
-            }
-            else if (queueSize > 5) {
-                EmbedBuilder builder = new EmbedBuilder();
-                builder.copyFrom(queue);
-                builder
-                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
-                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
-                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
-                        .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + playlist.get(3).getInfo().uri + ")\n", false)
-                        .addField("[5]", "[" + playlist.get(4).getInfo().title + "](" + playlist.get(4).getInfo().uri + ")\n", false)
+            for (int i = 0; i < queueSize && i < 5; ++i) {
+                page1
+                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
                         .setFooter("Page 1");
-                event.getHook().sendMessageEmbeds(builder.build())
-                        .addActionRow(Button.primary("page1", "Previous Page"))
-                        .addActionRow(Button.primary("page2", "Next Page"))
-                        .queue();
             }
-
+            event.getHook().sendMessageEmbeds(page1.build())
+                    .addActionRow(Button.primary("page1", "Previous Page"), Button.primary("page2", "Next Page"))
+                    .queue();
         }
     }
 
@@ -338,167 +286,133 @@ public class MusicCommands extends ListenerAdapter {
             EmbedBuilder page1 = new EmbedBuilder();
             page1.copyFrom(queue);
 
-            page1
-                    .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
-                    .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
-                    .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
-                    .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + playlist.get(3).getInfo().uri + ")\n", false)
-                    .addField("[5]", "[" + playlist.get(4).getInfo().title + "](" + playlist.get(4).getInfo().uri + ")\n", false);
-
+            for (int i = 0; i < queueSize && i < 5; ++i) {
+                page1
+                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .setFooter("Page 1");
+            }
             event.editMessageEmbeds(page1.build())
                     .setActionRow(Button.primary("page1", "Previous Page"), Button.primary("page2", "Next Page"))
                     .queue();
         }
 
-        // FUNCTIONAL, DO NOT CHANGE AT ALL
         if (event.getComponentId().equals("page2")) {
             EmbedBuilder page2 = new EmbedBuilder();
             page2.copyFrom(queue);
 
-            if (queueSize == 6) {
+            for (int i = 5; i < queueSize && i < 10; ++i) {
                 page2
-                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
+                    .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
                         .setFooter("Page 2");
-
-                event.editMessageEmbeds(page2.build())
-                        .setActionRow(Button.primary("page1", "Previous Page"))
-                        .queue();
             }
-            else if (queueSize == 7) {
-                page2
-                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
-                        .addField("[7]", "[" + playlist.get(6).getInfo().title + "](" + playlist.get(6).getInfo().uri + ")\n", false)
-                        .setFooter("Page 2");
-
-                event.editMessageEmbeds(page2.build())
-                        .setActionRow(Button.primary("page1", "Previous Page"))
-                        .queue();
-            }
-            else if (queueSize == 8) {
-                page2
-                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
-                        .addField("[7]", "[" + playlist.get(6).getInfo().title + "](" + playlist.get(6).getInfo().uri + ")\n", false)
-                        .addField("[8]", "[" + playlist.get(7).getInfo().title + "](" + playlist.get(7).getInfo().uri + ")\n", false)
-                        .setFooter("Page 2");
-
-                event.editMessageEmbeds(page2.build())
-                        .setActionRow(Button.primary("page1", "Previous Page"))
-                        .queue();
-            }
-            else if (queueSize == 9) {
-                page2
-                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
-                        .addField("[7]", "[" + playlist.get(6).getInfo().title + "](" + playlist.get(6).getInfo().uri + ")\n", false)
-                        .addField("[8]", "[" + playlist.get(7).getInfo().title + "](" + playlist.get(7).getInfo().uri + ")\n", false)
-                        .addField("[9]", "[" + playlist.get(8).getInfo().title + "](" + playlist.get(8).getInfo().uri + ")\n", false)
-                        .setFooter("Page 2");
-
-                event.editMessageEmbeds(page2.build())
-                        .setActionRow(Button.primary("page1", "Previous Page"))
-                        .queue();
-            }
-            else if (queueSize == 10) {
-                page2
-                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
-                        .addField("[7]", "[" + playlist.get(6).getInfo().title + "](" + playlist.get(6).getInfo().uri + ")\n", false)
-                        .addField("[8]", "[" + playlist.get(7).getInfo().title + "](" + playlist.get(7).getInfo().uri + ")\n", false)
-                        .addField("[9]", "[" + playlist.get(8).getInfo().title + "](" + playlist.get(8).getInfo().uri + ")\n", false)
-                        .addField("[10]", "[" + playlist.get(9).getInfo().title + "](" + playlist.get(9).getInfo().uri + ")\n", false)
-                        .setFooter("Page 2");
-
-                event.editMessageEmbeds(page2.build())
-                        .setActionRow(Button.primary("page1", "Previous Page"))
-                        .queue();
-            }
-            else if (queueSize > 10) {
-                page2
-                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
-                        .addField("[7]", "[" + playlist.get(6).getInfo().title + "](" + playlist.get(6).getInfo().uri + ")\n", false)
-                        .addField("[8]", "[" + playlist.get(7).getInfo().title + "](" + playlist.get(7).getInfo().uri + ")\n", false)
-                        .addField("[9]", "[" + playlist.get(8).getInfo().title + "](" + playlist.get(8).getInfo().uri + ")\n", false)
-                        .addField("[10]", "[" + playlist.get(9).getInfo().title + "](" + playlist.get(9).getInfo().uri + ")\n", false)
-                        .setFooter("Page 2");
-
-                event.editMessageEmbeds(page2.build())
-                        .setActionRow(Button.primary("page1", "Previous Page"), Button.primary("page3", "Next Page"))
-                        .queue();
-            }
-
+            event.editMessageEmbeds(page2.build())
+                    .setActionRow(Button.primary("page1", "Previous Page"), Button.primary("page3", "Next Page"))
+                    .queue();
         }
 
         else if (event.getComponentId().equals("page3")) {
             EmbedBuilder page3 = new EmbedBuilder();
             page3.copyFrom(queue);
 
-            if (queueSize == 11) {
+            for (int i = 10; i < queueSize && i < 15; ++i) {
                 page3
-                        .addField("[11]", "[" + playlist.get(10).getInfo().title + "](" + playlist.get(10).getInfo().uri + ")\n", false)
+                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
                         .setFooter("Page 3");
-
-                event.editMessageEmbeds(page3.build())
-                        .setActionRow(Button.primary("page2", "Previous Page"))
-                        .queue();
             }
-            else if (queueSize == 12) {
-                page3
-                        .addField("[11]", "[" + playlist.get(10).getInfo().title + "](" + playlist.get(11).getInfo().uri + ")\n", false)
-                        .addField("[12]", "[" + playlist.get(11).getInfo().title + "](" + playlist.get(12).getInfo().uri + ")\n", false)
-                        .setFooter("Page 3");
+            event.editMessageEmbeds(page3.build())
+                    .setActionRow(Button.primary("page2", "Previous Page"), Button.primary("page4", "Next Page"))
+                    .queue();
+        }
+        else if (event.getComponentId().equals("page4")) {
+            EmbedBuilder page4 = new EmbedBuilder();
+            page4.copyFrom(queue);
 
-                event.editMessageEmbeds(page3.build())
-                        .setActionRow(Button.primary("page2", "Previous Page"))
-                        .queue();
+            for (int i = 15; i < queueSize && i < 20; ++i) {
+                page4
+                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .setFooter("Page 4");
             }
-            else if (queueSize == 13) {
-                page3
-                        .addField("[11]", "[" + playlist.get(10).getInfo().title + "](" + playlist.get(11).getInfo().uri + ")\n", false)
-                        .addField("[12]", "[" + playlist.get(11).getInfo().title + "](" + playlist.get(12).getInfo().uri + ")\n", false)
-                        .addField("[13]", "[" + playlist.get(12).getInfo().title + "](" + playlist.get(13).getInfo().uri + ")\n", false)
-                        .setFooter("Page 3");
+            event.editMessageEmbeds(page4.build())
+                    .setActionRow(Button.primary("page3", "Previous Page"), Button.primary("page5", "Next Page"))
+                    .queue();
+        }
+        else if (event.getComponentId().equals("page5")) {
+            EmbedBuilder page5 = new EmbedBuilder();
+            page5.copyFrom(queue);
 
-                event.editMessageEmbeds(page3.build())
-                        .setActionRow(Button.primary("page2", "Previous Page"))
-                        .queue();
+            for (int i = 20; i < queueSize && i < 25; ++i) {
+                page5
+                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .setFooter("Page 5");
             }
-            else if (queueSize == 14) {
-                page3
-                        .addField("[11]", "[" + playlist.get(10).getInfo().title + "](" + playlist.get(11).getInfo().uri + ")\n", false)
-                        .addField("[12]", "[" + playlist.get(11).getInfo().title + "](" + playlist.get(12).getInfo().uri + ")\n", false)
-                        .addField("[13]", "[" + playlist.get(12).getInfo().title + "](" + playlist.get(13).getInfo().uri + ")\n", false)
-                        .addField("[14]", "[" + playlist.get(13).getInfo().title + "](" + playlist.get(14).getInfo().uri + ")\n", false)
-                        .setFooter("Page 3");
+            event.editMessageEmbeds(page5.build())
+                    .setActionRow(Button.primary("page4", "Previous Page"), Button.primary("page6", "Next Page"))
+                    .queue();
+        }
+        else if (event.getComponentId().equals("page6")) {
+            EmbedBuilder page6 = new EmbedBuilder();
+            page6.copyFrom(queue);
 
-                event.editMessageEmbeds(page3.build())
-                        .setActionRow(Button.primary("page2", "Previous Page"))
-                        .queue();
+            for (int i = 25; i < queueSize && i < 30; ++i) {
+                page6
+                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .setFooter("Page 6");
             }
-            else if (queueSize == 15) {
-                page3
-                        .addField("[11]", "[" + playlist.get(10).getInfo().title + "](" + playlist.get(15).getInfo().uri + ")\n", false)
-                        .addField("[12]", "[" + playlist.get(11).getInfo().title + "](" + playlist.get(16).getInfo().uri + ")\n", false)
-                        .addField("[13]", "[" + playlist.get(12).getInfo().title + "](" + playlist.get(17).getInfo().uri + ")\n", false)
-                        .addField("[14]", "[" + playlist.get(13).getInfo().title + "](" + playlist.get(18).getInfo().uri + ")\n", false)
-                        .addField("[15]", "[" + playlist.get(14).getInfo().title + "](" + playlist.get(19).getInfo().uri + ")\n", false)
-                        .setFooter("Page 3");
+            event.editMessageEmbeds(page6.build())
+                    .setActionRow(Button.primary("page5", "Previous Page"), Button.primary("page7", "Next Page"))
+                    .queue();
+        }
+        else if (event.getComponentId().equals("page7")) {
+            EmbedBuilder page7 = new EmbedBuilder();
+            page7.copyFrom(queue);
 
-                event.editMessageEmbeds(page3.build())
-                        .setActionRow(Button.primary("page2", "Previous Page"))
-                        .queue();
+            for (int i = 30; i < queueSize && i < 35; ++i) {
+                page7
+                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .setFooter("Page 7");
             }
-            else if (queueSize > 15) {
-                page3
-                        .addField("[11]", "[" + playlist.get(10).getInfo().title + "](" + playlist.get(15).getInfo().uri + ")\n", false)
-                        .addField("[12]", "[" + playlist.get(11).getInfo().title + "](" + playlist.get(16).getInfo().uri + ")\n", false)
-                        .addField("[13]", "[" + playlist.get(12).getInfo().title + "](" + playlist.get(17).getInfo().uri + ")\n", false)
-                        .addField("[14]", "[" + playlist.get(13).getInfo().title + "](" + playlist.get(18).getInfo().uri + ")\n", false)
-                        .addField("[15]", "[" + playlist.get(14).getInfo().title + "](" + playlist.get(19).getInfo().uri + ")\n", false)
-                        .setFooter("Page 3");
+            event.editMessageEmbeds(page7.build())
+                    .setActionRow(Button.primary("page6", "Previous Page"), Button.primary("page8", "Next Page"))
+                    .queue();
+        }
+        else if (event.getComponentId().equals("page8")) {
+            EmbedBuilder page8 = new EmbedBuilder();
+            page8.copyFrom(queue);
 
-                event.editMessageEmbeds(page3.build())
-                        .setActionRow(Button.primary("page2", "Previous Page"))
-                        .queue();
+            for (int i = 35; i < queueSize && i < 40; ++i) {
+                page8
+                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .setFooter("Page 8");
             }
+            event.editMessageEmbeds(page8.build())
+                    .setActionRow(Button.primary("page7", "Previous Page"), Button.primary("page9", "Next Page"))
+                    .queue();
+        }
+        else if (event.getComponentId().equals("page9")) {
+            EmbedBuilder page9 = new EmbedBuilder();
+            page9.copyFrom(queue);
 
+            for (int i = 40; i < queueSize && i < 45; ++i) {
+                page9
+                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .setFooter("Page 9");
+            }
+            event.editMessageEmbeds(page9.build())
+                    .setActionRow(Button.primary("page8", "Previous Page"), Button.primary("page10", "Next Page"))
+                    .queue();
+        }
+        else if (event.getComponentId().equals("page10")) {
+            EmbedBuilder page10 = new EmbedBuilder();
+            page10.copyFrom(queue);
+
+            for (int i = 45; i < queueSize && i < 50; ++i) {
+                page10
+                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .setFooter("Page 10");
+            }
+            event.editMessageEmbeds(page10.build())
+                    .setActionRow(Button.primary("page9", "Previous Page"), Button.primary("page1", "Page 1"))
+                    .queue();
         }
     }
 
