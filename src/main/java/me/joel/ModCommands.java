@@ -162,7 +162,7 @@ public class ModCommands extends ListenerAdapter {
                     .setTitle("Message sent!")
                     .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Util.randColor())
-                    .addField("Message", message, false);
+                    .setDescription("\"" + message + "\"");
 
             Objects.requireNonNull(Objects.requireNonNull(event.getGuild()).getTextChannelById(channelID)).sendMessage(message).queue();
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
