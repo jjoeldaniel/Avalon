@@ -164,6 +164,7 @@ public class MusicCommands extends ListenerAdapter {
 
             EmbedBuilder builder = new EmbedBuilder()
                     .setDescription("No song is playing or an error has occurred!")
+                    .setFooter("Use /help for a list of music commands!")
                     .setColor(Util.randColor());
 
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
