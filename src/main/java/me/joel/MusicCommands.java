@@ -4,7 +4,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
-import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -254,90 +253,78 @@ public class MusicCommands extends ListenerAdapter {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
             }
             catch (Exception ignore) { return; }
-
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
 
+            queue
+                    .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
+                    .setTitle("Queue [" + queueSize + "]")
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false)
+                    .setColor(Util.randColor())
+                    .setThumbnail(Util.randomThumbnail())
+                    .setFooter("Use /help for a list of music commands!");
+
             if (queueSize == 1) {
-                queue
-                        .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
-                        .setTitle("Queue [" + queueSize + "]")
-                        .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
-                        .addBlankField(false)
-                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
-                        .setColor(Util.randColor())
-                        .setThumbnail(Util.randomThumbnail())
-                        .setFooter("Use /help for a list of music commands!");
-                event.getHook().sendMessageEmbeds(queue.build()).queue();
-                return;
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.copyFrom(queue);
+                builder
+                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false);
+                event.getHook().sendMessageEmbeds(builder.build()).queue();
             }
-            if (queueSize == 2) {
-                queue
-                        .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
-                        .setTitle("Queue [" + queueSize + "]")
-                        .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
-                        .addBlankField(false)
+            else if (queueSize == 2) {
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.copyFrom(queue);
+                builder
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
-                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
-                        .setColor(Util.randColor())
-                        .setThumbnail(Util.randomThumbnail())
-                        .setFooter("Use /help for a list of music commands!");
-                event.getHook().sendMessageEmbeds(queue.build()).queue();
-                return;
+                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false);
+                event.getHook().sendMessageEmbeds(builder.build()).queue();
 
             }
-            if (queueSize == 3) {
-                queue
-                        .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
-                        .setTitle("Queue [" + queueSize + "]")
-                        .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
-                        .addBlankField(false)
+            else if (queueSize == 3) {
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.copyFrom(queue);
+                builder
+                        .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
+                        .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
+                        .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false);
+                event.getHook().sendMessageEmbeds(builder.build()).queue();
+
+            }
+            else if (queueSize == 4) {
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.copyFrom(queue);
+                builder
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                         .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
-                        .setColor(Util.randColor())
-                        .setThumbnail(Util.randomThumbnail())
-                        .setFooter("Use /help for a list of music commands!");
-                event.getHook().sendMessageEmbeds(queue.build()).queue();
-                return;
-
+                        .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + playlist.get(3).getInfo().uri + ")\n", false);
+                event.getHook().sendMessageEmbeds(builder.build()).queue();
             }
-            if (queueSize == 4) {
-                queue
-                        .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
-                        .setTitle("Queue [" + queueSize + "]")
-                        .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
-                        .addBlankField(false)
+            else if (queueSize == 5) {
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.copyFrom(queue);
+                builder
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                         .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
-
                         .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + playlist.get(3).getInfo().uri + ")\n", false)
-                        .setColor(Util.randColor())
-                        .setThumbnail(Util.randomThumbnail())
-                        .setFooter("Use /help for a list of music commands!");
-                event.getHook().sendMessageEmbeds(queue.build()).queue();
-                return;
+                        .addField("[5]", "[" + playlist.get(4).getInfo().title + "](" + playlist.get(4).getInfo().uri + ")\n", false);
+                event.getHook().sendMessageEmbeds(builder.build()).queue();
             }
-            if (queueSize >= 5) {
-                queue
-                        .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
-                        .setTitle("Queue [" + queueSize + "]")
-                        .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
-                        .addBlankField(false)
+            else if (queueSize > 5) {
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.copyFrom(queue);
+                builder
                         .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
                         .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
                         .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
                         .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + playlist.get(3).getInfo().uri + ")\n", false)
                         .addField("[5]", "[" + playlist.get(4).getInfo().title + "](" + playlist.get(4).getInfo().uri + ")\n", false)
-                        .setColor(Util.randColor())
-                        .setThumbnail(Util.randomThumbnail())
-                        .setFooter("Use /help for a list of music commands!");
-                event.getHook().sendMessageEmbeds(queue.build())
-                        .addActionRow(Button.primary("previousPage", "Previous Page"))
-                        .addActionRow(Button.primary("nextPage", "Next Page"))
+                        .setFooter("Page 1");
+                event.getHook().sendMessageEmbeds(builder.build())
+                        .addActionRow(Button.primary("page2", "Next Page"))
                         .queue();
-                return;
             }
 
         }
@@ -346,18 +333,96 @@ public class MusicCommands extends ListenerAdapter {
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
 
-        if (event.getComponentId().equals("previousPage")) {
-            EmbedBuilder previous = new EmbedBuilder();
-            previous.copyFrom(queue);
+        if (event.getComponentId().equals("page1")) {
+            EmbedBuilder page1 = new EmbedBuilder();
+            page1.copyFrom(queue);
 
-            event.editMessageEmbeds(previous.build()).queue();
+            page1
+                    .addField("[1]", "[" + playlist.get(0).getInfo().title + "](" + playlist.get(0).getInfo().uri + ")\n", false)
+                    .addField("[2]", "[" + playlist.get(1).getInfo().title + "](" + playlist.get(1).getInfo().uri + ")\n", false)
+                    .addField("[3]", "[" + playlist.get(2).getInfo().title + "](" + playlist.get(2).getInfo().uri + ")\n", false)
+                    .addField("[4]", "[" + playlist.get(3).getInfo().title + "](" + playlist.get(3).getInfo().uri + ")\n", false)
+                    .addField("[5]", "[" + playlist.get(4).getInfo().title + "](" + playlist.get(4).getInfo().uri + ")\n", false);
+
+            event.editMessageEmbeds(page1.build())
+                    .setActionRow(Button.primary("page2", "Next Page"))
+                    .queue();
         }
 
-        else if (event.getComponentId().equals("nextPage")) {
-            EmbedBuilder next = new EmbedBuilder();
-            next.copyFrom(queue);
+        // FUNCTIONAL, DO NOT CHANGE AT ALL
+        else if (event.getComponentId().equals("page2")) {
+            EmbedBuilder page2 = new EmbedBuilder();
+            page2.copyFrom(queue);
 
-            event.editMessageEmbeds(next.build()).queue();
+            if (queueSize == 6) {
+                page2
+                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
+                        .setFooter("Page 2");
+
+                event.editMessageEmbeds(page2.build())
+                        .setActionRow(Button.primary("page1", "Previous Page"))
+                        .queue();
+            }
+            else if (queueSize == 7) {
+                page2
+                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
+                        .addField("[7]", "[" + playlist.get(6).getInfo().title + "](" + playlist.get(6).getInfo().uri + ")\n", false)
+                        .setFooter("Page 2");
+
+                event.editMessageEmbeds(page2.build())
+                        .setActionRow(Button.primary("page1", "Previous Page"))
+                        .queue();
+            }
+            else if (queueSize == 8) {
+                page2
+                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
+                        .addField("[7]", "[" + playlist.get(6).getInfo().title + "](" + playlist.get(6).getInfo().uri + ")\n", false)
+                        .addField("[8]", "[" + playlist.get(7).getInfo().title + "](" + playlist.get(7).getInfo().uri + ")\n", false)
+                        .setFooter("Page 2");
+
+                event.editMessageEmbeds(page2.build())
+                        .setActionRow(Button.primary("page1", "Previous Page"))
+                        .queue();
+            }
+            else if (queueSize == 9) {
+                page2
+                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
+                        .addField("[7]", "[" + playlist.get(6).getInfo().title + "](" + playlist.get(6).getInfo().uri + ")\n", false)
+                        .addField("[8]", "[" + playlist.get(7).getInfo().title + "](" + playlist.get(7).getInfo().uri + ")\n", false)
+                        .addField("[9]", "[" + playlist.get(8).getInfo().title + "](" + playlist.get(8).getInfo().uri + ")\n", false)
+                        .setFooter("Page 2");
+
+                event.editMessageEmbeds(page2.build())
+                        .setActionRow(Button.primary("page1", "Previous Page"))
+                        .queue();
+            }
+            else if (queueSize == 10) {
+                page2
+                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
+                        .addField("[7]", "[" + playlist.get(6).getInfo().title + "](" + playlist.get(6).getInfo().uri + ")\n", false)
+                        .addField("[8]", "[" + playlist.get(7).getInfo().title + "](" + playlist.get(7).getInfo().uri + ")\n", false)
+                        .addField("[9]", "[" + playlist.get(8).getInfo().title + "](" + playlist.get(8).getInfo().uri + ")\n", false)
+                        .addField("[10]", "[" + playlist.get(9).getInfo().title + "](" + playlist.get(9).getInfo().uri + ")\n", false)
+                        .setFooter("Page 2");
+
+                event.editMessageEmbeds(page2.build())
+                        .setActionRow(Button.primary("page1", "Previous Page"))
+                        .queue();
+            }
+            else if (queueSize > 10) {
+                page2
+                        .addField("[6]", "[" + playlist.get(5).getInfo().title + "](" + playlist.get(5).getInfo().uri + ")\n", false)
+                        .addField("[7]", "[" + playlist.get(6).getInfo().title + "](" + playlist.get(6).getInfo().uri + ")\n", false)
+                        .addField("[8]", "[" + playlist.get(7).getInfo().title + "](" + playlist.get(7).getInfo().uri + ")\n", false)
+                        .addField("[9]", "[" + playlist.get(8).getInfo().title + "](" + playlist.get(8).getInfo().uri + ")\n", false)
+                        .addField("[10]", "[" + playlist.get(9).getInfo().title + "](" + playlist.get(9).getInfo().uri + ")\n", false)
+                        .setFooter("Page 2");
+
+                event.editMessageEmbeds(page2.build())
+                        .setActionRow(Button.primary("page1", "Previous Page"))
+                        .queue();
+            }
+
         }
     }
 
