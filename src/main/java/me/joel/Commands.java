@@ -31,6 +31,7 @@ public class Commands extends ListenerAdapter {
                                     `/help (all, general, mod, music)` : Lists commands
                                     `/invite` : Returns bot invite link
                                     `/ping` : Pings bot
+                                    `/coinflip` Flips a coin
                                     `/truth` : Requests truth
                                     `/dare` : Requests dare
                                     `/afk` : Sets AFK status
@@ -91,6 +92,7 @@ public class Commands extends ListenerAdapter {
                                     `/help (all, general, mod, music)` : Lists commands
                                     `/invite` : Returns bot invite link
                                     `/ping` : Pings bot
+                                    `/coinflip` Flips a coin
                                     `/truth` : Requests truth
                                     `/dare` : Requests dare
                                     `/afk` : Sets AFK status
