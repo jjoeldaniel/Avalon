@@ -142,7 +142,8 @@ public class MusicCommands extends ListenerAdapter {
             }
             catch (Exception exception) {
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("No song is playing!");
+                        .setDescription("No song is playing!")
+                        .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
         }
@@ -173,6 +174,16 @@ public class MusicCommands extends ListenerAdapter {
         // Clear
         if (event.getName().equals("clear")) {
 
+            if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("The queue is empty or an error has occurred!")
+                        .setFooter("Use /help for a list of music commands!")
+                        .setColor(Util.randColor());
+
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
+
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.clear();
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.destroy();
 
@@ -196,12 +207,21 @@ public class MusicCommands extends ListenerAdapter {
             event.replyEmbeds(builder.build()).queue();
         }
 
-        // TODO: Overhaul queue
-        // Queue
+        // Queue TODO: Overhaul queue
         if (event.getName().equals("queue")) {
 
             String currentSong;
             int queueSize = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size();
+
+            if (queueSize == 0) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("The queue is empty or an error has occurred!")
+                        .setFooter("Use /help for a list of music commands!")
+                        .setColor(Util.randColor());
+
+                event.replyEmbeds(builder.build()).queue();
+                return;
+            }
 
             try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
