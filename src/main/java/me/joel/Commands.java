@@ -121,18 +121,29 @@ public class Commands extends ListenerAdapter {
 
         // Invite
         if (event.getName().equals("invite")) {
-            EmbedBuilder builder = new EmbedBuilder()
+            EmbedBuilder invite = new EmbedBuilder()
                     .setTitle("Invite Link", "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot")
                     .setColor(Util.randColor());
-            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            event.replyEmbeds(invite.build()).setEphemeral(true).queue();
+        }
+
+        // Coin Flip
+        if (event.getName().equals("coinflip")) {
+            String flip;
+            if (Util.randomWithRange(0,100) > 50) flip = "Head!";
+            else flip = "Tail!";
+            EmbedBuilder coin = new EmbedBuilder()
+                    .setDescription(flip)
+                    .setColor(Util.randColor());
+            event.replyEmbeds(coin.build()).queue();
         }
 
         // Ping
         if (event.getName().equals("ping")) {
-            EmbedBuilder builder = new EmbedBuilder()
+            EmbedBuilder ping = new EmbedBuilder()
                     .setTitle("Pong!")
                     .setColor(Util.randColor());
-            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            event.replyEmbeds(ping.build()).setEphemeral(true).queue();
         }
 
         // 8Ball
@@ -162,14 +173,14 @@ public class Commands extends ListenerAdapter {
             }
             String question = Objects.requireNonNull(event.getOption("question")).getAsString();
 
-            EmbedBuilder builder = new EmbedBuilder()
+            EmbedBuilder ball = new EmbedBuilder()
                     .setTitle("8Ball")
                     .setColor(Util.randColor())
                     .setThumbnail("https://cdn.discordapp.com/attachments/810456406620241931/981063293428957244/unknown.png?size=4096")
                     .addField("Your question:", question, false)
                     .addField(output, "", false);
 
-            event.replyEmbeds(builder.build()).queue();
+            event.replyEmbeds(ball.build()).queue();
         }
 
         // Truth or Dare
@@ -178,35 +189,25 @@ public class Commands extends ListenerAdapter {
             if (Objects.equals(event.getSubcommandName(), "truth")) {
                 String truth = truthordare.truth();
 
-                EmbedBuilder builder = new EmbedBuilder()
+                EmbedBuilder truthNotDare = new EmbedBuilder()
                         .setTitle("Truth or Dare")
                         .addField("Truth: ", truth, false)
                         .setColor(Util.randColor());
 
-                event.replyEmbeds(builder.build()).queue();
+                event.replyEmbeds(truthNotDare.build()).queue();
                 return;
             }
 
             if (Objects.equals(event.getSubcommandName(), "dare")) {
                 String dare = truthordare.dare();
 
-                EmbedBuilder builder = new EmbedBuilder()
+                EmbedBuilder dareNotTruth = new EmbedBuilder()
                         .setTitle("Truth or Dare")
                         .addField("Dare: ", dare, false)
                         .setColor(Util.randColor());
 
-                event.replyEmbeds(builder.build()).queue();
+                event.replyEmbeds(dareNotTruth.build()).queue();
             }
-        }
-
-        // Furry
-        if (event.getName().equals("bark")) {
-            String bark = ("BARK BARK BARK GRRRRRRR GRRRRRRR GRRRRR GROWLS BARK BARK BARK WOOF WOOF GRRRR GRRRR RAWRRRRR BARK BARK BARK ARF ARF GRRRR RAH RAH RAH GRRRRRRRR SNARLS GROWLS BARK BARK BARK SNARLS GRRR GRRR GRRRRRR AWO AWO AWOOOOOOOOOOOO GRRRRR BARK BARK WOOF WOOF WOOF BARK BARK AWOOOOOO GRR GRR GRRRR");
-            event.reply(bark).queue();
-        }
-        if (event.getName().equals("meow")) {
-            String meow = ("MEOWW HISSSSSSSSSSSS PURRRRRRR MEOWWWW MEOOOOOOOOOOOOOWWWWWWWW FEED ME BITCH PURRRR MEOWWWWW HISSSSSSSSSSSS MEOWW MEOWWWW MEOOOOOOOOOOOOOWWWWWWWW PURR MEOW MEOW MEOW MEOW MEOW YOU FAT FUCK FEED ME MEOWWW");
-            event.reply(meow).queue();
         }
 
         // Avatar
@@ -228,11 +229,11 @@ public class Commands extends ListenerAdapter {
                 targetPFP = member.getEffectiveAvatarUrl();
             }
             // Embed
-            EmbedBuilder builder = new EmbedBuilder()
+            EmbedBuilder avatar = new EmbedBuilder()
                     .setTitle(targetName)
                     .setImage(targetPFP)
                     .setColor(Util.randColor());
-            event.replyEmbeds(builder.build()).queue();
+            event.replyEmbeds(avatar.build()).queue();
         }
 
         // Confess
@@ -240,7 +241,7 @@ public class Commands extends ListenerAdapter {
             String message = Objects.requireNonNull(event.getOption("message")).getAsString();
             String channelID = "";
 
-            EmbedBuilder builder = new EmbedBuilder()
+            EmbedBuilder confessionPost = new EmbedBuilder()
                     .setTitle("Anonymous Confession")
                     .setDescription("\"" + message + "\"")
                     .setColor(Util.randColor());
@@ -253,14 +254,14 @@ public class Commands extends ListenerAdapter {
                 }
             }
 
-            Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessageEmbeds(builder.build()).queue();
+            Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessageEmbeds(confessionPost.build()).queue();
 
-            EmbedBuilder builder2 = new EmbedBuilder()
+            EmbedBuilder confessionSubmit = new EmbedBuilder()
                     .setTitle("Confession Submitted")
                     .setDescription("\"" + message + "\"")
                     .setColor(Util.randColor());
 
-            event.replyEmbeds(builder2.build()).setEphemeral(true).queue();
+            event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();
         }
 
         // Whois Command
@@ -277,7 +278,7 @@ public class Commands extends ListenerAdapter {
             }
 
             if (!event.isFromGuild()) {
-                EmbedBuilder builder = new EmbedBuilder()
+                EmbedBuilder whois = new EmbedBuilder()
                         .setDescription(user.getAsMention())
                         .setAuthor(user.getName() + "#" + user.getDiscriminator(), user.getAvatarUrl(), user.getAvatarUrl())
                         .setThumbnail(user.getEffectiveAvatarUrl())
@@ -287,11 +288,11 @@ public class Commands extends ListenerAdapter {
                         .setFooter("ID: " + user.getId())
                         .setColor(Util.randColor());
 
-                event.replyEmbeds(builder.build()).queue();
+                event.replyEmbeds(whois.build()).queue();
                 return;
             }
             if (event.isFromGuild()) {
-                EmbedBuilder builder = new EmbedBuilder()
+                EmbedBuilder whois = new EmbedBuilder()
                         .setDescription(member.getAsMention())
                         .setAuthor(user.getName() + "#" + user.getDiscriminator(), user.getAvatarUrl(), user.getAvatarUrl())
                         .setThumbnail(member.getEffectiveAvatarUrl())
@@ -301,7 +302,7 @@ public class Commands extends ListenerAdapter {
                         .setFooter("ID: " + user.getId())
                         .setColor(Util.randColor());
 
-                event.replyEmbeds(builder.build()).queue();
+                event.replyEmbeds(whois.build()).queue();
             }
 
         }
