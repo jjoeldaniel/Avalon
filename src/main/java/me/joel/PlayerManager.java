@@ -57,13 +57,16 @@ public class PlayerManager {
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
-                        .setAuthor("Added to queue")
+                        .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
                         .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
                         .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
                         .setThumbnail(trackThumbnail)
                         .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                         .setFooter("Use /help for a list of music commands!");
 
+                if (musicManager.scheduler.queue.size() <= 0) {
+                    builder.setAuthor(("Added to queue"));
+                }
                 textChannel.sendMessageEmbeds(builder.build()).queue();
             }
 
@@ -133,13 +136,16 @@ public class PlayerManager {
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
-                        .setAuthor("Added to queue")
+                        .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
                         .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
                         .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
                         .setThumbnail(trackThumbnail)
                         .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                         .setFooter("Use /help for a list of music commands!");
 
+                if (musicManager.scheduler.queue.size() <= 0) {
+                    builder.setAuthor(("Added to queue"));
+                }
                 textChannel.sendMessageEmbeds(builder.build()).queue();
             }
 
@@ -164,13 +170,16 @@ public class PlayerManager {
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
-                        .setAuthor("Added to queue")
+                        .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
                         .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
                         .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
                         .setThumbnail(trackThumbnail)
                         .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                         .setFooter("Use /help for a list of music commands!");
 
+                if (musicManager.scheduler.queue.size() <= 0) {
+                    builder.setAuthor(("Added to queue"));
+                }
                 textChannel.sendMessageEmbeds(builder.build()).queue();
             }
 
