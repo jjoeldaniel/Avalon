@@ -31,6 +31,8 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
 
 `/ping` : Pings bot
 
+`/coinflip` : Flips a coin
+
 `/truth` : Requests truth
 
 `/dare` : Requests dare
