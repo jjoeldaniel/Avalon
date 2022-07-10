@@ -47,6 +47,8 @@ public class Paw {
             jda.upsertCommand("8ball", "Asks the magic 8ball a question")
                     .addOption(OptionType.STRING, "question", "Your question to the 8ball", true)
                     .queue();
+            // Coin Flip
+            jda.upsertCommand("coinflip", "Flips a coin for heads or tails").queue();
             // Invite
             jda.upsertCommand("invite", "Returns bot invite link").queue();
             // Truth or Dare
