@@ -130,8 +130,8 @@ public class Commands extends ListenerAdapter {
         // Coin Flip
         if (event.getName().equals("coinflip")) {
             String flip;
-            if (Util.randomWithRange(0,100) > 50) flip = "Head!";
-            else flip = "Tail!";
+            if (Util.randomWithRange(0,100) > 50) flip = "Heads!";
+            else flip = "Tails!";
             EmbedBuilder coin = new EmbedBuilder()
                     .setDescription(flip)
                     .setColor(Util.randColor());
