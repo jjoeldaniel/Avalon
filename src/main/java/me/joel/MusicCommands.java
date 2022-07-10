@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -30,6 +31,7 @@ public class MusicCommands extends ListenerAdapter {
 
         // Play
         if (event.getName().equals("play")) {
+            event.deferReply().queue();
             // Loops 'i' times due to occasional issues which result in songs not properly being queued
             // Unsure of how to fix core issue, this is a solid fix for now, however
             for (int i = 0; i < 5; ++i) {
@@ -40,10 +42,10 @@ public class MusicCommands extends ListenerAdapter {
                                 .setColor(Util.randColor())
                                 .setDescription("You need to be in a voice channel to use `/play`!")
                                 .setFooter("Use /help for a list of music commands!");
-                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                        event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
                     }
-                    event.deferReply().queue();
+
                     final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
                     String link = Objects.requireNonNull(event.getOption("song")).getAsString();
                     System.out.println("Link: " + link);
@@ -81,9 +83,9 @@ public class MusicCommands extends ListenerAdapter {
                         PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
 
                     }
-                    EmbedBuilder builder = new EmbedBuilder()
+                    EmbedBuilder error = new EmbedBuilder()
                             .setDescription("If you still see this message, an error has occurred!");
-                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
                     event.getHook().deleteOriginal().queue();
 
                     break;
@@ -331,14 +333,13 @@ public class MusicCommands extends ListenerAdapter {
                         .setColor(Util.randColor())
                         .setThumbnail(Util.randomThumbnail())
                         .setFooter("Use /help for a list of music commands!");
-                event.getHook().sendMessageEmbeds(queue.build()).queue();
+                event.getHook().sendMessageEmbeds(queue.build())
+                        .addActionRow(Button.primary("previousPage", "Previous Page"))
+                        .addActionRow(Button.primary("nextPage", "Next Page"))
+                        .queue();
                 return;
             }
 
-//            event.getHook().sendMessageEmbeds(queue.build())
-//                    .addActionRow(Button.primary("previousPage", "Previous Page"))
-//                    .addActionRow(Button.primary("nextPage", "Next Page"))
-//                    .queue();
         }
     }
 
