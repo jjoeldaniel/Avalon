@@ -65,7 +65,7 @@ public class ReactMessages extends ListenerAdapter {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("goodnight sweetie!");
-                    event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
+                    event.getMessage().replyEmbeds(builder.build()).queue();
                 }
             }
             // Good morning
@@ -74,12 +74,12 @@ public class ReactMessages extends ListenerAdapter {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("good morning sweetie!");
-                    event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
+                    event.getMessage().replyEmbeds(builder.build()).queue();
                 }
             }
             // Insult
             if (isInsult(messageSent) && !event.getTextChannel().isNSFW()) {
-                if (Util.randomWithRange(0, 100) > 50) event.getTextChannel().sendMessageEmbeds(randomInsult().build()).queue();
+                if (Util.randomWithRange(0, 100) > 50) event.getMessage().replyEmbeds(randomInsult().build()).queue();
             }
 
         }
