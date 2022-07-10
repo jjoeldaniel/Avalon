@@ -87,11 +87,6 @@ public class MusicCommands extends ListenerAdapter {
                 catch (Exception exception) { // Add real exception handling later
                     System.out.println("Error occurred during playback");
                 }
-
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("If you still see this message, an error has occurred!");
-                event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
-                event.getHook().deleteOriginal().queue();
             }
         }
 
