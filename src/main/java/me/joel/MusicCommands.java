@@ -274,7 +274,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 1");
             }
             event.getHook().sendMessageEmbeds(page1.build())
-                    .addActionRow(Button.primary("page1", "Previous Page"), Button.primary("page2", "Next Page"))
+                    .addActionRow(Button.primary("page2", "Next Page"))
                     .queue();
         }
     }
@@ -292,7 +292,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 1");
             }
             event.editMessageEmbeds(page1.build())
-                    .setActionRow(Button.primary("page1", "Previous Page"), Button.primary("page2", "Next Page"))
+                    .setActionRow(Button.primary("page2", "Next Page"))
                     .queue();
         }
 
