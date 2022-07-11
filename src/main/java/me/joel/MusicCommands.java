@@ -259,14 +259,15 @@ public class MusicCommands extends ListenerAdapter {
             queue
                     .setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl(), event.getGuild().getIconUrl())
                     .setTitle("Queue [" + queueSize + "]")
-                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
-                    .addBlankField(false)
                     .setColor(Util.randColor())
                     .setThumbnail(Util.randomThumbnail())
                     .setFooter("Use /help for a list of music commands!");
 
             EmbedBuilder page1 = new EmbedBuilder();
             page1.copyFrom(queue);
+            page1
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 0; i < queueSize && i < 5; ++i) {
                 page1
@@ -281,10 +282,20 @@ public class MusicCommands extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+        final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
         if (event.getComponentId().equals("page1")) {
+            String currentSong;
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) { return; }
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page1 = new EmbedBuilder();
             page1.copyFrom(queue);
+            page1
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 0; i < queueSize && i < 5; ++i) {
                 page1
@@ -297,8 +308,17 @@ public class MusicCommands extends ListenerAdapter {
         }
 
         if (event.getComponentId().equals("page2")) {
+            String currentSong;
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) { return; }
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page2 = new EmbedBuilder();
             page2.copyFrom(queue);
+            page2
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 5; i < queueSize && i < 10; ++i) {
                 page2
@@ -311,8 +331,17 @@ public class MusicCommands extends ListenerAdapter {
         }
 
         else if (event.getComponentId().equals("page3")) {
+            String currentSong;
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) { return; }
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page3 = new EmbedBuilder();
             page3.copyFrom(queue);
+            page3
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 10; i < queueSize && i < 15; ++i) {
                 page3
@@ -324,8 +353,17 @@ public class MusicCommands extends ListenerAdapter {
                     .queue();
         }
         else if (event.getComponentId().equals("page4")) {
+            String currentSong;
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) { return; }
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page4 = new EmbedBuilder();
             page4.copyFrom(queue);
+            page4
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 15; i < queueSize && i < 20; ++i) {
                 page4
@@ -337,8 +375,17 @@ public class MusicCommands extends ListenerAdapter {
                     .queue();
         }
         else if (event.getComponentId().equals("page5")) {
+            String currentSong;
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) { return; }
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page5 = new EmbedBuilder();
             page5.copyFrom(queue);
+            page5
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 20; i < queueSize && i < 25; ++i) {
                 page5
@@ -350,8 +397,17 @@ public class MusicCommands extends ListenerAdapter {
                     .queue();
         }
         else if (event.getComponentId().equals("page6")) {
+            String currentSong;
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) { return; }
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page6 = new EmbedBuilder();
             page6.copyFrom(queue);
+            page6
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 25; i < queueSize && i < 30; ++i) {
                 page6
@@ -363,8 +419,17 @@ public class MusicCommands extends ListenerAdapter {
                     .queue();
         }
         else if (event.getComponentId().equals("page7")) {
+            String currentSong;
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) { return; }
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page7 = new EmbedBuilder();
             page7.copyFrom(queue);
+            page7
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 30; i < queueSize && i < 35; ++i) {
                 page7
@@ -376,8 +441,17 @@ public class MusicCommands extends ListenerAdapter {
                     .queue();
         }
         else if (event.getComponentId().equals("page8")) {
+            String currentSong;
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) { return; }
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page8 = new EmbedBuilder();
             page8.copyFrom(queue);
+            page8
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 35; i < queueSize && i < 40; ++i) {
                 page8
@@ -389,8 +463,17 @@ public class MusicCommands extends ListenerAdapter {
                     .queue();
         }
         else if (event.getComponentId().equals("page9")) {
+            String currentSong;
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) { return; }
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page9 = new EmbedBuilder();
             page9.copyFrom(queue);
+            page9
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 40; i < queueSize && i < 45; ++i) {
                 page9
@@ -402,8 +485,17 @@ public class MusicCommands extends ListenerAdapter {
                     .queue();
         }
         else if (event.getComponentId().equals("page10")) {
+            String currentSong;
+            try {
+                currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+            }
+            catch (Exception ignore) { return; }
+            String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page10 = new EmbedBuilder();
             page10.copyFrom(queue);
+            page10
+                    .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
+                    .addBlankField(false);
 
             for (int i = 45; i < queueSize && i < 50; ++i) {
                 page10
