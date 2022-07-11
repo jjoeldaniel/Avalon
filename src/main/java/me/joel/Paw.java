@@ -60,10 +60,6 @@ public class Paw {
                     .queue();
             // Ping
             jda.upsertCommand("ping", "Sends pong").queue();
-            // Bark
-            jda.upsertCommand("bark", "Barks").queue();
-            // Meow
-            jda.upsertCommand("meow", "Meows").queue();
             // Avatar
             jda.upsertCommand("avatar", "Sends user avatar")
                     .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
@@ -119,6 +115,7 @@ public class Paw {
                         .queue();
                 // Skip
                 Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("skip", "Skips song")
+                        .addOption(OptionType.INTEGER, "number", "Number of songs you would like to skip", false)
                         .queue();
                 // Queue
                 Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("queue", "Displays music queue")

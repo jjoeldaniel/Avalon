@@ -205,7 +205,7 @@ public class MusicCommands extends ListenerAdapter {
         if (event.getName().equals("skip")) {
             int skipNum = 0;
             try {
-                skipNum = Objects.requireNonNull(event.getOption("skip_number")).getAsInt();
+                skipNum = Objects.requireNonNull(event.getOption("number")).getAsInt();
             }
             catch (Exception ignore) {}
 
