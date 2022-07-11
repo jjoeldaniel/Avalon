@@ -79,7 +79,7 @@ public class ReactMessages extends ListenerAdapter {
             }
             // Insult
             if (isInsult(messageSent) && !event.getTextChannel().isNSFW()) {
-                if (Util.randomWithRange(0, 100) > 50) event.getMessage().replyEmbeds(randomInsult().build()).queue();
+                if (Util.randomWithRange(0, 100) > 75) event.getMessage().replyEmbeds(randomInsult().build()).queue();
             }
 
         }
