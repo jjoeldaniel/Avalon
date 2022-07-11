@@ -43,11 +43,12 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
-                    return;
+                                    Button.link("https://github.com/joelrico/PawBot", "Github"),
+                                    Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                            .queue();
                 }
                 // Moderation
-                if (Objects.equals(event.getSubcommandName(), "mod")) {
+                else if (Objects.equals(event.getSubcommandName(), "mod")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
                             .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
@@ -60,11 +61,12 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
-                    return;
+                                    Button.link("https://github.com/joelrico/PawBot", "Github"),
+                                    Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                            .queue();
                 }
                 // Music
-                if (Objects.equals(event.getSubcommandName(), "music")) {
+                else if (Objects.equals(event.getSubcommandName(), "music")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
                             .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
@@ -80,10 +82,11 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
-                    return;
+                                    Button.link("https://github.com/joelrico/PawBot", "Github"),
+                                    Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                            .queue();
                 }
-                if (Objects.equals(event.getSubcommandName(), "all")) {
+                else if (Objects.equals(event.getSubcommandName(), "all")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Color.PINK)
                             .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
@@ -117,7 +120,9 @@ public class Commands extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
-                                    Button.link("https://github.com/joelrico/PawBot", "Github")).queue();
+                                    Button.link("https://github.com/joelrico/PawBot", "Github"),
+                                    Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                            .queue();
                 }
         }
 
