@@ -78,7 +78,7 @@ public class Commands extends ListenerAdapter {
                                     `/clear` : Clears queue
                                     `/queue` : Displays song queue
                                     `/playing` : Displays currently playing song
-                                    `/skip (num)` : Skips song with optional number""", false);
+                                    `/skip` : Skips song""", false);
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
@@ -116,7 +116,7 @@ public class Commands extends ListenerAdapter {
                                     `/clear` : Clears queue
                                     `/queue` : Displays song queue
                                     `/playing` : Displays currently playing song
-                                    `/skip (num)` : Skips song with optional number""", false);
+                                    `/skip` : Skips song""", false);
 
                     event.replyEmbeds(builder.build()).setEphemeral(true)
                             .addActionRow(
