@@ -115,7 +115,6 @@ public class Paw {
                         .queue();
                 // Skip
                 Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("skip", "Skips song")
-                        .addOption(OptionType.INTEGER, "number", "Number of songs you would like to skip", false)
                         .queue();
                 // Queue
                 Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("queue", "Displays music queue")
