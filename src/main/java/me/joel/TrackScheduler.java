@@ -10,7 +10,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter {
 
-    static boolean sendNowPlaying = false;
     public final AudioPlayer audioPlayer;
     public final BlockingQueue<AudioTrack> queue;
 
