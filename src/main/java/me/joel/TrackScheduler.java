@@ -10,6 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter {
 
+    static boolean sendNowPlaying = false;
     public final AudioPlayer audioPlayer;
     public final BlockingQueue<AudioTrack> queue;
 
@@ -26,12 +27,16 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void nextTrack() {
         this.audioPlayer.startTrack(this.queue.poll(), false);
+        MusicCommands.setSendNowPlaying(true);
+        System.out.println("Next track");
+        MusicCommands.sendNowPlaying(audioPlayer.getPlayingTrack(), MusicCommands.returnTextChannel());
     }
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         if (endReason.mayStartNext) {
             nextTrack();
+
         }
     }
 

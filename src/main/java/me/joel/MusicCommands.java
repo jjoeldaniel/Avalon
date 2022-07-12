@@ -3,6 +3,7 @@ package me.joel;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -10,6 +11,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,6 +24,8 @@ public class MusicCommands extends ListenerAdapter {
     EmbedBuilder queue = new EmbedBuilder();
     List<AudioTrack> playlist;
     int queueSize;
+    static boolean sendNowPlaying = false;
+    static TextChannel audioTextChannel;
 
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
@@ -31,9 +35,10 @@ public class MusicCommands extends ListenerAdapter {
         // Play
         if (event.getName().equals("play")) {
             event.deferReply().queue();
+            audioTextChannel = event.getTextChannel();
             // Loops 'i' times due to occasional issues which result in songs not properly being queued
             // Unsure of how to fix core issue, this is a solid fix for now, however
-            for (int i = 0; i < 5; ++i) {
+            for (int i = 0; i < 7; ++i) {
                 try {
                     // Checks requester voice state
                     if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
@@ -106,7 +111,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
 
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                event.replyEmbeds(builder.build()).setEphemeral(false).queue();
                 return;
             }
 
@@ -165,7 +170,7 @@ public class MusicCommands extends ListenerAdapter {
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
 
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                event.replyEmbeds(builder.build()).setEphemeral(false).queue();
                 return;
             }
 
@@ -278,6 +283,37 @@ public class MusicCommands extends ListenerAdapter {
                     .addActionRow(Button.primary("page2", "Next Page"))
                     .queue();
         }
+    }
+
+    public static void sendNowPlaying(AudioTrack currentTrack, TextChannel textChannel) {
+        textChannel.sendMessageEmbeds(nowPlaying(currentTrack).build()).queue();
+        setSendNowPlaying(false);
+    }
+
+    public static TextChannel returnTextChannel() {
+        return audioTextChannel;
+    }
+
+    public static void setSendNowPlaying(boolean bool) {
+        sendNowPlaying = bool;
+    }
+    public static EmbedBuilder nowPlaying(AudioTrack track) {
+        // Time from ms to m:s
+        long trackLength = track.getInfo().length;
+        long minutes = (trackLength / 1000) / 60;
+        long seconds = ((trackLength / 1000) % 60);
+        String songSeconds = String.valueOf(seconds);
+        if (seconds < 10) songSeconds = "0" + seconds;
+        // Thumbnail
+        String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
+
+        return new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setAuthor("Now Playing")
+                .setTitle(track.getInfo().title, track.getInfo().uri)
+                .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                .setThumbnail(trackThumbnail)
+                .setFooter("Use /help for a list of music commands!");
     }
 
     @Override
