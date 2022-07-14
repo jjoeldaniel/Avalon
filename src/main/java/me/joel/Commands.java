@@ -254,21 +254,31 @@ public class Commands extends ListenerAdapter {
                     .setColor(Util.randColor());
 
             // Find confessions channel
-            int channelNum = Objects.requireNonNull(event.getGuild()).getTextChannels().size();
-            for (int i = 0; i < channelNum; ++i) {
-                if (event.getGuild().getTextChannels().get(i).getName().contains("confessions")) {
-                    channelID = event.getGuild().getTextChannels().get(i).getId();
+            try {
+                int channelNum = Objects.requireNonNull(event.getGuild()).getTextChannels().size();
+                for (int i = 0; i < channelNum; ++i) {
+                    if (event.getGuild().getTextChannels().get(i).getName().contains("confessions")) {
+                        channelID = event.getGuild().getTextChannels().get(i).getId();
+                    }
                 }
+
+                Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessageEmbeds(confessionPost.build()).queue();
+
+                EmbedBuilder confessionSubmit = new EmbedBuilder()
+                        .setTitle("Confession Submitted")
+                        .setDescription("\"" + message + "\"")
+                        .setColor(Util.randColor());
+
+                event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();
             }
+            catch (Exception channelNotFound) {
+                EmbedBuilder confessionError = new EmbedBuilder()
+                        .setTitle("Error!")
+                        .setDescription("No confession channel found!")
+                        .setColor(Util.randColor());
 
-            Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessageEmbeds(confessionPost.build()).queue();
-
-            EmbedBuilder confessionSubmit = new EmbedBuilder()
-                    .setTitle("Confession Submitted")
-                    .setDescription("\"" + message + "\"")
-                    .setColor(Util.randColor());
-
-            event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();
+                event.replyEmbeds(confessionError.build()).setEphemeral(true).queue();
+            }
         }
 
         // Whois Command
