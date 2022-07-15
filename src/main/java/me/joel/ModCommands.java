@@ -24,7 +24,7 @@ public class ModCommands extends ListenerAdapter {
                 assert target != null;
                 target.kick().queue();
 
-                if (target.isOwner()) {
+                if (target.isOwner() || target.hasPermission(Permission.ADMINISTRATOR)) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't kick this person!")
                             .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
@@ -73,7 +73,7 @@ public class ModCommands extends ListenerAdapter {
                 assert target != null;
                 target.ban(0).queue();
 
-                if (target.isOwner()) {
+                if (target.isOwner() || target.hasPermission(Permission.ADMINISTRATOR)) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't ban this person!")
                             .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
@@ -119,12 +119,21 @@ public class ModCommands extends ListenerAdapter {
             if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MODERATE_MEMBERS)) return;
             Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
             long length = 0;
+            assert target != null;
+
+            if (target.isOwner() | target.hasPermission(Permission.ADMINISTRATOR)) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("You can't time out this person!")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Util.randColor())
+                        .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
 
             try { length = Objects.requireNonNull(event.getOption("length")).getAsLong(); }
             catch (Exception ignore) {}
 
             try {
-                assert target != null;
 
                 if (length == 0) {
                     target.timeoutFor(1, TimeUnit.HOURS).queue();
