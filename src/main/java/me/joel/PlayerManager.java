@@ -72,7 +72,6 @@ public class PlayerManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
-                System.out.println("Loading playlist...");
 
                 for (AudioTrack track : audioPlaylist.getTracks()) {
                     musicManager.scheduler.queue(track);

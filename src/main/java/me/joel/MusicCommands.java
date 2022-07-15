@@ -72,12 +72,12 @@ public class MusicCommands extends ListenerAdapter {
                     // TODO: Add Spotify support
                     // Spotify links
                     if (link.contains("spotify.com")) {
-                        System.out.println("Input type: SPOTIFY");
+                        //System.out.println("Input type: SPOTIFY");
                     }
                     // Invalid links
                     else if (!isURL(link)) {
                         link = ("ytsearch:" + link + " audio");
-                        System.out.println("Input type: NON_URI");
+                        //System.out.println("Input type: NON_URI");
                         // Joins VC
                         audioManager.openAudioConnection(memberChannel);
 
@@ -91,7 +91,7 @@ public class MusicCommands extends ListenerAdapter {
                     }
                     // Valid links (Basically just YouTube)
                     else {
-                        System.out.println("Input type: YOUTUBE");
+                        //System.out.println("Input type: YOUTUBE");
                         // Joins VC
                         audioManager.openAudioConnection(memberChannel);
                         event.getGuild().deafen(bot, true).queue();
@@ -102,7 +102,7 @@ public class MusicCommands extends ListenerAdapter {
 
                     }
                     EmbedBuilder error = new EmbedBuilder()
-                            .setDescription("If you still see this message, an error has occurred!");
+                            .setDescription("Loading playlist...");
                     event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
                     event.getHook().deleteOriginal().queue();
 
