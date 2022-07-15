@@ -54,34 +54,38 @@ public class ReactMessages extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
         // Checks if user
-        if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getTextChannel().isNSFW() && (event.isFromType(ChannelType.TEXT))) {
+        if (event.isFromType(ChannelType.TEXT)) {
 
-            // Grabs user input
-            String messageSent = event.getMessage().getContentRaw().toLowerCase();
+            if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getTextChannel().isNSFW()) {
 
-            // Goodnight
-            if (messageSent.contains("goodnight") || messageSent.contains("good night")) {
-                if (Util.randomWithRange(0, 100) > 50) {
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("goodnight sweetie!");
-                    event.getMessage().replyEmbeds(builder.build()).queue();
+                // Grabs user input
+                String messageSent = event.getMessage().getContentRaw().toLowerCase();
+
+                // Goodnight
+                if (messageSent.contains("goodnight") || messageSent.contains("good night")) {
+                    if (Util.randomWithRange(0, 100) > 50) {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setDescription("goodnight sweetie!");
+                        event.getMessage().replyEmbeds(builder.build()).queue();
+                    }
                 }
-            }
-            // Good morning
-            if (messageSent.contains("goodmorning") || messageSent.contains("good morning")) {
-                if (Util.randomWithRange(0, 100) > 50) {
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("good morning sweetie!");
-                    event.getMessage().replyEmbeds(builder.build()).queue();
+                // Good morning
+                if (messageSent.contains("goodmorning") || messageSent.contains("good morning")) {
+                    if (Util.randomWithRange(0, 100) > 50) {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setDescription("good morning sweetie!");
+                        event.getMessage().replyEmbeds(builder.build()).queue();
+                    }
                 }
-            }
-            // Insult
-            if (isInsult(messageSent) && !event.getTextChannel().isNSFW()) {
-                if (Util.randomWithRange(0, 100) > 75) event.getMessage().replyEmbeds(randomInsult().build()).queue();
-            }
+                // Insult
+                if (isInsult(messageSent) && !event.getTextChannel().isNSFW()) {
+                    if (Util.randomWithRange(0, 100) > 75)
+                        event.getMessage().replyEmbeds(randomInsult().build()).queue();
+                }
 
+            }
         }
     }
 }
