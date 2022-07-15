@@ -167,9 +167,18 @@ public class ModCommands extends ListenerAdapter {
             try {
                 if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) return;
                 long messageID = event.getIdLong();
-                int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
-                TextChannel textChannel = event.getTextChannel();
 
+                int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
+                if (amount > 100) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("Unable to purge over 100 messages!")
+                            .setFooter("Use /help for a list of commands!");
+
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                }
+
+                TextChannel textChannel = event.getTextChannel();
                 event.getTextChannel().getIterableHistory()
                         .takeAsync(amount)
                         .thenAccept(textChannel::purgeMessages);
