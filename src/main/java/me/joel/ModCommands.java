@@ -125,7 +125,7 @@ public class ModCommands extends ListenerAdapter {
             long length = 0;
             assert target != null;
 
-            if (target.isOwner() | target.hasPermission(Permission.ADMINISTRATOR)) {
+            if (target.isOwner() || target.hasPermission(Permission.ADMINISTRATOR)) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("You can't time out this person!")
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
