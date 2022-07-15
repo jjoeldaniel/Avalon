@@ -81,6 +81,10 @@ public class Paw {
                 Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("broadcast", "Broadcasts message in selected channel")
                         .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
                         .queue();
+                // Purge
+                Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("purge", "Purges up to 100 messages")
+                        .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true)
+                        .queue();
             // General Commands
                 // Whois
                 Objects.requireNonNull(jda.getGuildById(guildID)).upsertCommand("whois", "Provides user information")
