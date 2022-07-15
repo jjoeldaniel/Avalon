@@ -2,7 +2,6 @@ package me.joel;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -12,7 +11,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -32,13 +30,13 @@ public class MusicCommands extends ListenerAdapter {
 
         final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
         member = event.getMember();
+        Member bot = event.getGuild().getMemberById("971239438892019743");
+        assert bot != null;
 
         // Play
         if (event.getName().equals("play")) {
             event.deferReply().queue();
             audioTextChannel = event.getTextChannel();
-            Member bot = event.getGuild().getMemberById("971239438892019743");
-            assert bot != null;
             // Loops 'i' times due to occasional issues which result in songs not properly being queued
             // Unsure of how to fix core issue, this is a solid fix for now, however
             for (int i = 0; i < 1; ++i) {
@@ -116,8 +114,6 @@ public class MusicCommands extends ListenerAdapter {
 
         // Pause
         if (event.getName().equals("pause")) {
-            Member bot = event.getGuild().getMemberById("971239438892019743");
-            assert bot != null;
             if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                 long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                 long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
@@ -188,8 +184,6 @@ public class MusicCommands extends ListenerAdapter {
 
         // Resume
         if (event.getName().equals("resume")) {
-            Member bot = event.getGuild().getMemberById("971239438892019743");
-            assert bot != null;
             if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                 long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                 long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
@@ -225,8 +219,6 @@ public class MusicCommands extends ListenerAdapter {
 
         // Clear
         if (event.getName().equals("clear")) {
-            Member bot = event.getGuild().getMemberById("971239438892019743");
-            assert bot != null;
             if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                 long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                 long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
@@ -263,8 +255,6 @@ public class MusicCommands extends ListenerAdapter {
 
         // Skip
         if (event.getName().equals("skip")) {
-            Member bot = event.getGuild().getMemberById("971239438892019743");
-            assert bot != null;
             if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                 long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                 long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
@@ -306,7 +296,7 @@ public class MusicCommands extends ListenerAdapter {
             catch (Exception ignore) {}
         }
 
-        // Queue TODO: Overhaul queue, replace options with buttons
+        // Queue TODO: Overhaul queue
         if (event.getName().equals("queue")) {
 
             String currentSong;
