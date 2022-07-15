@@ -44,7 +44,6 @@ public class PlayerManager {
 
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
-                System.out.println("Loading track...");
                 musicManager.scheduler.queue(audioTrack);
 
                 // Time from ms to m:s
