@@ -112,7 +112,11 @@ public class PlayerManager {
 
             @Override
             public void loadFailed(FriendlyException e) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("An error has occurred!");
 
+                textChannel.sendMessageEmbeds(builder.build()).queue();
             }
         });
     }
