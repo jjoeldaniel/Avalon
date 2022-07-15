@@ -128,10 +128,8 @@ public class Commands extends ListenerAdapter {
                                 Button.danger("randomTruthOrDare", "Random")
                         )
                         .queue();
-                return;
             }
-
-            if (Objects.equals(event.getSubcommandName(), "dare")) {
+            else if (Objects.equals(event.getSubcommandName(), "dare")) {
                 String dare = truthordare.dare();
 
                 EmbedBuilder dareNotTruth = new EmbedBuilder()
@@ -146,6 +144,38 @@ public class Commands extends ListenerAdapter {
                                 Button.danger("randomTruthOrDare", "Random")
                         )
                         .queue();
+            }
+            else if(Objects.equals(event.getSubcommandName(), "random")) {
+                if (Util.randomWithRange(0, 100) > 50) {
+                    String dare = truthordare.dare();
+                    EmbedBuilder dareNotTruth = new EmbedBuilder()
+                            .setTitle("Truth or Dare")
+                            .addField("Dare: ", dare, false)
+                            .setColor(Util.randColor());
+
+                    event.replyEmbeds(dareNotTruth.build())
+                            .addActionRow(
+                                    Button.success("truth", "Truth"),
+                                    Button.success("dare", "Dare"),
+                                    Button.danger("randomTruthOrDare", "Random")
+                            )
+                            .queue();
+                }
+                else {
+                    String truth = truthordare.truth();
+                    EmbedBuilder truthNotDare = new EmbedBuilder()
+                            .setTitle("Truth or Dare")
+                            .addField("Truth: ", truth, false)
+                            .setColor(Util.randColor());
+
+                    event.replyEmbeds(truthNotDare.build())
+                            .addActionRow(
+                                    Button.success("truth", "Truth"),
+                                    Button.success("dare", "Dare"),
+                                    Button.danger("randomTruthOrDare", "Random")
+                            )
+                            .queue();
+                }
             }
         }
 
