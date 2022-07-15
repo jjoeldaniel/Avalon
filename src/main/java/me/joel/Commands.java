@@ -329,6 +329,7 @@ public class Commands extends ListenerAdapter {
                                 `/kick (user) (reason)` : Kicks user with optional reason
                                 `/ban (user) (reason)` : Bans user with optional reason
                                 `/timeout (user) (length)` : Times out user (Default: 1hr)
+                                `/purge (num)` : Purges messages (up to 100)
                                 `/broadcast (channel) (message)` : Sends message as PawBot""", false);
 
                 event.editMessageEmbeds(builder.build())

@@ -58,6 +58,8 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
 
 `/timeout (user) (length)` : Times out user (Default: 1hr)
 
+`/purge (num` : Purges messages (up to 100)
+
 `/broadcast (channel) (message)` : Sends message as PawBot
 
 
