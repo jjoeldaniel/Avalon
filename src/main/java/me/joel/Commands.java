@@ -121,7 +121,13 @@ public class Commands extends ListenerAdapter {
                         .addField("Truth: ", truth, false)
                         .setColor(Util.randColor());
 
-                event.replyEmbeds(truthNotDare.build()).queue();
+                event.replyEmbeds(truthNotDare.build())
+                        .addActionRow(
+                                Button.success("truth", "Truth"),
+                                Button.success("dare", "Dare"),
+                                Button.danger("randomTruthOrDare", "Random")
+                        )
+                        .queue();
                 return;
             }
 
@@ -133,7 +139,13 @@ public class Commands extends ListenerAdapter {
                         .addField("Dare: ", dare, false)
                         .setColor(Util.randColor());
 
-                event.replyEmbeds(dareNotTruth.build()).queue();
+                event.replyEmbeds(dareNotTruth.build())
+                        .addActionRow(
+                                Button.success("truth", "Truth"),
+                                Button.success("dare", "Dare"),
+                                Button.danger("randomTruthOrDare", "Random")
+                        )
+                        .queue();
             }
         }
 
@@ -249,110 +261,178 @@ public class Commands extends ListenerAdapter {
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
 
-        if (event.getComponentId().equals("helpGeneral")) {
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setColor(Util.randColor())
-                    .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
-                    .addField("General Commands", """
-                                    `/help (all, general, mod, music)` : Lists commands
-                                    `/invite` : Returns bot invite link
-                                    `/ping` : Pings bot
-                                    `/coinflip` Flips a coin
-                                    `/truth` : Requests truth
-                                    `/dare` : Requests dare
-                                    `/afk` : Sets AFK status
-                                    `/avatar (user)` : Retrieves user (or target) profile picture
-                                    `/8ball (message)` : Asks the magic 8ball a question
-                                    `/bark` : Self explanatory
-                                    `/meow` : ^^^
-                                    `/confess` : Sends anonymous confession""", false);
+        if (event.getComponentId().startsWith("help")) {
+            if (event.getComponentId().equals("helpGeneral")) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
+                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
+                        .addField("General Commands", """
+                                `/help (all, general, mod, music)` : Lists commands
+                                `/invite` : Returns bot invite link
+                                `/ping` : Pings bot
+                                `/coinflip` Flips a coin
+                                `/truth` : Requests truth
+                                `/dare` : Requests dare
+                                `/afk` : Sets AFK status
+                                `/avatar (user)` : Retrieves user (or target) profile picture
+                                `/8ball (message)` : Asks the magic 8ball a question
+                                `/bark` : Self explanatory
+                                `/meow` : ^^^
+                                `/confess` : Sends anonymous confession""", false);
 
-            event.editMessageEmbeds(builder.build())
-                    .setActionRow(
-                            Button.success("helpGeneral", "General").asDisabled(),
-                            Button.success("helpMod", "Moderation"),
-                            Button.success("helpMusic", "Music"),
-                            Button.link("https://github.com/joelrico/PawBot", "Github"),
-                            Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
-                    .queue();
+                event.editMessageEmbeds(builder.build())
+                        .setActionRow(
+                                Button.success("helpGeneral", "General").asDisabled(),
+                                Button.success("helpMod", "Moderation"),
+                                Button.success("helpMusic", "Music"),
+                                Button.link("https://github.com/joelrico/PawBot", "Github"),
+                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                        .queue();
+            }
+            else if (event.getComponentId().equals("helpMod")) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
+                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
+                        .addField("Moderation Commands", """
+                                `/kick (user) (reason)` : Kicks user with optional reason
+                                `/ban (user) (reason)` : Bans user with optional reason
+                                `/timeout (user) (length)` : Times out user (Default: 1hr)
+                                `/broadcast (channel) (message)` : Sends message as PawBot""", false);
+
+                event.editMessageEmbeds(builder.build())
+                        .setActionRow(
+                                Button.success("helpGeneral", "General"),
+                                Button.success("helpMod", "Moderation").asDisabled(),
+                                Button.success("helpMusic", "Music"),
+                                Button.link("https://github.com/joelrico/PawBot", "Github"),
+                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                        .queue();
+            }
+            else if (event.getComponentId().equals("helpMusic")) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
+                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
+                        .addField("Music Commands", """
+                                `/play (song)` : Accepts names and YT links
+                                `/pause` : Pauses playback
+                                `/resume` : Resumes playback
+                                `/clear` : Clears queue
+                                `/queue` : Displays song queue
+                                `/playing` : Displays currently playing song
+                                `/skip` : Skips song""", false);
+
+                event.editMessageEmbeds(builder.build())
+                        .setActionRow(
+                                Button.success("helpGeneral", "General"),
+                                Button.success("helpMod", "Moderation"),
+                                Button.success("helpMusic", "Music").asDisabled(),
+                                Button.link("https://github.com/joelrico/PawBot", "Github"),
+                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                        .queue();
+            }
+            else if (event.getComponentId().equals("helpAll")) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
+                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
+                        .addField("General Commands", """
+                                `/help (all, general, mod, music)` : Lists commands
+                                `/invite` : Returns bot invite link
+                                `/ping` : Pings bot
+                                `/coinflip` Flips a coin
+                                `/truth` : Requests truth
+                                `/dare` : Requests dare
+                                `/afk` : Sets AFK status
+                                `/avatar (user)` : Retrieves user (or target) profile picture
+                                `/8ball (message)` : Asks the magic 8ball a question
+                                `/bark` : Self explanatory
+                                `/meow` : ^^^
+                                `/confess` : Sends anonymous confession""", false)
+                        .addField("Moderation Commands", """
+                                `/kick (user) (reason)` : Kicks user with optional reason
+                                `/ban (user) (reason)` : Bans user with optional reason
+                                `/timeout (user) (length)` : Times out user (Default: 1hr)
+                                `/broadcast (channel) (message)` : Sends message as PawBot""", false)
+                        .addField("Music Commands", """
+                                `/play (song)` : Accepts names and YT links
+                                `/pause` : Pauses playback
+                                `/resume` : Resumes playback
+                                `/clear` : Clears queue
+                                `/queue` : Displays song queue
+                                `/playing` : Displays currently playing song
+                                `/skip` : Skips song""", false);
+
+                event.editMessageEmbeds(builder.build()).queue();
+            }
         }
-        if (event.getComponentId().equals("helpMod")) {
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setColor(Util.randColor())
-                    .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
-                    .addField("Moderation Commands", """
-                                    `/kick (user) (reason)` : Kicks user with optional reason
-                                    `/ban (user) (reason)` : Bans user with optional reason
-                                    `/timeout (user) (length)` : Times out user (Default: 1hr)
-                                    `/broadcast (channel) (message)` : Sends message as PawBot""", false);
 
-            event.editMessageEmbeds(builder.build())
-                    .setActionRow(
-                            Button.success("helpGeneral", "General"),
-                            Button.success("helpMod", "Moderation").asDisabled(),
-                            Button.success("helpMusic", "Music"),
-                            Button.link("https://github.com/joelrico/PawBot", "Github"),
-                            Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
-                    .queue();
-        }
-        if (event.getComponentId().equals("helpMusic")) {
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setColor(Util.randColor())
-                    .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
-                    .addField("Music Commands", """
-                                    `/play (song)` : Accepts names and YT links
-                                    `/pause` : Pauses playback
-                                    `/resume` : Resumes playback
-                                    `/clear` : Clears queue
-                                    `/queue` : Displays song queue
-                                    `/playing` : Displays currently playing song
-                                    `/skip` : Skips song""", false);
+        if (event.getComponentId().equals("truth") || event.getComponentId().equals("dare") || event.getComponentId().equals("randomTruthOrDare")) {
+            TextChannel textChannel = event.getTextChannel();
+            if(event.getComponentId().equals("truth")) {
+                String truth = truthordare.truth();
+                EmbedBuilder truthNotDare = new EmbedBuilder()
+                        .setTitle("Truth or Dare")
+                        .addField("Truth: ", truth, false)
+                        .setColor(Util.randColor());
 
-            event.editMessageEmbeds(builder.build())
-                    .setActionRow(
-                            Button.success("helpGeneral", "General"),
-                            Button.success("helpMod", "Moderation"),
-                            Button.success("helpMusic", "Music").asDisabled(),
-                            Button.link("https://github.com/joelrico/PawBot", "Github"),
-                            Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
-                    .queue();
-        }
-        if (event.getComponentId().equals("helpAll")) {
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setColor(Util.randColor())
-                    .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
-                    .addField("General Commands", """
-                                    `/help (all, general, mod, music)` : Lists commands
-                                    `/invite` : Returns bot invite link
-                                    `/ping` : Pings bot
-                                    `/coinflip` Flips a coin
-                                    `/truth` : Requests truth
-                                    `/dare` : Requests dare
-                                    `/afk` : Sets AFK status
-                                    `/avatar (user)` : Retrieves user (or target) profile picture
-                                    `/8ball (message)` : Asks the magic 8ball a question
-                                    `/bark` : Self explanatory
-                                    `/meow` : ^^^
-                                    `/confess` : Sends anonymous confession""", false)
-                    .addField("Moderation Commands", """
-                                    `/kick (user) (reason)` : Kicks user with optional reason
-                                    `/ban (user) (reason)` : Bans user with optional reason
-                                    `/timeout (user) (length)` : Times out user (Default: 1hr)
-                                    `/broadcast (channel) (message)` : Sends message as PawBot""", false)
-                    .addField("Music Commands", """
-                                    `/play (song)` : Accepts names and YT links
-                                    `/pause` : Pauses playback
-                                    `/resume` : Resumes playback
-                                    `/clear` : Clears queue
-                                    `/queue` : Displays song queue
-                                    `/playing` : Displays currently playing song
-                                    `/skip` : Skips song""", false);
+                event.replyEmbeds(truthNotDare.build())
+                        .addActionRow(
+                                Button.success("truth", "Truth"),
+                                Button.success("dare", "Dare"),
+                                Button.danger("randomTruthOrDare", "Random")
+                        )
+                        .queue();
+            }
+            else if(event.getComponentId().equals("dare")) {
+                String dare = truthordare.dare();
+                EmbedBuilder dareNotTruth = new EmbedBuilder()
+                        .setTitle("Truth or Dare")
+                        .addField("Dare: ", dare, false)
+                        .setColor(Util.randColor());
 
-            event.editMessageEmbeds(builder.build()).queue();
+                event.replyEmbeds(dareNotTruth.build())
+                        .addActionRow(
+                                Button.success("truth", "Truth"),
+                                Button.success("dare", "Dare"),
+                                Button.danger("randomTruthOrDare", "Random")
+                        )
+                        .queue();
+            }
+            else if(event.getComponentId().equals("randomTruthOrDare")) {
+                if (Util.randomWithRange(0, 100) > 50) {
+                    String dare = truthordare.dare();
+                    EmbedBuilder dareNotTruth = new EmbedBuilder()
+                            .setTitle("Truth or Dare")
+                            .addField("Dare: ", dare, false)
+                            .setColor(Util.randColor());
+
+                    event.replyEmbeds(dareNotTruth.build())
+                            .addActionRow(
+                                    Button.success("truth", "Truth"),
+                                    Button.success("dare", "Dare"),
+                                    Button.danger("randomTruthOrDare", "Random")
+                            )
+                            .queue();
+                }
+                else {
+                    String truth = truthordare.truth();
+                    EmbedBuilder truthNotDare = new EmbedBuilder()
+                            .setTitle("Truth or Dare")
+                            .addField("Truth: ", truth, false)
+                            .setColor(Util.randColor());
+
+                    event.replyEmbeds(truthNotDare.build())
+                            .addActionRow(
+                                    Button.success("truth", "Truth"),
+                                    Button.success("dare", "Dare"),
+                                    Button.danger("randomTruthOrDare", "Random")
+                            )
+                            .queue();
+                }
+            }
         }
     }
 }
