@@ -126,7 +126,7 @@ public class MusicCommands extends ListenerAdapter {
                             .setColor(Util.randColor())
                             .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
                             .setFooter("Use /help for a list of music commands!");
-                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
                 }
             }
@@ -198,7 +198,7 @@ public class MusicCommands extends ListenerAdapter {
                             .setColor(Util.randColor())
                             .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
                             .setFooter("Use /help for a list of music commands!");
-                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
                 }
             }
@@ -235,7 +235,7 @@ public class MusicCommands extends ListenerAdapter {
                             .setColor(Util.randColor())
                             .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
                             .setFooter("Use /help for a list of music commands!");
-                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
                 }
             }
@@ -273,7 +273,7 @@ public class MusicCommands extends ListenerAdapter {
                             .setColor(Util.randColor())
                             .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
                             .setFooter("Use /help for a list of music commands!");
-                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
                 }
             }
