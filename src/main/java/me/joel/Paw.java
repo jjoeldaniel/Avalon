@@ -30,19 +30,11 @@ public class Paw {
         // Sets status as # of guilds bot is member of
         int guildNum = jda.getGuilds().size();
         jda.getPresence().setActivity(Activity.listening(" " + (guildNum) + " servers!" ));
+        //jda.updateCommands().queue();
 
         // Commands List
             // Help
-            SubcommandData modHelp = new SubcommandData("mod", "Lists moderation commands");
-            SubcommandData generalHelp = new SubcommandData("general", "Lists general commands");
-            SubcommandData musicHelp = new SubcommandData("music", "Lists music commands");
-            SubcommandData allHelp = new SubcommandData("all", "Lists all commands");
-            jda.upsertCommand("help", "Lists commands")
-                    .addSubcommands(allHelp)
-                    .addSubcommands(generalHelp)
-                    .addSubcommands(modHelp)
-                    .addSubcommands(musicHelp)
-                    .queue();
+            jda.upsertCommand("help", "Lists commands").queue();
             // 8Ball
             jda.upsertCommand("8ball", "Asks the magic 8ball a question")
                     .addOption(OptionType.STRING, "question", "Your question to the 8ball", true)
@@ -54,9 +46,11 @@ public class Paw {
             // Truth or Dare
             SubcommandData truth = new SubcommandData("truth", "Generates a random truth question");
             SubcommandData dare = new SubcommandData("dare", "Generates a random dare question");
+            SubcommandData random = new SubcommandData("random", "Generates a random question");
             jda.upsertCommand("truthordare", "Generates a random truth/dare question")
                     .addSubcommands(truth)
                     .addSubcommands(dare)
+                    .addSubcommands(random)
                     .queue();
             // Ping
             jda.upsertCommand("ping", "Sends pong").queue();
