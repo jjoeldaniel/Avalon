@@ -80,11 +80,11 @@ public class MusicCommands extends ListenerAdapter {
                         System.out.println("Input type: NON_URI");
                         // Joins VC
                         audioManager.openAudioConnection(memberChannel);
-                        event.getGuild().deafen(bot, true).queue();
 
                         // Plays song
                         PlayerManager.getINSTANCE().loadAndPlayNoURI(event.getTextChannel(), link);
                         PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                        event.getGuild().deafen(bot, true).queue();
                     }
                     // Valid links (Basically just YouTube)
                     else {
