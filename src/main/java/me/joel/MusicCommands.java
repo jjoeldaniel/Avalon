@@ -2,6 +2,7 @@ package me.joel;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -11,6 +12,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -35,6 +37,8 @@ public class MusicCommands extends ListenerAdapter {
         if (event.getName().equals("play")) {
             event.deferReply().queue();
             audioTextChannel = event.getTextChannel();
+            Member bot = event.getGuild().getMemberById("971239438892019743");
+            assert bot != null;
             // Loops 'i' times due to occasional issues which result in songs not properly being queued
             // Unsure of how to fix core issue, this is a solid fix for now, however
             for (int i = 0; i < 1; ++i) {
@@ -47,6 +51,20 @@ public class MusicCommands extends ListenerAdapter {
                                 .setFooter("Use /help for a list of music commands!");
                         event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
+                    }
+
+                    // Check jda voice state and compare with member voice state
+                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                        long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
+                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+                        if (!(botVC == memberVC)) {
+                            EmbedBuilder builder = new EmbedBuilder()
+                                    .setColor(Util.randColor())
+                                    .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
+                                    .setFooter("Use /help for a list of music commands!");
+                            event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                            return;
+                        }
                     }
 
                     final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
@@ -64,8 +82,6 @@ public class MusicCommands extends ListenerAdapter {
                         System.out.println("Input type: NON_URI");
                         // Joins VC
                         audioManager.openAudioConnection(memberChannel);
-                        Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
-                        assert bot != null;
                         event.getGuild().deafen(bot, true).queue();
 
                         // Plays song
@@ -77,8 +93,6 @@ public class MusicCommands extends ListenerAdapter {
                         System.out.println("Input type: YOUTUBE");
                         // Joins VC
                         audioManager.openAudioConnection(memberChannel);
-                        Member bot = event.getMember().getGuild().getMemberById("971239438892019743");
-                        assert bot != null;
                         event.getGuild().deafen(bot, true).queue();
 
                         // Plays song
@@ -102,6 +116,20 @@ public class MusicCommands extends ListenerAdapter {
 
         // Pause
         if (event.getName().equals("pause")) {
+            Member bot = event.getGuild().getMemberById("971239438892019743");
+            assert bot != null;
+            if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
+                long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+                if (!(botVC == memberVC)) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+            }
             if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
                 PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(true);
 
@@ -160,6 +188,20 @@ public class MusicCommands extends ListenerAdapter {
 
         // Resume
         if (event.getName().equals("resume")) {
+            Member bot = event.getGuild().getMemberById("971239438892019743");
+            assert bot != null;
+            if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
+                long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+                if (!(botVC == memberVC)) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+            }
 
             if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
                 PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(false);
@@ -183,6 +225,20 @@ public class MusicCommands extends ListenerAdapter {
 
         // Clear
         if (event.getName().equals("clear")) {
+            Member bot = event.getGuild().getMemberById("971239438892019743");
+            assert bot != null;
+            if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
+                long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+                if (!(botVC == memberVC)) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+            }
 
             if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0) {
                 EmbedBuilder builder = new EmbedBuilder()
@@ -207,6 +263,20 @@ public class MusicCommands extends ListenerAdapter {
 
         // Skip
         if (event.getName().equals("skip")) {
+            Member bot = event.getGuild().getMemberById("971239438892019743");
+            assert bot != null;
+            if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
+                long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+                if (!(botVC == memberVC)) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+            }
 
             try {
 
@@ -236,7 +306,7 @@ public class MusicCommands extends ListenerAdapter {
             catch (Exception ignore) {}
         }
 
-        // Queue TODO: Overhaul queue
+        // Queue TODO: Overhaul queue, replace options with buttons
         if (event.getName().equals("queue")) {
 
             String currentSong;
@@ -289,11 +359,9 @@ public class MusicCommands extends ListenerAdapter {
         textChannel.sendMessageEmbeds(nowPlaying(currentTrack).build()).queue();
         setSendNowPlaying(false);
     }
-
     public static TextChannel returnTextChannel() {
         return audioTextChannel;
     }
-
     public static void setSendNowPlaying(boolean bool) {
         sendNowPlaying = bool;
     }
