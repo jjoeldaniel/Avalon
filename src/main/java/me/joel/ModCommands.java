@@ -163,7 +163,6 @@ public class ModCommands extends ListenerAdapter {
         if (event.getName().equals("purge")) {
             try {
                 if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) return;
-                long messageID = event.getIdLong();
 
                 int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
                 if (amount > 100) {
