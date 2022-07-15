@@ -38,7 +38,7 @@ public class MusicCommands extends ListenerAdapter {
             event.deferReply().queue();
             audioTextChannel = event.getTextChannel();
 
-            try {
+//            try {
                 // Checks requester voice state
                 if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                     EmbedBuilder builder = new EmbedBuilder()
@@ -65,7 +65,6 @@ public class MusicCommands extends ListenerAdapter {
 
                 final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
                 String link = Objects.requireNonNull(event.getOption("song")).getAsString();
-                System.out.println("Link: " + link);
 
                 // TODO: Add Spotify support
                 // Spotify links
@@ -92,7 +91,9 @@ public class MusicCommands extends ListenerAdapter {
                     //System.out.println("Input type: YOUTUBE");
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
-                    event.getGuild().deafen(bot, true).queue();
+                    if (bot.getVoiceState().inAudioChannel()) {
+                        event.getGuild().deafen(bot, true).queue();
+                    }
 
                     // Plays song
                     PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
@@ -100,14 +101,17 @@ public class MusicCommands extends ListenerAdapter {
 
                 }
                 EmbedBuilder error = new EmbedBuilder()
-                        .setDescription("Loading playlist...");
+                        .setDescription("Loading playlist...")
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
                 event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
+                Util.wait(500);
                 event.getHook().deleteOriginal().queue();
-            }
+//            }
 
-            catch (Exception exception) { // Add real exception handling later
-                System.out.println("Error occurred during playback");
-            }
+//            catch (Exception exception) { // Add real exception handling later
+//                System.out.println("Error occurred during playback");
+//            }
         }
 
         // Pause
