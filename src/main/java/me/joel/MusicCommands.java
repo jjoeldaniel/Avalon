@@ -37,7 +37,7 @@ public class MusicCommands extends ListenerAdapter {
             audioTextChannel = event.getTextChannel();
             // Loops 'i' times due to occasional issues which result in songs not properly being queued
             // Unsure of how to fix core issue, this is a solid fix for now, however
-            for (int i = 0; i < 7; ++i) {
+            for (int i = 0; i < 1; ++i) {
                 try {
                     // Checks requester voice state
                     if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
@@ -207,32 +207,33 @@ public class MusicCommands extends ListenerAdapter {
 
         // Skip
         if (event.getName().equals("skip")) {
-            int skipNum = 0;
-            try {
-                skipNum = Objects.requireNonNull(event.getOption("number")).getAsInt();
-            }
-            catch (Exception ignore) {}
 
-            if (skipNum > 0) {
-                for (int i = 0; i < skipNum; ++i) {
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
-                }
+            try {
+
+            AudioTrack audioTrack;
+            audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+
+            if (audioTrack == null) {
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("Songs skipped")
-                        .setFooter("Use /help for a list of music commands!")
-                        .setColor(Util.randColor());
+                        .setDescription("No song is playing!")
+                        .setColor(Util.randColor())
+                        .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).queue();
                 return;
             }
-            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
 
             EmbedBuilder builder = new EmbedBuilder()
-                    .setDescription("Song skipped")
+                    .setDescription("Songs skipped")
                     .setFooter("Use /help for a list of music commands!")
                     .setColor(Util.randColor());
 
             event.replyEmbeds(builder.build()).queue();
+            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
+            return;
+            }
+
+            catch (Exception ignore) {}
         }
 
         // Queue TODO: Overhaul queue
