@@ -43,11 +43,7 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
 
 `/8ball (message)` : Asks the magic 8ball a question
 
-`/bark` : Self explanatory
-
-`/meow` : ^^^
-
-`/confess` : Sends anonymous confession
+`/confess` : Sends anonymous confession (Requires confession channel)
 
 
 **Moderation Commands**
