@@ -37,81 +37,76 @@ public class MusicCommands extends ListenerAdapter {
         if (event.getName().equals("play")) {
             event.deferReply().queue();
             audioTextChannel = event.getTextChannel();
-            // Loops 'i' times due to occasional issues which result in songs not properly being queued
-            // Unsure of how to fix core issue, this is a solid fix for now, however
-            for (int i = 0; i < 1; ++i) {
-                try {
-                    // Checks requester voice state
-                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+
+            try {
+                // Checks requester voice state
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in a voice channel to use `/play`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+
+                // Check jda voice state and compare with member voice state
+                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                    long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
+                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+                    if (!(botVC == memberVC)) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
-                                .setDescription("You need to be in a voice channel to use `/play`!")
+                                .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
                                 .setFooter("Use /help for a list of music commands!");
                         event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
                     }
+                }
 
-                    // Check jda voice state and compare with member voice state
-                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                        long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
-                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-                        if (!(botVC == memberVC)) {
-                            EmbedBuilder builder = new EmbedBuilder()
-                                    .setColor(Util.randColor())
-                                    .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
-                                    .setFooter("Use /help for a list of music commands!");
-                            event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
-                            return;
-                        }
-                    }
+                final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+                String link = Objects.requireNonNull(event.getOption("song")).getAsString();
+                System.out.println("Link: " + link);
 
-                    final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
-                    String link = Objects.requireNonNull(event.getOption("song")).getAsString();
-                    System.out.println("Link: " + link);
+                // TODO: Add Spotify support
+                // Spotify links
+                if (link.contains("spotify.com")) {
+                    //System.out.println("Input type: SPOTIFY");
+                }
+                // Invalid links
+                else if (!isURL(link)) {
+                    link = ("ytsearch:" + link + " audio");
+                    //System.out.println("Input type: NON_URI");
+                    // Joins VC
+                    audioManager.openAudioConnection(memberChannel);
 
-                    // TODO: Add Spotify support
-                    // Spotify links
-                    if (link.contains("spotify.com")) {
-                        //System.out.println("Input type: SPOTIFY");
-                    }
-                    // Invalid links
-                    else if (!isURL(link)) {
-                        link = ("ytsearch:" + link + " audio");
-                        //System.out.println("Input type: NON_URI");
-                        // Joins VC
-                        audioManager.openAudioConnection(memberChannel);
-
-                        // Plays song
-                        PlayerManager.getINSTANCE().loadAndPlayNoURI(event.getTextChannel(), link);
-                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
-                        Util.wait(500);
-                        if (bot.getVoiceState().inAudioChannel()) {
-                            event.getGuild().deafen(bot, true).queue();
-                        }
-                    }
-                    // Valid links (Basically just YouTube)
-                    else {
-                        //System.out.println("Input type: YOUTUBE");
-                        // Joins VC
-                        audioManager.openAudioConnection(memberChannel);
+                    // Plays song
+                    PlayerManager.getINSTANCE().loadAndPlayNoURI(event.getTextChannel(), link);
+                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                    Util.wait(500);
+                    if (bot.getVoiceState().inAudioChannel()) {
                         event.getGuild().deafen(bot, true).queue();
-
-                        // Plays song
-                        PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
-                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
-
                     }
-                    EmbedBuilder error = new EmbedBuilder()
-                            .setDescription("Loading playlist...");
-                    event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
-                    event.getHook().deleteOriginal().queue();
-
-                    break;
                 }
+                // Valid links (Basically just YouTube)
+                else {
+                    //System.out.println("Input type: YOUTUBE");
+                    // Joins VC
+                    audioManager.openAudioConnection(memberChannel);
+                    event.getGuild().deafen(bot, true).queue();
 
-                catch (Exception exception) { // Add real exception handling later
-                    System.out.println("Error occurred during playback");
+                    // Plays song
+                    PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
+                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+
                 }
+                EmbedBuilder error = new EmbedBuilder()
+                        .setDescription("Loading playlist...");
+                event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
+                event.getHook().deleteOriginal().queue();
+            }
+
+            catch (Exception exception) { // Add real exception handling later
+                System.out.println("Error occurred during playback");
             }
         }
 
