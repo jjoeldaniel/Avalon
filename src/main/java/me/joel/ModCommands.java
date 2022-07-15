@@ -4,10 +4,14 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Channel;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -155,6 +159,34 @@ public class ModCommands extends ListenerAdapter {
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                         .setColor(Util.randColor())
                         .addField("Think this is an error?", "Try contacting your local server administrator/moderator!", false);
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
+        }
+
+        if (event.getName().equals("purge")) {
+            try {
+                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) return;
+                long messageID = event.getIdLong();
+                int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
+                TextChannel textChannel = event.getTextChannel();
+
+                event.getTextChannel().getIterableHistory()
+                        .takeAsync(amount)
+                        .thenAccept(textChannel::purgeMessages);
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("`" + amount + "` message(s) purged!")
+                        .setFooter("Use /help for a list of commands!");
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
+            catch (Exception except) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("Unable to purge messages!")
+                        .setFooter("Use /help for a list of commands!");
+
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
         }
