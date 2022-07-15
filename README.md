@@ -7,7 +7,7 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
  
  ### **1) What is the command list?**
  
-   Use `/help` to be DM'd the complete commands list.
+   Use `/help` for the complete commands list.
     
  ### **2) What functions does PawBot provide?**
  
