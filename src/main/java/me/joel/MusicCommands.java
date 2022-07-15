@@ -84,7 +84,10 @@ public class MusicCommands extends ListenerAdapter {
                         // Plays song
                         PlayerManager.getINSTANCE().loadAndPlayNoURI(event.getTextChannel(), link);
                         PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
-                        event.getGuild().deafen(bot, true).queue();
+                        Util.wait(500);
+                        if (bot.getVoiceState().inAudioChannel()) {
+                            event.getGuild().deafen(bot, true).queue();
+                        }
                     }
                     // Valid links (Basically just YouTube)
                     else {
