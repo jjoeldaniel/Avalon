@@ -160,6 +160,7 @@ public class ModCommands extends ListenerAdapter {
             }
         }
 
+        // Purge
         if (event.getName().equals("purge")) {
             try {
                 if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) return;
