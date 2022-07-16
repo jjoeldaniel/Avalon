@@ -35,7 +35,6 @@ public class AFK extends ListenerAdapter {
 
                 // Return from AFK
                 if (member.getEffectiveName().startsWith("(AFK)")) {
-                    System.out.println("AFK Member returned");
                     String user = Objects.requireNonNull(event.getMember()).getEffectiveName();
                     StringBuilder username = new StringBuilder()
                             .append(user)
