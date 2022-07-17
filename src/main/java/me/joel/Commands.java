@@ -401,7 +401,6 @@ public class Commands extends ListenerAdapter {
         }
 
         if (event.getComponentId().equals("truth") || event.getComponentId().equals("dare") || event.getComponentId().equals("randomTruthOrDare")) {
-            TextChannel textChannel = event.getTextChannel();
             if(event.getComponentId().equals("truth")) {
                 String truth = truthordare.truth();
                 EmbedBuilder truthNotDare = new EmbedBuilder()
