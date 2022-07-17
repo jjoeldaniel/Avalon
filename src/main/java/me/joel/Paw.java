@@ -8,13 +8,14 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import java.util.Objects;
 
 public class Paw {
     public static void main(String[] args) throws LoginException, InterruptedException {
 
-        JDA jda = JDABuilder.createDefault("token")
+        JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GZPwah.a1eNmPXe-RT2lUcc99NenOvT38cp_oBcy9mYco")
 
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())
@@ -23,6 +24,7 @@ public class Paw {
                 .addEventListeners(new MusicCommands())
                 .addEventListeners(new ModCommands())
                 .enableCache(CacheFlag.VOICE_STATE)
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build()
                 .awaitReady();
 
