@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -217,18 +218,34 @@ public class ModCommands extends ListenerAdapter {
         // Broadcast
         if (event.getName().equals("broadcast")) {
             if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && !(event.getMember().getId().equals("205862976689799168"))) return;
-            TextChannel channel = Objects.requireNonNull(event.getOption("channel")).getAsChannel().asTextChannel();
-            String channelID = channel.getId();
-            String message = Objects.requireNonNull(event.getOption("message")).getAsString();
+            GuildChannelUnion channel = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
 
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setTitle("Message sent!")
-                    .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                    .setColor(Util.randColor())
-                    .setDescription("\"" + message + "\"");
+            if (channel.getType() == ChannelType.VOICE) {
+                VoiceChannel voiceChannel = channel.asVoiceChannel();
+                String message = Objects.requireNonNull(event.getOption("message")).getAsString();
 
-            Objects.requireNonNull(Objects.requireNonNull(event.getGuild()).getTextChannelById(channelID)).sendMessage(message).queue();
-            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Message sent!")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Util.randColor())
+                        .setDescription("\"" + message + "\"");
+
+                voiceChannel.sendMessage(message).queue();
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
+            else {
+                TextChannel textChannel = channel.asTextChannel();
+                String message = Objects.requireNonNull(event.getOption("message")).getAsString();
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Message sent!")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Util.randColor())
+                        .setDescription("\"" + message + "\"");
+
+                textChannel.sendMessage(message).queue();
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
         }
 
     }
