@@ -2,7 +2,6 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Channel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -175,8 +174,8 @@ public class ModCommands extends ListenerAdapter {
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
 
-                TextChannel textChannel = event.getTextChannel();
-                event.getTextChannel().getIterableHistory()
+                TextChannel textChannel = event.getChannel().asTextChannel();
+                textChannel.getIterableHistory()
                         .takeAsync(amount)
                         .thenAccept(textChannel::purgeMessages);
 
@@ -200,8 +199,7 @@ public class ModCommands extends ListenerAdapter {
         // Broadcast
         if (event.getName().equals("broadcast")) {
             if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && !(event.getMember().getId().equals("205862976689799168"))) return;
-            Channel channel = Objects.requireNonNull(event.getOption("channel")).getAsTextChannel();
-            assert channel != null;
+            TextChannel channel = Objects.requireNonNull(event.getOption("channel")).getAsChannel().asTextChannel();
             String channelID = channel.getId();
             String message = Objects.requireNonNull(event.getOption("message")).getAsString();
 

@@ -36,7 +36,7 @@ public class MusicCommands extends ListenerAdapter {
         // Play
         if (event.getName().equals("play")) {
             event.deferReply().queue();
-            audioTextChannel = event.getTextChannel();
+            audioTextChannel = event.getChannel().asTextChannel();
 
 //            try {
                 // Checks requester voice state
@@ -79,7 +79,7 @@ public class MusicCommands extends ListenerAdapter {
                     audioManager.openAudioConnection(memberChannel);
 
                     // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlayNoURI(event.getTextChannel(), link);
+                    PlayerManager.getINSTANCE().loadAndPlayNoURI(audioTextChannel, link);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
                     Util.wait(500);
                     if (bot.getVoiceState().inAudioChannel()) {
@@ -96,7 +96,7 @@ public class MusicCommands extends ListenerAdapter {
                     }
 
                     // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
+                    PlayerManager.getINSTANCE().loadAndPlay(audioTextChannel, link);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
 
                 }
