@@ -56,7 +56,7 @@ public class ReactMessages extends ListenerAdapter {
         // Checks if user
         if (event.isFromType(ChannelType.TEXT)) {
 
-            if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getTextChannel().isNSFW()) {
+            if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getChannel().asTextChannel().isNSFW()) {
 
                 // Grabs user input
                 String messageSent = event.getMessage().getContentRaw().toLowerCase();
@@ -80,7 +80,7 @@ public class ReactMessages extends ListenerAdapter {
                     }
                 }
                 // Insult
-                if (isInsult(messageSent) && !event.getTextChannel().isNSFW()) {
+                if (isInsult(messageSent)) {
                     if (Util.randomWithRange(0, 100) > 75)
                         event.getMessage().replyEmbeds(randomInsult().build()).queue();
                 }
