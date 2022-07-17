@@ -2,9 +2,8 @@ package me.joel;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -25,6 +24,7 @@ public class MusicCommands extends ListenerAdapter {
     int queueSize;
     static boolean sendNowPlaying = false;
     static TextChannel audioTextChannel;
+    static VoiceChannel audioVoiceChannel;
 
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
@@ -36,7 +36,13 @@ public class MusicCommands extends ListenerAdapter {
         // Play
         if (event.getName().equals("play")) {
             event.deferReply().queue();
-            audioTextChannel = event.getChannel().asTextChannel();
+            MessageChannelUnion audioChannel = event.getChannel();
+            if (audioChannel.getType() == ChannelType.TEXT) {
+                audioTextChannel = audioChannel.asTextChannel();
+            }
+            else if (audioChannel.getType() == ChannelType.VOICE) {
+                audioVoiceChannel = audioChannel.asVoiceChannel();
+            }
 
 //            try {
                 // Checks requester voice state
@@ -79,8 +85,9 @@ public class MusicCommands extends ListenerAdapter {
                     audioManager.openAudioConnection(memberChannel);
 
                     // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlayNoURI(audioTextChannel, link);
+                    PlayerManager.getINSTANCE().loadAndPlayNoURI(audioChannel, link);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+
                     Util.wait(500);
                     if (bot.getVoiceState().inAudioChannel()) {
                         event.getGuild().deafen(bot, true).queue();
@@ -96,8 +103,13 @@ public class MusicCommands extends ListenerAdapter {
                     }
 
                     // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlay(audioTextChannel, link);
+                    PlayerManager.getINSTANCE().loadAndPlay(audioChannel, link);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+
+                    Util.wait(500);
+                    if (bot.getVoiceState().inAudioChannel()) {
+                        event.getGuild().deafen(bot, true).queue();
+                    }
 
                 }
                 EmbedBuilder error = new EmbedBuilder()
