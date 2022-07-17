@@ -2,8 +2,10 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -174,17 +176,33 @@ public class ModCommands extends ListenerAdapter {
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
 
-                TextChannel textChannel = event.getChannel().asTextChannel();
-                textChannel.getIterableHistory()
-                        .takeAsync(amount)
-                        .thenAccept(textChannel::purgeMessages);
+                if (event.getChannel().getType() == ChannelType.TEXT) {
+                    TextChannel textChannel = event.getChannel().asTextChannel();
+                    textChannel.getIterableHistory()
+                            .takeAsync(amount)
+                            .thenAccept(textChannel::purgeMessages);
 
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setDescription("`" + amount + "` message(s) purged!")
-                        .setFooter("Use /help for a list of commands!");
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("`" + amount + "` message(s) purged!")
+                            .setFooter("Use /help for a list of commands!");
 
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                }
+                else if (event.getChannel().getType() == ChannelType.VOICE) {
+                    VoiceChannel voiceChannel = event.getChannel().asVoiceChannel();
+                    voiceChannel.getIterableHistory()
+                            .takeAsync(amount)
+                            .thenAccept(voiceChannel::purgeMessages);
+
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("`" + amount + "` message(s) purged!")
+                            .setFooter("Use /help for a list of commands!");
+
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                }
+
             }
             catch (Exception except) {
                 EmbedBuilder builder = new EmbedBuilder()
