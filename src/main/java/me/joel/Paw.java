@@ -22,7 +22,6 @@ public class Paw {
                 .addEventListeners(new AFK())
                 .addEventListeners(new MusicCommands())
                 .addEventListeners(new ModCommands())
-                .addEventListeners(new AFKReturn())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .build()
                 .awaitReady();
