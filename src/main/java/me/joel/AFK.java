@@ -88,7 +88,7 @@ public class AFK extends ListenerAdapter {
                             .setDescription("Mentioned member is AFK, " + Objects.requireNonNull(event.getMember()).getAsMention() + "!")
                             .setColor(Util.randColor());
 
-                    event.getTextChannel().sendMessageEmbeds(builder.build()).queue();
+                    event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 }
             }
             catch (Exception ignore) {}
