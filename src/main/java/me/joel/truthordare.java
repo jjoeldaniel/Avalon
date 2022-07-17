@@ -1,9 +1,5 @@
 package me.joel;
 
-import net.dv8tion.jda.api.EmbedBuilder;
-
-import java.awt.*;
-
 public class truthordare {
 
     public static String truth() {
