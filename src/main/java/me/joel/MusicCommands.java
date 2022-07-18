@@ -24,6 +24,8 @@ public class MusicCommands extends ListenerAdapter {
     int queueSize;
     static boolean sendNowPlaying = false;
     static TextChannel audioTextChannel;
+
+    static MessageChannelUnion messageChannelUnion;
     static VoiceChannel audioVoiceChannel;
 
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -36,12 +38,12 @@ public class MusicCommands extends ListenerAdapter {
         // Play
         if (event.getName().equals("play")) {
             event.deferReply().queue();
-            MessageChannelUnion audioChannel = event.getChannel();
-            if (audioChannel.getType() == ChannelType.TEXT) {
-                audioTextChannel = audioChannel.asTextChannel();
+            messageChannelUnion = event.getChannel();
+            if (messageChannelUnion.getType() == ChannelType.TEXT) {
+                audioTextChannel = messageChannelUnion.asTextChannel();
             }
-            else if (audioChannel.getType() == ChannelType.VOICE) {
-                audioVoiceChannel = audioChannel.asVoiceChannel();
+            else if (messageChannelUnion.getType() == ChannelType.VOICE) {
+                audioVoiceChannel = messageChannelUnion.asVoiceChannel();
             }
 
 //            try {
@@ -72,20 +74,16 @@ public class MusicCommands extends ListenerAdapter {
                 final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
                 String link = Objects.requireNonNull(event.getOption("song")).getAsString();
 
-                // TODO: Add Spotify support
-                // Spotify links
-                if (link.contains("spotify.com")) {
-                    //System.out.println("Input type: SPOTIFY");
-                }
+
                 // Invalid links
-                else if (!isURL(link)) {
+                 if (!isURL(link)) {
                     link = ("ytsearch:" + link + " audio");
                     //System.out.println("Input type: NON_URI");
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
 
                     // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlayNoURI(audioChannel, link);
+                    PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
 
                     Util.wait(500);
@@ -93,6 +91,11 @@ public class MusicCommands extends ListenerAdapter {
                         event.getGuild().deafen(bot, true).queue();
                     }
                 }
+                // TODO: Add Spotify support
+                // Spotify links
+//                else if (link.contains("spotify.com")) {
+//                    //System.out.println("Input type: SPOTIFY");
+//                }
                 // Valid links (Basically just YouTube)
                 else {
                     //System.out.println("Input type: YOUTUBE");
@@ -103,7 +106,7 @@ public class MusicCommands extends ListenerAdapter {
                     }
 
                     // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlay(audioChannel, link);
+                    PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
 
                     Util.wait(500);
@@ -354,38 +357,41 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 1");
             }
             event.getHook().sendMessageEmbeds(page1.build())
-                    .addActionRow(Button.primary("page2", "Next Page"))
+                    .addActionRow(
+                        Button.primary("page1", "Previous Page"),
+                        Button.primary("page2", "Next Page"))
                     .queue();
         }
     }
 
-    public static void sendNowPlaying(AudioTrack currentTrack, TextChannel textChannel) {
-        textChannel.sendMessageEmbeds(nowPlaying(currentTrack).build()).queue();
+    public static void sendNowPlaying(AudioTrack currentTrack, MessageChannelUnion channel) {
         setSendNowPlaying(false);
-    }
-    public static TextChannel returnTextChannel() {
-        return audioTextChannel;
-    }
-    public static void setSendNowPlaying(boolean bool) {
-        sendNowPlaying = bool;
-    }
-    public static EmbedBuilder nowPlaying(AudioTrack track) {
+
         // Time from ms to m:s
-        long trackLength = track.getInfo().length;
+        long trackLength = currentTrack.getInfo().length;
         long minutes = (trackLength / 1000) / 60;
         long seconds = ((trackLength / 1000) % 60);
         String songSeconds = String.valueOf(seconds);
         if (seconds < 10) songSeconds = "0" + seconds;
         // Thumbnail
-        String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
+        String trackThumbnail = PlayerManager.getThumbnail(currentTrack.getInfo().uri);
 
-        return new EmbedBuilder()
+        EmbedBuilder builder = new EmbedBuilder()
                 .setColor(Util.randColor())
                 .setAuthor("Now Playing")
-                .setTitle(track.getInfo().title, track.getInfo().uri)
+                .setTitle(currentTrack.getInfo().title, currentTrack.getInfo().uri)
                 .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                 .setThumbnail(trackThumbnail)
                 .setFooter("Use /help for a list of music commands!");
+
+        channel.sendMessageEmbeds(builder.build()).queue();
+    }
+
+    public static MessageChannelUnion returnChannel() {
+        return messageChannelUnion;
+    }
+    public static void setSendNowPlaying(boolean bool) {
+        sendNowPlaying = bool;
     }
 
     @Override
@@ -410,12 +416,13 @@ public class MusicCommands extends ListenerAdapter {
                         .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
                         .setFooter("Page 1");
             }
+
             event.editMessageEmbeds(page1.build())
+                    .setActionRow(Button.primary("page1", "Previous Page").asDisabled())
                     .setActionRow(Button.primary("page2", "Next Page"))
                     .queue();
         }
-
-        if (event.getComponentId().equals("page2")) {
+        else if (event.getComponentId().equals("page2")) {
             String currentSong;
             try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
@@ -431,13 +438,14 @@ public class MusicCommands extends ListenerAdapter {
             for (int i = 5; i < queueSize && i < 10; ++i) {
                 page2
                     .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
-                        .setFooter("Page 2");
+                    .setFooter("Page 2");
             }
+
             event.editMessageEmbeds(page2.build())
-                    .setActionRow(Button.primary("page1", "Previous Page"), Button.primary("page3", "Next Page"))
+                    .setActionRow(Button.primary("page1", "Previous Page"))
+                    .setActionRow(Button.primary("page3", "Next Page"))
                     .queue();
         }
-
         else if (event.getComponentId().equals("page3")) {
             String currentSong;
             try {
@@ -456,8 +464,10 @@ public class MusicCommands extends ListenerAdapter {
                         .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
                         .setFooter("Page 3");
             }
+
             event.editMessageEmbeds(page3.build())
-                    .setActionRow(Button.primary("page2", "Previous Page"), Button.primary("page4", "Next Page"))
+                    .setActionRow(Button.primary("page2", "Previous Page"))
+                    .setActionRow(Button.primary("page4", "Next Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page4")) {
@@ -479,7 +489,8 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 4");
             }
             event.editMessageEmbeds(page4.build())
-                    .setActionRow(Button.primary("page3", "Previous Page"), Button.primary("page5", "Next Page"))
+                    .setActionRow(Button.primary("page3", "Previous Page"))
+                    .setActionRow(Button.primary("page5", "Next Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page5")) {
@@ -501,7 +512,8 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 5");
             }
             event.editMessageEmbeds(page5.build())
-                    .setActionRow(Button.primary("page4", "Previous Page"), Button.primary("page6", "Next Page"))
+                    .setActionRow(Button.primary("page4", "Previous Page"))
+                    .setActionRow(Button.primary("page6", "Next Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page6")) {
@@ -523,7 +535,8 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 6");
             }
             event.editMessageEmbeds(page6.build())
-                    .setActionRow(Button.primary("page5", "Previous Page"), Button.primary("page7", "Next Page"))
+                    .setActionRow(Button.primary("page5", "Previous Page"))
+                    .setActionRow(Button.primary("page7", "Next Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page7")) {
@@ -545,7 +558,8 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 7");
             }
             event.editMessageEmbeds(page7.build())
-                    .setActionRow(Button.primary("page6", "Previous Page"), Button.primary("page8", "Next Page"))
+                    .setActionRow(Button.primary("page6", "Previous Page"))
+                    .setActionRow(Button.primary("page8", "Next Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page8")) {
@@ -567,7 +581,8 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 8");
             }
             event.editMessageEmbeds(page8.build())
-                    .setActionRow(Button.primary("page7", "Previous Page"), Button.primary("page9", "Next Page"))
+                    .setActionRow(Button.primary("page7", "Previous Page"))
+                    .setActionRow(Button.primary("page8", "Next Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page9")) {
@@ -589,7 +604,8 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 9");
             }
             event.editMessageEmbeds(page9.build())
-                    .setActionRow(Button.primary("page8", "Previous Page"), Button.primary("page10", "Next Page"))
+                    .setActionRow(Button.primary("page8", "Previous Page"))
+                    .setActionRow(Button.primary("page10", "Next Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page10")) {
@@ -611,10 +627,12 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 10");
             }
             event.editMessageEmbeds(page10.build())
-                    .setActionRow(Button.primary("page9", "Previous Page"), Button.primary("page1", "Page 1"))
+                    .setActionRow(Button.primary("page9", "Previous Page"))
+                    .setActionRow(Button.success("page1", "First Page"))
                     .queue();
         }
     }
+
 
     // Validates links
     public boolean isURL(String url) {
