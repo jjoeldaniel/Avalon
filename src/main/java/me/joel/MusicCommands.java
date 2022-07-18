@@ -412,8 +412,10 @@ public class MusicCommands extends ListenerAdapter {
                     .addBlankField(false);
 
             for (int i = 0; i < queueSize && i < 5; ++i) {
+                String songTile = playlist.get(i).getInfo().title;
+                String songURI = playlist.get(i).getInfo().uri;
                 page1
-                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 1");
             }
 
@@ -436,8 +438,10 @@ public class MusicCommands extends ListenerAdapter {
                     .addBlankField(false);
 
             for (int i = 5; i < queueSize && i < 10; ++i) {
+                String songTile = playlist.get(i).getInfo().title;
+                String songURI = playlist.get(i).getInfo().uri;
                 page2
-                    .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                    .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                     .setFooter("Page 2");
             }
 
@@ -460,8 +464,10 @@ public class MusicCommands extends ListenerAdapter {
                     .addBlankField(false);
 
             for (int i = 10; i < queueSize && i < 15; ++i) {
+                String songTile = playlist.get(i).getInfo().title;
+                String songURI = playlist.get(i).getInfo().uri;
                 page3
-                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 3");
             }
 
@@ -484,8 +490,10 @@ public class MusicCommands extends ListenerAdapter {
                     .addBlankField(false);
 
             for (int i = 15; i < queueSize && i < 20; ++i) {
+                String songTile = playlist.get(i).getInfo().title;
+                String songURI = playlist.get(i).getInfo().uri;
                 page4
-                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 4");
             }
             event.editMessageEmbeds(page4.build())
@@ -507,8 +515,10 @@ public class MusicCommands extends ListenerAdapter {
                     .addBlankField(false);
 
             for (int i = 20; i < queueSize && i < 25; ++i) {
+                String songTile = playlist.get(i).getInfo().title;
+                String songURI = playlist.get(i).getInfo().uri;
                 page5
-                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 5");
             }
             event.editMessageEmbeds(page5.build())
@@ -530,8 +540,10 @@ public class MusicCommands extends ListenerAdapter {
                     .addBlankField(false);
 
             for (int i = 25; i < queueSize && i < 30; ++i) {
+                String songTile = playlist.get(i).getInfo().title;
+                String songURI = playlist.get(i).getInfo().uri;
                 page6
-                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 6");
             }
             event.editMessageEmbeds(page6.build())
@@ -553,8 +565,10 @@ public class MusicCommands extends ListenerAdapter {
                     .addBlankField(false);
 
             for (int i = 30; i < queueSize && i < 35; ++i) {
+                String songTile = playlist.get(i).getInfo().title;
+                String songURI = playlist.get(i).getInfo().uri;
                 page7
-                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 7");
             }
             event.editMessageEmbeds(page7.build())
@@ -576,8 +590,10 @@ public class MusicCommands extends ListenerAdapter {
                     .addBlankField(false);
 
             for (int i = 35; i < queueSize && i < 40; ++i) {
+                String songTile = playlist.get(i).getInfo().title;
+                String songURI = playlist.get(i).getInfo().uri;
                 page8
-                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 8");
             }
             event.editMessageEmbeds(page8.build())
@@ -599,8 +615,10 @@ public class MusicCommands extends ListenerAdapter {
                     .addBlankField(false);
 
             for (int i = 40; i < queueSize && i < 45; ++i) {
+                String songTile = playlist.get(i).getInfo().title;
+                String songURI = playlist.get(i).getInfo().uri;
                 page9
-                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 9");
             }
             event.editMessageEmbeds(page9.build())
@@ -622,8 +640,10 @@ public class MusicCommands extends ListenerAdapter {
                     .addBlankField(false);
 
             for (int i = 45; i < queueSize && i < 50; ++i) {
+                String songTile = playlist.get(i).getInfo().title;
+                String songURI = playlist.get(i).getInfo().uri;
                 page10
-                        .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 10");
             }
             event.editMessageEmbeds(page10.build())
