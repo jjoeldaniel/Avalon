@@ -358,7 +358,7 @@ public class MusicCommands extends ListenerAdapter {
             }
             event.getHook().sendMessageEmbeds(page1.build())
                     .addActionRow(
-                        Button.primary("page1", "Previous Page"),
+                        Button.primary("page1", "Previous Page").asDisabled(),
                         Button.primary("page2", "Next Page"))
                     .queue();
         }
@@ -420,8 +420,9 @@ public class MusicCommands extends ListenerAdapter {
             }
 
             event.editMessageEmbeds(page1.build())
-                    .setActionRow(Button.primary("page1", "Previous Page").asDisabled())
-                    .setActionRow(Button.primary("page2", "Next Page"))
+                    .setActionRow(
+                            Button.primary("page1", "Previous Page").asDisabled(),
+                            Button.primary("page2", "Next Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page2")) {
@@ -446,8 +447,9 @@ public class MusicCommands extends ListenerAdapter {
             }
 
             event.editMessageEmbeds(page2.build())
-                    .setActionRow(Button.primary("page1", "Previous Page"))
-                    .setActionRow(Button.primary("page3", "Next Page"))
+                    .setActionRow(
+                            Button.primary("page1", "Previous Page"),
+                            Button.primary("page3", "Next Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page3")) {
@@ -472,8 +474,10 @@ public class MusicCommands extends ListenerAdapter {
             }
 
             event.editMessageEmbeds(page3.build())
-                    .setActionRow(Button.primary("page2", "Previous Page"))
-                    .setActionRow(Button.primary("page4", "Next Page"))
+                    .setActionRow(
+                            Button.primary("page2", "Previous Page"),
+                            Button.primary("page4", "Next Page"),
+                            Button.success("page1", "First Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page4")) {
@@ -497,8 +501,10 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 4");
             }
             event.editMessageEmbeds(page4.build())
-                    .setActionRow(Button.primary("page3", "Previous Page"))
-                    .setActionRow(Button.primary("page5", "Next Page"))
+                    .setActionRow(
+                            Button.primary("page3", "Previous Page"),
+                            Button.primary("page5", "Next Page"),
+                            Button.success("page1", "First Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page5")) {
@@ -522,8 +528,10 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 5");
             }
             event.editMessageEmbeds(page5.build())
-                    .setActionRow(Button.primary("page4", "Previous Page"))
-                    .setActionRow(Button.primary("page6", "Next Page"))
+                    .setActionRow(
+                            Button.primary("page4", "Previous Page"),
+                            Button.primary("page6", "Next Page"),
+                            Button.success("page1", "First Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page6")) {
@@ -547,8 +555,10 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 6");
             }
             event.editMessageEmbeds(page6.build())
-                    .setActionRow(Button.primary("page5", "Previous Page"))
-                    .setActionRow(Button.primary("page7", "Next Page"))
+                    .setActionRow(
+                            Button.primary("page5", "Previous Page"),
+                            Button.primary("page7", "Next Page"),
+                            Button.success("page1", "First Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page7")) {
@@ -572,8 +582,10 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 7");
             }
             event.editMessageEmbeds(page7.build())
-                    .setActionRow(Button.primary("page6", "Previous Page"))
-                    .setActionRow(Button.primary("page8", "Next Page"))
+                    .setActionRow(
+                            Button.primary("page6", "Previous Page"),
+                            Button.primary("page8", "Next Page"),
+                            Button.success("page1", "First Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page8")) {
@@ -597,8 +609,10 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 8");
             }
             event.editMessageEmbeds(page8.build())
-                    .setActionRow(Button.primary("page7", "Previous Page"))
-                    .setActionRow(Button.primary("page8", "Next Page"))
+                    .setActionRow(
+                            Button.primary("page7", "Previous Page"),
+                            Button.primary("page9", "Next Page"),
+                            Button.success("page1", "First Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page9")) {
@@ -622,8 +636,10 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 9");
             }
             event.editMessageEmbeds(page9.build())
-                    .setActionRow(Button.primary("page8", "Previous Page"))
-                    .setActionRow(Button.primary("page10", "Next Page"))
+                    .setActionRow(
+                            Button.primary("page8", "Previous Page"),
+                            Button.primary("page10", "Next Page"),
+                            Button.success("page1", "First Page"))
                     .queue();
         }
         else if (event.getComponentId().equals("page10")) {
@@ -647,8 +663,9 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 10");
             }
             event.editMessageEmbeds(page10.build())
-                    .setActionRow(Button.primary("page9", "Previous Page"))
-                    .setActionRow(Button.success("page1", "First Page"))
+                    .setActionRow(
+                            Button.primary("page9", "Previous Page"),
+                            Button.success("page1", "First Page"))
                     .queue();
         }
     }
