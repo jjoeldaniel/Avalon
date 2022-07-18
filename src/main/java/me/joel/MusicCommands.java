@@ -354,13 +354,24 @@ public class MusicCommands extends ListenerAdapter {
             for (int i = 0; i < queueSize && i < 5; ++i) {
                 page1
                         .addField("[" + (i+1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
+
                         .setFooter("Page 1");
             }
-            event.getHook().sendMessageEmbeds(page1.build())
-                    .addActionRow(
-                        Button.primary("page1", "Previous Page").asDisabled(),
-                        Button.primary("page2", "Next Page"))
-                    .queue();
+            // disable next page if next page is blank
+            if (queueSize <= 5) {
+                event.getHook().sendMessageEmbeds(page1.build())
+                        .addActionRow(
+                                Button.primary("page1", "Previous Page").asDisabled(),
+                                Button.primary("page2", "Next Page").asDisabled())
+                        .queue();
+            }
+            else {
+                event.getHook().sendMessageEmbeds(page1.build())
+                        .addActionRow(
+                                Button.primary("page1", "Previous Page").asDisabled(),
+                                Button.primary("page2", "Next Page"))
+                        .queue();
+            }
         }
     }
 
@@ -419,13 +430,24 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 1");
             }
 
-            event.editMessageEmbeds(page1.build())
-                    .setActionRow(
-                            Button.primary("page1", "Previous Page").asDisabled(),
-                            Button.primary("page2", "Next Page"))
-                    .queue();
+            // disable next page if next page is blank
+            if (queueSize <= 5) {
+                event.editMessageEmbeds(page1.build())
+                        .setActionRow(
+                                Button.primary("page1", "Previous Page").asDisabled(),
+                                Button.primary("page2", "Next Page").asDisabled())
+                        .queue();
+            }
+            else {
+                event.editMessageEmbeds(page1.build())
+                        .setActionRow(
+                                Button.primary("page1", "Previous Page").asDisabled(),
+                                Button.primary("page2", "Next Page"))
+                        .queue();
+            }
         }
         else if (event.getComponentId().equals("page2")) {
+
             String currentSong;
             try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
@@ -446,11 +468,21 @@ public class MusicCommands extends ListenerAdapter {
                     .setFooter("Page 2");
             }
 
-            event.editMessageEmbeds(page2.build())
-                    .setActionRow(
-                            Button.primary("page1", "Previous Page"),
-                            Button.primary("page3", "Next Page"))
-                    .queue();
+            // disable next page if next page is blank
+            if (queueSize <= 10) {
+                event.editMessageEmbeds(page2.build())
+                        .setActionRow(
+                                Button.primary("page1", "Previous Page"),
+                                Button.primary("page3", "Next Page").asDisabled())
+                        .queue();
+            }
+            else {
+                event.editMessageEmbeds(page2.build())
+                        .setActionRow(
+                                Button.primary("page1", "Previous Page"),
+                                Button.primary("page3", "Next Page"))
+                        .queue();
+            }
         }
         else if (event.getComponentId().equals("page3")) {
             String currentSong;
@@ -473,12 +505,23 @@ public class MusicCommands extends ListenerAdapter {
                         .setFooter("Page 3");
             }
 
-            event.editMessageEmbeds(page3.build())
-                    .setActionRow(
-                            Button.primary("page2", "Previous Page"),
-                            Button.primary("page4", "Next Page"),
-                            Button.success("page1", "First Page"))
-                    .queue();
+            // disable next page if next page is blank
+            if (queueSize <= 15) {
+                event.editMessageEmbeds(page3.build())
+                        .setActionRow(
+                                Button.primary("page2", "Previous Page"),
+                                Button.primary("page4", "Next Page").asDisabled(),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
+            else {
+                event.editMessageEmbeds(page3.build())
+                        .setActionRow(
+                                Button.primary("page2", "Previous Page"),
+                                Button.primary("page4", "Next Page"),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
         }
         else if (event.getComponentId().equals("page4")) {
             String currentSong;
@@ -500,12 +543,24 @@ public class MusicCommands extends ListenerAdapter {
                         .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 4");
             }
-            event.editMessageEmbeds(page4.build())
-                    .setActionRow(
-                            Button.primary("page3", "Previous Page"),
-                            Button.primary("page5", "Next Page"),
-                            Button.success("page1", "First Page"))
-                    .queue();
+
+            // disable next page if next page is blank
+            if (queueSize <= 20) {
+                event.editMessageEmbeds(page4.build())
+                        .setActionRow(
+                                Button.primary("page3", "Previous Page"),
+                                Button.primary("page5", "Next Page").asDisabled(),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
+            else {
+                event.editMessageEmbeds(page4.build())
+                        .setActionRow(
+                                Button.primary("page3", "Previous Page"),
+                                Button.primary("page5", "Next Page"),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
         }
         else if (event.getComponentId().equals("page5")) {
             String currentSong;
@@ -527,12 +582,24 @@ public class MusicCommands extends ListenerAdapter {
                         .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 5");
             }
-            event.editMessageEmbeds(page5.build())
-                    .setActionRow(
-                            Button.primary("page4", "Previous Page"),
-                            Button.primary("page6", "Next Page"),
-                            Button.success("page1", "First Page"))
-                    .queue();
+
+            // disable next page if next page is blank
+            if (queueSize <= 25) {
+                event.editMessageEmbeds(page5.build())
+                        .setActionRow(
+                                Button.primary("page4", "Previous Page"),
+                                Button.primary("page6", "Next Page").asDisabled(),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
+            else {
+                event.editMessageEmbeds(page5.build())
+                        .setActionRow(
+                                Button.primary("page4", "Previous Page"),
+                                Button.primary("page6", "Next Page"),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
         }
         else if (event.getComponentId().equals("page6")) {
             String currentSong;
@@ -554,12 +621,24 @@ public class MusicCommands extends ListenerAdapter {
                         .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 6");
             }
-            event.editMessageEmbeds(page6.build())
-                    .setActionRow(
-                            Button.primary("page5", "Previous Page"),
-                            Button.primary("page7", "Next Page"),
-                            Button.success("page1", "First Page"))
-                    .queue();
+
+            // disable next page if next page is blank
+            if (queueSize <= 30) {
+                event.editMessageEmbeds(page6.build())
+                        .setActionRow(
+                                Button.primary("page5", "Previous Page"),
+                                Button.primary("page7", "Next Page").asDisabled(),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
+            else {
+                event.editMessageEmbeds(page6.build())
+                        .setActionRow(
+                                Button.primary("page5", "Previous Page"),
+                                Button.primary("page7", "Next Page"),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
         }
         else if (event.getComponentId().equals("page7")) {
             String currentSong;
@@ -581,12 +660,24 @@ public class MusicCommands extends ListenerAdapter {
                         .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 7");
             }
-            event.editMessageEmbeds(page7.build())
-                    .setActionRow(
-                            Button.primary("page6", "Previous Page"),
-                            Button.primary("page8", "Next Page"),
-                            Button.success("page1", "First Page"))
-                    .queue();
+
+            // disable next page if next page is blank
+            if (queueSize <= 35) {
+                event.editMessageEmbeds(page7.build())
+                        .setActionRow(
+                                Button.primary("page6", "Previous Page"),
+                                Button.primary("page8", "Next Page").asDisabled(),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
+            else {
+                event.editMessageEmbeds(page7.build())
+                        .setActionRow(
+                                Button.primary("page6", "Previous Page"),
+                                Button.primary("page8", "Next Page"),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
         }
         else if (event.getComponentId().equals("page8")) {
             String currentSong;
@@ -608,12 +699,24 @@ public class MusicCommands extends ListenerAdapter {
                         .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 8");
             }
-            event.editMessageEmbeds(page8.build())
-                    .setActionRow(
-                            Button.primary("page7", "Previous Page"),
-                            Button.primary("page9", "Next Page"),
-                            Button.success("page1", "First Page"))
-                    .queue();
+
+            // disable next page if next page is blank
+            if (queueSize <= 40) {
+                event.editMessageEmbeds(page8.build())
+                        .setActionRow(
+                                Button.primary("page7", "Previous Page"),
+                                Button.primary("page9", "Next Page").asDisabled(),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
+            else {
+                event.editMessageEmbeds(page8.build())
+                        .setActionRow(
+                                Button.primary("page7", "Previous Page"),
+                                Button.primary("page9", "Next Page"),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
         }
         else if (event.getComponentId().equals("page9")) {
             String currentSong;
@@ -635,12 +738,24 @@ public class MusicCommands extends ListenerAdapter {
                         .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 9");
             }
-            event.editMessageEmbeds(page9.build())
-                    .setActionRow(
-                            Button.primary("page8", "Previous Page"),
-                            Button.primary("page10", "Next Page"),
-                            Button.success("page1", "First Page"))
-                    .queue();
+
+            // disable next page if next page is blank
+            if (queueSize <= 45) {
+                event.editMessageEmbeds(page9.build())
+                        .setActionRow(
+                                Button.primary("page8", "Previous Page"),
+                                Button.primary("page10", "Next Page").asDisabled(),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
+            else {
+                event.editMessageEmbeds(page9.build())
+                        .setActionRow(
+                                Button.primary("page8", "Previous Page"),
+                                Button.primary("page10", "Next Page"),
+                                Button.success("page1", "First Page"))
+                        .queue();
+            }
         }
         else if (event.getComponentId().equals("page10")) {
             String currentSong;
