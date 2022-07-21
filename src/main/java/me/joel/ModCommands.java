@@ -237,6 +237,7 @@ public class ModCommands extends ListenerAdapter
                             .setFooter("Use /help for a list of commands!");
 
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
                 }
 
                 if (event.getChannel().getType() == ChannelType.TEXT)
