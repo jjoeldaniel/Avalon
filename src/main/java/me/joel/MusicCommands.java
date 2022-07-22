@@ -18,7 +18,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 
-public class MusicCommands extends ListenerAdapter {
+public class MusicCommands extends ListenerAdapter
+{
 
     static Member member;
     EmbedBuilder queue = new EmbedBuilder();
@@ -80,95 +81,82 @@ public class MusicCommands extends ListenerAdapter {
                 audioVoiceChannel = messageChannelUnion.asVoiceChannel();
             }
 
-//            try {
-                // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
+            // Checks requester voice state
+            if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
+            {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("You need to be in a voice channel to use `/play`!")
+                        .setFooter("Use /help for a list of music commands!");
+                event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
+            }
+
+            // Check jda voice state and compare with member voice state
+            if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
+            {
+                long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
+                long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+                if (!(botVC == memberVC))
                 {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setDescription("You need to be in a voice channel to use `/play`!")
+                            .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
                             .setFooter("Use /help for a list of music commands!");
                     event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
                 }
+            }
 
-                // Check jda voice state and compare with member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
-                {
-                    long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
-                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-                    if (!(botVC == memberVC))
-                    {
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
-                                .setFooter("Use /help for a list of music commands!");
-                        event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
-                        return;
-                    }
-                }
+            final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+            String link = Objects.requireNonNull(event.getOption("song")).getAsString();
 
-                final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
-                String link = Objects.requireNonNull(event.getOption("song")).getAsString();
+            // Invalid links
+             if (!isURL(link))
+             {
+                link = ("ytsearch:" + link + " audio");
+                //System.out.println("Input type: NON_URI");
+                // Joins VC
+                audioManager.openAudioConnection(memberChannel);
 
+                // Plays song
+                PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
 
-                // Invalid links
-                 if (!isURL(link))
-                 {
-                    link = ("ytsearch:" + link + " audio");
-                    //System.out.println("Input type: NON_URI");
-                    // Joins VC
-                    audioManager.openAudioConnection(memberChannel);
-
-                    // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
-
-                    Util.wait(500);
-                    if (bot.getVoiceState().inAudioChannel())
-                    {
-                        event.getGuild().deafen(bot, true).queue();
-                    }
-                }
-                // TODO: Add Spotify support
-                // Spotify links
-//                else if (link.contains("spotify.com")) {
-//                    //System.out.println("Input type: SPOTIFY");
-//                }
-                // Valid links (Basically just YouTube)
-                else
-                {
-                    //System.out.println("Input type: YOUTUBE");
-                    // Joins VC
-                    audioManager.openAudioConnection(memberChannel);
-                    if (bot.getVoiceState().inAudioChannel())
-                    {
-                        event.getGuild().deafen(bot, true).queue();
-                    }
-
-                    // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
-
-                    Util.wait(500);
-                    if (bot.getVoiceState().inAudioChannel())
-                    {
-                        event.getGuild().deafen(bot, true).queue();
-                    }
-
-                }
-                EmbedBuilder error = new EmbedBuilder()
-                        .setDescription("Loading playlist...")
-                        .setColor(Util.randColor())
-                        .setFooter("Use /help for a list of music commands!");
-                event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
                 Util.wait(500);
-                event.getHook().deleteOriginal().queue();
-//            }
+                if (bot.getVoiceState().inAudioChannel())
+                {
+                    event.getGuild().deafen(bot, true).queue();
+                }
+            }
+            // Valid links (Basically just YouTube)
+            else
+            {
+                // Joins VC
+                audioManager.openAudioConnection(memberChannel);
+                if (bot.getVoiceState().inAudioChannel())
+                {
+                    event.getGuild().deafen(bot, true).queue();
+                }
 
-//            catch (Exception exception) { // Add real exception handling later
-//                System.out.println("Error occurred during playback");
-//            }
+                // Plays song
+                PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+
+                Util.wait(500);
+                if (bot.getVoiceState().inAudioChannel())
+                {
+                    event.getGuild().deafen(bot, true).queue();
+                }
+
+            }
+            EmbedBuilder error = new EmbedBuilder()
+                    .setDescription("Loading playlist...")
+                    .setColor(Util.randColor())
+                    .setFooter("Use /help for a list of music commands!");
+            event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
+            Util.wait(500);
+            event.getHook().deleteOriginal().queue();
         }
 
         // Pause
