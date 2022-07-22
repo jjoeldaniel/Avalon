@@ -10,8 +10,10 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
-public class Paw {
-    public static void main(String[] args) throws LoginException, InterruptedException {
+public class Paw
+{
+    public static void main(String[] args) throws LoginException, InterruptedException
+    {
 
         JDA jda = JDABuilder.createDefault("token")
 
