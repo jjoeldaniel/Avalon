@@ -8,13 +8,15 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
-public class AudioPlayerSendHandler implements AudioSendHandler {
+public class AudioPlayerSendHandler implements AudioSendHandler
+{
 
     private final AudioPlayer audioPlayer;
     private final ByteBuffer buffer;
     private final MutableAudioFrame frame;
 
-    public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
+    public AudioPlayerSendHandler(AudioPlayer audioPlayer)
+    {
         this.audioPlayer = audioPlayer;
         this.buffer = ByteBuffer.allocate(1024);
         this.frame = new MutableAudioFrame();
@@ -22,19 +24,22 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
     }
 
     @Override
-    public boolean canProvide() {
+    public boolean canProvide()
+    {
         return this.audioPlayer.provide(this.frame);
     }
 
     @Nullable
     @Override
-    public ByteBuffer provide20MsAudio() {
+    public ByteBuffer provide20MsAudio()
+    {
         final Buffer buffer = ((Buffer) this.buffer).flip();
         return (ByteBuffer) buffer;
     }
 
     @Override
-    public boolean isOpus() {
+    public boolean isOpus()
+    {
         return true;
     }
 }
