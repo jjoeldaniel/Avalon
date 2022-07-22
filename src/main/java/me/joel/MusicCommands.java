@@ -228,6 +228,7 @@ public class MusicCommands extends ListenerAdapter
             catch (Exception exception)
             {
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
                         .setDescription("No song is playing!")
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
