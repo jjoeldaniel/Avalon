@@ -4,9 +4,11 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +29,34 @@ public class MusicCommands extends ListenerAdapter {
 
     static MessageChannelUnion messageChannelUnion;
     static VoiceChannel audioVoiceChannel;
+
+    @Override
+    public void onGuildReady(@NotNull GuildReadyEvent event)
+    {
+
+        event.getGuild().upsertCommand("play", "Requests a song")
+                .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true)
+                .queue();
+
+        event.getGuild().upsertCommand("pause", "Pause playback")
+                .queue();
+
+        event.getGuild().upsertCommand("resume", "Resume playback")
+                .queue();
+
+        event.getGuild().upsertCommand("clear", "Clears queue")
+                .queue();
+
+        event.getGuild().upsertCommand("skip", "Skips song")
+                .queue();
+
+        event.getGuild().upsertCommand("queue", "Displays music queue")
+                .queue();
+
+        event.getGuild().upsertCommand("playing", "Displays currently playing song")
+                .queue();
+
+    }
 
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 

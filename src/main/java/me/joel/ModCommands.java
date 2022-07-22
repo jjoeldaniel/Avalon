@@ -7,8 +7,10 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -16,6 +18,32 @@ import java.util.concurrent.TimeUnit;
 
 public class ModCommands extends ListenerAdapter
 {
+
+    @Override
+    public void onGuildReady(@NotNull GuildReadyEvent event)
+    {
+        event.getGuild().upsertCommand("kick", "Kicks selected user")
+                .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false)
+                .queue();
+
+        event.getGuild().upsertCommand("ban", "Bans selected user")
+                .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false)
+                .queue();
+
+        event.getGuild().upsertCommand("timeout", "Time-outs selected user")
+                .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false)
+                .queue();
+
+        event.getGuild().upsertCommand("broadcast", "Broadcasts message in selected channel")
+                .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
+                .queue();
+
+        event.getGuild().upsertCommand("purge", "Purges up to 100 messages")
+                .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true)
+                .queue();
+
+
+    }
 
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
     {
