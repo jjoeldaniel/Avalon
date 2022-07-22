@@ -4,16 +4,19 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Util {
+public class Util
+{
 
     // Random number from 0 - i
-    public static int randomWithRange(int min, int max) {
+    public static int randomWithRange(int min, int max)
+    {
         Random rand = new Random();
         return rand.nextInt(min, max);
     }
 
     // Random dog thumbnail
-    public static String randomThumbnail() {
+    public static String randomThumbnail()
+    {
         ArrayList<String> dogs = new ArrayList<>();
         dogs.add("https://c.tenor.com/HxNhwwXRcdEAAAAj/brickhill-bh.gif");
         dogs.add("https://c.tenor.com/eRTjXVkts5kAAAAj/pug-dog.gif");
@@ -33,7 +36,8 @@ public class Util {
     }
 
     // Random color
-    public static Color randColor() {
+    public static Color randColor()
+    {
         int num1 = randomWithRange(0, 255);
         int num2 = randomWithRange(0, 255);
         int num3 = randomWithRange(0, 255);
