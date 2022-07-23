@@ -339,7 +339,7 @@ public class MusicCommands extends ListenerAdapter
             if (audioTrack == null)
             {
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("No song is playing!")
+                        .setDescription("No song is playing or an error has occured!")
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
 
