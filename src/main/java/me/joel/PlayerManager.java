@@ -118,7 +118,8 @@ public class PlayerManager
                 public void noMatches() {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setDescription("No song found!");
+                            .setDescription("No song found!")
+                            .setFooter("Use /help for a list of music commands!");
 
                     textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
@@ -127,7 +128,8 @@ public class PlayerManager
                 public void loadFailed(FriendlyException e) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setDescription("An error has occurred!");
+                            .setDescription("An error has occurred!")
+                            .setFooter("Use /help for a list of music commands!");
 
                     textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
@@ -204,7 +206,8 @@ public class PlayerManager
                 public void noMatches() {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setDescription("No song found!");
+                            .setDescription("No song found!")
+                            .setFooter("Use /help for a list of music commands!");
 
                     voiceChannel.sendMessageEmbeds(builder.build()).queue();
                 }
@@ -213,7 +216,8 @@ public class PlayerManager
                 public void loadFailed(FriendlyException e) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setDescription("An error has occurred!");
+                            .setDescription("An error has occurred!")
+                            .setFooter("Use /help for a list of music commands!");
 
                     voiceChannel.sendMessageEmbeds(builder.build()).queue();
                 }
@@ -304,7 +308,8 @@ public class PlayerManager
                 public void noMatches() {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setDescription("No song found!");
+                            .setDescription("No song found!")
+                            .setFooter("Use /help for a list of music commands!");
 
                     textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
