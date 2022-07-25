@@ -4,7 +4,10 @@ import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAccessTokenTracker;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
+import com.sedmelluq.discord.lavaplayer.tools.io.HttpInterfaceManager;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -30,6 +33,15 @@ public class PlayerManager
         AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
         AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
     }
+
+//    public YoutubeAudioSourceManager youtubeAudioSourceManager = new YoutubeAudioSourceManager();
+//
+//    public YoutubeAccessTokenTracker youtubeAccessTokenTracker = new YoutubeAccessTokenTracker(
+//            HttpInterfaceManager,
+//            String email,
+//            String password
+//            );
+
 
     public GuildMusicManager getMusicManager(Guild guild)
     {

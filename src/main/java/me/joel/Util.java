@@ -1,5 +1,7 @@
 package me.joel;
 
+import net.dv8tion.jda.api.EmbedBuilder;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -28,6 +30,17 @@ public class Util
 
         int num = randomWithRange(0, dogs.size());
         return dogs.get(num);
+    }
+
+    // Generic error
+    public static EmbedBuilder genericError()
+    {
+        EmbedBuilder builder = new EmbedBuilder()
+                .setDescription("An error has occurred!")
+                .setColor(randColor())
+                .setFooter("Use /help for the commands list");
+
+        return builder;
     }
 
     // Discord GIF to PNG
