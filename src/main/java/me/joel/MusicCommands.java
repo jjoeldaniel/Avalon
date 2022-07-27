@@ -75,10 +75,12 @@ public class MusicCommands extends ListenerAdapter
             {
                 event.deferReply().queue();
                 messageChannelUnion = event.getChannel();
+
                 if (messageChannelUnion.getType() == ChannelType.TEXT)
                 {
                     audioTextChannel = messageChannelUnion.asTextChannel();
-                } else if (messageChannelUnion.getType() == ChannelType.VOICE)
+                }
+                else if (messageChannelUnion.getType() == ChannelType.VOICE)
                 {
                     audioVoiceChannel = messageChannelUnion.asVoiceChannel();
                 }
@@ -99,6 +101,7 @@ public class MusicCommands extends ListenerAdapter
                 {
                     long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
                     long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+
                     if (!(botVC == memberVC))
                     {
                         EmbedBuilder builder = new EmbedBuilder()
@@ -117,18 +120,12 @@ public class MusicCommands extends ListenerAdapter
                 if (!isURL(link))
                 {
                     link = ("ytsearch:" + link + " audio");
-                    //System.out.println("Input type: NON_URI");
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
 
                     // Plays song
                     PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
-
-                    Util.wait(500);
-                    if (bot.getVoiceState().inAudioChannel()) {
-                        event.getGuild().deafen(bot, true).queue();
-                    }
                 }
                 // Valid links (Basically just YouTube)
                 else
@@ -143,14 +140,13 @@ public class MusicCommands extends ListenerAdapter
                     // Plays song
                     PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
-
-                    Util.wait(500);
-                    if (bot.getVoiceState().inAudioChannel())
-                    {
-                        event.getGuild().deafen(bot, true).queue();
-                    }
-
                 }
+                Util.wait(500);
+                if (bot.getVoiceState().inAudioChannel())
+                {
+                    event.getGuild().deafen(bot, true).queue();
+                }
+
                 EmbedBuilder error = new EmbedBuilder()
                         .setDescription("Loading playlist...")
                         .setColor(Util.randColor())
@@ -226,7 +222,8 @@ public class MusicCommands extends ListenerAdapter
 
                     event.replyEmbeds(builder.build()).queue();
 
-                } catch (Exception exception)
+                }
+                catch (Exception exception)
                 {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -281,6 +278,7 @@ public class MusicCommands extends ListenerAdapter
                 {
                     long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                     long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+
                     if (!(botVC == memberVC))
                     {
                         EmbedBuilder builder = new EmbedBuilder()
@@ -292,7 +290,8 @@ public class MusicCommands extends ListenerAdapter
                     }
                 }
 
-                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0) {
+                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0)
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("The queue is empty or an error has occurred!")
                             .setFooter("Use /help for a list of music commands!")
@@ -320,6 +319,7 @@ public class MusicCommands extends ListenerAdapter
                 {
                     long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                     long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+
                     if (!(botVC == memberVC))
                     {
                         EmbedBuilder builder = new EmbedBuilder()
@@ -331,10 +331,13 @@ public class MusicCommands extends ListenerAdapter
                     }
                 }
 
-                try {
+                try
+                {
                     AudioTrack audioTrack;
                     audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
-                    if (audioTrack == null) {
+
+                    if (audioTrack == null)
+                    {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setDescription("No song is playing or an error has occured!")
                                 .setColor(Util.randColor())
@@ -351,8 +354,8 @@ public class MusicCommands extends ListenerAdapter
                     event.replyEmbeds(builder.build()).queue();
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
                     return;
-                } catch (Exception ignore) {
                 }
+                catch (Exception ignore) {}
             }
 
             // Queue TODO: Overhaul queue
@@ -360,6 +363,7 @@ public class MusicCommands extends ListenerAdapter
             {
                 String currentSong;
                 queueSize = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size();
+
                 if (queueSize == 0)
                 {
                     EmbedBuilder builder = new EmbedBuilder()
@@ -374,10 +378,8 @@ public class MusicCommands extends ListenerAdapter
                 try
                 {
                     currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-                } catch (Exception ignore)
-                {
-                    return;
                 }
+                catch (Exception ignore) { return; }
                 String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
                 playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
 
@@ -409,7 +411,8 @@ public class MusicCommands extends ListenerAdapter
                                     Button.primary("page1", "Previous Page").asDisabled(),
                                     Button.primary("page2", "Next Page").asDisabled())
                             .queue();
-                } else
+                }
+                else
                 {
                     event.getHook().sendMessageEmbeds(page1.build())
                             .addActionRow(
@@ -901,14 +904,8 @@ public class MusicCommands extends ListenerAdapter
         channel.sendMessageEmbeds(builder.build()).queue();
     }
 
-    public static MessageChannelUnion returnChannel()
-    {
-        return messageChannelUnion;
-    }
-    public static void setSendNowPlaying(boolean bool)
-    {
-        sendNowPlaying = bool;
-    }
+    public static MessageChannelUnion returnChannel() { return messageChannelUnion; }
+    public static void setSendNowPlaying(boolean bool) { sendNowPlaying = bool; }
 
 
     // Validates links
