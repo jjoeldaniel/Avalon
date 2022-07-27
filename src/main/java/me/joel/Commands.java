@@ -55,8 +55,6 @@ public class Commands extends ListenerAdapter
                                 `/afk` : Sets AFK status
                                 `/avatar (user)` : Retrieves user (or target) profile picture
                                 `/8ball (message)` : Asks the magic 8ball a question
-                                `/bark` : Self explanatory
-                                `/meow` : ^^^
                                 `/confess` : Sends anonymous confession""", false);
 
                 event.replyEmbeds(builder.build()).setEphemeral(true)
