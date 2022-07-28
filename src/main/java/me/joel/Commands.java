@@ -3,6 +3,7 @@ package me.joel;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -19,8 +20,30 @@ public class Commands extends ListenerAdapter
 {
 
     @Override
+    public void onGuildJoin(@NotNull GuildJoinEvent event) {
+        System.out.println("Joined server: \"" + event.getGuild().getName() + "\"");
+        EmbedBuilder onJoin = new EmbedBuilder()
+                .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                .setTitle("Thank you for inviting PawBot to " + event.getGuild().getName() + "!")
+                .setColor(Util.randColor())
+                .setDescription("Make sure to use /help to get the full commands list!")
+                .addBlankField(false)
+                .addField("Want to learn more?", "Click the Github button below to see the source code and complete documentation!", false)
+                .addField("Want to invite PawBot to another server?", "Click the Invite button to invite PawBot!", false);
+
+        Objects.requireNonNull(event.getGuild().getSystemChannel()).sendMessageEmbeds(onJoin.build()).setActionRow(
+                Button.link("https://github.com/joelrico/PawBot", "Github"),
+                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
+                .queue();
+    }
+
+    @Override
     public void onGuildReady(@NotNull GuildReadyEvent event)
     {
+        // ready message
+        System.out.println("Server: \"" + event.getGuild().getName() + "\" is ready!");
+
+        // commands register
         event.getGuild().upsertCommand("whois", "Provides user information")
                 .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
                 .queue();
@@ -37,7 +60,6 @@ public class Commands extends ListenerAdapter
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
     {
-
         try {
             // Help
             if (event.getName().equals("help")) {
@@ -63,18 +85,19 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
                                 Button.link("https://github.com/joelrico/PawBot", "Github"),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
-
             // Invite
             if (event.getName().equals("invite")) {
                 EmbedBuilder invite = new EmbedBuilder()
-                        .setTitle("Invite Link", "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setTitle("Here's an invite link!")
+                        .setDescription("[Click on this invite link to invite me to your server](https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot)")
+                        .setFooter("Upon joining a server, a short message will be sent explaining usage")
                         .setColor(Util.randColor());
                 event.replyEmbeds(invite.build()).setEphemeral(true).queue();
             }
-
             // Coin Flip
             if (event.getName().equals("coinflip")) {
                 String flip;
@@ -85,7 +108,6 @@ public class Commands extends ListenerAdapter
                         .setColor(Util.randColor());
                 event.replyEmbeds(coin.build()).queue();
             }
-
             // Ping
             if (event.getName().equals("ping")) {
                 EmbedBuilder ping = new EmbedBuilder()
@@ -93,7 +115,6 @@ public class Commands extends ListenerAdapter
                         .setColor(Util.randColor());
                 event.replyEmbeds(ping.build()).setEphemeral(true).queue();
             }
-
             // 8Ball
             if (event.getName().equals("8ball")) {
                 int randomResult = Util.randomWithRange(1, 19);
@@ -130,7 +151,6 @@ public class Commands extends ListenerAdapter
 
                 event.replyEmbeds(ball.build()).queue();
             }
-
             // Truth or Dare
             if (event.getName().equals("truthordare")) {
 
@@ -196,7 +216,6 @@ public class Commands extends ListenerAdapter
                     }
                 }
             }
-
             // Avatar
             if (event.getName().equals("avatar")) {
                 String targetName;
@@ -222,7 +241,6 @@ public class Commands extends ListenerAdapter
                         .setColor(Util.randColor());
                 event.replyEmbeds(avatar.build()).queue();
             }
-
             // Confess
             if (event.getName().equals("confess")) {
                 String message = Objects.requireNonNull(event.getOption("message")).getAsString();
@@ -278,7 +296,6 @@ public class Commands extends ListenerAdapter
                     event.replyEmbeds(confessionError.build()).setEphemeral(true).queue();
                 }
             }
-
             // Whois Command
             if (event.getName().equals("whois")) {
                 Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
@@ -291,7 +308,6 @@ public class Commands extends ListenerAdapter
                 for (int i = 0; i < numRoles; ++i) {
                     roles.append("<@&").append(member.getRoles().get(i).getId()).append("> ");
                 }
-
                 if (!event.isFromGuild()) {
                     EmbedBuilder whois = new EmbedBuilder()
                             .setDescription(user.getAsMention())
@@ -321,7 +337,7 @@ public class Commands extends ListenerAdapter
                 }
 
             }
-
+            // AFK
             if (event.getName().equals("afk")) {
 
                 try {
@@ -385,7 +401,6 @@ public class Commands extends ListenerAdapter
         }
 
     }
-
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event)
     {
@@ -418,7 +433,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
                                 Button.link("https://github.com/joelrico/PawBot", "Github"),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949527&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
             else if (event.getComponentId().equals("helpMod"))
@@ -440,7 +455,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpMod", "Moderation").asDisabled(),
                                 Button.success("helpMusic", "Music"),
                                 Button.link("https://github.com/joelrico/PawBot", "Github"),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949527&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
             else if (event.getComponentId().equals("helpMusic"))
@@ -464,43 +479,8 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music").asDisabled(),
                                 Button.link("https://github.com/joelrico/PawBot", "Github"),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot", "Invite"))
+                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949527&scope=applications.commands%20bot", "Invite"))
                         .queue();
-            }
-            else if (event.getComponentId().equals("helpAll"))
-            {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
-                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
-                        .addField("General Commands", """
-                                `/help (all, general, mod, music)` : Lists commands
-                                `/invite` : Returns bot invite link
-                                `/ping` : Pings bot
-                                `/coinflip` Flips a coin
-                                `/truth` : Requests truth
-                                `/dare` : Requests dare
-                                `/afk` : Sets AFK status
-                                `/avatar (user)` : Retrieves user (or target) profile picture
-                                `/8ball (message)` : Asks the magic 8ball a question
-                                `/bark` : Self explanatory
-                                `/meow` : ^^^
-                                `/confess` : Sends anonymous confession""", false)
-                        .addField("Moderation Commands", """
-                                `/kick (user) (reason)` : Kicks user with optional reason
-                                `/ban (user) (reason)` : Bans user with optional reason
-                                `/timeout (user) (length)` : Times out user (Default: 1hr)
-                                `/broadcast (channel) (message)` : Sends message as PawBot""", false)
-                        .addField("Music Commands", """
-                                `/play (song)` : Accepts names and YT links
-                                `/pause` : Pauses playback
-                                `/resume` : Resumes playback
-                                `/clear` : Clears queue
-                                `/queue` : Displays song queue
-                                `/playing` : Displays currently playing song
-                                `/skip` : Skips song""", false);
-
-                event.editMessageEmbeds(builder.build()).queue();
             }
         }
 
@@ -580,10 +560,8 @@ public class Commands extends ListenerAdapter
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event)
     {
-
         if (!event.getAuthor().isBot() && event.isFromGuild())
         {
-
             try
             {
                 Member member = event.getMessage().getMentions().getMembers().get(0);
@@ -591,7 +569,6 @@ public class Commands extends ListenerAdapter
                 // AFK Return
                 if (member.getEffectiveName().contains("(AFK)"))
                 {
-
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("Mentioned member is AFK, " + Objects.requireNonNull(event.getMember()).getAsMention() + "!")
                             .setColor(Util.randColor());
