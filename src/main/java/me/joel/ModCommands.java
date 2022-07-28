@@ -22,6 +22,7 @@ public class ModCommands extends ListenerAdapter
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event)
     {
+        // commands register
         event.getGuild().upsertCommand("kick", "Kicks selected user")
                 .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false)
                 .queue();
@@ -50,9 +51,91 @@ public class ModCommands extends ListenerAdapter
 
         try {
 
+            // Reload Commands
+            if (event.getName().equals("reload_commands") && event.isFromGuild())
+            {
+                if (Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER))
+                {
+                    try
+                    {
+                        // general commands
+                        Objects.requireNonNull(event.getGuild()).upsertCommand("whois", "Provides user information")
+                                .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
+                                .queue();
+
+                        event.getGuild().upsertCommand("confess", "Posts an anonymous confession")
+                                .addOption(OptionType.STRING, "message", "Confession message", true)
+                                .queue();
+
+                        event.getGuild().upsertCommand("afk", "Enables/disables AFK status")
+                                .queue();
+                        // music commands
+                        event.getGuild().upsertCommand("play", "Requests a song")
+                                .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true)
+                                .queue();
+
+                        event.getGuild().upsertCommand("pause", "Pause playback")
+                                .queue();
+
+                        event.getGuild().upsertCommand("resume", "Resume playback")
+                                .queue();
+
+                        event.getGuild().upsertCommand("clear", "Clears queue")
+                                .queue();
+
+                        event.getGuild().upsertCommand("skip", "Skips song")
+                                .queue();
+
+                        event.getGuild().upsertCommand("queue", "Displays music queue")
+                                .queue();
+
+                        event.getGuild().upsertCommand("playing", "Displays currently playing song")
+                                .queue();
+                        // mod commands
+                        event.getGuild().upsertCommand("kick", "Kicks selected user")
+                                .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false)
+                                .queue();
+
+                        event.getGuild().upsertCommand("ban", "Bans selected user")
+                                .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false)
+                                .queue();
+
+                        event.getGuild().upsertCommand("timeout", "Time-outs selected user")
+                                .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false)
+                                .queue();
+
+                        event.getGuild().upsertCommand("broadcast", "Broadcasts message in selected channel")
+                                .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
+                                .queue();
+
+                        event.getGuild().upsertCommand("purge", "Purges up to 100 messages")
+                                .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true)
+                                .queue();
+
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setDescription("Commands have been reloaded!")
+                                .setColor(Util.randColor())
+                                .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
+
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+
+                    }
+                    catch (Exception exception)
+                    {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setDescription("An error has occurred attempting to reload commands!")
+                                .setColor(Util.randColor())
+                                .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
+
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    }
+                }
+
+            }
             // Kick
             if (event.getName().equals("kick")) {
-                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.KICK_MEMBERS)) {
+                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.KICK_MEMBERS))
+                {
                     EmbedBuilder noPerms = new EmbedBuilder()
                             .setDescription("You don't have permission for this command!")
                             .setColor(Util.randColor())
@@ -62,11 +145,13 @@ public class ModCommands extends ListenerAdapter
                 }
                 Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
                 String reason = null;
-                try {
+                try
+                {
                     assert target != null;
                     target.kick().queue();
 
-                    if (target.isOwner() || target.hasPermission(Permission.ADMINISTRATOR)) {
+                    if (target.isOwner() || target.hasPermission(Permission.ADMINISTRATOR))
+                    {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setTitle("You can't kick this person!")
                                 .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
@@ -77,12 +162,14 @@ public class ModCommands extends ListenerAdapter
                     }
 
                     // Check for reason
-                    try {
+                    try
+                    {
                         reason = Objects.requireNonNull(event.getOption("reason")).getAsString();
-                    } catch (Exception ignore) {
                     }
+                    catch (Exception ignore) {}
 
-                    if (reason == null) {
+                    if (reason == null)
+                    {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setTitle(target.getEffectiveName() + " has been kicked")
                                 .setImage(target.getEffectiveAvatarUrl())
@@ -97,7 +184,9 @@ public class ModCommands extends ListenerAdapter
                             .setImage(target.getEffectiveAvatarUrl())
                             .setColor(Util.randColor());
                     event.replyEmbeds(builder.build()).queue();
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't kick this person!")
                             .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
@@ -108,8 +197,10 @@ public class ModCommands extends ListenerAdapter
             }
 
             // Ban
-            if (event.getName().equals("ban")) {
-                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS)) {
+            if (event.getName().equals("ban"))
+            {
+                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.BAN_MEMBERS))
+                {
                     EmbedBuilder noPerms = new EmbedBuilder()
                             .setDescription("You don't have permission for this command!")
                             .setColor(Util.randColor())
@@ -119,10 +210,12 @@ public class ModCommands extends ListenerAdapter
                 }
                 Member target = Objects.requireNonNull(event.getOption("user")).getAsMember();
                 String reason = null;
-                try {
+                try
+                {
                     assert target != null;
 
-                    if (target.isOwner() || target.hasPermission(Permission.ADMINISTRATOR)) {
+                    if (target.isOwner() || target.hasPermission(Permission.ADMINISTRATOR))
+                    {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setTitle("You can't ban this person!")
                                 .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
@@ -133,12 +226,14 @@ public class ModCommands extends ListenerAdapter
                     }
 
                     // Check for reason
-                    try {
+                    try
+                    {
                         reason = Objects.requireNonNull(event.getOption("reason")).getAsString();
-                    } catch (Exception ignore) {
                     }
+                    catch (Exception ignore) {}
 
-                    if (reason == null) {
+                    if (reason == null)
+                    {
                         target.ban(0).queue();
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setTitle(target.getEffectiveName() + " has been banned")
@@ -156,7 +251,9 @@ public class ModCommands extends ListenerAdapter
                             .setColor(Util.randColor());
 
                     event.replyEmbeds(builder.build()).queue();
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't ban this person!")
                             .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
@@ -167,8 +264,10 @@ public class ModCommands extends ListenerAdapter
             }
 
             // Timeout
-            if (event.getName().equals("timeout")) {
-                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MODERATE_MEMBERS)) {
+            if (event.getName().equals("timeout"))
+            {
+                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MODERATE_MEMBERS))
+                {
                     EmbedBuilder noPerms = new EmbedBuilder()
                             .setDescription("You don't have permission for this command!")
                             .setColor(Util.randColor())
@@ -180,7 +279,8 @@ public class ModCommands extends ListenerAdapter
                 long length = 0;
                 assert target != null;
 
-                if (target.isOwner() || target.hasPermission(Permission.ADMINISTRATOR)) {
+                if (target.isOwner() || target.hasPermission(Permission.ADMINISTRATOR))
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't time out this person!")
                             .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
@@ -189,13 +289,13 @@ public class ModCommands extends ListenerAdapter
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
 
-                try {
+                try
+                {
                     length = Objects.requireNonNull(event.getOption("length")).getAsLong();
-                } catch (Exception ignore) {
-                }
+                } catch (Exception ignore) {}
 
-                try {
-
+                try
+                {
                     if (length == 0) {
                         target.timeoutFor(1, TimeUnit.HOURS).queue();
                     } else {
@@ -208,7 +308,9 @@ public class ModCommands extends ListenerAdapter
                             .setColor(Util.randColor());
 
                     event.replyEmbeds(builder.build()).queue();
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't time out this person!")
                             .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
@@ -219,9 +321,12 @@ public class ModCommands extends ListenerAdapter
             }
 
             // Purge
-            if (event.getName().equals("purge")) {
-                try {
-                    if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) {
+            if (event.getName().equals("purge"))
+            {
+                try
+                {
+                    if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE))
+                    {
                         EmbedBuilder noPerms = new EmbedBuilder()
                                 .setDescription("You don't have permission for this command!")
                                 .setColor(Util.randColor())
@@ -232,7 +337,8 @@ public class ModCommands extends ListenerAdapter
 
                     int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
 
-                    if (amount > 100) {
+                    if (amount > 100)
+                    {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
                                 .setDescription("Unable to purge over 100 messages!")
@@ -241,8 +347,8 @@ public class ModCommands extends ListenerAdapter
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
                     }
-
-                    if (event.getChannel().getType() == ChannelType.TEXT) {
+                    if (event.getChannel().getType() == ChannelType.TEXT)
+                    {
                         TextChannel textChannel = event.getChannel().asTextChannel();
                         textChannel.getIterableHistory()
                                 .takeAsync(amount)
@@ -254,7 +360,9 @@ public class ModCommands extends ListenerAdapter
                                 .setFooter("Use /help for a list of commands!");
 
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    } else if (event.getChannel().getType() == ChannelType.VOICE) {
+                    }
+                    else if (event.getChannel().getType() == ChannelType.VOICE)
+                    {
                         VoiceChannel voiceChannel = event.getChannel().asVoiceChannel();
                         voiceChannel.getIterableHistory()
                                 .takeAsync(amount)
@@ -268,7 +376,9 @@ public class ModCommands extends ListenerAdapter
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     }
 
-                } catch (Exception except) {
+                }
+                catch (Exception except)
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("Unable to purge messages!")
@@ -279,8 +389,10 @@ public class ModCommands extends ListenerAdapter
             }
 
             // Broadcast
-            if (event.getName().equals("broadcast")) {
-                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && !(event.getMember().getId().equals("205862976689799168"))) {
+            if (event.getName().equals("broadcast"))
+            {
+                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && !(event.getMember().getId().equals("205862976689799168")))
+                {
                     EmbedBuilder noPerms = new EmbedBuilder()
                             .setDescription("You don't have permission for this command!")
                             .setColor(Util.randColor())
@@ -291,7 +403,8 @@ public class ModCommands extends ListenerAdapter
 
                 GuildChannelUnion channel = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
 
-                if (channel.getType() == ChannelType.VOICE) {
+                if (channel.getType() == ChannelType.VOICE)
+                {
                     VoiceChannel voiceChannel = channel.asVoiceChannel();
                     String message = Objects.requireNonNull(event.getOption("message")).getAsString();
 
@@ -303,7 +416,9 @@ public class ModCommands extends ListenerAdapter
 
                     voiceChannel.sendMessage(message).queue();
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                } else {
+                }
+                else
+                {
                     TextChannel textChannel = channel.asTextChannel();
                     String message = Objects.requireNonNull(event.getOption("message")).getAsString();
 
