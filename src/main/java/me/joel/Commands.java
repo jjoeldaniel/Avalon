@@ -68,7 +68,7 @@ public class Commands extends ListenerAdapter
                         .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("General Commands", """
-                                `/help (all, general, mod, music)` : Lists commands
+                                `/help` : Lists commands
                                 `/invite` : Returns bot invite link
                                 `/ping` : Pings bot
                                 `/coinflip` Flips a coin
@@ -414,7 +414,7 @@ public class Commands extends ListenerAdapter
                         .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("General Commands", """
-                                `/help (all, general, mod, music)` : Lists commands
+                                `/help` : Lists commands
                                 `/invite` : Returns bot invite link
                                 `/ping` : Pings bot
                                 `/coinflip` Flips a coin
@@ -433,7 +433,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
                                 Button.link("https://github.com/joelrico/PawBot", "Github"),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949527&scope=applications.commands%20bot", "Invite"))
+                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
             else if (event.getComponentId().equals("helpMod"))
@@ -447,6 +447,7 @@ public class Commands extends ListenerAdapter
                                 `/ban (user) (reason)` : Bans user with optional reason
                                 `/timeout (user) (length)` : Times out user (Default: 1hr)
                                 `/purge (num)` : Purges messages (up to 100)
+                                `/reload_commands` : Reloads bot commands (in case of commands not appearing)
                                 `/broadcast (channel) (message)` : Sends message as PawBot""", false);
 
                 event.editMessageEmbeds(builder.build())
@@ -455,7 +456,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpMod", "Moderation").asDisabled(),
                                 Button.success("helpMusic", "Music"),
                                 Button.link("https://github.com/joelrico/PawBot", "Github"),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949527&scope=applications.commands%20bot", "Invite"))
+                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
             else if (event.getComponentId().equals("helpMusic"))
@@ -479,7 +480,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music").asDisabled(),
                                 Button.link("https://github.com/joelrico/PawBot", "Github"),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949527&scope=applications.commands%20bot", "Invite"))
+                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
         }
