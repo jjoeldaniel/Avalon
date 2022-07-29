@@ -45,11 +45,6 @@ public class Util
                 .setFooter("Use /help for the commands list");
     }
 
-    // Discord GIF to PNG
-    public static String gifToPNG(String link) {
-        return link.replace("gif", "png");
-    }
-
     // Random color
     public static Color randColor()
     {
