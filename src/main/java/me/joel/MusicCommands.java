@@ -1,6 +1,7 @@
 package me.joel;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
@@ -26,10 +27,7 @@ public class MusicCommands extends ListenerAdapter
     List<AudioTrack> playlist;
     int queueSize;
     static boolean sendNowPlaying = false;
-    static TextChannel audioTextChannel;
-
     static MessageChannelUnion messageChannelUnion;
-    static VoiceChannel audioVoiceChannel;
 
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event)
@@ -56,6 +54,8 @@ public class MusicCommands extends ListenerAdapter
 
         event.getGuild().upsertCommand("playing", "Displays currently playing song")
                 .queue();
+        event.getGuild().upsertCommand("loop", "Loops currently playing song")
+                .queue();
 
     }
 
@@ -70,20 +70,73 @@ public class MusicCommands extends ListenerAdapter
         try
         {
 
+            // Loop
+            if (event.getName().equals("loop"))
+            {
+                // Checks requester voice state
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
+                {
+                    AudioEventAdapter.setLoop(true);
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in a voice channel to use `/loop`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+
+                // Check jda voice state and compare with member voice state
+                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
+                {
+                    long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
+                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+
+                    if (!(botVC == memberVC))
+                    {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setDescription("You need to be in the same voice channel as the bot to use `/loop`!")
+                                .setFooter("Use /help for a list of music commands!");
+                        event.getHook().sendMessageEmbeds(builder.build()).setEphemeral(true).queue();
+                        return;
+                    }
+                }
+
+                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() == null)
+                {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("There is no song currently playing!");
+
+                    event.replyEmbeds(builder.build()).queue();
+                }
+                if (!AudioEventAdapter.isLooping())
+                {
+                    AudioEventAdapter.setLoop(true);
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("Song is now looping!");
+
+                    event.replyEmbeds(builder.build()).queue();
+                    return;
+                }
+                else
+                {
+                    AudioEventAdapter.setLoop(false);
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("Song is no longer looping!");
+
+                    event.replyEmbeds(builder.build()).queue();
+                    return;
+                }
+            }
+
             // Play
             if (event.getName().equals("play"))
             {
                 event.deferReply().queue();
                 messageChannelUnion = event.getChannel();
-
-                if (messageChannelUnion.getType() == ChannelType.TEXT)
-                {
-                    audioTextChannel = messageChannelUnion.asTextChannel();
-                }
-                else if (messageChannelUnion.getType() == ChannelType.VOICE)
-                {
-                    audioVoiceChannel = messageChannelUnion.asVoiceChannel();
-                }
 
                 // Checks requester voice state
                 if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
@@ -301,6 +354,7 @@ public class MusicCommands extends ListenerAdapter
                     return;
                 }
 
+                AudioEventAdapter.setLoop(false);
                 PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.clear();
                 PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.destroy();
 
@@ -352,13 +406,14 @@ public class MusicCommands extends ListenerAdapter
                             .setColor(Util.randColor());
 
                     event.replyEmbeds(builder.build()).queue();
+                    AudioEventAdapter.setLoop(false);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
                     return;
                 }
                 catch (Exception ignore) {}
             }
 
-            // Queue TODO: Overhaul queue
+            // Queue
             if (event.getName().equals("queue"))
             {
                 String currentSong;

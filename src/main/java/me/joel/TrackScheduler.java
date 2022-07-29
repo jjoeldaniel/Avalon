@@ -41,7 +41,15 @@ public class TrackScheduler extends AudioEventAdapter
     {
         if (endReason.mayStartNext)
         {
-            nextTrack();
+            if (me.joel.AudioEventAdapter.isLooping())
+            {
+                AudioTrack loop = track.makeClone();
+                this.audioPlayer.startTrack(loop, false);
+            }
+            else {
+                nextTrack();
+                System.out.println(player.getPlayingTrack().getInfo().title);
+            }
 
         }
     }
