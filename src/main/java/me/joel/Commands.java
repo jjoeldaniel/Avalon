@@ -28,11 +28,10 @@ public class Commands extends ListenerAdapter
                 .setColor(Util.randColor())
                 .setDescription("Make sure to use /help to get the full commands list!")
                 .addBlankField(false)
-                .addField("Want to learn more?", "Click the Github button below to see the source code and complete documentation!", false)
+                .addField("Need to contact us?", "Add joel#0005 on Discord for questions!", false)
                 .addField("Want to invite PawBot to another server?", "Click the Invite button to invite PawBot!", false);
 
         Objects.requireNonNull(event.getGuild().getSystemChannel()).sendMessageEmbeds(onJoin.build()).setActionRow(
-                Button.link("https://github.com/joelrico/PawBot", "Github"),
                 Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                 .queue();
     }
@@ -67,7 +66,7 @@ public class Commands extends ListenerAdapter
             {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
-                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
+                        .setTitle("PawBot Commands")
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("General Commands", """
                                 `/help` : Lists commands
@@ -86,7 +85,6 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpGeneral", "General").asDisabled(),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
-                                Button.link("https://github.com/joelrico/PawBot", "Github"),
                                 Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
@@ -431,7 +429,7 @@ public class Commands extends ListenerAdapter
             {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
-                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
+                        .setTitle("PawBot Commands")
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("General Commands", """
                                 `/help` : Lists commands
@@ -450,7 +448,6 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpGeneral", "General").asDisabled(),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
-                                Button.link("https://github.com/joelrico/PawBot", "Github"),
                                 Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
@@ -458,7 +455,7 @@ public class Commands extends ListenerAdapter
             {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
-                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
+                        .setTitle("PawBot Commands")
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("Moderation Commands", """
                                 `/kick (user) (reason)` : Kicks user with optional reason
@@ -473,7 +470,6 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpGeneral", "General"),
                                 Button.success("helpMod", "Moderation").asDisabled(),
                                 Button.success("helpMusic", "Music"),
-                                Button.link("https://github.com/joelrico/PawBot", "Github"),
                                 Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
@@ -481,7 +477,7 @@ public class Commands extends ListenerAdapter
             {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
-                        .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
+                        .setTitle("PawBot Commands")
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("Music Commands", """
                                 `/play (song)` : Accepts names and YT links
@@ -498,7 +494,6 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpGeneral", "General"),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music").asDisabled(),
-                                Button.link("https://github.com/joelrico/PawBot", "Github"),
                                 Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
