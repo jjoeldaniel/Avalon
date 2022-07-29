@@ -15,7 +15,7 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
 
  ### **3) What permissions does PawBot require?**
  
-   PawBot requires admin permissions and for its role to be moved up as high as possible in the role hierarchy.
+   PawBot requires various permissions (all previewed when inviting) and for its role to be moved up as high as possible in the role hierarchy.
 
 ### **4) Where can I contact you if I have questions?**
 
@@ -56,6 +56,8 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
 
 `/purge (num)` : Purges messages (up to 100)
 
+`/reload_commands` : Reloads bot commands (in case of commands not appearing)
+
 `/broadcast (channel) (message)` : Sends message as PawBot
 
 
@@ -72,6 +74,8 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
 `/queue` : Displays song queue
 
 `/playing` : Displays currently playing song
+
+`/loop` : Loops the currently playing song until disabled/cleared/skipped
 
 `/skip` : Skips song
 
