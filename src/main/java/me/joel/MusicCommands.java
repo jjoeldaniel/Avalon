@@ -1,7 +1,6 @@
 package me.joel;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
@@ -109,7 +108,9 @@ public class MusicCommands extends ListenerAdapter
                             .setDescription("There is no song currently playing!");
 
                     event.replyEmbeds(builder.build()).queue();
+                    return;
                 }
+
                 if (!AudioEventAdapter.isLooping())
                 {
                     AudioEventAdapter.setLoop(true);
@@ -118,7 +119,6 @@ public class MusicCommands extends ListenerAdapter
                             .setDescription("Song is now looping!");
 
                     event.replyEmbeds(builder.build()).queue();
-                    return;
                 }
                 else
                 {
