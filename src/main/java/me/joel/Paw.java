@@ -15,7 +15,7 @@ public class Paw
     public static void main(String[] args) throws LoginException, InterruptedException
     {
 
-        JDA jda = JDABuilder.createDefault("token")
+        JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GHpHqT.uOTGGrIGK2fFj2RFQE9GllzgLGMQ8EjMyzzL1Q")
 
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())
@@ -42,6 +42,8 @@ public class Paw
         jda.upsertCommand("coinflip", "Flips a coin for heads or tails").queue();
         // Invite
         jda.upsertCommand("invite", "Returns bot invite link").queue();
+        // Reload_Commands
+        jda.upsertCommand("reload_commands", "Reloads server commands").queue();
         // Truth or Dare
         SubcommandData truth = new SubcommandData("truth", "Generates a random truth question");
         SubcommandData dare = new SubcommandData("dare", "Generates a random dare question");
