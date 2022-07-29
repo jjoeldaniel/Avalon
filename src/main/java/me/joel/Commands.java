@@ -472,6 +472,7 @@ public class Commands extends ListenerAdapter
                                 `/clear` : Clears queue
                                 `/queue` : Displays song queue
                                 `/playing` : Displays currently playing song
+                                `/loop` : Loops the currently playing song until disabled/cleared/skipped
                                 `/skip` : Skips song""", false);
 
                 event.editMessageEmbeds(builder.build())
