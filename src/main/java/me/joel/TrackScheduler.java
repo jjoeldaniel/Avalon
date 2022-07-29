@@ -50,7 +50,6 @@ public class TrackScheduler extends AudioEventAdapter
                 nextTrack();
                 System.out.println(player.getPlayingTrack().getInfo().title);
             }
-
         }
     }
 
