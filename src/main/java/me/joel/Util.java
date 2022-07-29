@@ -2,7 +2,11 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -35,12 +39,10 @@ public class Util
     // Generic error
     public static EmbedBuilder genericError()
     {
-        EmbedBuilder builder = new EmbedBuilder()
+        return new EmbedBuilder()
                 .setDescription("An error has occurred!")
                 .setColor(randColor())
                 .setFooter("Use /help for the commands list");
-
-        return builder;
     }
 
     // Discord GIF to PNG

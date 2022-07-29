@@ -60,9 +60,11 @@ public class Commands extends ListenerAdapter
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
     {
-        try {
+        try
+        {
             // Help
-            if (event.getName().equals("help")) {
+            if (event.getName().equals("help"))
+            {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setTitle("PawBot Commands", "https://github.com/joelrico/PawBot")
@@ -88,8 +90,14 @@ public class Commands extends ListenerAdapter
                                 Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
+            // EmbedBuilder
+            if (event.getName().equals("embedbuilder"))
+            {
+
+            }
             // Invite
-            if (event.getName().equals("invite")) {
+            if (event.getName().equals("invite"))
+            {
                 EmbedBuilder invite = new EmbedBuilder()
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                         .setTitle("Here's an invite link!")
@@ -99,7 +107,8 @@ public class Commands extends ListenerAdapter
                 event.replyEmbeds(invite.build()).setEphemeral(true).queue();
             }
             // Coin Flip
-            if (event.getName().equals("coinflip")) {
+            if (event.getName().equals("coinflip"))
+            {
                 String flip;
                 if (Util.randomWithRange(0, 100) > 50) flip = "Heads!";
                 else flip = "Tails!";
@@ -109,14 +118,16 @@ public class Commands extends ListenerAdapter
                 event.replyEmbeds(coin.build()).queue();
             }
             // Ping
-            if (event.getName().equals("ping")) {
+            if (event.getName().equals("ping"))
+            {
                 EmbedBuilder ping = new EmbedBuilder()
                         .setTitle("Pong!")
                         .setColor(Util.randColor());
                 event.replyEmbeds(ping.build()).setEphemeral(true).queue();
             }
             // 8Ball
-            if (event.getName().equals("8ball")) {
+            if (event.getName().equals("8ball"))
+            {
                 int randomResult = Util.randomWithRange(1, 19);
                 String output = "null";
                 switch (randomResult) {
@@ -152,9 +163,11 @@ public class Commands extends ListenerAdapter
                 event.replyEmbeds(ball.build()).queue();
             }
             // Truth or Dare
-            if (event.getName().equals("truthordare")) {
+            if (event.getName().equals("truthordare"))
+            {
 
-                if (Objects.equals(event.getSubcommandName(), "truth")) {
+                if (Objects.equals(event.getSubcommandName(), "truth"))
+                {
                     String truth = truthordare.truth();
 
                     EmbedBuilder truthNotDare = new EmbedBuilder()
@@ -169,7 +182,9 @@ public class Commands extends ListenerAdapter
                                     Button.danger("randomTruthOrDare", "Random")
                             )
                             .queue();
-                } else if (Objects.equals(event.getSubcommandName(), "dare")) {
+                }
+                else if (Objects.equals(event.getSubcommandName(), "dare"))
+                {
                     String dare = truthordare.dare();
 
                     EmbedBuilder dareNotTruth = new EmbedBuilder()
@@ -184,8 +199,11 @@ public class Commands extends ListenerAdapter
                                     Button.danger("randomTruthOrDare", "Random")
                             )
                             .queue();
-                } else if (Objects.equals(event.getSubcommandName(), "random")) {
-                    if (Util.randomWithRange(0, 100) > 50) {
+                }
+                else if (Objects.equals(event.getSubcommandName(), "random"))
+                {
+                    if (Util.randomWithRange(0, 100) > 50)
+                    {
                         String dare = truthordare.dare();
                         EmbedBuilder dareNotTruth = new EmbedBuilder()
                                 .setTitle("Truth or Dare")
@@ -199,7 +217,9 @@ public class Commands extends ListenerAdapter
                                         Button.danger("randomTruthOrDare", "Random")
                                 )
                                 .queue();
-                    } else {
+                    }
+                    else
+                    {
                         String truth = truthordare.truth();
                         EmbedBuilder truthNotDare = new EmbedBuilder()
                                 .setTitle("Truth or Dare")
@@ -217,28 +237,33 @@ public class Commands extends ListenerAdapter
                 }
             }
             // Avatar
-            if (event.getName().equals("avatar")) {
+            if (event.getName().equals("avatar"))
+            {
                 String targetName;
                 String targetPFP;
 
                 // DMs
-                if (!event.isFromGuild()) {
+                if (!event.isFromGuild())
+                {
                     User user = Objects.requireNonNull(event.getOption("user")).getAsUser();
                     targetName = user.getName() + "#" + user.getDiscriminator();
                     targetPFP = user.getEffectiveAvatarUrl();
                 }
                 // Server
-                else {
+                else
+                {
                     Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
                     assert member != null;
                     targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
                     targetPFP = member.getEffectiveAvatarUrl();
                 }
+
                 // Embed
                 EmbedBuilder avatar = new EmbedBuilder()
                         .setTitle(targetName)
-                        .setImage(targetPFP)
-                        .setColor(Util.randColor());
+                        .setColor(Util.randColor())
+                        .setImage(targetPFP + "?size=256");
+
                 event.replyEmbeds(avatar.build()).queue();
             }
             // Confess
