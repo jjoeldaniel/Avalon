@@ -90,11 +90,6 @@ public class Commands extends ListenerAdapter
                                 Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
                         .queue();
             }
-            // EmbedBuilder
-            if (event.getName().equals("embedbuilder"))
-            {
-
-            }
             // Invite
             if (event.getName().equals("invite"))
             {
@@ -448,8 +443,6 @@ public class Commands extends ListenerAdapter
                                 `/afk` : Sets AFK status
                                 `/avatar (user)` : Retrieves user (or target) profile picture
                                 `/8ball (message)` : Asks the magic 8ball a question
-                                `/bark` : Self explanatory
-                                `/meow` : ^^^
                                 `/confess` : Sends anonymous confession""", false);
 
                 event.editMessageEmbeds(builder.build())
