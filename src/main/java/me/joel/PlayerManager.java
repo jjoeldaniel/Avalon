@@ -64,6 +64,8 @@ public class PlayerManager
                     long trackLength = audioTrack.getInfo().length;
                     long minutes = (trackLength / 1000) / 60;
                     long seconds = ((trackLength / 1000) % 60);
+                    String songSeconds = String.valueOf(seconds);
+                    if (seconds < 10) songSeconds = "0" + seconds;
 
                     // Thumbnail
                     String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
@@ -72,7 +74,7 @@ public class PlayerManager
                             .setColor(Util.randColor())
                             .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
                             .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
@@ -152,6 +154,8 @@ public class PlayerManager
                     long trackLength = audioTrack.getInfo().length;
                     long minutes = (trackLength / 1000) / 60;
                     long seconds = ((trackLength / 1000) % 60);
+                    String songSeconds = String.valueOf(seconds);
+                    if (seconds < 10) songSeconds = "0" + seconds;
 
                     // Thumbnail
                     String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
@@ -160,7 +164,7 @@ public class PlayerManager
                             .setColor(Util.randColor())
                             .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
                             .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
@@ -251,6 +255,8 @@ public class PlayerManager
                     long trackLength = audioTrack.getInfo().length;
                     long minutes = (trackLength / 1000) / 60;
                     long seconds = ((trackLength / 1000) % 60);
+                    String songSeconds = String.valueOf(seconds);
+                    if (seconds < 10) songSeconds = "0" + seconds;
 
                     // Thumbnail
                     String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
@@ -259,7 +265,7 @@ public class PlayerManager
                             .setColor(Util.randColor())
                             .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
                             .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
@@ -285,6 +291,8 @@ public class PlayerManager
                     long trackLength = audioTrack.getInfo().length;
                     long minutes = (trackLength / 1000) / 60;
                     long seconds = ((trackLength / 1000) % 60);
+                    String songSeconds = String.valueOf(seconds);
+                    if (seconds < 10) songSeconds = "0" + seconds;
 
                     // Thumbnail
                     String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
@@ -293,7 +301,7 @@ public class PlayerManager
                             .setColor(Util.randColor())
                             .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
                             .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
@@ -334,6 +342,8 @@ public class PlayerManager
                     long trackLength = audioTrack.getInfo().length;
                     long minutes = (trackLength / 1000) / 60;
                     long seconds = ((trackLength / 1000) % 60);
+                    String songSeconds = String.valueOf(seconds);
+                    if (seconds < 10) songSeconds = "0" + seconds;
 
                     // Thumbnail
                     String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
@@ -342,7 +352,7 @@ public class PlayerManager
                             .setColor(Util.randColor())
                             .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
                             .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
@@ -367,6 +377,8 @@ public class PlayerManager
                     long trackLength = audioTrack.getInfo().length;
                     long minutes = (trackLength / 1000) / 60;
                     long seconds = ((trackLength / 1000) % 60);
+                    String songSeconds = String.valueOf(seconds);
+                    if (seconds < 10) songSeconds = "0" + seconds;
 
                     // Thumbnail
                     String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
@@ -375,7 +387,7 @@ public class PlayerManager
                             .setColor(Util.randColor())
                             .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
                             .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + seconds + "]`")
+                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
