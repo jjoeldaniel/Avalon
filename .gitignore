@@ -1,1 +1,8 @@
+# ignore out/
 /out/
+
+# ignore .idea/
+/.idea/
+
+#ignore meta-inf/
+/META-INF/
