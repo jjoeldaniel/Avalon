@@ -4,6 +4,7 @@ import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
 
+import java.util.Arrays;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -11,7 +12,7 @@ import java.util.concurrent.CompletionException;
 public class Spotify {
 
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
-            .setAccessToken("BQCUyypgWW5eKhbMdaZL1nadP0cmbjIVVeE-h1gRTFs9yNBY-vBzJBzMmuNEJnOnt0OiOibRJlvL-OIVMXKg9wTjbzsDss35tJN1442gKDYFAYZ62U0GCa-uwmp0wtar1LP-IfpTOe7umJodOw1TypjvatHFzfFOpw5IkT-emkzHHAQ")
+            .setAccessToken("BQB30gOoOpTuEdvJ17jhbdeBk1wx8-o230RjLfkmRuFIs-A_HgSk8b5dOHHuADNIs5x8KnBBsfkAT6D2U7MY1Hrlqlv8W63XUl9kq7RJ172uA3wk5e8Kadk-U_pLh7aZz5W0rLSyDKcPm9dnFMZn-e5q2kxZTHaLmhrQxTMGB9YhyOo")
             .setClientId("3451401ce3b148039cbba35a2c25cd5f")
             .setClientSecret("6531d1fa12f645b581a8bbce029139f1")
             .build();
@@ -30,16 +31,30 @@ public class Spotify {
             id = id.replace("[", "");
             id = id.replace("]", "");
 
-            // Search request
+            // Search title request
             final GetTrackRequest getTrackRequest = spotifyApi.getTrack(id)
                     .build();
-            try {
+            try
+            {
                 final CompletableFuture<Track> trackFuture = getTrackRequest.executeAsync();
 
                 // Example Only. Never block in production code.
                 final Track track = trackFuture.join();
 
+                // Get artist name
+                if (Arrays.stream(Arrays.stream(track.getArtists()).toArray()).findFirst().isPresent())
+                {
+                    String artistName = Arrays.stream(Arrays.stream(track.getArtists()).toArray()).findFirst().get().toString();
+                    artistName = artistName.replace("ArtistSimplified(name=", "");
+                    String[] array2 = artistName.split(",", 2);
+                    artistName = array2[0];
+                    artistName = artistName.replace(",", "");
+
+                    return track.getName() + " " + artistName;
+                }
+
                 return track.getName();
+
             } catch (CompletionException e) {
                 System.out.println("Error: " + e.getCause().getMessage());
             } catch (CancellationException e) {
