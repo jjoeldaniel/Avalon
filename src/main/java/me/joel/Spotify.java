@@ -2,11 +2,9 @@ package me.joel;
 
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
-import se.michaelthelin.spotify.model_objects.specification.Playlist;
-import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
-import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
 import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
@@ -98,7 +96,21 @@ public class Spotify {
         // Albums
         else if (query.contains("/album/")) {
 
+            // Search title request
+            final GetAlbumRequest getAlbumRequest = spotifyApi.getAlbum(id)
+                    .build();
+            try {
+                final CompletableFuture<Album> albumFuture = getAlbumRequest.executeAsync();
+                final Album album = albumFuture.join();
+
+                return album.getName();
+            } catch (CompletionException e) {
+                System.out.println("Error: " + e.getCause().getMessage());
+            } catch (CancellationException e) {
+                System.out.println("Async operation cancelled.");
+            }
         }
+
         return "";
     }
 
@@ -141,7 +153,6 @@ public class Spotify {
         else if (query.contains("/album/")) {
 
 
-
         }
 
         //return tracks;
@@ -153,27 +164,14 @@ public class Spotify {
     public static String separateID(String url) {
 
         String id;
+        String type = "";
+
+        if (url.contains("/track/"))  type = "track";
+        else if (url.contains("/playlist/"))  type = "playlist";
+        else if (url.contains("/album/"))  type = "album";
 
         if (url.contains("/track/")) {
-            id = url.replace("https://open.spotify.com/track/", "");
-            String[] array = id.split("\\?", 2);
-            id = array[0];
-            id = id.replace("[", "");
-            id = id.replace("]", "");
-
-            return id;
-        }
-        else if (url.contains("/playlist")) {
-            id = url.replace("https://open.spotify.com/playlist/", "");
-            String[] array = id.split("\\?", 2);
-            id = array[0];
-            id = id.replace("[", "");
-            id = id.replace("]", "");
-
-            return id;
-        }
-        else if (url.contains("/album/")) {
-            id = url.replace("https://open.spotify.com/album/", "");
+            id = url.replace("https://open.spotify.com/" + type + "/", "");
             String[] array = id.split("\\?", 2);
             id = array[0];
             id = id.replace("[", "");
