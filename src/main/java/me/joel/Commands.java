@@ -15,13 +15,11 @@ import java.util.Objects;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 
-public class Commands extends ListenerAdapter
-{
+public class Commands extends ListenerAdapter {
     String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot";
 
     @Override
-    public void onGuildJoin(@NotNull GuildJoinEvent event)
-    {
+    public void onGuildJoin(@NotNull GuildJoinEvent event) {
         System.out.println("Joined server: \"" + event.getGuild().getName() + "\"");
         EmbedBuilder onJoin = new EmbedBuilder()
                 .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
@@ -38,13 +36,10 @@ public class Commands extends ListenerAdapter
     }
 
     @Override
-    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
-    {
-        try
-        {
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        try {
             // Help
-            if (event.getName().equals("help"))
-            {
+            if (event.getName().equals("help")) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setTitle("PawBot Commands")
@@ -69,8 +64,7 @@ public class Commands extends ListenerAdapter
                         .queue();
             }
             // Coin Flip
-            if (event.getName().equals("coinflip"))
-            {
+            if (event.getName().equals("coinflip")) {
                 String flip;
                 if (Util.randomWithRange(0, 100) > 50) flip = "Heads!";
                 else flip = "Tails!";
@@ -80,20 +74,17 @@ public class Commands extends ListenerAdapter
                 event.replyEmbeds(coin.build()).queue();
             }
             // Ping
-            if (event.getName().equals("ping"))
-            {
+            if (event.getName().equals("ping")) {
                 EmbedBuilder ping = new EmbedBuilder()
                         .setTitle("Pong!")
                         .setColor(Util.randColor());
                 event.replyEmbeds(ping.build()).setEphemeral(true).queue();
             }
             // 8Ball
-            if (event.getName().equals("8ball"))
-            {
+            if (event.getName().equals("8ball")) {
                 int randomResult = Util.randomWithRange(1, 19);
                 String output = "null";
-                switch (randomResult)
-                {
+                switch (randomResult) {
                     case 1 -> output = "It is certain.";
                     case 2 -> output = ("It is decidedly so.");
                     case 3 -> output = ("Without a doubt.");
@@ -126,11 +117,9 @@ public class Commands extends ListenerAdapter
                 event.replyEmbeds(ball.build()).queue();
             }
             // Truth or Dare
-            if (event.getName().equals("truthordare"))
-            {
+            if (event.getName().equals("truthordare")) {
 
-                if (Objects.equals(event.getSubcommandName(), "truth"))
-                {
+                if (Objects.equals(event.getSubcommandName(), "truth")) {
                     String truth = truthordare.truth();
 
                     EmbedBuilder truthNotDare = new EmbedBuilder()
@@ -145,8 +134,7 @@ public class Commands extends ListenerAdapter
                                     Button.danger("randomTruthOrDare", "Random")
                             )
                             .queue();
-                } else if (Objects.equals(event.getSubcommandName(), "dare"))
-                {
+                } else if (Objects.equals(event.getSubcommandName(), "dare")) {
                     String dare = truthordare.dare();
 
                     EmbedBuilder dareNotTruth = new EmbedBuilder()
@@ -161,10 +149,8 @@ public class Commands extends ListenerAdapter
                                     Button.danger("randomTruthOrDare", "Random")
                             )
                             .queue();
-                } else if (Objects.equals(event.getSubcommandName(), "random"))
-                {
-                    if (Util.randomWithRange(0, 100) > 50)
-                    {
+                } else if (Objects.equals(event.getSubcommandName(), "random")) {
+                    if (Util.randomWithRange(0, 100) > 50) {
                         String dare = truthordare.dare();
                         EmbedBuilder dareNotTruth = new EmbedBuilder()
                                 .setTitle("Truth or Dare")
@@ -178,8 +164,7 @@ public class Commands extends ListenerAdapter
                                         Button.danger("randomTruthOrDare", "Random")
                                 )
                                 .queue();
-                    } else
-                    {
+                    } else {
                         String truth = truthordare.truth();
                         EmbedBuilder truthNotDare = new EmbedBuilder()
                                 .setTitle("Truth or Dare")
@@ -197,21 +182,18 @@ public class Commands extends ListenerAdapter
                 }
             }
             // Avatar
-            if (event.getName().equals("avatar"))
-            {
+            if (event.getName().equals("avatar")) {
                 String targetName;
                 String targetPFP;
 
                 // DMs
-                if (!event.isFromGuild())
-                {
+                if (!event.isFromGuild()) {
                     User user = Objects.requireNonNull(event.getOption("user")).getAsUser();
                     targetName = user.getName() + "#" + user.getDiscriminator();
                     targetPFP = user.getEffectiveAvatarUrl();
                 }
                 // Server
-                else
-                {
+                else {
                     Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
                     assert member != null;
                     targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
@@ -227,14 +209,12 @@ public class Commands extends ListenerAdapter
                 event.replyEmbeds(avatar.build()).queue();
             }
             // Confess
-            if (event.getName().equals("confess"))
-            {
+            if (event.getName().equals("confess")) {
                 String message = Objects.requireNonNull(event.getOption("message")).getAsString();
                 String channelID = "";
 
                 // If message contains @role or @everyone
-                if (Objects.requireNonNull(event.getOption("message")).getMentions().getRoles().size() > 0 || message.contains("@everyone"))
-                {
+                if (Objects.requireNonNull(event.getOption("message")).getMentions().getRoles().size() > 0 || message.contains("@everyone")) {
                     EmbedBuilder noMentions = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("You can't @ roles in a confession!");
@@ -243,8 +223,7 @@ public class Commands extends ListenerAdapter
                     return;
                 }
                 // If message contains @member
-                if (Objects.requireNonNull(event.getOption("message")).getMentions().getUsers().size() > 0)
-                {
+                if (Objects.requireNonNull(event.getOption("message")).getMentions().getUsers().size() > 0) {
                     EmbedBuilder noMentions = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("You can't @ someone in a confession!");
@@ -259,13 +238,10 @@ public class Commands extends ListenerAdapter
                         .setColor(Util.randColor());
 
                 // Find confessions channel
-                try
-                {
+                try {
                     int channelNum = Objects.requireNonNull(event.getGuild()).getTextChannels().size();
-                    for (int i = 0; i < channelNum; ++i)
-                    {
-                        if (event.getGuild().getTextChannels().get(i).getName().contains("confessions"))
-                        {
+                    for (int i = 0; i < channelNum; ++i) {
+                        if (event.getGuild().getTextChannels().get(i).getName().contains("confessions")) {
                             channelID = event.getGuild().getTextChannels().get(i).getId();
                         }
                     }
@@ -278,8 +254,7 @@ public class Commands extends ListenerAdapter
                             .setColor(Util.randColor());
 
                     event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();
-                } catch (Exception channelNotFound)
-                {
+                } catch (Exception channelNotFound) {
                     EmbedBuilder confessionError = new EmbedBuilder()
                             .setTitle("Error!")
                             .setDescription("No confession channel found!")
@@ -289,8 +264,7 @@ public class Commands extends ListenerAdapter
                 }
             }
             // Whois Command
-            if (event.getName().equals("whois"))
-            {
+            if (event.getName().equals("whois")) {
                 Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
                 assert member != null;
                 User user = member.getUser();
@@ -298,8 +272,7 @@ public class Commands extends ListenerAdapter
                 LocalDateTime creationDate = user.getTimeCreated().toLocalDateTime();
                 int numRoles = member.getRoles().size();
                 StringBuilder roles = new StringBuilder();
-                for (int i = 0; i < numRoles; ++i)
-                {
+                for (int i = 0; i < numRoles; ++i) {
                     roles.append("<@&").append(member.getRoles().get(i).getId()).append("> ");
                 }
 
@@ -317,18 +290,15 @@ public class Commands extends ListenerAdapter
 
             }
             // AFK
-            if (event.getName().equals("afk"))
-            {
+            if (event.getName().equals("afk")) {
 
-                try
-                {
+                try {
 
                     Member member = event.getMember();
                     assert member != null;
 
                     // Check for admin/owner
-                    if (member.getPermissions().contains(Permission.ADMINISTRATOR) || member.isOwner())
-                    {
+                    if (member.getPermissions().contains(Permission.ADMINISTRATOR) || member.isOwner()) {
 
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setDescription("Owner/Admins cannot use /afk!")
@@ -339,8 +309,7 @@ public class Commands extends ListenerAdapter
                     }
 
                     // Return from AFK
-                    if (member.getEffectiveName().startsWith("(AFK)"))
-                    {
+                    if (member.getEffectiveName().startsWith("(AFK)")) {
                         String user = Objects.requireNonNull(event.getMember()).getEffectiveName();
                         StringBuilder username = new StringBuilder()
                                 .append(user)
@@ -354,8 +323,7 @@ public class Commands extends ListenerAdapter
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
                     }
-                    if (!member.getEffectiveName().startsWith("(AFK)"))
-                    {
+                    if (!member.getEffectiveName().startsWith("(AFK)")) {
                         String newName = "(AFK) " + member.getEffectiveName();
 
                         EmbedBuilder builder = new EmbedBuilder()
@@ -368,8 +336,7 @@ public class Commands extends ListenerAdapter
 
                 }
                 // Exception Catch
-                catch (Exception exception)
-                {
+                catch (Exception exception) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("Unknown error occurred, try again later!")
                             .setFooter("Make sure PawBots role is set as high as possible in the role hierarchy if this error continues to occur!")
@@ -379,21 +346,17 @@ public class Commands extends ListenerAdapter
                 }
 
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             event.replyEmbeds(Util.genericError().build()).setEphemeral(true).queue();
         }
 
     }
 
     @Override
-    public void onButtonInteraction(@NotNull ButtonInteractionEvent event)
-    {
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
 
-        if (event.getComponentId().startsWith("help"))
-        {
-            if (event.getComponentId().equals("helpGeneral"))
-            {
+        if (event.getComponentId().startsWith("help")) {
+            if (event.getComponentId().equals("helpGeneral")) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setTitle("PawBot Commands")
@@ -416,8 +379,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpMusic", "Music"),
                                 Button.link(inviteLink, "Invite"))
                         .queue();
-            } else if (event.getComponentId().equals("helpMod"))
-            {
+            } else if (event.getComponentId().equals("helpMod")) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setTitle("PawBot Commands")
@@ -437,8 +399,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpMusic", "Music"),
                                 Button.link(inviteLink, "Invite"))
                         .queue();
-            } else if (event.getComponentId().equals("helpMusic"))
-            {
+            } else if (event.getComponentId().equals("helpMusic")) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setTitle("PawBot Commands")
@@ -464,10 +425,8 @@ public class Commands extends ListenerAdapter
             }
         }
 
-        if (event.getComponentId().equals("truth") || event.getComponentId().equals("dare") || event.getComponentId().equals("randomTruthOrDare"))
-        {
-            if (event.getComponentId().equals("truth"))
-            {
+        if (event.getComponentId().equals("truth") || event.getComponentId().equals("dare") || event.getComponentId().equals("randomTruthOrDare")) {
+            if (event.getComponentId().equals("truth")) {
                 String truth = truthordare.truth();
                 EmbedBuilder truthNotDare = new EmbedBuilder()
                         .setTitle("Truth or Dare")
@@ -481,8 +440,7 @@ public class Commands extends ListenerAdapter
                                 Button.danger("randomTruthOrDare", "Random")
                         )
                         .queue();
-            } else if (event.getComponentId().equals("dare"))
-            {
+            } else if (event.getComponentId().equals("dare")) {
                 String dare = truthordare.dare();
                 EmbedBuilder dareNotTruth = new EmbedBuilder()
                         .setTitle("Truth or Dare")
@@ -496,11 +454,9 @@ public class Commands extends ListenerAdapter
                                 Button.danger("randomTruthOrDare", "Random")
                         )
                         .queue();
-            } else if (event.getComponentId().equals("randomTruthOrDare"))
-            {
+            } else if (event.getComponentId().equals("randomTruthOrDare")) {
 
-                if (Util.randomWithRange(0, 100) > 50)
-                {
+                if (Util.randomWithRange(0, 100) > 50) {
                     String dare = truthordare.dare();
                     EmbedBuilder dareNotTruth = new EmbedBuilder()
                             .setTitle("Truth or Dare")
@@ -514,8 +470,7 @@ public class Commands extends ListenerAdapter
                                     Button.danger("randomTruthOrDare", "Random")
                             )
                             .queue();
-                } else
-                {
+                } else {
                     String truth = truthordare.truth();
                     EmbedBuilder truthNotDare = new EmbedBuilder()
                             .setTitle("Truth or Dare")
@@ -535,25 +490,20 @@ public class Commands extends ListenerAdapter
     }
 
     @Override
-    public void onMessageReceived(@NotNull MessageReceivedEvent event)
-    {
-        if (!event.getAuthor().isBot() && event.isFromGuild())
-        {
-            try
-            {
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        if (!event.getAuthor().isBot() && event.isFromGuild()) {
+            try {
                 Member member = event.getMessage().getMentions().getMembers().get(0);
 
                 // AFK Return
-                if (member.getEffectiveName().contains("(AFK)"))
-                {
+                if (member.getEffectiveName().contains("(AFK)")) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("Mentioned member is AFK, " + Objects.requireNonNull(event.getMember()).getAsMention() + "!")
                             .setColor(Util.randColor());
 
                     event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 }
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
             }
         }
     }

@@ -8,13 +8,11 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandsRegister extends ListenerAdapter
-{
+public class CommandsRegister extends ListenerAdapter {
 
 
     @Override
-    public void onReady(@NotNull ReadyEvent event)
-    {
+    public void onReady(@NotNull ReadyEvent event) {
 
         //event.getJDA().updateCommands().queue();
 
@@ -43,8 +41,7 @@ public class CommandsRegister extends ListenerAdapter
 
     // Guild Commands
     @Override
-    public void onGuildJoin(@NotNull GuildJoinEvent event)
-    {
+    public void onGuildJoin(@NotNull GuildJoinEvent event) {
 
         event.getGuild().updateCommands().addCommands(
 

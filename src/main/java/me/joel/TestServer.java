@@ -8,16 +8,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class TestServer extends ListenerAdapter
-{
+public class TestServer extends ListenerAdapter {
 
     // TODO: Fix onGuildMemberJoin, fails to trigger on member join
     @Override
-    public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event)
-    {
+    public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         // paw patrol and cat club (test server)
-        if (event.getGuild().getId().equals("645471751316307998") || event.getGuild().getId().equals("971225319153479790"))
-        {
+        if (event.getGuild().getId().equals("645471751316307998") || event.getGuild().getId().equals("971225319153479790")) {
             System.out.println("new member: " + event.getMember().getUser().getName());
             Member member = event.getMember();
             EmbedBuilder memberJoin = new EmbedBuilder()
@@ -32,21 +29,17 @@ public class TestServer extends ListenerAdapter
                     .setFooter("User: " + member.getUser().getName() + " ID: " + member.getId());
 
             // find welcome channel
-            try
-            {
+            try {
                 int channelNum = Objects.requireNonNull(event.getGuild()).getTextChannels().size();
-                for (int i = 0; i < channelNum; ++i)
-                {
-                    if (event.getGuild().getTextChannels().get(i).getName().contains("welcome"))
-                    {
+                for (int i = 0; i < channelNum; ++i) {
+                    if (event.getGuild().getTextChannels().get(i).getName().contains("welcome")) {
                         event.getGuild().getTextChannels().get(i).sendMessageEmbeds(memberJoin.build()).queue();
                         return;
                     }
                 }
             }
             // If no welcomeChannel found
-            catch (Exception ignore)
-            {
+            catch (Exception ignore) {
             }
         }
     }

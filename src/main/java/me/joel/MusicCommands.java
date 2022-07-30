@@ -16,8 +16,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 
-public class MusicCommands extends ListenerAdapter
-{
+public class MusicCommands extends ListenerAdapter {
 
     static Member member;
     EmbedBuilder queue = new EmbedBuilder();
@@ -26,8 +25,7 @@ public class MusicCommands extends ListenerAdapter
     static boolean sendNowPlaying = false;
     static MessageChannelUnion messageChannelUnion;
 
-    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
-    {
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (!event.isFromGuild()) return;
 
         final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
@@ -35,15 +33,12 @@ public class MusicCommands extends ListenerAdapter
         Member bot = event.getGuild().getMemberById("971239438892019743");
         assert bot != null;
 
-        try
-        {
+        try {
 
             // Loop
-            if (event.getName().equals("loop"))
-            {
+            if (event.getName().equals("loop")) {
                 // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
-                {
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                     AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -54,13 +49,11 @@ public class MusicCommands extends ListenerAdapter
                 }
 
                 // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
-                {
+                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                     long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
                     long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
 
-                    if (!(botVC == memberVC))
-                    {
+                    if (!(botVC == memberVC)) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
                                 .setDescription("You need to be in the same voice channel as the bot to use `/loop`!")
@@ -70,8 +63,7 @@ public class MusicCommands extends ListenerAdapter
                     }
                 }
 
-                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() == null)
-                {
+                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() == null) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("There is no song currently playing!");
@@ -80,16 +72,14 @@ public class MusicCommands extends ListenerAdapter
                     return;
                 }
 
-                if (!AudioEventAdapter.isLooping())
-                {
+                if (!AudioEventAdapter.isLooping()) {
                     AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("Song is now looping!");
 
                     event.replyEmbeds(builder.build()).queue();
-                } else
-                {
+                } else {
                     AudioEventAdapter.setLoop(false);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -101,14 +91,12 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // Play
-            if (event.getName().equals("play"))
-            {
+            if (event.getName().equals("play")) {
                 event.deferReply().queue();
                 messageChannelUnion = event.getChannel();
 
                 // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
-                {
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("You need to be in a voice channel to use `/play`!")
@@ -118,13 +106,11 @@ public class MusicCommands extends ListenerAdapter
                 }
 
                 // Check jda voice state and compare with member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
-                {
+                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                     long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
                     long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
 
-                    if (!(botVC == memberVC))
-                    {
+                    if (!(botVC == memberVC)) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
                                 .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
@@ -138,53 +124,44 @@ public class MusicCommands extends ListenerAdapter
                 String link = Objects.requireNonNull(event.getOption("song")).getAsString();
 
                 // Spotify
-                if (link.startsWith("https://open.spotify.com/"))
-                {
+                if (link.startsWith("https://open.spotify.com/")) {
                     link = ("ytsearch:" + Spotify.searchSpotify(link) + " audio");
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
 
                     // Plays song
-                    try
-                    {
+                    try {
                         PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
                     }
                 }
 
                 // Invalid links
-                else if (!isURL(link))
-                {
+                else if (!isURL(link)) {
                     link = ("ytsearch:" + link + " audio");
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
 
                     // Plays song
-                    try
-                    {
+                    try {
                         PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
                     }
                 }
 
                 // Valid links (Basically just YouTube)
-                else
-                {
+                else {
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
 
                     // Plays song
-                    try
-                    {
+                    try {
                         PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
                     }
@@ -196,19 +173,16 @@ public class MusicCommands extends ListenerAdapter
                         .setFooter("Use /help for a list of music commands!");
                 event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
                 Util.wait(500);
-                if (bot.getVoiceState().inAudioChannel())
-                {
+                if (bot.getVoiceState().inAudioChannel()) {
                     event.getGuild().deafen(bot, true).queue();
                 }
                 event.getHook().deleteOriginal().queue();
             }
 
             // Volume
-            if (event.getName().equals("volume"))
-            {
+            if (event.getName().equals("volume")) {
                 // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
-                {
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                     AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -219,13 +193,11 @@ public class MusicCommands extends ListenerAdapter
                 }
 
                 // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
-                {
+                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                     long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
                     long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
 
-                    if (!(botVC == memberVC))
-                    {
+                    if (!(botVC == memberVC)) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
                                 .setDescription("You need to be in the same voice channel as the bot to use `/loop`!")
@@ -237,8 +209,7 @@ public class MusicCommands extends ListenerAdapter
 
                 int num = Objects.requireNonNull(event.getOption("num")).getAsInt();
 
-                if (num <= 0 || num > 100)
-                {
+                if (num <= 0 || num > 100) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
@@ -260,11 +231,9 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // Pause
-            if (event.getName().equals("pause"))
-            {
+            if (event.getName().equals("pause")) {
                 // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
-                {
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                     AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -275,12 +244,10 @@ public class MusicCommands extends ListenerAdapter
                 }
 
                 // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
-                {
+                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                     long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                     long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-                    if (!(botVC == memberVC))
-                    {
+                    if (!(botVC == memberVC)) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
                                 .setDescription("You need to be in the same voice channel as the bot to use `/pause`!")
@@ -289,8 +256,7 @@ public class MusicCommands extends ListenerAdapter
                         return;
                     }
                 }
-                if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null)
-                {
+                if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(true);
 
                     EmbedBuilder builder = new EmbedBuilder()
@@ -311,11 +277,9 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // Playing
-            if (event.getName().equals("playing"))
-            {
+            if (event.getName().equals("playing")) {
 
-                try
-                {
+                try {
                     AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
 
                     // Time from ms to m:s
@@ -339,8 +303,7 @@ public class MusicCommands extends ListenerAdapter
 
                     event.replyEmbeds(builder.build()).queue();
 
-                } catch (Exception exception)
-                {
+                } catch (Exception exception) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("No song is playing!")
@@ -350,11 +313,9 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // Resume
-            if (event.getName().equals("resume"))
-            {
+            if (event.getName().equals("resume")) {
                 // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
-                {
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                     AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -365,12 +326,10 @@ public class MusicCommands extends ListenerAdapter
                 }
 
                 // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
-                {
+                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                     long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                     long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-                    if (!(botVC == memberVC))
-                    {
+                    if (!(botVC == memberVC)) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
                                 .setDescription("You need to be in the same voice channel as the bot to use `/resume`!")
@@ -380,8 +339,7 @@ public class MusicCommands extends ListenerAdapter
                     }
                 }
 
-                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null)
-                {
+                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(false);
 
                     EmbedBuilder builder = new EmbedBuilder()
@@ -402,11 +360,9 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // Clear
-            if (event.getName().equals("clear"))
-            {
+            if (event.getName().equals("clear")) {
                 // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
-                {
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                     AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -417,13 +373,11 @@ public class MusicCommands extends ListenerAdapter
                 }
 
                 // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
-                {
+                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                     long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                     long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
 
-                    if (!(botVC == memberVC))
-                    {
+                    if (!(botVC == memberVC)) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
                                 .setDescription("You need to be in the same voice channel as the bot to use `/clear`!")
@@ -433,8 +387,7 @@ public class MusicCommands extends ListenerAdapter
                     }
                 }
 
-                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0)
-                {
+                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("The queue is empty or an error has occurred!")
                             .setFooter("Use /help for a list of music commands!")
@@ -457,11 +410,9 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // Skip
-            if (event.getName().equals("skip"))
-            {
+            if (event.getName().equals("skip")) {
                 // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
-                {
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                     AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -472,13 +423,11 @@ public class MusicCommands extends ListenerAdapter
                 }
 
                 // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
-                {
+                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
                     long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                     long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
 
-                    if (!(botVC == memberVC))
-                    {
+                    if (!(botVC == memberVC)) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
                                 .setDescription("You need to be in the same voice channel as the bot to use `/skip`!")
@@ -488,13 +437,11 @@ public class MusicCommands extends ListenerAdapter
                     }
                 }
 
-                try
-                {
+                try {
                     AudioTrack audioTrack;
                     audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
 
-                    if (audioTrack == null)
-                    {
+                    if (audioTrack == null) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setDescription("No song is playing or an error has occurred!")
                                 .setColor(Util.randColor())
@@ -512,19 +459,16 @@ public class MusicCommands extends ListenerAdapter
                     AudioEventAdapter.setLoop(false);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
                     return;
-                } catch (Exception ignore)
-                {
+                } catch (Exception ignore) {
                 }
             }
 
             // Queue
-            if (event.getName().equals("queue"))
-            {
+            if (event.getName().equals("queue")) {
                 String currentSong;
                 queueSize = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size();
 
-                if (queueSize == 0)
-                {
+                if (queueSize == 0) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("The queue is empty or an error has occurred!")
                             .setFooter("Use /help for a list of music commands!")
@@ -534,11 +478,9 @@ public class MusicCommands extends ListenerAdapter
                     return;
                 }
                 event.deferReply().queue();
-                try
-                {
+                try {
                     currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-                } catch (Exception ignore)
-                {
+                } catch (Exception ignore) {
                     return;
                 }
                 String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -557,23 +499,20 @@ public class MusicCommands extends ListenerAdapter
                         .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                         .addBlankField(false);
 
-                for (int i = 0; i < queueSize && i < 5; ++i)
-                {
+                for (int i = 0; i < queueSize && i < 5; ++i) {
                     page1
                             .addField("[" + (i + 1) + "]", "[" + playlist.get(i).getInfo().title + "](" + playlist.get(i).getInfo().uri + ")\n", false)
 
                             .setFooter("Page 1");
                 }
                 // disable next page if next page is blank
-                if (queueSize <= 5)
-                {
+                if (queueSize <= 5) {
                     event.getHook().sendMessageEmbeds(page1.build())
                             .addActionRow(
                                     Button.primary("page1", "Previous Page").asDisabled(),
                                     Button.primary("page2", "Next Page").asDisabled())
                             .queue();
-                } else
-                {
+                } else {
                     event.getHook().sendMessageEmbeds(page1.build())
                             .addActionRow(
                                     Button.primary("page1", "Previous Page").asDisabled(),
@@ -581,27 +520,22 @@ public class MusicCommands extends ListenerAdapter
                             .queue();
                 }
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             event.replyEmbeds(Util.genericError().build()).setEphemeral(true).queue();
         }
     }
 
     @Override
-    public void onButtonInteraction(@NotNull ButtonInteractionEvent event)
-    {
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
         if (!event.isFromGuild()) return;
 
         final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
-        if (event.getComponentId().equals("page1"))
-        {
+        if (event.getComponentId().equals("page1")) {
             String currentSong;
-            try
-            {
+            try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
                 return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -611,8 +545,7 @@ public class MusicCommands extends ListenerAdapter
                     .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                     .addBlankField(false);
 
-            for (int i = 0; i < queueSize && i < 5; ++i)
-            {
+            for (int i = 0; i < queueSize && i < 5; ++i) {
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page1
@@ -621,30 +554,25 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // disable next page if next page is blank
-            if (queueSize <= 5)
-            {
+            if (queueSize <= 5) {
                 event.editMessageEmbeds(page1.build())
                         .setActionRow(
                                 Button.primary("page1", "Previous Page").asDisabled(),
                                 Button.primary("page2", "Next Page").asDisabled())
                         .queue();
-            } else
-            {
+            } else {
                 event.editMessageEmbeds(page1.build())
                         .setActionRow(
                                 Button.primary("page1", "Previous Page").asDisabled(),
                                 Button.primary("page2", "Next Page"))
                         .queue();
             }
-        } else if (event.getComponentId().equals("page2"))
-        {
+        } else if (event.getComponentId().equals("page2")) {
 
             String currentSong;
-            try
-            {
+            try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
                 return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -654,8 +582,7 @@ public class MusicCommands extends ListenerAdapter
                     .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                     .addBlankField(false);
 
-            for (int i = 5; i < queueSize && i < 10; ++i)
-            {
+            for (int i = 5; i < queueSize && i < 10; ++i) {
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page2
@@ -664,29 +591,24 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // disable next page if next page is blank
-            if (queueSize <= 10)
-            {
+            if (queueSize <= 10) {
                 event.editMessageEmbeds(page2.build())
                         .setActionRow(
                                 Button.primary("page1", "Previous Page"),
                                 Button.primary("page3", "Next Page").asDisabled())
                         .queue();
-            } else
-            {
+            } else {
                 event.editMessageEmbeds(page2.build())
                         .setActionRow(
                                 Button.primary("page1", "Previous Page"),
                                 Button.primary("page3", "Next Page"))
                         .queue();
             }
-        } else if (event.getComponentId().equals("page3"))
-        {
+        } else if (event.getComponentId().equals("page3")) {
             String currentSong;
-            try
-            {
+            try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
                 return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -696,8 +618,7 @@ public class MusicCommands extends ListenerAdapter
                     .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                     .addBlankField(false);
 
-            for (int i = 10; i < queueSize && i < 15; ++i)
-            {
+            for (int i = 10; i < queueSize && i < 15; ++i) {
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page3
@@ -706,16 +627,14 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // disable next page if next page is blank
-            if (queueSize <= 15)
-            {
+            if (queueSize <= 15) {
                 event.editMessageEmbeds(page3.build())
                         .setActionRow(
                                 Button.primary("page2", "Previous Page"),
                                 Button.primary("page4", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            } else
-            {
+            } else {
                 event.editMessageEmbeds(page3.build())
                         .setActionRow(
                                 Button.primary("page2", "Previous Page"),
@@ -723,14 +642,11 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        } else if (event.getComponentId().equals("page4"))
-        {
+        } else if (event.getComponentId().equals("page4")) {
             String currentSong;
-            try
-            {
+            try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
                 return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -740,8 +656,7 @@ public class MusicCommands extends ListenerAdapter
                     .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                     .addBlankField(false);
 
-            for (int i = 15; i < queueSize && i < 20; ++i)
-            {
+            for (int i = 15; i < queueSize && i < 20; ++i) {
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page4
@@ -750,16 +665,14 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // disable next page if next page is blank
-            if (queueSize <= 20)
-            {
+            if (queueSize <= 20) {
                 event.editMessageEmbeds(page4.build())
                         .setActionRow(
                                 Button.primary("page3", "Previous Page"),
                                 Button.primary("page5", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            } else
-            {
+            } else {
                 event.editMessageEmbeds(page4.build())
                         .setActionRow(
                                 Button.primary("page3", "Previous Page"),
@@ -767,14 +680,11 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        } else if (event.getComponentId().equals("page5"))
-        {
+        } else if (event.getComponentId().equals("page5")) {
             String currentSong;
-            try
-            {
+            try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
                 return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -784,8 +694,7 @@ public class MusicCommands extends ListenerAdapter
                     .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                     .addBlankField(false);
 
-            for (int i = 20; i < queueSize && i < 25; ++i)
-            {
+            for (int i = 20; i < queueSize && i < 25; ++i) {
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page5
@@ -794,16 +703,14 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // disable next page if next page is blank
-            if (queueSize <= 25)
-            {
+            if (queueSize <= 25) {
                 event.editMessageEmbeds(page5.build())
                         .setActionRow(
                                 Button.primary("page4", "Previous Page"),
                                 Button.primary("page6", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            } else
-            {
+            } else {
                 event.editMessageEmbeds(page5.build())
                         .setActionRow(
                                 Button.primary("page4", "Previous Page"),
@@ -811,14 +718,11 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        } else if (event.getComponentId().equals("page6"))
-        {
+        } else if (event.getComponentId().equals("page6")) {
             String currentSong;
-            try
-            {
+            try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
                 return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -828,8 +732,7 @@ public class MusicCommands extends ListenerAdapter
                     .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                     .addBlankField(false);
 
-            for (int i = 25; i < queueSize && i < 30; ++i)
-            {
+            for (int i = 25; i < queueSize && i < 30; ++i) {
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page6
@@ -838,16 +741,14 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // disable next page if next page is blank
-            if (queueSize <= 30)
-            {
+            if (queueSize <= 30) {
                 event.editMessageEmbeds(page6.build())
                         .setActionRow(
                                 Button.primary("page5", "Previous Page"),
                                 Button.primary("page7", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            } else
-            {
+            } else {
                 event.editMessageEmbeds(page6.build())
                         .setActionRow(
                                 Button.primary("page5", "Previous Page"),
@@ -855,14 +756,11 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        } else if (event.getComponentId().equals("page7"))
-        {
+        } else if (event.getComponentId().equals("page7")) {
             String currentSong;
-            try
-            {
+            try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
                 return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -872,8 +770,7 @@ public class MusicCommands extends ListenerAdapter
                     .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                     .addBlankField(false);
 
-            for (int i = 30; i < queueSize && i < 35; ++i)
-            {
+            for (int i = 30; i < queueSize && i < 35; ++i) {
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page7
@@ -882,16 +779,14 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // disable next page if next page is blank
-            if (queueSize <= 35)
-            {
+            if (queueSize <= 35) {
                 event.editMessageEmbeds(page7.build())
                         .setActionRow(
                                 Button.primary("page6", "Previous Page"),
                                 Button.primary("page8", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            } else
-            {
+            } else {
                 event.editMessageEmbeds(page7.build())
                         .setActionRow(
                                 Button.primary("page6", "Previous Page"),
@@ -899,14 +794,11 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        } else if (event.getComponentId().equals("page8"))
-        {
+        } else if (event.getComponentId().equals("page8")) {
             String currentSong;
-            try
-            {
+            try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
                 return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -916,8 +808,7 @@ public class MusicCommands extends ListenerAdapter
                     .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                     .addBlankField(false);
 
-            for (int i = 35; i < queueSize && i < 40; ++i)
-            {
+            for (int i = 35; i < queueSize && i < 40; ++i) {
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page8
@@ -926,16 +817,14 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // disable next page if next page is blank
-            if (queueSize <= 40)
-            {
+            if (queueSize <= 40) {
                 event.editMessageEmbeds(page8.build())
                         .setActionRow(
                                 Button.primary("page7", "Previous Page"),
                                 Button.primary("page9", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            } else
-            {
+            } else {
                 event.editMessageEmbeds(page8.build())
                         .setActionRow(
                                 Button.primary("page7", "Previous Page"),
@@ -943,14 +832,11 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        } else if (event.getComponentId().equals("page9"))
-        {
+        } else if (event.getComponentId().equals("page9")) {
             String currentSong;
-            try
-            {
+            try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
                 return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -960,8 +846,7 @@ public class MusicCommands extends ListenerAdapter
                     .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                     .addBlankField(false);
 
-            for (int i = 40; i < queueSize && i < 45; ++i)
-            {
+            for (int i = 40; i < queueSize && i < 45; ++i) {
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page9
@@ -970,16 +855,14 @@ public class MusicCommands extends ListenerAdapter
             }
 
             // disable next page if next page is blank
-            if (queueSize <= 45)
-            {
+            if (queueSize <= 45) {
                 event.editMessageEmbeds(page9.build())
                         .setActionRow(
                                 Button.primary("page8", "Previous Page"),
                                 Button.primary("page10", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            } else
-            {
+            } else {
                 event.editMessageEmbeds(page9.build())
                         .setActionRow(
                                 Button.primary("page8", "Previous Page"),
@@ -987,14 +870,11 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        } else if (event.getComponentId().equals("page10"))
-        {
+        } else if (event.getComponentId().equals("page10")) {
             String currentSong;
-            try
-            {
+            try {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            } catch (Exception ignore)
-            {
+            } catch (Exception ignore) {
                 return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
@@ -1004,8 +884,7 @@ public class MusicCommands extends ListenerAdapter
                     .addField("Now playing", "[" + currentSong + "](" + currentURI + ")\n", false)
                     .addBlankField(false);
 
-            for (int i = 45; i < queueSize && i < 50; ++i)
-            {
+            for (int i = 45; i < queueSize && i < 50; ++i) {
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page10
@@ -1020,8 +899,7 @@ public class MusicCommands extends ListenerAdapter
         }
     }
 
-    public static void sendNowPlaying(AudioTrack currentTrack, MessageChannelUnion channel)
-    {
+    public static void sendNowPlaying(AudioTrack currentTrack, MessageChannelUnion channel) {
         setSendNowPlaying(false);
 
         // Time from ms to m:s
@@ -1044,26 +922,21 @@ public class MusicCommands extends ListenerAdapter
         channel.sendMessageEmbeds(builder.build()).queue();
     }
 
-    public static MessageChannelUnion returnChannel()
-    {
+    public static MessageChannelUnion returnChannel() {
         return messageChannelUnion;
     }
 
-    public static void setSendNowPlaying(boolean bool)
-    {
+    public static void setSendNowPlaying(boolean bool) {
         sendNowPlaying = bool;
     }
 
 
     // Validates links
-    public boolean isURL(String url)
-    {
-        try
-        {
+    public boolean isURL(String url) {
+        try {
             new URI(url);
             return true;
-        } catch (URISyntaxException e)
-        {
+        } catch (URISyntaxException e) {
             return false;
         }
     }

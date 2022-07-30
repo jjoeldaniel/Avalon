@@ -1,10 +1,8 @@
 package me.joel;
 
-public class truthordare
-{
+public class truthordare {
 
-    public static String truth()
-    {
+    public static String truth() {
         int num = Util.randomWithRange(0, 100);
         String[] truth = new String[101];
 
@@ -113,8 +111,7 @@ public class truthordare
         return truth[num];
     }
 
-    public static String dare()
-    {
+    public static String dare() {
         int num = Util.randomWithRange(0, 23);
         String[] dare = new String[24];
 

@@ -9,10 +9,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
-public class Paw
-{
-    public static void main(String[] args) throws LoginException, InterruptedException
-    {
+public class Paw {
+    public static void main(String[] args) throws LoginException, InterruptedException {
 
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GHpHqT.uOTGGrIGK2fFj2RFQE9GllzgLGMQ8EjMyzzL1Q")
                 .setStatus(OnlineStatus.ONLINE)

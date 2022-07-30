@@ -10,16 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ReactMessages extends ListenerAdapter
-{
+public class ReactMessages extends ListenerAdapter {
 
-    private static boolean isInsult(String message)
-    {
+    private static boolean isInsult(String message) {
         return message.contains("fuck") || (message.contains("cunt")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
     }
 
-    private static EmbedBuilder randomInsult()
-    {
+    private static EmbedBuilder randomInsult() {
         Random rand = new Random();
 
         List<String> insultList = new ArrayList<>();
@@ -53,38 +50,32 @@ public class ReactMessages extends ListenerAdapter
     }
 
     @Override
-    public void onMessageReceived(@NotNull MessageReceivedEvent event)
-    {
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
         // Checks if user
-        if (event.isFromType(ChannelType.TEXT))
-        {
+        if (event.isFromType(ChannelType.TEXT)) {
 
-            if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getChannel().asTextChannel().isNSFW())
-            {
+            if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getChannel().asTextChannel().isNSFW()) {
 
                 // Grabs user input
                 String messageSent = event.getMessage().getContentRaw().toLowerCase();
 
                 // Goodnight
-                if (messageSent.contains("goodnight") || messageSent.contains("good night") && Util.randomWithRange(0, 100) > 50)
-                {
+                if (messageSent.contains("goodnight") || messageSent.contains("good night") && Util.randomWithRange(0, 100) > 50) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("goodnight sweetie!");
                     event.getMessage().replyEmbeds(builder.build()).queue();
                 }
                 // Good morning
-                if (messageSent.contains("goodmorning") || messageSent.contains("good morning") && Util.randomWithRange(0, 100) > 50)
-                {
+                if (messageSent.contains("goodmorning") || messageSent.contains("good morning") && Util.randomWithRange(0, 100) > 50) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("good morning sweetie!");
                     event.getMessage().replyEmbeds(builder.build()).queue();
                 }
                 // Insult
-                if (isInsult(messageSent) && Util.randomWithRange(0, 100) > 75)
-                {
+                if (isInsult(messageSent) && Util.randomWithRange(0, 100) > 75) {
                     event.getMessage().replyEmbeds(randomInsult().build()).queue();
                 }
 
