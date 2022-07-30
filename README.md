@@ -77,7 +77,7 @@ PawBot is a Discord bot that includes music, moderation, utility, react-messages
 
 `/loop` : Loops the currently playing song until disabled/cleared/skipped
 
-`/skip` : Skips song
+`/skip (song_num)` : Skips song with an optional song number specific skip
 
 
 
