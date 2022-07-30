@@ -68,7 +68,7 @@ public class ModCommands extends ListenerAdapter {
                         ).queue();
 
                         EmbedBuilder builder = new EmbedBuilder()
-                                .setDescription("Commands have been reloaded!")
+                                .setTitle("Commands have been reloaded!")
                                 .setColor(Util.randColor())
                                 .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
 
