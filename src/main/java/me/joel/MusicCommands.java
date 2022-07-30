@@ -141,12 +141,15 @@ public class MusicCommands extends ListenerAdapter {
                             return;
                         }
                     }
-                    // TODO: Add Playlist Cover Image
+                    // TODO: Add playlist cover
                     else if (link.contains("/playlist/")) {
                         String playlistName = Spotify.searchSpotify(link);
                         ArrayList<String> playlistTracks = Spotify.getTracks(link);
 
                         for (String i: playlistTracks) {
+                            // Joins VC
+                            audioManager.openAudioConnection(memberChannel);
+
                             PlayerManager.getINSTANCE().loadAndPlay_SpotifyPlaylists(messageChannelUnion, ("ytsearch:" + i + " audio"));
                         }
 
@@ -161,12 +164,30 @@ public class MusicCommands extends ListenerAdapter {
 
                         event.getHook().sendMessageEmbeds(builder.build()).queue();
                         return;
-
                     }
-                    // TODO: Add album support
+                    // TODO: Add album cover
                     else if (link.contains("/album/")) {
+                        String albumName = Spotify.searchSpotify(link);
+                        ArrayList<String> albumTracks = Spotify.getTracks(link);
 
+                        for (String i: albumTracks) {
+                            // Joins VC
+                            audioManager.openAudioConnection(memberChannel);
 
+                            PlayerManager.getINSTANCE().loadAndPlay_SpotifyPlaylists(messageChannelUnion, ("ytsearch:" + i + " audio"));
+                        }
+
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setAuthor("Album queued")
+                                .setTitle(albumName)
+                                .setDescription("`[" + albumTracks.size() + "] songs`")
+                                .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png")
+                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                .setFooter("Use /help for a list of music commands!");
+
+                        event.getHook().sendMessageEmbeds(builder.build()).queue();
+                        return;
                     }
                 }
 
@@ -553,7 +574,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
             }
         } catch (Exception e) {
-            event.replyEmbeds(Util.genericError().build()).setEphemeral(true).queue();
+            event.getHook().sendMessageEmbeds(Util.genericError().build()).queue();
         }
     }
 

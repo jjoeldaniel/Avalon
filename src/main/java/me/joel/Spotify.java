@@ -5,6 +5,7 @@ import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
+import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
 import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
@@ -144,6 +145,9 @@ public class Spotify {
                     String track = trackName + " " + artistName;
                     tracks.add(track);
                 }
+
+                return tracks;
+
             } catch (CompletionException e) {
                 System.out.println("Error: " + e.getCause().getMessage());
             } catch (CancellationException e) {
@@ -152,7 +156,33 @@ public class Spotify {
         }
         else if (query.contains("/album/")) {
 
+            // Get Items Request
+            final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi.getAlbumsTracks(id)
+                    .build();
+            try {
+                final CompletableFuture<Paging<TrackSimplified>> pagingFuture = getAlbumsTracksRequest.executeAsync();
+                final Paging<TrackSimplified> trackSimplifiedPaging = pagingFuture.join();
 
+                // Add tracks to list
+                for (int i = 0; i < trackSimplifiedPaging.getTotal(); i++) {
+                    String trackName = trackSimplifiedPaging.getItems()[i].getName();
+
+                    // Get artist name
+                    String artistName = Arrays.toString(trackSimplifiedPaging.getItems()[i].getArtists());
+                    artistName = artistName.replace("ArtistSimplified(name=", "");
+                    String[] array2 = artistName.split(",", 2);
+                    artistName = array2[0];
+                    artistName = artistName.replace(",", "");
+
+                    String track = trackName + " " + artistName;
+                    tracks.add(track);
+                }
+
+            } catch (CompletionException e) {
+                System.out.println("Error: " + e.getCause().getMessage());
+            } catch (CancellationException e) {
+                System.out.println("Async operation cancelled.");
+            }
         }
 
         //return tracks;
@@ -170,17 +200,13 @@ public class Spotify {
         else if (url.contains("/playlist/"))  type = "playlist";
         else if (url.contains("/album/"))  type = "album";
 
-        if (url.contains("/track/")) {
-            id = url.replace("https://open.spotify.com/" + type + "/", "");
-            String[] array = id.split("\\?", 2);
-            id = array[0];
-            id = id.replace("[", "");
-            id = id.replace("]", "");
+        id = url.replace("https://open.spotify.com/" + type + "/", "");
+        String[] array = id.split("\\?", 2);
+        id = array[0];
+        id = id.replace("[", "");
+        id = id.replace("]", "");
 
-            return id;
-        }
-
-        return "";
+        return id;
     }
 
 }
