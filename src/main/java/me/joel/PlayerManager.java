@@ -21,6 +21,8 @@ public class PlayerManager {
     private final Map<Long, GuildMusicManager> musicManagers;
     private final AudioPlayerManager audioPlayerManager;
 
+    private static boolean sendAdded = true;
+
     public PlayerManager() {
         this.musicManagers = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
@@ -54,29 +56,31 @@ public class PlayerManager {
                 public void trackLoaded(AudioTrack audioTrack) {
                     musicManager.scheduler.queue(audioTrack);
 
-                    // Time from ms to m:s
-                    long trackLength = audioTrack.getInfo().length;
-                    long minutes = (trackLength / 1000) / 60;
-                    long seconds = ((trackLength / 1000) % 60);
-                    String songSeconds = String.valueOf(seconds);
-                    if (seconds < 10) songSeconds = "0" + seconds;
+                    if (sendAdded) {
+                        // Time from ms to m:s
+                        long trackLength = audioTrack.getInfo().length;
+                        long minutes = (trackLength / 1000) / 60;
+                        long seconds = ((trackLength / 1000) % 60);
+                        String songSeconds = String.valueOf(seconds);
+                        if (seconds < 10) songSeconds = "0" + seconds;
 
-                    // Thumbnail
-                    String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
+                        // Thumbnail
+                        String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
 
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
-                            .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
-                            .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", MusicCommands.member.getAsMention(), false)
-                            .setFooter("Use /help for a list of music commands!");
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
+                                .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
+                                .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                                .setThumbnail(trackThumbnail)
+                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                .setFooter("Use /help for a list of music commands!");
 
-                    if (musicManager.scheduler.queue.size() <= 0) {
-                        builder.setAuthor(("Added to queue"));
+                        if (musicManager.scheduler.queue.size() <= 0) {
+                            builder.setAuthor(("Added to queue"));
+                        }
+                        textChannel.sendMessageEmbeds(builder.build()).queue();
                     }
-                    textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
 
                 @Override
@@ -90,22 +94,24 @@ public class PlayerManager {
                     if (!tracks.isEmpty()) {
                         musicManager.scheduler.queue(tracks.get(0));
 
-                        // Thumbnail
-                        String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
+                        if (sendAdded) {
+                            // Thumbnail
+                            String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
 
-                        // Playlist size
-                        int playlistSize = audioPlaylist.getTracks().size();
+                            // Playlist size
+                            int playlistSize = audioPlaylist.getTracks().size();
 
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setAuthor("Playlist queued")
-                                .setTitle(audioPlaylist.getName())
-                                .setDescription("`[" + playlistSize + "] songs`")
-                                .setThumbnail(trackThumbnail)
-                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
-                                .setFooter("Use /help for a list of music commands!");
+                            EmbedBuilder builder = new EmbedBuilder()
+                                    .setColor(Util.randColor())
+                                    .setAuthor("Playlist queued")
+                                    .setTitle(audioPlaylist.getName())
+                                    .setDescription("`[" + playlistSize + "] songs`")
+                                    .setThumbnail(trackThumbnail)
+                                    .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                    .setFooter("Use /help for a list of music commands!");
 
-                        textChannel.sendMessageEmbeds(builder.build()).queue();
+                            textChannel.sendMessageEmbeds(builder.build()).queue();
+                        }
                     }
                 }
 
@@ -139,29 +145,31 @@ public class PlayerManager {
                 public void trackLoaded(AudioTrack audioTrack) {
                     musicManager.scheduler.queue(audioTrack);
 
-                    // Time from ms to m:s
-                    long trackLength = audioTrack.getInfo().length;
-                    long minutes = (trackLength / 1000) / 60;
-                    long seconds = ((trackLength / 1000) % 60);
-                    String songSeconds = String.valueOf(seconds);
-                    if (seconds < 10) songSeconds = "0" + seconds;
+                    if (sendAdded) {
+                        // Time from ms to m:s
+                        long trackLength = audioTrack.getInfo().length;
+                        long minutes = (trackLength / 1000) / 60;
+                        long seconds = ((trackLength / 1000) % 60);
+                        String songSeconds = String.valueOf(seconds);
+                        if (seconds < 10) songSeconds = "0" + seconds;
 
-                    // Thumbnail
-                    String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
+                        // Thumbnail
+                        String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
 
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
-                            .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
-                            .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", MusicCommands.member.getAsMention(), false)
-                            .setFooter("Use /help for a list of music commands!");
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
+                                .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
+                                .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                                .setThumbnail(trackThumbnail)
+                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                .setFooter("Use /help for a list of music commands!");
 
-                    if (musicManager.scheduler.queue.size() <= 0) {
-                        builder.setAuthor(("Added to queue"));
+                        if (musicManager.scheduler.queue.size() <= 0) {
+                            builder.setAuthor(("Added to queue"));
+                        }
+                        voiceChannel.sendMessageEmbeds(builder.build()).queue();
                     }
-                    voiceChannel.sendMessageEmbeds(builder.build()).queue();
                 }
 
                 @Override
@@ -175,22 +183,24 @@ public class PlayerManager {
                     if (!tracks.isEmpty()) {
                         musicManager.scheduler.queue(tracks.get(0));
 
-                        // Thumbnail
-                        String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
+                        if (sendAdded) {
+                            // Thumbnail
+                            String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
 
-                        // Playlist size
-                        int playlistSize = audioPlaylist.getTracks().size();
+                            // Playlist size
+                            int playlistSize = audioPlaylist.getTracks().size();
 
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setAuthor("Playlist queued")
-                                .setTitle(audioPlaylist.getName())
-                                .setDescription("`[" + playlistSize + "] songs`")
-                                .setThumbnail(trackThumbnail)
-                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
-                                .setFooter("Use /help for a list of music commands!");
+                            EmbedBuilder builder = new EmbedBuilder()
+                                    .setColor(Util.randColor())
+                                    .setAuthor("Playlist queued")
+                                    .setTitle(audioPlaylist.getName())
+                                    .setDescription("`[" + playlistSize + "] songs`")
+                                    .setThumbnail(trackThumbnail)
+                                    .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                    .setFooter("Use /help for a list of music commands!");
 
-                        voiceChannel.sendMessageEmbeds(builder.build()).queue();
+                            voiceChannel.sendMessageEmbeds(builder.build()).queue();
+                        }
                     }
                 }
 
@@ -235,29 +245,31 @@ public class PlayerManager {
                 public void trackLoaded(AudioTrack audioTrack) {
                     musicManager.scheduler.queue(audioTrack);
 
-                    // Time from ms to m:s
-                    long trackLength = audioTrack.getInfo().length;
-                    long minutes = (trackLength / 1000) / 60;
-                    long seconds = ((trackLength / 1000) % 60);
-                    String songSeconds = String.valueOf(seconds);
-                    if (seconds < 10) songSeconds = "0" + seconds;
+                    if (sendAdded) {
+                        // Time from ms to m:s
+                        long trackLength = audioTrack.getInfo().length;
+                        long minutes = (trackLength / 1000) / 60;
+                        long seconds = ((trackLength / 1000) % 60);
+                        String songSeconds = String.valueOf(seconds);
+                        if (seconds < 10) songSeconds = "0" + seconds;
 
-                    // Thumbnail
-                    String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
+                        // Thumbnail
+                        String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
 
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
-                            .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
-                            .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", MusicCommands.member.getAsMention(), false)
-                            .setFooter("Use /help for a list of music commands!");
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
+                                .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
+                                .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                                .setThumbnail(trackThumbnail)
+                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                .setFooter("Use /help for a list of music commands!");
 
-                    if (musicManager.scheduler.queue.size() <= 0) {
-                        builder.setAuthor(("Added to queue"));
+                        if (musicManager.scheduler.queue.size() <= 0) {
+                            builder.setAuthor(("Added to queue"));
+                        }
+                        textChannel.sendMessageEmbeds(builder.build()).queue();
                     }
-                    textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
 
                 @Override
@@ -270,29 +282,31 @@ public class PlayerManager {
 
                     AudioTrack audioTrack = tracks.get(0);
 
-                    // Time from ms to m:s
-                    long trackLength = audioTrack.getInfo().length;
-                    long minutes = (trackLength / 1000) / 60;
-                    long seconds = ((trackLength / 1000) % 60);
-                    String songSeconds = String.valueOf(seconds);
-                    if (seconds < 10) songSeconds = "0" + seconds;
+                    if (sendAdded) {
+                        // Time from ms to m:s
+                        long trackLength = audioTrack.getInfo().length;
+                        long minutes = (trackLength / 1000) / 60;
+                        long seconds = ((trackLength / 1000) % 60);
+                        String songSeconds = String.valueOf(seconds);
+                        if (seconds < 10) songSeconds = "0" + seconds;
 
-                    // Thumbnail
-                    String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
+                        // Thumbnail
+                        String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
 
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
-                            .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
-                            .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", MusicCommands.member.getAsMention(), false)
-                            .setFooter("Use /help for a list of music commands!");
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
+                                .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
+                                .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                                .setThumbnail(trackThumbnail)
+                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                .setFooter("Use /help for a list of music commands!");
 
-                    if (musicManager.scheduler.queue.size() <= 0) {
-                        builder.setAuthor(("Added to queue"));
+                        if (musicManager.scheduler.queue.size() <= 0) {
+                            builder.setAuthor(("Added to queue"));
+                        }
+                        textChannel.sendMessageEmbeds(builder.build()).queue();
                     }
-                    textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
 
                 @Override
@@ -320,29 +334,31 @@ public class PlayerManager {
                 public void trackLoaded(AudioTrack audioTrack) {
                     musicManager.scheduler.queue(audioTrack);
 
-                    // Time from ms to m:s
-                    long trackLength = audioTrack.getInfo().length;
-                    long minutes = (trackLength / 1000) / 60;
-                    long seconds = ((trackLength / 1000) % 60);
-                    String songSeconds = String.valueOf(seconds);
-                    if (seconds < 10) songSeconds = "0" + seconds;
+                    if (sendAdded) {
+                        // Time from ms to m:s
+                        long trackLength = audioTrack.getInfo().length;
+                        long minutes = (trackLength / 1000) / 60;
+                        long seconds = ((trackLength / 1000) % 60);
+                        String songSeconds = String.valueOf(seconds);
+                        if (seconds < 10) songSeconds = "0" + seconds;
 
-                    // Thumbnail
-                    String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
+                        // Thumbnail
+                        String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
 
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
-                            .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
-                            .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", MusicCommands.member.getAsMention(), false)
-                            .setFooter("Use /help for a list of music commands!");
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
+                                .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
+                                .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                                .setThumbnail(trackThumbnail)
+                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                .setFooter("Use /help for a list of music commands!");
 
-                    if (musicManager.scheduler.queue.size() <= 0) {
-                        builder.setAuthor(("Added to queue"));
+                        if (musicManager.scheduler.queue.size() <= 0) {
+                            builder.setAuthor(("Added to queue"));
+                        }
+                        voiceChannel.sendMessageEmbeds(builder.build()).queue();
                     }
-                    voiceChannel.sendMessageEmbeds(builder.build()).queue();
                 }
 
                 @Override
@@ -355,29 +371,31 @@ public class PlayerManager {
 
                     AudioTrack audioTrack = tracks.get(0);
 
-                    // Time from ms to m:s
-                    long trackLength = audioTrack.getInfo().length;
-                    long minutes = (trackLength / 1000) / 60;
-                    long seconds = ((trackLength / 1000) % 60);
-                    String songSeconds = String.valueOf(seconds);
-                    if (seconds < 10) songSeconds = "0" + seconds;
+                    if (sendAdded) {
+                        // Time from ms to m:s
+                        long trackLength = audioTrack.getInfo().length;
+                        long minutes = (trackLength / 1000) / 60;
+                        long seconds = ((trackLength / 1000) % 60);
+                        String songSeconds = String.valueOf(seconds);
+                        if (seconds < 10) songSeconds = "0" + seconds;
 
-                    // Thumbnail
-                    String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
+                        // Thumbnail
+                        String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
 
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
-                            .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
-                            .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", MusicCommands.member.getAsMention(), false)
-                            .setFooter("Use /help for a list of music commands!");
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setAuthor("Added to queue (#" + musicManager.scheduler.queue.size() + ")")
+                                .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
+                                .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                                .setThumbnail(trackThumbnail)
+                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                .setFooter("Use /help for a list of music commands!");
 
-                    if (musicManager.scheduler.queue.size() <= 0) {
-                        builder.setAuthor(("Added to queue"));
+                        if (musicManager.scheduler.queue.size() <= 0) {
+                            builder.setAuthor(("Added to queue"));
+                        }
+                        voiceChannel.sendMessageEmbeds(builder.build()).queue();
                     }
-                    voiceChannel.sendMessageEmbeds(builder.build()).queue();
                 }
 
                 @Override
@@ -396,6 +414,10 @@ public class PlayerManager {
             });
         }
 
+    }
+
+    public static void setAddedToQueue(boolean set) {
+        sendAdded = set;
     }
 
     public static PlayerManager getINSTANCE() {
