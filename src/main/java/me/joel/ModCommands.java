@@ -22,8 +22,19 @@ public class ModCommands extends ListenerAdapter
         try
         {
             // Reload Commands
-            if (event.getName().equals("reload_commands") && event.isFromGuild())
+            if (event.getName().equals("reload_commands"))
             {
+                if (!event.isFromGuild())
+                {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setTitle("This command only works in a server!")
+                            .setColor(Util.randColor())
+                            .setFooter("Use /help for the commands list");
+
+                    event.replyEmbeds(builder.build()).queue();
+                    return;
+                }
+
                 if (Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER))
                 {
                     try
@@ -51,6 +62,8 @@ public class ModCommands extends ListenerAdapter
                         Commands.slash("play", "Requests a song")
                             .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true),
                         Commands.slash("pause", "Pause playback"),
+                            Commands.slash("volume", "Requests a song")
+                                    .addOption(OptionType.STRING, "num", "Sets volume (between 1 and 100)", true),
                         Commands.slash("resume", "Resume playback"),
                         Commands.slash("clear", "Clears queue"),
                         Commands.slash("skip", "Skips song"),
