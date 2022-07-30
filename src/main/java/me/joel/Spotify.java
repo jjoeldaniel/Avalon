@@ -82,6 +82,7 @@ public class Spotify {
 
         /* TODO: Figure out how to do playlists and albums
         Possibly place in different method and return an ArrayList?
+        MusicCommands.sendAdded will enable/disable "added to queue" messages
          */
         // Playlists
         else if (query.contains("/playlist/")) {
