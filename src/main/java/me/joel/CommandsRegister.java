@@ -34,7 +34,8 @@ public class CommandsRegister extends ListenerAdapter
                         .addSubcommands(random),
                 Commands.slash("ping", "Sends pong"),
                 Commands.slash("avatar", "Sends user avatar")
-                        .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
+                        .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true),
+                Commands.slash("reload_commands", "Reloads bot commands (in case of commands not appearing)")
 
         ).queue();
     }
@@ -62,7 +63,6 @@ public class CommandsRegister extends ListenerAdapter
                         .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true),
                 Commands.slash("purge", "Purges up to 100 messages")
                         .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true),
-                Commands.slash("reload_commands", "Reloads bot commands (in case of commands not appearing)"),
 
                 // Music
                 Commands.slash("play", "Requests a song")
