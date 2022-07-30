@@ -146,10 +146,8 @@ public class MusicCommands extends ListenerAdapter {
                         String playlistName = Spotify.searchSpotify(link);
                         ArrayList<String> playlistTracks = Spotify.getTracks(link);
 
-                        PlayerManager.setSendAdded(false);
-
                         for (String i: playlistTracks) {
-                            PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, ("ytsearch:" + i + " audio"));
+                            PlayerManager.getINSTANCE().loadAndPlayNoURISpotify(messageChannelUnion, ("ytsearch:" + i + " audio"));
                         }
 
                         EmbedBuilder builder = new EmbedBuilder()
@@ -157,13 +155,11 @@ public class MusicCommands extends ListenerAdapter {
                                 .setAuthor("Playlist queued")
                                 .setTitle(playlistName)
                                 .setDescription("`[" + playlistTracks.size() + "] songs`")
-                                //.setThumbnail(trackThumbnail)
+                                .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png")
                                 .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                                 .setFooter("Use /help for a list of music commands!");
 
                         event.getHook().sendMessageEmbeds(builder.build()).queue();
-                        Util.wait(5000);
-                        PlayerManager.setSendAdded(true);
                         return;
 
                     }
