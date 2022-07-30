@@ -42,6 +42,8 @@ public class ModCommands extends ListenerAdapter
                     Objects.requireNonNull(event.getGuild()).updateCommands().addCommands(
 
                         // General
+                        Commands.slash("whois", "Provides user information")
+                                .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true),
                         Commands.slash("afk", "Sets AFK status"),
                         Commands.slash("confess", "Sends anonymous confession"),
 
@@ -56,7 +58,6 @@ public class ModCommands extends ListenerAdapter
                             .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true),
                         Commands.slash("purge", "Purges up to 100 messages")
                             .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true),
-                        Commands.slash("reload_commands", "Reloads bot commands (in case of commands not appearing)"),
 
                         // Music
                         Commands.slash("play", "Requests a song")
