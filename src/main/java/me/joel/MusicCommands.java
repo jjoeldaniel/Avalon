@@ -32,6 +32,7 @@ public class MusicCommands extends ListenerAdapter
 
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
     {
+        if (!event.isFromGuild()) return;
 
         final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
         member = event.getMember();
@@ -496,6 +497,8 @@ public class MusicCommands extends ListenerAdapter
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event)
     {
+        if (!event.isFromGuild()) return;
+
         final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
         if (event.getComponentId().equals("page1"))

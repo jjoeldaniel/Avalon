@@ -17,6 +17,8 @@ public class ModCommands extends ListenerAdapter
 {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
     {
+        if (!event.isFromGuild()) return;
+
         try
         {
             // Reload Commands
