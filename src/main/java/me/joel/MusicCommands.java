@@ -127,30 +127,50 @@ public class MusicCommands extends ListenerAdapter {
                 // Spotify
                 if (link.startsWith("https://open.spotify.com/")) {
 
-                    if (link.contains("/track/"))
-                    {
+                    if (link.contains("/track/")) {
                         link = ("ytsearch:" + Spotify.searchSpotify(link) + " audio");
+
+                        // Joins VC
+                        audioManager.openAudioConnection(memberChannel);
+
+                        // Plays song
+                        try {
+                            PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
+                        } catch (Exception e) {
+                            event.getHook().sendMessageEmbeds(Util.genericError().build()).queue();
+                            return;
+                        }
                     }
-                    else if (link.contains("/playlist/"))
-                    {
+                    // TODO: Add Playlist Cover Image
+                    else if (link.contains("/playlist/")) {
                         String playlistName = Spotify.searchSpotify(link);
-                        // TODO: queue tracks and disable `added to queue` with MusicCommands.sendAdded
                         ArrayList<String> playlistTracks = Spotify.getTracks(link);
-                    }
-                    else if (link.contains("/album/"))
-                    {
 
-                    }
+                        PlayerManager.setSendAdded(false);
 
-                    // Joins VC
-                    audioManager.openAudioConnection(memberChannel);
+                        for (String i: playlistTracks) {
+                            PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, ("ytsearch:" + i + " audio"));
+                        }
 
-                    // Plays song
-                    try {
-                        PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
-                    } catch (Exception e) {
-                        event.replyEmbeds(Util.genericError().build()).queue();
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setAuthor("Playlist queued")
+                                .setTitle(playlistName)
+                                .setDescription("`[" + playlistTracks.size() + "] songs`")
+                                //.setThumbnail(trackThumbnail)
+                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                .setFooter("Use /help for a list of music commands!");
+
+                        event.getHook().sendMessageEmbeds(builder.build()).queue();
+                        Util.wait(5000);
+                        PlayerManager.setSendAdded(true);
                         return;
+
+                    }
+                    // TODO: Add album support
+                    else if (link.contains("/album/")) {
+
+
                     }
                 }
 
