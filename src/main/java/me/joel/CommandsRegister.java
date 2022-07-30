@@ -13,7 +13,8 @@ public class CommandsRegister extends ListenerAdapter
 
 
     @Override
-    public void onReady(@NotNull ReadyEvent event) {
+    public void onReady(@NotNull ReadyEvent event)
+    {
 
         //event.getJDA().updateCommands().queue();
 
@@ -42,7 +43,8 @@ public class CommandsRegister extends ListenerAdapter
 
     // Guild Commands
     @Override
-    public void onGuildJoin(@NotNull GuildJoinEvent event) {
+    public void onGuildJoin(@NotNull GuildJoinEvent event)
+    {
 
         event.getGuild().updateCommands().addCommands(
 

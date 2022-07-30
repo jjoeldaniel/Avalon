@@ -57,7 +57,8 @@ public class PlayerManager
             {
 
                 @Override
-                public void trackLoaded(AudioTrack audioTrack) {
+                public void trackLoaded(AudioTrack audioTrack)
+                {
                     musicManager.scheduler.queue(audioTrack);
 
                     // Time from ms to m:s
@@ -87,14 +88,17 @@ public class PlayerManager
                 }
 
                 @Override
-                public void playlistLoaded(AudioPlaylist audioPlaylist) {
+                public void playlistLoaded(AudioPlaylist audioPlaylist)
+                {
 
-                    for (AudioTrack track : audioPlaylist.getTracks()) {
+                    for (AudioTrack track : audioPlaylist.getTracks())
+                    {
                         musicManager.scheduler.queue(track);
                     }
 
                     final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                    if (!tracks.isEmpty()) {
+                    if (!tracks.isEmpty())
+                    {
                         musicManager.scheduler.queue(tracks.get(0));
 
                         // Thumbnail
@@ -117,7 +121,8 @@ public class PlayerManager
                 }
 
                 @Override
-                public void noMatches() {
+                public void noMatches()
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("No song found!")
@@ -127,7 +132,8 @@ public class PlayerManager
                 }
 
                 @Override
-                public void loadFailed(FriendlyException e) {
+                public void loadFailed(FriendlyException e)
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("An error has occurred!")
@@ -136,8 +142,7 @@ public class PlayerManager
                     textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
             });
-        }
-        else if (channel.getType() == ChannelType.VOICE)
+        } else if (channel.getType() == ChannelType.VOICE)
         {
             voiceChannel = channel.asVoiceChannel();
             final GuildMusicManager musicManager = this.getMusicManager(voiceChannel.getGuild());
@@ -177,14 +182,17 @@ public class PlayerManager
                 }
 
                 @Override
-                public void playlistLoaded(AudioPlaylist audioPlaylist) {
+                public void playlistLoaded(AudioPlaylist audioPlaylist)
+                {
 
-                    for (AudioTrack track : audioPlaylist.getTracks()) {
+                    for (AudioTrack track : audioPlaylist.getTracks())
+                    {
                         musicManager.scheduler.queue(track);
                     }
 
                     final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                    if (!tracks.isEmpty()) {
+                    if (!tracks.isEmpty())
+                    {
                         musicManager.scheduler.queue(tracks.get(0));
 
                         // Thumbnail
@@ -207,7 +215,8 @@ public class PlayerManager
                 }
 
                 @Override
-                public void noMatches() {
+                public void noMatches()
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("No song found!")
@@ -217,7 +226,8 @@ public class PlayerManager
                 }
 
                 @Override
-                public void loadFailed(FriendlyException e) {
+                public void loadFailed(FriendlyException e)
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("An error has occurred!")
@@ -278,10 +288,12 @@ public class PlayerManager
                 }
 
                 @Override
-                public void playlistLoaded(AudioPlaylist audioPlaylist) {
+                public void playlistLoaded(AudioPlaylist audioPlaylist)
+                {
 
                     final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                    if (!tracks.isEmpty()) {
+                    if (!tracks.isEmpty())
+                    {
                         musicManager.scheduler.queue(tracks.get(0));
                     }
 
@@ -306,14 +318,16 @@ public class PlayerManager
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
 
-                    if (musicManager.scheduler.queue.size() <= 0) {
+                    if (musicManager.scheduler.queue.size() <= 0)
+                    {
                         builder.setAuthor(("Added to queue"));
                     }
                     textChannel.sendMessageEmbeds(builder.build()).queue();
                 }
 
                 @Override
-                public void noMatches() {
+                public void noMatches()
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("No song found!")
@@ -323,19 +337,22 @@ public class PlayerManager
                 }
 
                 @Override
-                public void loadFailed(FriendlyException e) {
+                public void loadFailed(FriendlyException e)
+                {
 
                 }
             });
-        }
-        else if (channel.getType() == ChannelType.VOICE) {
+        } else if (channel.getType() == ChannelType.VOICE)
+        {
             voiceChannel = channel.asVoiceChannel();
             final GuildMusicManager musicManager = this.getMusicManager(voiceChannel.getGuild());
 
-            this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
+            this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler()
+            {
 
                 @Override
-                public void trackLoaded(AudioTrack audioTrack) {
+                public void trackLoaded(AudioTrack audioTrack)
+                {
                     musicManager.scheduler.queue(audioTrack);
 
                     // Time from ms to m:s
@@ -357,17 +374,20 @@ public class PlayerManager
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
 
-                    if (musicManager.scheduler.queue.size() <= 0) {
+                    if (musicManager.scheduler.queue.size() <= 0)
+                    {
                         builder.setAuthor(("Added to queue"));
                     }
                     voiceChannel.sendMessageEmbeds(builder.build()).queue();
                 }
 
                 @Override
-                public void playlistLoaded(AudioPlaylist audioPlaylist) {
+                public void playlistLoaded(AudioPlaylist audioPlaylist)
+                {
 
                     final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                    if (!tracks.isEmpty()) {
+                    if (!tracks.isEmpty())
+                    {
                         musicManager.scheduler.queue(tracks.get(0));
                     }
 
@@ -392,14 +412,16 @@ public class PlayerManager
                             .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
 
-                    if (musicManager.scheduler.queue.size() <= 0) {
+                    if (musicManager.scheduler.queue.size() <= 0)
+                    {
                         builder.setAuthor(("Added to queue"));
                     }
                     voiceChannel.sendMessageEmbeds(builder.build()).queue();
                 }
 
                 @Override
-                public void noMatches() {
+                public void noMatches()
+                {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("No song found!");
@@ -408,7 +430,8 @@ public class PlayerManager
                 }
 
                 @Override
-                public void loadFailed(FriendlyException e) {
+                public void loadFailed(FriendlyException e)
+                {
 
                 }
             });

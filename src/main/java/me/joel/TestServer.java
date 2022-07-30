@@ -25,8 +25,8 @@ public class TestServer extends ListenerAdapter
                     .setTitle("A new member has joined!")
                     .setDescription
                             (
-                            "Welcome " + member.getAsMention() + " to " + event.getGuild().getName() +
-                            "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
+                                    "Welcome " + member.getAsMention() + " to " + event.getGuild().getName() +
+                                            "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
                             )
                     .setThumbnail(member.getEffectiveAvatarUrl())
                     .setFooter("User: " + member.getUser().getName() + " ID: " + member.getId());
@@ -45,7 +45,9 @@ public class TestServer extends ListenerAdapter
                 }
             }
             // If no welcomeChannel found
-            catch (Exception ignore) {}
+            catch (Exception ignore)
+            {
+            }
         }
     }
 }

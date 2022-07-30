@@ -88,8 +88,7 @@ public class MusicCommands extends ListenerAdapter
                             .setDescription("Song is now looping!");
 
                     event.replyEmbeds(builder.build()).queue();
-                }
-                else
+                } else
                 {
                     AudioEventAdapter.setLoop(false);
                     EmbedBuilder builder = new EmbedBuilder()
@@ -149,8 +148,7 @@ public class MusicCommands extends ListenerAdapter
                     try
                     {
                         PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
-                    }
-                    catch (Exception e)
+                    } catch (Exception e)
                     {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
@@ -168,8 +166,7 @@ public class MusicCommands extends ListenerAdapter
                     try
                     {
                         PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
-                    }
-                    catch (Exception e)
+                    } catch (Exception e)
                     {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
@@ -186,8 +183,7 @@ public class MusicCommands extends ListenerAdapter
                     try
                     {
                         PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
-                    }
-                    catch (Exception e)
+                    } catch (Exception e)
                     {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
@@ -257,7 +253,7 @@ public class MusicCommands extends ListenerAdapter
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                        .setTitle("Volume is now set to " + num + "%. (Prev: " + prevVolume*2 + "%)")
+                        .setTitle("Volume is now set to " + num + "%. (Prev: " + prevVolume * 2 + "%)")
                         .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).queue();
@@ -343,8 +339,7 @@ public class MusicCommands extends ListenerAdapter
 
                     event.replyEmbeds(builder.build()).queue();
 
-                }
-                catch (Exception exception)
+                } catch (Exception exception)
                 {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -517,8 +512,9 @@ public class MusicCommands extends ListenerAdapter
                     AudioEventAdapter.setLoop(false);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
                     return;
+                } catch (Exception ignore)
+                {
                 }
-                catch (Exception ignore) {}
             }
 
             // Queue
@@ -541,8 +537,10 @@ public class MusicCommands extends ListenerAdapter
                 try
                 {
                     currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
+                } catch (Exception ignore)
+                {
+                    return;
                 }
-                catch (Exception ignore) { return; }
                 String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
                 playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
 
@@ -574,8 +572,7 @@ public class MusicCommands extends ListenerAdapter
                                     Button.primary("page1", "Previous Page").asDisabled(),
                                     Button.primary("page2", "Next Page").asDisabled())
                             .queue();
-                }
-                else
+                } else
                 {
                     event.getHook().sendMessageEmbeds(page1.build())
                             .addActionRow(
@@ -584,8 +581,7 @@ public class MusicCommands extends ListenerAdapter
                             .queue();
                 }
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             event.replyEmbeds(Util.genericError().build()).setEphemeral(true).queue();
         }
@@ -604,8 +600,7 @@ public class MusicCommands extends ListenerAdapter
             try
             {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            }
-            catch (Exception ignore)
+            } catch (Exception ignore)
             {
                 return;
             }
@@ -621,7 +616,7 @@ public class MusicCommands extends ListenerAdapter
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page1
-                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
+                        .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 1");
             }
 
@@ -633,8 +628,7 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page1", "Previous Page").asDisabled(),
                                 Button.primary("page2", "Next Page").asDisabled())
                         .queue();
-            }
-            else
+            } else
             {
                 event.editMessageEmbeds(page1.build())
                         .setActionRow(
@@ -642,16 +636,14 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page2", "Next Page"))
                         .queue();
             }
-        }
-        else if (event.getComponentId().equals("page2"))
+        } else if (event.getComponentId().equals("page2"))
         {
 
             String currentSong;
             try
             {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            }
-            catch (Exception ignore)
+            } catch (Exception ignore)
             {
                 return;
             }
@@ -667,8 +659,8 @@ public class MusicCommands extends ListenerAdapter
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page2
-                    .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
-                    .setFooter("Page 2");
+                        .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
+                        .setFooter("Page 2");
             }
 
             // disable next page if next page is blank
@@ -679,8 +671,7 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page1", "Previous Page"),
                                 Button.primary("page3", "Next Page").asDisabled())
                         .queue();
-            }
-            else
+            } else
             {
                 event.editMessageEmbeds(page2.build())
                         .setActionRow(
@@ -688,16 +679,15 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page3", "Next Page"))
                         .queue();
             }
-        }
-        else if (event.getComponentId().equals("page3"))
+        } else if (event.getComponentId().equals("page3"))
         {
             String currentSong;
             try
             {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            }
-            catch (Exception ignore)
-            { return;
+            } catch (Exception ignore)
+            {
+                return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page3 = new EmbedBuilder();
@@ -711,7 +701,7 @@ public class MusicCommands extends ListenerAdapter
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page3
-                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
+                        .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 3");
             }
 
@@ -724,8 +714,7 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page4", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            }
-            else
+            } else
             {
                 event.editMessageEmbeds(page3.build())
                         .setActionRow(
@@ -734,16 +723,15 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        }
-        else if (event.getComponentId().equals("page4"))
+        } else if (event.getComponentId().equals("page4"))
         {
             String currentSong;
             try
             {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            }
-            catch (Exception ignore)
-            { return;
+            } catch (Exception ignore)
+            {
+                return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page4 = new EmbedBuilder();
@@ -757,7 +745,7 @@ public class MusicCommands extends ListenerAdapter
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page4
-                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
+                        .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 4");
             }
 
@@ -770,8 +758,7 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page5", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            }
-            else
+            } else
             {
                 event.editMessageEmbeds(page4.build())
                         .setActionRow(
@@ -780,16 +767,15 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        }
-        else if (event.getComponentId().equals("page5"))
+        } else if (event.getComponentId().equals("page5"))
         {
             String currentSong;
             try
             {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            }
-            catch (Exception ignore)
-            { return;
+            } catch (Exception ignore)
+            {
+                return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page5 = new EmbedBuilder();
@@ -803,7 +789,7 @@ public class MusicCommands extends ListenerAdapter
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page5
-                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
+                        .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 5");
             }
 
@@ -816,8 +802,7 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page6", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            }
-            else
+            } else
             {
                 event.editMessageEmbeds(page5.build())
                         .setActionRow(
@@ -826,16 +811,15 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        }
-        else if (event.getComponentId().equals("page6"))
+        } else if (event.getComponentId().equals("page6"))
         {
             String currentSong;
             try
             {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            }
-            catch (Exception ignore)
-            { return;
+            } catch (Exception ignore)
+            {
+                return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page6 = new EmbedBuilder();
@@ -849,7 +833,7 @@ public class MusicCommands extends ListenerAdapter
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page6
-                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
+                        .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 6");
             }
 
@@ -862,8 +846,7 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page7", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            }
-            else
+            } else
             {
                 event.editMessageEmbeds(page6.build())
                         .setActionRow(
@@ -872,16 +855,15 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        }
-        else if (event.getComponentId().equals("page7"))
+        } else if (event.getComponentId().equals("page7"))
         {
             String currentSong;
             try
             {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            }
-            catch (Exception ignore)
-            { return;
+            } catch (Exception ignore)
+            {
+                return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page7 = new EmbedBuilder();
@@ -895,7 +877,7 @@ public class MusicCommands extends ListenerAdapter
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page7
-                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
+                        .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 7");
             }
 
@@ -908,8 +890,7 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page8", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            }
-            else
+            } else
             {
                 event.editMessageEmbeds(page7.build())
                         .setActionRow(
@@ -918,15 +899,13 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        }
-        else if (event.getComponentId().equals("page8"))
+        } else if (event.getComponentId().equals("page8"))
         {
             String currentSong;
             try
             {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            }
-            catch (Exception ignore)
+            } catch (Exception ignore)
             {
                 return;
             }
@@ -942,7 +921,7 @@ public class MusicCommands extends ListenerAdapter
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page8
-                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
+                        .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 8");
             }
 
@@ -955,8 +934,7 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page9", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            }
-            else
+            } else
             {
                 event.editMessageEmbeds(page8.build())
                         .setActionRow(
@@ -965,16 +943,15 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        }
-        else if (event.getComponentId().equals("page9"))
+        } else if (event.getComponentId().equals("page9"))
         {
             String currentSong;
             try
             {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            }
-            catch (Exception ignore)
-            { return;
+            } catch (Exception ignore)
+            {
+                return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page9 = new EmbedBuilder();
@@ -988,7 +965,7 @@ public class MusicCommands extends ListenerAdapter
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page9
-                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
+                        .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 9");
             }
 
@@ -1001,8 +978,7 @@ public class MusicCommands extends ListenerAdapter
                                 Button.primary("page10", "Next Page").asDisabled(),
                                 Button.success("page1", "First Page"))
                         .queue();
-            }
-            else
+            } else
             {
                 event.editMessageEmbeds(page9.build())
                         .setActionRow(
@@ -1011,16 +987,15 @@ public class MusicCommands extends ListenerAdapter
                                 Button.success("page1", "First Page"))
                         .queue();
             }
-        }
-        else if (event.getComponentId().equals("page10"))
+        } else if (event.getComponentId().equals("page10"))
         {
             String currentSong;
             try
             {
                 currentSong = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().title;
-            }
-            catch (Exception ignore)
-            { return;
+            } catch (Exception ignore)
+            {
+                return;
             }
             String currentURI = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack().getInfo().uri;
             EmbedBuilder page10 = new EmbedBuilder();
@@ -1034,7 +1009,7 @@ public class MusicCommands extends ListenerAdapter
                 String songTile = playlist.get(i).getInfo().title;
                 String songURI = playlist.get(i).getInfo().uri;
                 page10
-                        .addField("[" + (i+1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
+                        .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
                         .setFooter("Page 10");
             }
             event.editMessageEmbeds(page10.build())
@@ -1069,18 +1044,25 @@ public class MusicCommands extends ListenerAdapter
         channel.sendMessageEmbeds(builder.build()).queue();
     }
 
-    public static MessageChannelUnion returnChannel() { return messageChannelUnion; }
-    public static void setSendNowPlaying(boolean bool) { sendNowPlaying = bool; }
+    public static MessageChannelUnion returnChannel()
+    {
+        return messageChannelUnion;
+    }
+
+    public static void setSendNowPlaying(boolean bool)
+    {
+        sendNowPlaying = bool;
+    }
 
 
     // Validates links
-    public boolean isURL(String url) {
+    public boolean isURL(String url)
+    {
         try
         {
             new URI(url);
             return true;
-        }
-        catch (URISyntaxException e)
+        } catch (URISyntaxException e)
         {
             return false;
         }

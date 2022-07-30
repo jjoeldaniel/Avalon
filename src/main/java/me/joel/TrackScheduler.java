@@ -45,8 +45,8 @@ public class TrackScheduler extends AudioEventAdapter
             {
                 AudioTrack loop = track.makeClone();
                 this.audioPlayer.startTrack(loop, false);
-            }
-            else {
+            } else
+            {
                 nextTrack();
             }
         }

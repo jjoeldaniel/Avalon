@@ -18,7 +18,7 @@ public class ReactMessages extends ListenerAdapter
         return message.contains("fuck") || (message.contains("cunt")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
     }
 
-    private static EmbedBuilder randomInsult ()
+    private static EmbedBuilder randomInsult()
     {
         Random rand = new Random();
 
@@ -83,7 +83,8 @@ public class ReactMessages extends ListenerAdapter
                     event.getMessage().replyEmbeds(builder.build()).queue();
                 }
                 // Insult
-                if (isInsult(messageSent) && Util.randomWithRange(0, 100) > 75) {
+                if (isInsult(messageSent) && Util.randomWithRange(0, 100) > 75)
+                {
                     event.getMessage().replyEmbeds(randomInsult().build()).queue();
                 }
 

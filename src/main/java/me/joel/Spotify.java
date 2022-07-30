@@ -11,7 +11,8 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
-public class Spotify {
+public class Spotify
+{
 
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId("3451401ce3b148039cbba35a2c25cd5f")
@@ -21,8 +22,10 @@ public class Spotify {
     private static final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
             .build();
 
-    public static void clientCredentials_Async() {
-        try {
+    public static void clientCredentials_Async()
+    {
+        try
+        {
             final CompletableFuture<ClientCredentials> clientCredentialsFuture = clientCredentialsRequest.executeAsync();
 
             final ClientCredentials clientCredentials = clientCredentialsFuture.join();
@@ -30,9 +33,11 @@ public class Spotify {
             // Set access token for further "spotifyApi" object usage
             spotifyApi.setAccessToken(clientCredentials.getAccessToken());
 
-        } catch (CompletionException e) {
+        } catch (CompletionException e)
+        {
             System.out.println("Error: " + e.getCause().getMessage());
-        } catch (CancellationException e) {
+        } catch (CancellationException e)
+        {
             System.out.println("Async operation cancelled.");
         }
     }
@@ -77,9 +82,11 @@ public class Spotify {
 
                 return track.getName();
 
-            } catch (CompletionException e) {
+            } catch (CompletionException e)
+            {
                 System.out.println("Error: " + e.getCause().getMessage());
-            } catch (CancellationException e) {
+            } catch (CancellationException e)
+            {
                 System.out.println("Async operation cancelled.");
             }
         }

@@ -1,6 +1,7 @@
 package me.joel;
 
 import javax.security.auth.login.LoginException;
+
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -25,7 +26,7 @@ public class Paw
                 .awaitReady();
 
         // Sets status as # of guilds bot is member of
-        jda.getPresence().setActivity(Activity.listening(" " + (jda.getGuilds().size()) + " servers!" ));
+        jda.getPresence().setActivity(Activity.listening(" " + (jda.getGuilds().size()) + " servers!"));
     }
 
 }

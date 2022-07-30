@@ -39,40 +39,40 @@ public class ModCommands extends ListenerAdapter
                 {
                     try
                     {
-                    Objects.requireNonNull(event.getGuild()).updateCommands().addCommands(
+                        Objects.requireNonNull(event.getGuild()).updateCommands().addCommands(
 
-                        // General
-                        Commands.slash("whois", "Provides user information")
-                                .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true),
-                        Commands.slash("afk", "Sets AFK status"),
-                        Commands.slash("confess", "Sends anonymous confession"),
+                                // General
+                                Commands.slash("whois", "Provides user information")
+                                        .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true),
+                                Commands.slash("afk", "Sets AFK status"),
+                                Commands.slash("confess", "Sends anonymous confession"),
 
-                        // Mod
-                        Commands.slash("kick", "Kicks selected user")
-                            .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false),
-                        Commands.slash("ban", "Bans selected user")
-                            .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false),
-                        Commands.slash("timeout", "Time-outs selected user")
-                            .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false),
-                        Commands.slash("broadcast", "Broadcasts message in selected channel")
-                            .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true),
-                        Commands.slash("purge", "Purges up to 100 messages")
-                            .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true),
+                                // Mod
+                                Commands.slash("kick", "Kicks selected user")
+                                        .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false),
+                                Commands.slash("ban", "Bans selected user")
+                                        .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false),
+                                Commands.slash("timeout", "Time-outs selected user")
+                                        .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false),
+                                Commands.slash("broadcast", "Broadcasts message in selected channel")
+                                        .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true),
+                                Commands.slash("purge", "Purges up to 100 messages")
+                                        .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true),
 
-                        // Music
-                        Commands.slash("play", "Requests a song")
-                            .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true),
-                        Commands.slash("pause", "Pause playback"),
-                            Commands.slash("volume", "Requests a song")
-                                    .addOption(OptionType.STRING, "num", "Sets volume (between 1 and 100)", true),
-                        Commands.slash("resume", "Resume playback"),
-                        Commands.slash("clear", "Clears queue"),
-                        Commands.slash("skip", "Skips song"),
-                        Commands.slash("queue", "Displays music queue"),
-                        Commands.slash("playing", "Displays currently playing song"),
-                        Commands.slash("loop", "Loops currently playing song")
+                                // Music
+                                Commands.slash("play", "Requests a song")
+                                        .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true),
+                                Commands.slash("pause", "Pause playback"),
+                                Commands.slash("volume", "Requests a song")
+                                        .addOption(OptionType.STRING, "num", "Sets volume (between 1 and 100)", true),
+                                Commands.slash("resume", "Resume playback"),
+                                Commands.slash("clear", "Clears queue"),
+                                Commands.slash("skip", "Skips song"),
+                                Commands.slash("queue", "Displays music queue"),
+                                Commands.slash("playing", "Displays currently playing song"),
+                                Commands.slash("loop", "Loops currently playing song")
 
-                    ).queue();
+                        ).queue();
 
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setDescription("Commands have been reloaded!")
@@ -81,8 +81,7 @@ public class ModCommands extends ListenerAdapter
 
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
 
-                    }
-                    catch (Exception exception)
+                    } catch (Exception exception)
                     {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .addField("An error has occurred attempting to reload commands!", "If this persists, try re-adding the bot to the server!", false)
@@ -129,8 +128,9 @@ public class ModCommands extends ListenerAdapter
                     try
                     {
                         reason = Objects.requireNonNull(event.getOption("reason")).getAsString();
+                    } catch (Exception ignore)
+                    {
                     }
-                    catch (Exception ignore) {}
 
                     if (reason == null)
                     {
@@ -148,8 +148,7 @@ public class ModCommands extends ListenerAdapter
                             .setImage(target.getEffectiveAvatarUrl())
                             .setColor(Util.randColor());
                     event.replyEmbeds(builder.build()).queue();
-                }
-                catch (Exception e)
+                } catch (Exception e)
                 {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't kick this person!")
@@ -193,8 +192,9 @@ public class ModCommands extends ListenerAdapter
                     try
                     {
                         reason = Objects.requireNonNull(event.getOption("reason")).getAsString();
+                    } catch (Exception ignore)
+                    {
                     }
-                    catch (Exception ignore) {}
 
                     if (reason == null)
                     {
@@ -215,8 +215,7 @@ public class ModCommands extends ListenerAdapter
                             .setColor(Util.randColor());
 
                     event.replyEmbeds(builder.build()).queue();
-                }
-                catch (Exception e)
+                } catch (Exception e)
                 {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't ban this person!")
@@ -256,13 +255,17 @@ public class ModCommands extends ListenerAdapter
                 try
                 {
                     length = Objects.requireNonNull(event.getOption("length")).getAsLong();
-                } catch (Exception ignore) {}
+                } catch (Exception ignore)
+                {
+                }
 
                 try
                 {
-                    if (length == 0) {
+                    if (length == 0)
+                    {
                         target.timeoutFor(1, TimeUnit.HOURS).queue();
-                    } else {
+                    } else
+                    {
                         target.timeoutFor(length, TimeUnit.HOURS).queue();
                     }
 
@@ -272,8 +275,7 @@ public class ModCommands extends ListenerAdapter
                             .setColor(Util.randColor());
 
                     event.replyEmbeds(builder.build()).queue();
-                }
-                catch (Exception e)
+                } catch (Exception e)
                 {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("You can't time out this person!")
@@ -324,8 +326,7 @@ public class ModCommands extends ListenerAdapter
                                 .setFooter("Use /help for a list of commands!");
 
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    }
-                    else if (event.getChannel().getType() == ChannelType.VOICE)
+                    } else if (event.getChannel().getType() == ChannelType.VOICE)
                     {
                         VoiceChannel voiceChannel = event.getChannel().asVoiceChannel();
                         voiceChannel.getIterableHistory()
@@ -340,8 +341,7 @@ public class ModCommands extends ListenerAdapter
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     }
 
-                }
-                catch (Exception except)
+                } catch (Exception except)
                 {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -380,8 +380,7 @@ public class ModCommands extends ListenerAdapter
 
                     voiceChannel.sendMessage(message).queue();
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                }
-                else
+                } else
                 {
                     TextChannel textChannel = channel.asTextChannel();
                     String message = Objects.requireNonNull(event.getOption("message")).getAsString();
@@ -396,8 +395,7 @@ public class ModCommands extends ListenerAdapter
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             event.replyEmbeds(Util.genericError().build()).setEphemeral(true).queue();
         }

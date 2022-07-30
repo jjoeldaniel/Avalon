@@ -55,8 +55,7 @@ public class Util
         try
         {
             Thread.sleep(ms);
-        }
-        catch(InterruptedException ex)
+        } catch (InterruptedException ex)
         {
             Thread.currentThread().interrupt();
         }
