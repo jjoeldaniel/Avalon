@@ -49,7 +49,8 @@ public class ModCommands extends ListenerAdapter
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
     {
 
-        try {
+        try
+        {
 
             // Reload Commands
             if (event.getName().equals("reload_commands") && event.isFromGuild())
@@ -133,7 +134,8 @@ public class ModCommands extends ListenerAdapter
 
             }
             // Kick
-            if (event.getName().equals("kick")) {
+            if (event.getName().equals("kick"))
+            {
                 if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.KICK_MEMBERS))
                 {
                     EmbedBuilder noPerms = new EmbedBuilder()
