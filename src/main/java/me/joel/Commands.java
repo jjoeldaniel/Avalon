@@ -30,7 +30,7 @@ public class Commands extends ListenerAdapter
                 .setDescription("Make sure to use /help to get the full commands list!")
                 .addBlankField(false)
                 .addField("Need to contact us?", "Add joel#0005 on Discord for questions!", false)
-                .addField("Want to invite PawBot to another server?", "Click the Invite button to invite PawBot!", false);
+                .addField("Want to invite PawBot to another server?", "Click on my profile and click \" Add to Server\" to invite PawBot!", false);
 
         Objects.requireNonNull(event.getGuild().getSystemChannel()).sendMessageEmbeds(onJoin.build()).setActionRow(
                 Button.link(inviteLink, "Invite"))
