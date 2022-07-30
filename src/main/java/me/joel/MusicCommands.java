@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -132,7 +133,8 @@ public class MusicCommands extends ListenerAdapter {
                     }
                     else if (link.contains("/playlist/"))
                     {
-
+                        String playlistName = Spotify.searchSpotify(link);
+                        ArrayList<String> playlistTracks = Spotify.getTracks(link);
                     }
                     else if (link.contains("/album/"))
                     {
