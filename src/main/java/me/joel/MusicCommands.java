@@ -53,6 +53,7 @@ public class MusicCommands extends ListenerAdapter
 
         event.getGuild().upsertCommand("playing", "Displays currently playing song")
                 .queue();
+
         event.getGuild().upsertCommand("loop", "Loops currently playing song")
                 .queue();
 
