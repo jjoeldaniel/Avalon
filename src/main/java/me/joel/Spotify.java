@@ -1,7 +1,9 @@
 package me.joel;
 
 import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
 
 import java.util.Arrays;
@@ -12,14 +14,35 @@ import java.util.concurrent.CompletionException;
 public class Spotify {
 
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
-            .setAccessToken("BQB30gOoOpTuEdvJ17jhbdeBk1wx8-o230RjLfkmRuFIs-A_HgSk8b5dOHHuADNIs5x8KnBBsfkAT6D2U7MY1Hrlqlv8W63XUl9kq7RJ172uA3wk5e8Kadk-U_pLh7aZz5W0rLSyDKcPm9dnFMZn-e5q2kxZTHaLmhrQxTMGB9YhyOo")
             .setClientId("3451401ce3b148039cbba35a2c25cd5f")
             .setClientSecret("6531d1fa12f645b581a8bbce029139f1")
             .build();
 
+    private static final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
+            .build();
+
+    public static void clientCredentials_Async() {
+        try {
+            final CompletableFuture<ClientCredentials> clientCredentialsFuture = clientCredentialsRequest.executeAsync();
+
+            final ClientCredentials clientCredentials = clientCredentialsFuture.join();
+
+            // Set access token for further "spotifyApi" object usage
+            spotifyApi.setAccessToken(clientCredentials.getAccessToken());
+
+        } catch (CompletionException e) {
+            System.out.println("Error: " + e.getCause().getMessage());
+        } catch (CancellationException e) {
+            System.out.println("Async operation cancelled.");
+        }
+    }
+
     // Search method
     public static String searchSpotify(String query)
     {
+        // Set token
+        clientCredentials_Async();
+
         // Tracks
         if (query.contains("/track/"))
         {
@@ -38,7 +61,6 @@ public class Spotify {
             {
                 final CompletableFuture<Track> trackFuture = getTrackRequest.executeAsync();
 
-                // Example Only. Never block in production code.
                 final Track track = trackFuture.join();
 
                 // Get artist name
