@@ -158,7 +158,7 @@ public class MusicCommands extends ListenerAdapter {
                                 .setAuthor("Playlist queued")
                                 .setTitle(playlistName)
                                 .setDescription("`[" + playlistTracks.size() + "] songs`")
-                                .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png")
+                                .setThumbnail(Spotify.getPlaylistThumbnail())
                                 .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                                 .setFooter("Use /help for a list of music commands!");
 
@@ -182,7 +182,7 @@ public class MusicCommands extends ListenerAdapter {
                                 .setAuthor("Album queued")
                                 .setTitle(albumName)
                                 .setDescription("`[" + albumTracks.size() + "] songs`")
-                                .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png")
+                                .setThumbnail(Spotify.getAlbumThumbnail())
                                 .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                                 .setFooter("Use /help for a list of music commands!");
 

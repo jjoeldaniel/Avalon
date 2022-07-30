@@ -18,6 +18,9 @@ import java.util.concurrent.CompletionException;
 
 public class Spotify {
 
+    private static String albumThumbnail;
+    private static String playlistThumbnail;
+
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId("3451401ce3b148039cbba35a2c25cd5f")
             .setClientSecret("6531d1fa12f645b581a8bbce029139f1")
@@ -87,6 +90,8 @@ public class Spotify {
                 final CompletableFuture<Playlist> playlistFuture = getPlaylistRequest.executeAsync();
                 final Playlist playlist = playlistFuture.join();
 
+                playlistThumbnail = Arrays.stream(playlist.getImages()).toList().get(0).getUrl();
+
                 return playlist.getName();
             } catch (CompletionException e) {
                 System.out.println("Error: " + e.getCause().getMessage());
@@ -103,6 +108,8 @@ public class Spotify {
             try {
                 final CompletableFuture<Album> albumFuture = getAlbumRequest.executeAsync();
                 final Album album = albumFuture.join();
+
+                albumThumbnail = Arrays.stream(album.getImages()).toList().get(0).getUrl();
 
                 return album.getName();
             } catch (CompletionException e) {
@@ -187,6 +194,13 @@ public class Spotify {
 
         //return tracks;
         return tracks;
+    }
+
+    public static String getAlbumThumbnail() {
+        return albumThumbnail;
+    }
+    public static String getPlaylistThumbnail() {
+        return playlistThumbnail;
     }
 
 
