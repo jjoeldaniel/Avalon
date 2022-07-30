@@ -46,6 +46,8 @@ public class CommandsRegister extends ListenerAdapter
         event.getGuild().updateCommands().addCommands(
 
                 // General
+                Commands.slash("whois", "Provides user information")
+                        .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true),
                 Commands.slash("afk", "Sets AFK status"),
                 Commands.slash("confess", "Sends anonymous confession"),
 
@@ -66,6 +68,8 @@ public class CommandsRegister extends ListenerAdapter
                 Commands.slash("play", "Requests a song")
                         .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true),
                 Commands.slash("pause", "Pause playback"),
+                Commands.slash("volume", "Requests a song")
+                        .addOption(OptionType.STRING, "num", "Sets volume (between 1 and 100)", true),
                 Commands.slash("resume", "Resume playback"),
                 Commands.slash("clear", "Clears queue"),
                 Commands.slash("skip", "Skips song"),
