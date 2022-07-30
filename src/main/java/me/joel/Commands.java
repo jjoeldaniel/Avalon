@@ -71,7 +71,6 @@ public class Commands extends ListenerAdapter
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("General Commands", """
                                 `/help` : Lists commands
-                                `/invite` : Returns bot invite link
                                 `/ping` : Pings bot
                                 `/coinflip` Flips a coin
                                 `/truth` : Requests truth
@@ -88,17 +87,6 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpMusic", "Music"),
                                 Button.link(inviteLink, "Invite"))
                         .queue();
-            }
-            // Invite
-            if (event.getName().equals("invite"))
-            {
-                EmbedBuilder invite = new EmbedBuilder()
-                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                        .setTitle("Here's an invite link!")
-                        .setDescription("[Click on this invite link to invite me to your server](" + inviteLink + ")")
-                        .setFooter("Upon joining a server, a short message will be sent explaining usage")
-                        .setColor(Util.randColor());
-                event.replyEmbeds(invite.build()).setEphemeral(true).queue();
             }
             // Coin Flip
             if (event.getName().equals("coinflip"))
@@ -434,7 +422,6 @@ public class Commands extends ListenerAdapter
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("General Commands", """
                                 `/help` : Lists commands
-                                `/invite` : Returns bot invite link
                                 `/ping` : Pings bot
                                 `/coinflip` Flips a coin
                                 `/truth` : Requests truth

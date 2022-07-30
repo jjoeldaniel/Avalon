@@ -39,8 +39,6 @@ public class Paw
                 .queue();
         // Coin Flip
         jda.upsertCommand("coinflip", "Flips a coin for heads or tails").queue();
-        // Invite
-        jda.upsertCommand("invite", "Returns bot invite link").queue();
         // Reload_Commands
         jda.upsertCommand("reload_commands", "Reloads server commands").queue();
         // Truth or Dare
