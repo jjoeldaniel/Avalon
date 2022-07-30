@@ -252,11 +252,12 @@ public class MusicCommands extends ListenerAdapter
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
                 }
-                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(num);
+                int prevVolume = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getVolume();
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(num / 2);
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                        .setTitle("Volume is now set to " + num + "%.")
+                        .setTitle("Volume is now set to " + num + "%. (Prev: " + prevVolume*2 + "%)")
                         .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).queue();
