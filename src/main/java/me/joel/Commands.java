@@ -422,7 +422,7 @@ public class Commands extends ListenerAdapter {
                                 `/playing` : Displays currently playing song
                                 `/volume (num)` : Sets volume
                                 `/loop` : Loops the currently playing song until disabled/cleared/skipped
-                                `/skip` : Skips song""", false);
+                                `/skip (song_num)` : Skips song with an optional song number specific skip""", false);
 
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
