@@ -191,20 +191,29 @@ public class Commands extends ListenerAdapter {
                     User user = Objects.requireNonNull(event.getOption("user")).getAsUser();
                     targetName = user.getName() + "#" + user.getDiscriminator();
                     targetPFP = user.getEffectiveAvatarUrl();
+
+                    // Embed
+                    EmbedBuilder avatar = new EmbedBuilder()
+                            .setTitle(targetName)
+                            .setColor(Util.randColor())
+                            .setImage(targetPFP + "?size=256")
+                            .setFooter("ID: " + user.getId());
+
+                    event.replyEmbeds(avatar.build()).queue();
+                    return;
                 }
                 // Server
-                else {
-                    Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
-                    assert member != null;
-                    targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
-                    targetPFP = member.getEffectiveAvatarUrl();
-                }
+                Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
+                assert member != null;
+                targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
+                targetPFP = member.getEffectiveAvatarUrl();
 
                 // Embed
                 EmbedBuilder avatar = new EmbedBuilder()
                         .setTitle(targetName)
                         .setColor(Util.randColor())
-                        .setImage(targetPFP + "?size=256");
+                        .setImage(targetPFP + "?size=256")
+                        .setFooter("ID: " + member.getId());
 
                 event.replyEmbeds(avatar.build()).queue();
             }
