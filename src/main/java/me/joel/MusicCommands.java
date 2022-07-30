@@ -125,7 +125,20 @@ public class MusicCommands extends ListenerAdapter {
 
                 // Spotify
                 if (link.startsWith("https://open.spotify.com/")) {
-                    link = ("ytsearch:" + Spotify.searchSpotify(link) + " audio");
+
+                    if (link.contains("/track/"))
+                    {
+                        link = ("ytsearch:" + Spotify.searchSpotify(link) + " audio");
+                    }
+                    else if (link.contains("/playlist/"))
+                    {
+
+                    }
+                    else if (link.contains("/album/"))
+                    {
+
+                    }
+
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
 
