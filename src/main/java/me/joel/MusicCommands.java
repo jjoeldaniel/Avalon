@@ -149,7 +149,6 @@ public class MusicCommands extends ListenerAdapter
                     try
                     {
                         PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
-                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
                     }
                     catch (Exception e)
                     {
@@ -169,7 +168,6 @@ public class MusicCommands extends ListenerAdapter
                     try
                     {
                         PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
-                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
                     }
                     catch (Exception e)
                     {
@@ -183,27 +181,17 @@ public class MusicCommands extends ListenerAdapter
                 {
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
-                    if (bot.getVoiceState().inAudioChannel())
-                    {
-                        event.getGuild().deafen(bot, true).queue();
-                    }
 
                     // Plays song
                     try
                     {
                         PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
-                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
                     }
                     catch (Exception e)
                     {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
                     }
-                }
-                Util.wait(500);
-                if (bot.getVoiceState().inAudioChannel())
-                {
-                    event.getGuild().deafen(bot, true).queue();
                 }
 
                 EmbedBuilder error = new EmbedBuilder()
@@ -212,6 +200,10 @@ public class MusicCommands extends ListenerAdapter
                         .setFooter("Use /help for a list of music commands!");
                 event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
                 Util.wait(500);
+                if (bot.getVoiceState().inAudioChannel())
+                {
+                    event.getGuild().deafen(bot, true).queue();
+                }
                 event.getHook().deleteOriginal().queue();
             }
 
@@ -264,7 +256,7 @@ public class MusicCommands extends ListenerAdapter
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                        .setDescription("Volume is now set to " + num + "%.")
+                        .setTitle("Volume is now set to " + num + "%.")
                         .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).queue();
