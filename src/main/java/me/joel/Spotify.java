@@ -46,6 +46,10 @@ public class Spotify {
                 System.out.println("Async operation cancelled.");
             }
         }
+
+        /* TODO: Figure out how to do playlists and albums
+        Possibly place in different method and return an ArrayList?
+         */
         // Playlists
         else if (query.contains("/playlist/"))
         {
