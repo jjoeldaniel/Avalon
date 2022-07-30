@@ -66,7 +66,7 @@ public class CommandsRegister extends ListenerAdapter
                 // Music
                 Commands.slash("play", "Requests a song")
                         .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true),
-                Commands.slash("ping", "Sends pong"),
+                Commands.slash("pause", "Pause playback"),
                 Commands.slash("ping", "Sends pong"),
                 Commands.slash("ping", "Sends pong"),
                 Commands.slash("ping", "Sends pong"),
