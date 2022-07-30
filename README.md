@@ -61,7 +61,7 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
 
 **Music Commands**
 
-`/play (song)` : Accepts names and YT links
+`/play (song)` : Plays YouTube and Spotify links
 
 `/pause` : Pauses playback
 
@@ -72,6 +72,8 @@ PawBot is a Discord bot that includes moderation, utility, react-messages, and v
 `/queue` : Displays song queue
 
 `/playing` : Displays currently playing song
+
+`/volume (num)` : Sets volume
 
 `/loop` : Loops the currently playing song until disabled/cleared/skipped
 

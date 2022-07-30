@@ -446,12 +446,13 @@ public class Commands extends ListenerAdapter
                         .setTitle("PawBot Commands")
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("Music Commands", """
-                                `/play (song)` : Accepts names and YT links
+                                `/play (song)` : Plays YouTube and Spotify links
                                 `/pause` : Pauses playback
                                 `/resume` : Resumes playback
                                 `/clear` : Clears queue
                                 `/queue` : Displays song queue
                                 `/playing` : Displays currently playing song
+                                `/volume (num)` : Sets volume
                                 `/loop` : Loops the currently playing song until disabled/cleared/skipped
                                 `/skip` : Skips song""", false);
 
