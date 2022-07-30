@@ -18,10 +18,9 @@ public class Paw
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GHpHqT.uOTGGrIGK2fFj2RFQE9GllzgLGMQ8EjMyzzL1Q")
 
                 .setStatus(OnlineStatus.ONLINE)
-                .addEventListeners(new Commands())
+                .addEventListeners(new Commands(), new ModCommands(), new MusicCommands())
                 .addEventListeners(new ReactMessages())
-                .addEventListeners(new MusicCommands())
-                .addEventListeners(new ModCommands())
+                .addEventListeners(new TestServer())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build()
