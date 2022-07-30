@@ -4,17 +4,13 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
-import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -142,8 +138,29 @@ public class MusicCommands extends ListenerAdapter
                 final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
                 String link = Objects.requireNonNull(event.getOption("song")).getAsString();
 
+                // Spotify
+                if (link.startsWith("https://open.spotify.com/"))
+                {
+                    link = ("ytsearch:" + Spotify.searchSpotify(link) + " audio");
+                    System.out.println(link);
+                    // Joins VC
+                    audioManager.openAudioConnection(memberChannel);
+
+                    // Plays song
+                    try
+                    {
+                        PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                    }
+                    catch (Exception e)
+                    {
+                        event.replyEmbeds(Util.genericError().build()).queue();
+                        return;
+                    }
+                }
+
                 // Invalid links
-                if (!isURL(link))
+                else if (!isURL(link))
                 {
                     link = ("ytsearch:" + link + " audio");
                     // Joins VC
@@ -161,26 +178,7 @@ public class MusicCommands extends ListenerAdapter
                         return;
                     }
                 }
-                // Spotify
-                else if (link.contains("https://open.spotify.com/"))
-                {
-                    // Tracks
-                    if (link.contains("https://open.spotify.com/track/)"))
-                    {
 
-                    }
-                    // Playlists
-                    else if (link.contains("https://open.spotify.com/playlist/"))
-                    {
-
-                    }
-                    // Albums
-                    else if (link.contains("https://open.spotify.com/album"))
-                    {
-
-                    }
-
-                }
                 // Valid links (Basically just YouTube)
                 else
                 {
