@@ -30,39 +30,6 @@ public class MusicCommands extends ListenerAdapter
     static boolean sendNowPlaying = false;
     static MessageChannelUnion messageChannelUnion;
 
-    @Override
-    public void onGuildReady(@NotNull GuildReadyEvent event)
-    {
-        // If bot has permissions
-        try {
-            event.getGuild().upsertCommand("play", "Requests a song")
-                    .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true)
-                    .queue();
-
-            event.getGuild().upsertCommand("pause", "Pause playback")
-                    .queue();
-
-            event.getGuild().upsertCommand("resume", "Resume playback")
-                    .queue();
-
-            event.getGuild().upsertCommand("clear", "Clears queue")
-                    .queue();
-
-            event.getGuild().upsertCommand("skip", "Skips song")
-                    .queue();
-
-            event.getGuild().upsertCommand("queue", "Displays music queue")
-                    .queue();
-
-            event.getGuild().upsertCommand("playing", "Displays currently playing song")
-                    .queue();
-
-            event.getGuild().upsertCommand("loop", "Loops currently playing song")
-                    .queue();
-        }
-        catch (ErrorResponseException ignore) {}
-    }
-
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
     {
 

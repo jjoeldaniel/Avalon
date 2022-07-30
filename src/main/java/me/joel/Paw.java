@@ -17,6 +17,7 @@ public class Paw
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands(), new ModCommands(), new MusicCommands())
                 .addEventListeners(new ReactMessages())
+                .addEventListeners(new CommandsRegister())
                 .addEventListeners(new TestServer())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
