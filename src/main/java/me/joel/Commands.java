@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -40,21 +41,24 @@ public class Commands extends ListenerAdapter
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event)
     {
-        // ready message
-        System.out.println("Server: \"" + event.getGuild().getName() + "\" is ready!");
+        // If bot has permissions
+        try {
+            // ready message
+            System.out.println("Server: \"" + event.getGuild().getName() + "\" is ready!");
 
-        // commands register
-        event.getGuild().upsertCommand("whois", "Provides user information")
-                .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
-                .queue();
+            // commands register
+            event.getGuild().upsertCommand("whois", "Provides user information")
+                    .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
+                    .queue();
 
-        event.getGuild().upsertCommand("confess", "Posts an anonymous confession")
-                .addOption(OptionType.STRING, "message", "Confession message", true)
-                .queue();
+            event.getGuild().upsertCommand("confess", "Posts an anonymous confession")
+                    .addOption(OptionType.STRING, "message", "Confession message", true)
+                    .queue();
 
-        event.getGuild().upsertCommand("afk", "Enables/disables AFK status")
-                .queue();
-
+            event.getGuild().upsertCommand("afk", "Enables/disables AFK status")
+                    .queue();
+        }
+        catch (ErrorResponseException ignore) {}
     }
 
     @Override

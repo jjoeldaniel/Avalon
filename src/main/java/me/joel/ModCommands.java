@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
@@ -22,27 +23,30 @@ public class ModCommands extends ListenerAdapter
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event)
     {
-        // commands register
-        event.getGuild().upsertCommand("kick", "Kicks selected user")
-                .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false)
-                .queue();
+        // If bot has permissions
+        try {
+            // commands register
+            event.getGuild().upsertCommand("kick", "Kicks selected user")
+                    .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false)
+                    .queue();
 
-        event.getGuild().upsertCommand("ban", "Bans selected user")
-                .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false)
-                .queue();
+            event.getGuild().upsertCommand("ban", "Bans selected user")
+                    .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false)
+                    .queue();
 
-        event.getGuild().upsertCommand("timeout", "Time-outs selected user")
-                .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false)
-                .queue();
+            event.getGuild().upsertCommand("timeout", "Time-outs selected user")
+                    .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false)
+                    .queue();
 
-        event.getGuild().upsertCommand("broadcast", "Broadcasts message in selected channel")
-                .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
-                .queue();
+            event.getGuild().upsertCommand("broadcast", "Broadcasts message in selected channel")
+                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
+                    .queue();
 
-        event.getGuild().upsertCommand("purge", "Purges up to 100 messages")
-                .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true)
-                .queue();
-
+            event.getGuild().upsertCommand("purge", "Purges up to 100 messages")
+                    .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true)
+                    .queue();
+        }
+        catch (ErrorResponseException ignore) {}
 
     }
 
@@ -51,7 +55,6 @@ public class ModCommands extends ListenerAdapter
 
         try
         {
-
             // Reload Commands
             if (event.getName().equals("reload_commands") && event.isFromGuild())
             {
@@ -124,7 +127,7 @@ public class ModCommands extends ListenerAdapter
                     catch (Exception exception)
                     {
                         EmbedBuilder builder = new EmbedBuilder()
-                                .setDescription("An error has occurred attempting to reload commands!")
+                                .addField("An error has occurred attempting to reload commands!", "If this persists, try re-adding the bot to the server!", false)
                                 .setColor(Util.randColor())
                                 .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
 
