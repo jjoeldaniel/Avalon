@@ -141,7 +141,6 @@ public class MusicCommands extends ListenerAdapter {
                             return;
                         }
                     }
-                    // TODO: Add playlist cover
                     else if (link.contains("/playlist/")) {
                         String playlistName = Spotify.searchSpotify(link);
                         ArrayList<String> playlistTracks = Spotify.getTracks(link);
@@ -165,7 +164,6 @@ public class MusicCommands extends ListenerAdapter {
                         event.getHook().sendMessageEmbeds(builder.build()).queue();
                         return;
                     }
-                    // TODO: Add album cover
                     else if (link.contains("/album/")) {
                         String albumName = Spotify.searchSpotify(link);
                         ArrayList<String> albumTracks = Spotify.getTracks(link);
