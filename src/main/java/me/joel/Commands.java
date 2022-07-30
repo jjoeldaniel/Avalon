@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Commands extends ListenerAdapter
 {
+    String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot";
 
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
@@ -32,7 +33,7 @@ public class Commands extends ListenerAdapter
                 .addField("Want to invite PawBot to another server?", "Click the Invite button to invite PawBot!", false);
 
         Objects.requireNonNull(event.getGuild().getSystemChannel()).sendMessageEmbeds(onJoin.build()).setActionRow(
-                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
+                Button.link(inviteLink, "Invite"))
                 .queue();
     }
 
@@ -85,7 +86,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpGeneral", "General").asDisabled(),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
+                                Button.link(inviteLink, "Invite"))
                         .queue();
             }
             // Invite
@@ -94,7 +95,7 @@ public class Commands extends ListenerAdapter
                 EmbedBuilder invite = new EmbedBuilder()
                         .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                         .setTitle("Here's an invite link!")
-                        .setDescription("[Click on this invite link to invite me to your server](https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot)")
+                        .setDescription("[Click on this invite link to invite me to your server](" + inviteLink + ")")
                         .setFooter("Upon joining a server, a short message will be sent explaining usage")
                         .setColor(Util.randColor());
                 event.replyEmbeds(invite.build()).setEphemeral(true).queue();
@@ -448,7 +449,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpGeneral", "General").asDisabled(),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
+                                Button.link(inviteLink, "Invite"))
                         .queue();
             }
             else if (event.getComponentId().equals("helpMod"))
@@ -470,7 +471,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpGeneral", "General"),
                                 Button.success("helpMod", "Moderation").asDisabled(),
                                 Button.success("helpMusic", "Music"),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
+                                Button.link(inviteLink, "Invite"))
                         .queue();
             }
             else if (event.getComponentId().equals("helpMusic"))
@@ -494,7 +495,7 @@ public class Commands extends ListenerAdapter
                                 Button.success("helpGeneral", "General"),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music").asDisabled(),
-                                Button.link("https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=1644971949559&scope=applications.commands%20bot", "Invite"))
+                                Button.link(inviteLink, "Invite"))
                         .queue();
             }
         }
