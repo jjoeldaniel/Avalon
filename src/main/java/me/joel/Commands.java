@@ -16,6 +16,8 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 
 public class Commands extends ListenerAdapter {
+
+    // Global invite link
     String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot";
 
     @Override
