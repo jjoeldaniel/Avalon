@@ -16,7 +16,6 @@ public class Paw
     {
 
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GHpHqT.uOTGGrIGK2fFj2RFQE9GllzgLGMQ8EjMyzzL1Q")
-
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands(), new ModCommands(), new MusicCommands())
                 .addEventListeners(new ReactMessages())
@@ -27,36 +26,7 @@ public class Paw
                 .awaitReady();
 
         // Sets status as # of guilds bot is member of
-        int guildNum = jda.getGuilds().size();
-        jda.getPresence().setActivity(Activity.listening(" " + (guildNum) + " servers!" ));
-        //jda.updateCommands().queue();
-
-        // Help
-        jda.upsertCommand("help", "Lists commands").queue();
-        // 8Ball
-        jda.upsertCommand("8ball", "Asks the magic 8ball a question")
-                .addOption(OptionType.STRING, "question", "Your question to the 8ball", true)
-                .queue();
-        // Coin Flip
-        jda.upsertCommand("coinflip", "Flips a coin for heads or tails").queue();
-        // Reload_Commands
-        jda.upsertCommand("reload_commands", "Reloads server commands").queue();
-        // Truth or Dare
-        SubcommandData truth = new SubcommandData("truth", "Generates a random truth question");
-        SubcommandData dare = new SubcommandData("dare", "Generates a random dare question");
-        SubcommandData random = new SubcommandData("random", "Generates a random question");
-        jda.upsertCommand("truthordare", "Generates a random truth/dare question")
-                .addSubcommands(truth)
-                .addSubcommands(dare)
-                .addSubcommands(random)
-                .queue();
-        // Ping
-        jda.upsertCommand("ping", "Sends pong").queue();
-        // Avatar
-        jda.upsertCommand("avatar", "Sends user avatar")
-                .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
-                .queue();
-
+        jda.getPresence().setActivity(Activity.listening(" " + (jda.getGuilds().size()) + " servers!" ));
     }
 
 }

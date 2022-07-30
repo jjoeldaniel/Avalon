@@ -19,40 +19,8 @@ import java.util.concurrent.TimeUnit;
 
 public class ModCommands extends ListenerAdapter
 {
-
-    @Override
-    public void onGuildReady(@NotNull GuildReadyEvent event)
-    {
-        // If bot has permissions
-        try {
-            // commands register
-            event.getGuild().upsertCommand("kick", "Kicks selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false)
-                    .queue();
-
-            event.getGuild().upsertCommand("ban", "Bans selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false)
-                    .queue();
-
-            event.getGuild().upsertCommand("timeout", "Time-outs selected user")
-                    .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false)
-                    .queue();
-
-            event.getGuild().upsertCommand("broadcast", "Broadcasts message in selected channel")
-                    .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
-                    .queue();
-
-            event.getGuild().upsertCommand("purge", "Purges up to 100 messages")
-                    .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true)
-                    .queue();
-        }
-        catch (ErrorResponseException ignore) {}
-
-    }
-
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
     {
-
         try
         {
             // Reload Commands
@@ -136,6 +104,7 @@ public class ModCommands extends ListenerAdapter
                 }
 
             }
+
             // Kick
             if (event.getName().equals("kick"))
             {
