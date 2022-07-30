@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -181,8 +182,35 @@ public class MusicCommands extends ListenerAdapter
                     audioManager.openAudioConnection(memberChannel);
 
                     // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                    try {
+                        PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                    }
+                    catch (Exception e)
+                    {
+                        event.replyEmbeds(Util.genericError().build()).queue();
+                        return;
+                    }
+                }
+                // Spotify
+                else if (link.contains("https://open.spotify.com/"))
+                {
+                    // Tracks
+                    if (link.contains("https://open.spotify.com/track/)"))
+                    {
+
+                    }
+                    // Playlists
+                    else if (link.contains("https://open.spotify.com/playlist/"))
+                    {
+
+                    }
+                    // Albums
+                    else if (link.contains("https://open.spotify.com/album"))
+                    {
+
+                    }
+
                 }
                 // Valid links (Basically just YouTube)
                 else
@@ -195,8 +223,15 @@ public class MusicCommands extends ListenerAdapter
                     }
 
                     // Plays song
-                    PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                    try {
+                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
+                    }
+                    catch (Exception e)
+                    {
+                        event.replyEmbeds(Util.genericError().build()).queue();
+                        return;
+                    }
                 }
                 Util.wait(500);
                 if (bot.getVoiceState().inAudioChannel())
