@@ -64,7 +64,8 @@ public class CommandsRegister extends ListenerAdapter
                 Commands.slash("reload_commands", "Reloads bot commands (in case of commands not appearing)"),
 
                 // Music
-                Commands.slash("ping", "Sends pong"),
+                Commands.slash("play", "Requests a song")
+                        .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true),
                 Commands.slash("ping", "Sends pong"),
                 Commands.slash("ping", "Sends pong"),
                 Commands.slash("ping", "Sends pong"),
