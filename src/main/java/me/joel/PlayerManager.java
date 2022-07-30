@@ -219,7 +219,7 @@ public class PlayerManager {
 
     }
 
-    public void loadAndPlayNoURI(MessageChannelUnion channel, String trackURL) {
+    public void loadAndPlay_NoURI(MessageChannelUnion channel, String trackURL) {
 
         VoiceChannel voiceChannel;
         TextChannel textChannel;
@@ -324,7 +324,7 @@ public class PlayerManager {
 
     }
 
-    public void loadAndPlayNoURISpotify(MessageChannelUnion channel, String trackURL) {
+    public void loadAndPlay_SpotifyPlaylists(MessageChannelUnion channel, String trackURL) {
 
         VoiceChannel voiceChannel;
         TextChannel textChannel;

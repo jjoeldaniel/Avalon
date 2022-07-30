@@ -135,7 +135,7 @@ public class MusicCommands extends ListenerAdapter {
 
                         // Plays song
                         try {
-                            PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
+                            PlayerManager.getINSTANCE().loadAndPlay_NoURI(messageChannelUnion, link);
                         } catch (Exception e) {
                             event.getHook().sendMessageEmbeds(Util.genericError().build()).queue();
                             return;
@@ -147,7 +147,7 @@ public class MusicCommands extends ListenerAdapter {
                         ArrayList<String> playlistTracks = Spotify.getTracks(link);
 
                         for (String i: playlistTracks) {
-                            PlayerManager.getINSTANCE().loadAndPlayNoURISpotify(messageChannelUnion, ("ytsearch:" + i + " audio"));
+                            PlayerManager.getINSTANCE().loadAndPlay_SpotifyPlaylists(messageChannelUnion, ("ytsearch:" + i + " audio"));
                         }
 
                         EmbedBuilder builder = new EmbedBuilder()
@@ -178,7 +178,7 @@ public class MusicCommands extends ListenerAdapter {
 
                     // Plays song
                     try {
-                        PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
+                        PlayerManager.getINSTANCE().loadAndPlay_NoURI(messageChannelUnion, link);
                     } catch (Exception e) {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
