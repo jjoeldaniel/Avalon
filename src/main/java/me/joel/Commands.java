@@ -293,33 +293,18 @@ public class Commands extends ListenerAdapter
                 for (int i = 0; i < numRoles; ++i) {
                     roles.append("<@&").append(member.getRoles().get(i).getId()).append("> ");
                 }
-                if (!event.isFromGuild()) {
-                    EmbedBuilder whois = new EmbedBuilder()
-                            .setDescription(user.getAsMention())
-                            .setAuthor(user.getName() + "#" + user.getDiscriminator(), user.getAvatarUrl(), user.getAvatarUrl())
-                            .setThumbnail(user.getEffectiveAvatarUrl())
-                            .addField("Joined", joinTime.getMonthValue() + "/" + joinTime.getDayOfMonth() + "/" + joinTime.getYear(), true)
-                            .addField("Created", creationDate.getMonthValue() + "/" + creationDate.getDayOfMonth() + "/" + creationDate.getYear(), true)
-                            .addField("Roles [" + numRoles + "]", roles.toString(), false)
-                            .setFooter("ID: " + user.getId())
-                            .setColor(Util.randColor());
 
-                    event.replyEmbeds(whois.build()).queue();
-                    return;
-                }
-                if (event.isFromGuild()) {
-                    EmbedBuilder whois = new EmbedBuilder()
-                            .setDescription(member.getAsMention())
-                            .setAuthor(user.getName() + "#" + user.getDiscriminator(), user.getAvatarUrl(), user.getAvatarUrl())
-                            .setThumbnail(member.getEffectiveAvatarUrl())
-                            .addField("Joined", joinTime.getMonthValue() + "/" + joinTime.getDayOfMonth() + "/" + joinTime.getYear(), true)
-                            .addField("Created", creationDate.getMonthValue() + "/" + creationDate.getDayOfMonth() + "/" + creationDate.getYear(), true)
-                            .addField("Roles [" + numRoles + "]", roles.toString(), false)
-                            .setFooter("ID: " + user.getId())
-                            .setColor(Util.randColor());
+                EmbedBuilder whois = new EmbedBuilder()
+                        .setDescription(member.getAsMention())
+                        .setAuthor(user.getName() + "#" + user.getDiscriminator(), user.getAvatarUrl(), user.getAvatarUrl())
+                        .setThumbnail(member.getEffectiveAvatarUrl())
+                        .addField("Joined", joinTime.getMonthValue() + "/" + joinTime.getDayOfMonth() + "/" + joinTime.getYear(), true)
+                        .addField("Created", creationDate.getMonthValue() + "/" + creationDate.getDayOfMonth() + "/" + creationDate.getYear(), true)
+                        .addField("Roles [" + numRoles + "]", roles.toString(), false)
+                        .setFooter("ID: " + user.getId())
+                        .setColor(Util.randColor());
 
-                    event.replyEmbeds(whois.build()).queue();
-                }
+                event.replyEmbeds(whois.build()).queue();
 
             }
             // AFK
