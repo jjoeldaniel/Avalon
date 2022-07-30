@@ -53,7 +53,7 @@ public class MusicCommands extends ListenerAdapter
                     return;
                 }
 
-                // Check jda voice state and compare with member voice state
+                // Compare JDA and member voice state
                 if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
                 {
                     long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
@@ -215,9 +215,77 @@ public class MusicCommands extends ListenerAdapter
                 event.getHook().deleteOriginal().queue();
             }
 
+            // Volume
+            if (event.getName().equals("volume"))
+            {
+                // Checks requester voice state
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
+                {
+                    AudioEventAdapter.setLoop(true);
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in a voice channel to use `/loop`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+
+                // Compare JDA and member voice state
+                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
+                {
+                    long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
+                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+
+                    if (!(botVC == memberVC))
+                    {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setDescription("You need to be in the same voice channel as the bot to use `/loop`!")
+                                .setFooter("Use /help for a list of music commands!");
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                        return;
+                    }
+                }
+
+                int num = Objects.requireNonNull(event.getOption("num")).getAsInt();
+
+                if (num <= 0 || num > 100)
+                {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                            .setTitle("Error! You can't set the volume to 0 or above 100.")
+                            .setFooter("Use /help for a list of music commands!");
+
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(num);
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                        .setDescription("Volume is now set to " + num + "%.")
+                        .setFooter("Use /help for a list of music commands!");
+
+                event.replyEmbeds(builder.build()).queue();
+            }
+
             // Pause
             if (event.getName().equals("pause"))
             {
+                // Checks requester voice state
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
+                {
+                    AudioEventAdapter.setLoop(true);
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in a voice channel to use `/pause`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+
+                // Compare JDA and member voice state
                 if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
                 {
                     long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
@@ -226,7 +294,7 @@ public class MusicCommands extends ListenerAdapter
                     {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
-                                .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
+                                .setDescription("You need to be in the same voice channel as the bot to use `/pause`!")
                                 .setFooter("Use /help for a list of music commands!");
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
@@ -296,6 +364,19 @@ public class MusicCommands extends ListenerAdapter
             // Resume
             if (event.getName().equals("resume"))
             {
+                // Checks requester voice state
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
+                {
+                    AudioEventAdapter.setLoop(true);
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in a voice channel to use `/resume`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+
+                // Compare JDA and member voice state
                 if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
                 {
                     long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
@@ -304,7 +385,7 @@ public class MusicCommands extends ListenerAdapter
                     {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
-                                .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
+                                .setDescription("You need to be in the same voice channel as the bot to use `/resume`!")
                                 .setFooter("Use /help for a list of music commands!");
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
@@ -335,6 +416,19 @@ public class MusicCommands extends ListenerAdapter
             // Clear
             if (event.getName().equals("clear"))
             {
+                // Checks requester voice state
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
+                {
+                    AudioEventAdapter.setLoop(true);
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in a voice channel to use `/clear`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+
+                // Compare JDA and member voice state
                 if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
                 {
                     long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
@@ -344,7 +438,7 @@ public class MusicCommands extends ListenerAdapter
                     {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
-                                .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
+                                .setDescription("You need to be in the same voice channel as the bot to use `/clear`!")
                                 .setFooter("Use /help for a list of music commands!");
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
@@ -377,6 +471,19 @@ public class MusicCommands extends ListenerAdapter
             // Skip
             if (event.getName().equals("skip"))
             {
+                // Checks requester voice state
+                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel())
+                {
+                    AudioEventAdapter.setLoop(true);
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("You need to be in a voice channel to use `/skip`!")
+                            .setFooter("Use /help for a list of music commands!");
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+
+                // Compare JDA and member voice state
                 if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel())
                 {
                     long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
@@ -386,7 +493,7 @@ public class MusicCommands extends ListenerAdapter
                     {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
-                                .setDescription("You need to be in the same voice channel as the bot to use `/play`!")
+                                .setDescription("You need to be in the same voice channel as the bot to use `/skip`!")
                                 .setFooter("Use /help for a list of music commands!");
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
