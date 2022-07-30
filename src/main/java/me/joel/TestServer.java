@@ -38,13 +38,9 @@ public class TestServer extends ListenerAdapter
                 {
                     if (event.getGuild().getTextChannels().get(i).getName().contains("welcome"))
                     {
-                        welcomeChannel = event.getGuild().getTextChannels().get(i);
+                        event.getGuild().getTextChannels().get(i).sendMessageEmbeds(memberJoin.build()).queue();
+                        return;
                     }
-                }
-
-                if (welcomeChannel != null)
-                {
-                    welcomeChannel.sendMessageEmbeds(memberJoin.build()).queue();
                 }
             }
             // If no welcomeChannel found
