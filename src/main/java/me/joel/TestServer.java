@@ -2,7 +2,6 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +16,7 @@ public class TestServer extends ListenerAdapter
         // paw patrol and cat club (test server)
         if (event.getGuild().getId().equals("645471751316307998") || event.getGuild().getId().equals("971225319153479790"))
         {
+            System.out.println("new member: " + event.getMember().getUser().getName());
             Member member = event.getMember();
             EmbedBuilder memberJoin = new EmbedBuilder()
                     .setColor(Util.randColor())
@@ -30,7 +30,6 @@ public class TestServer extends ListenerAdapter
                     .setFooter("User: " + member.getUser().getName() + " ID: " + member.getId());
 
             // find welcome channel
-            TextChannel welcomeChannel = null;
             try
             {
                 int channelNum = Objects.requireNonNull(event.getGuild()).getTextChannels().size();
