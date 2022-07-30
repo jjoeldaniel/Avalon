@@ -142,7 +142,6 @@ public class MusicCommands extends ListenerAdapter
                 if (link.startsWith("https://open.spotify.com/"))
                 {
                     link = ("ytsearch:" + Spotify.searchSpotify(link) + " audio");
-                    System.out.println(link);
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
 
