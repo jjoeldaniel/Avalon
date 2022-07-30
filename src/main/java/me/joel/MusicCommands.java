@@ -182,7 +182,8 @@ public class MusicCommands extends ListenerAdapter
                     audioManager.openAudioConnection(memberChannel);
 
                     // Plays song
-                    try {
+                    try
+                    {
                         PlayerManager.getINSTANCE().loadAndPlayNoURI(messageChannelUnion, link);
                         PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
                     }
@@ -223,7 +224,8 @@ public class MusicCommands extends ListenerAdapter
                     }
 
                     // Plays song
-                    try {
+                    try
+                    {
                         PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
                         PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(50);
                     }
@@ -265,7 +267,8 @@ public class MusicCommands extends ListenerAdapter
                         return;
                     }
                 }
-                if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
+                if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null)
+                {
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(true);
 
                     EmbedBuilder builder = new EmbedBuilder()
@@ -343,7 +346,8 @@ public class MusicCommands extends ListenerAdapter
                     }
                 }
 
-                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
+                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null)
+                {
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(false);
 
                     EmbedBuilder builder = new EmbedBuilder()
