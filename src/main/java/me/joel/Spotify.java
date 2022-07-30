@@ -137,8 +137,6 @@ public class Spotify {
             } catch (CancellationException e) {
                 System.out.println("Async operation cancelled.");
             }
-
-
         }
         else if (query.contains("/album/")) {
 
