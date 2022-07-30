@@ -40,7 +40,6 @@ public class MusicCommands extends ListenerAdapter {
             if (event.getName().equals("loop")) {
                 // Checks requester voice state
                 if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("You need to be in a voice channel to use `/loop`!")
@@ -234,10 +233,9 @@ public class MusicCommands extends ListenerAdapter {
             if (event.getName().equals("volume")) {
                 // Checks requester voice state
                 if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setDescription("You need to be in a voice channel to use `/loop`!")
+                            .setDescription("You need to be in a voice channel to use `/volume`!")
                             .setFooter("Use /help for a list of music commands!");
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
@@ -251,7 +249,7 @@ public class MusicCommands extends ListenerAdapter {
                     if (!(botVC == memberVC)) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
-                                .setDescription("You need to be in the same voice channel as the bot to use `/loop`!")
+                                .setDescription("You need to be in the same voice channel as the bot to use `/volume`!")
                                 .setFooter("Use /help for a list of music commands!");
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
@@ -285,7 +283,6 @@ public class MusicCommands extends ListenerAdapter {
             if (event.getName().equals("pause")) {
                 // Checks requester voice state
                 if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("You need to be in a voice channel to use `/pause`!")
@@ -367,7 +364,6 @@ public class MusicCommands extends ListenerAdapter {
             if (event.getName().equals("resume")) {
                 // Checks requester voice state
                 if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("You need to be in a voice channel to use `/resume`!")
@@ -414,7 +410,6 @@ public class MusicCommands extends ListenerAdapter {
             if (event.getName().equals("clear")) {
                 // Checks requester voice state
                 if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    AudioEventAdapter.setLoop(true);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("You need to be in a voice channel to use `/clear`!")
@@ -464,7 +459,7 @@ public class MusicCommands extends ListenerAdapter {
             if (event.getName().equals("skip")) {
                 // Checks requester voice state
                 if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    AudioEventAdapter.setLoop(true);
+                    AudioEventAdapter.setLoop(false);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("You need to be in a voice channel to use `/skip`!")
