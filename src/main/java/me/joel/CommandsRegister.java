@@ -71,7 +71,8 @@ public class CommandsRegister extends ListenerAdapter {
                         .addOption(OptionType.STRING, "num", "Sets volume (between 1 and 100)", true),
                 Commands.slash("resume", "Resume playback"),
                 Commands.slash("clear", "Clears queue"),
-                Commands.slash("skip", "Skips song"),
+                Commands.slash("skip", "Skips song")
+                        .addOption(OptionType.INTEGER, "song_num", "Removes selected song from queue", false),
                 Commands.slash("queue", "Displays music queue"),
                 Commands.slash("playing", "Displays currently playing song"),
                 Commands.slash("loop", "Loops currently playing song")

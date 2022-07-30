@@ -497,10 +497,31 @@ public class MusicCommands extends ListenerAdapter {
                         return;
                     }
                     EmbedBuilder builder = new EmbedBuilder()
-                            .setDescription("Songs skipped")
+                            .setDescription("Song skipped")
                             .setFooter("Use /help for a list of music commands!")
                             .setColor(Util.randColor());
 
+                    if (event.getOption("song_num") != null) {
+                        int songSkip;
+                        songSkip = (Objects.requireNonNull(event.getOption("song_num")).getAsInt()) - 1;
+
+                        if (songSkip >= 2) {
+                            if (songSkip >= playlist.size()) {
+                                EmbedBuilder skipOutOfBounds = new EmbedBuilder()
+                                        .setColor(Util.randColor())
+                                        .setDescription("That isn't a valid song number!")
+                                        .setFooter("Use /help for a list of music commands!");
+
+                                event.replyEmbeds(skipOutOfBounds.build()).setEphemeral(true).queue();
+                                return;
+                            }
+                            AudioTrack songToSkip = playlist.get(songSkip);
+                            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.remove(songToSkip);
+
+                            event.replyEmbeds(builder.build()).queue();
+                            return;
+                        }
+                    }
                     event.replyEmbeds(builder.build()).queue();
                     AudioEventAdapter.setLoop(false);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
