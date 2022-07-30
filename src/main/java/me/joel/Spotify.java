@@ -102,10 +102,6 @@ public class Spotify {
         return "";
     }
 
-    /* TODO: Figure out how to do playlists and albums
-        /  Possibly place in different method and return an ArrayList?
-        /  MusicCommands.sendAdded will enable/disable "added to queue" messages
-        */
     // Get Tracks from Playlist/Album
     public static ArrayList<String> getTracks(String query) {
         ArrayList<String> tracks = new ArrayList<>();

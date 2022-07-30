@@ -134,6 +134,7 @@ public class MusicCommands extends ListenerAdapter {
                     else if (link.contains("/playlist/"))
                     {
                         String playlistName = Spotify.searchSpotify(link);
+                        // TODO: queue tracks and disable `added to queue` with MusicCommands.sendAdded
                         ArrayList<String> playlistTracks = Spotify.getTracks(link);
                     }
                     else if (link.contains("/album/"))
