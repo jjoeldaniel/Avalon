@@ -33,6 +33,7 @@ public class CommandsRegister extends ListenerAdapter
                         .addSubcommands(dare)
                         .addSubcommands(random),
                 Commands.slash("ping", "Sends pong"),
+                Commands.slash("reload_commands", "Reloads server commands"),
                 Commands.slash("avatar", "Sends user avatar")
                         .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
 
@@ -46,7 +47,6 @@ public class CommandsRegister extends ListenerAdapter
         event.getGuild().updateCommands().addCommands(
 
                 // General
-                Commands.slash("reload_commands", "Reloads server commands"),
                 Commands.slash("afk", "Sets AFK status"),
                 Commands.slash("confess", "Sends anonymous confession"),
 

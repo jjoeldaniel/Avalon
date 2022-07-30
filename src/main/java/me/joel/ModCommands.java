@@ -2,14 +2,12 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -28,59 +26,37 @@ public class ModCommands extends ListenerAdapter
                 {
                     try
                     {
-                        // general commands
-                        Objects.requireNonNull(event.getGuild()).upsertCommand("whois", "Provides user information")
-                                .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true)
-                                .queue();
+                    Objects.requireNonNull(event.getGuild()).updateCommands().addCommands(
 
-                        event.getGuild().upsertCommand("confess", "Posts an anonymous confession")
-                                .addOption(OptionType.STRING, "message", "Confession message", true)
-                                .queue();
+                        // General
+                        Commands.slash("afk", "Sets AFK status"),
+                        Commands.slash("confess", "Sends anonymous confession"),
 
-                        event.getGuild().upsertCommand("afk", "Enables/disables AFK status")
-                                .queue();
-                        // music commands
-                        event.getGuild().upsertCommand("play", "Requests a song")
-                                .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true)
-                                .queue();
+                        // Mod
+                        Commands.slash("kick", "Kicks selected user")
+                            .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false),
+                        Commands.slash("ban", "Bans selected user")
+                            .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false),
+                        Commands.slash("timeout", "Time-outs selected user")
+                            .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false),
+                        Commands.slash("broadcast", "Broadcasts message in selected channel")
+                            .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true),
+                        Commands.slash("purge", "Purges up to 100 messages")
+                            .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true),
+                        Commands.slash("reload_commands", "Reloads bot commands (in case of commands not appearing)"),
 
-                        event.getGuild().upsertCommand("pause", "Pause playback")
-                                .queue();
+                        // Music
+                        Commands.slash("play", "Requests a song")
+                            .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true),
+                        Commands.slash("pause", "Pause playback"),
+                        Commands.slash("resume", "Resume playback"),
+                        Commands.slash("clear", "Clears queue"),
+                        Commands.slash("skip", "Skips song"),
+                        Commands.slash("queue", "Displays music queue"),
+                        Commands.slash("playing", "Displays currently playing song"),
+                        Commands.slash("loop", "Loops currently playing song")
 
-                        event.getGuild().upsertCommand("resume", "Resume playback")
-                                .queue();
-
-                        event.getGuild().upsertCommand("clear", "Clears queue")
-                                .queue();
-
-                        event.getGuild().upsertCommand("skip", "Skips song")
-                                .queue();
-
-                        event.getGuild().upsertCommand("queue", "Displays music queue")
-                                .queue();
-
-                        event.getGuild().upsertCommand("playing", "Displays currently playing song")
-                                .queue();
-                        // mod commands
-                        event.getGuild().upsertCommand("kick", "Kicks selected user")
-                                .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false)
-                                .queue();
-
-                        event.getGuild().upsertCommand("ban", "Bans selected user")
-                                .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false)
-                                .queue();
-
-                        event.getGuild().upsertCommand("timeout", "Time-outs selected user")
-                                .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false)
-                                .queue();
-
-                        event.getGuild().upsertCommand("broadcast", "Broadcasts message in selected channel")
-                                .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true)
-                                .queue();
-
-                        event.getGuild().upsertCommand("purge", "Purges up to 100 messages")
-                                .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true)
-                                .queue();
+                    ).queue();
 
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setDescription("Commands have been reloaded!")
