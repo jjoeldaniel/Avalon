@@ -4,6 +4,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -589,6 +591,27 @@ public class MusicCommands extends ListenerAdapter {
             }
         } catch (Exception e) {
             event.getHook().sendMessageEmbeds(Util.genericError().build()).queue();
+        }
+    }
+
+    // Deafens bot on vc join
+    @Override
+    public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
+
+        // If JDA
+        if (event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
+            Member member = event.getGuild().getSelfMember();
+            member.deafen(true).queue();
+        }
+    }
+
+    // Deafens bot if bot is deafened
+    @Override
+    public void onGuildVoiceGuildDeafen(@NotNull GuildVoiceGuildDeafenEvent event) {
+        // If JDA
+        if (event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
+            Member member = event.getGuild().getSelfMember();
+            member.deafen(true).queue();
         }
     }
 
