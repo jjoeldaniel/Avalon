@@ -38,249 +38,121 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(MessageChannelUnion channel, String trackURL) {
+    public void loadAndPlay(MessageChannelUnion channel, String trackURL, Guild guild) {
 
-        VoiceChannel voiceChannel;
-        TextChannel textChannel;
+        final GuildMusicManager musicManager = this.getMusicManager(guild);
 
-        // define type
-        if (channel.getType() == ChannelType.TEXT) {
-            textChannel = channel.asTextChannel();
-            final GuildMusicManager musicManager = this.getMusicManager(textChannel.getGuild());
+        this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
 
-            this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
+            @Override
+            public void trackLoaded(AudioTrack audioTrack) {
+                musicManager.scheduler.queue(audioTrack);
 
-                @Override
-                public void trackLoaded(AudioTrack audioTrack) {
-                    musicManager.scheduler.queue(audioTrack);
+                EmbedBuilder builder = addedTrackToQueue(audioTrack, musicManager.scheduler.queue.size());
+                if (musicManager.scheduler.queue.size() <= 0) {
+                    builder.setAuthor(("Added to queue"));
+                }
+                channel.sendMessageEmbeds(builder.build()).queue();
+            }
 
+            @Override
+            public void playlistLoaded(AudioPlaylist audioPlaylist) {
+
+                // tracks
+                if (!MusicCommands.isURL(trackURL)) {
+                    final List<AudioTrack> tracks = audioPlaylist.getTracks();
+                    if (!tracks.isEmpty()) {
+                        musicManager.scheduler.queue(tracks.get(0));
+                    }
+
+                    AudioTrack audioTrack = tracks.get(0);
                     EmbedBuilder builder = addedTrackToQueue(audioTrack, musicManager.scheduler.queue.size());
                     if (musicManager.scheduler.queue.size() <= 0) {
                         builder.setAuthor(("Added to queue"));
                     }
-                    textChannel.sendMessageEmbeds(builder.build()).queue();
+                    channel.sendMessageEmbeds(builder.build()).queue();
+                    return;
                 }
 
-                @Override
-                public void playlistLoaded(AudioPlaylist audioPlaylist) {
-
-                    // tracks
-                    if (!MusicCommands.isURL(trackURL)) {
-                        final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                        if (!tracks.isEmpty()) {
-                            musicManager.scheduler.queue(tracks.get(0));
-                        }
-
-                        AudioTrack audioTrack = tracks.get(0);
-                        EmbedBuilder builder = addedTrackToQueue(audioTrack, musicManager.scheduler.queue.size());
-                        if (musicManager.scheduler.queue.size() <= 0) {
-                            builder.setAuthor(("Added to queue"));
-                        }
-                        textChannel.sendMessageEmbeds(builder.build()).queue();
-                        return;
-                    }
-
-                    // playlists
-                    for (AudioTrack track : audioPlaylist.getTracks()) {
-                        musicManager.scheduler.queue(track);
-                    }
-
-                    final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                    if (!tracks.isEmpty()) {
-                        musicManager.scheduler.queue(tracks.get(0));
-
-                        // Thumbnail
-                        String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
-
-                        // Playlist size
-                        int playlistSize = audioPlaylist.getTracks().size();
-
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setAuthor("Playlist queued")
-                                .setTitle(audioPlaylist.getName())
-                                .setDescription("`[" + playlistSize + "] songs`")
-                                .setThumbnail(trackThumbnail)
-                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
-                                .setFooter("Use /help for a list of music commands!");
-
-                        textChannel.sendMessageEmbeds(builder.build()).queue();
-                    }
+                // playlists
+                for (AudioTrack track : audioPlaylist.getTracks()) {
+                    musicManager.scheduler.queue(track);
                 }
 
-                @Override
-                public void noMatches() {
+                final List<AudioTrack> tracks = audioPlaylist.getTracks();
+                if (!tracks.isEmpty()) {
+                    musicManager.scheduler.queue(tracks.get(0));
+
+                    // Thumbnail
+                    String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
+
+                    // Playlist size
+                    int playlistSize = audioPlaylist.getTracks().size();
+
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setDescription("No song(s) found!")
+                            .setAuthor("Playlist queued")
+                            .setTitle(audioPlaylist.getName())
+                            .setDescription("`[" + playlistSize + "] songs`")
+                            .setThumbnail(trackThumbnail)
+                            .addField("Requested by:", MusicCommands.member.getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
 
-                    textChannel.sendMessageEmbeds(builder.build()).queue();
+                    channel.sendMessageEmbeds(builder.build()).queue();
                 }
+            }
 
-                @Override
-                public void loadFailed(FriendlyException e) {
+            @Override
+            public void noMatches() {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("No song(s) found!");
 
-                }
-            });
-        } else if (channel.getType() == ChannelType.VOICE) {
-            voiceChannel = channel.asVoiceChannel();
-            final GuildMusicManager musicManager = this.getMusicManager(voiceChannel.getGuild());
+                channel.sendMessageEmbeds(builder.build()).queue();
+            }
 
-            this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
+            @Override
+            public void loadFailed(FriendlyException e) {
 
-                @Override
-                public void trackLoaded(AudioTrack audioTrack) {
-                    musicManager.scheduler.queue(audioTrack);
-
-                    EmbedBuilder builder = addedTrackToQueue(audioTrack, musicManager.scheduler.queue.size());
-                    if (musicManager.scheduler.queue.size() <= 0) {
-                        builder.setAuthor(("Added to queue"));
-                    }
-                    voiceChannel.sendMessageEmbeds(builder.build()).queue();
-                }
-
-                @Override
-                public void playlistLoaded(AudioPlaylist audioPlaylist) {
-
-                    // tracks
-                    if (!MusicCommands.isURL(trackURL)) {
-                        final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                        if (!tracks.isEmpty()) {
-                            musicManager.scheduler.queue(tracks.get(0));
-                        }
-
-                        AudioTrack audioTrack = tracks.get(0);
-                        EmbedBuilder builder = addedTrackToQueue(audioTrack, musicManager.scheduler.queue.size());
-                        if (musicManager.scheduler.queue.size() <= 0) {
-                            builder.setAuthor(("Added to queue"));
-                        }
-                        voiceChannel.sendMessageEmbeds(builder.build()).queue();
-                        return;
-                    }
-
-                    // playlists
-                    for (AudioTrack track : audioPlaylist.getTracks()) {
-                        musicManager.scheduler.queue(track);
-                    }
-
-                    final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                    if (!tracks.isEmpty()) {
-                        musicManager.scheduler.queue(tracks.get(0));
-
-                        // Thumbnail
-                        String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
-
-                        // Playlist size
-                        int playlistSize = audioPlaylist.getTracks().size();
-
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setAuthor("Playlist queued")
-                                .setTitle(audioPlaylist.getName())
-                                .setDescription("`[" + playlistSize + "] songs`")
-                                .setThumbnail(trackThumbnail)
-                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
-                                .setFooter("Use /help for a list of music commands!");
-
-                        voiceChannel.sendMessageEmbeds(builder.build()).queue();
-                    }
-                }
-
-                @Override
-                public void noMatches() {
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("No song(s) found!");
-
-                    voiceChannel.sendMessageEmbeds(builder.build()).queue();
-                }
-
-                @Override
-                public void loadFailed(FriendlyException e) {
-
-                }
-            });
-        }
+            }
+        });
 
     }
 
-    public void loadAndPlay_SpotifyPlaylists(MessageChannelUnion channel, String trackURL) {
+    public void loadAndPlaySpotify(MessageChannelUnion channel, String trackURL, Guild guild) {
 
-        VoiceChannel voiceChannel;
-        TextChannel textChannel;
+        final GuildMusicManager musicManager = this.getMusicManager(guild);
 
-        // define type
-        if (channel.getType() == ChannelType.TEXT) {
-            textChannel = channel.asTextChannel();
-            final GuildMusicManager musicManager = this.getMusicManager(textChannel.getGuild());
+        this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
 
-            this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
+            @Override
+            public void trackLoaded(AudioTrack audioTrack) {
+                musicManager.scheduler.queue(audioTrack);
+            }
 
-                @Override
-                public void trackLoaded(AudioTrack audioTrack) {
-                    musicManager.scheduler.queue(audioTrack);
+            @Override
+            public void playlistLoaded(AudioPlaylist audioPlaylist) {
+                final List<AudioTrack> tracks = audioPlaylist.getTracks();
+                if (!tracks.isEmpty()) {
+                    musicManager.scheduler.queue(tracks.get(0));
                 }
+            }
 
-                @Override
-                public void playlistLoaded(AudioPlaylist audioPlaylist) {
-                    final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                    if (!tracks.isEmpty()) {
-                        musicManager.scheduler.queue(tracks.get(0));
-                    }
-                }
+            @Override
+            public void noMatches() {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("No song found!")
+                        .setFooter("Use /help for a list of music commands!");
 
-                @Override
-                public void noMatches() {
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("No song found!")
-                            .setFooter("Use /help for a list of music commands!");
+                channel.sendMessageEmbeds(builder.build()).queue();
+            }
 
-                    textChannel.sendMessageEmbeds(builder.build()).queue();
-                }
+            @Override
+            public void loadFailed(FriendlyException e) {
 
-                @Override
-                public void loadFailed(FriendlyException e) {
-
-                }
-            });
-        } else if (channel.getType() == ChannelType.VOICE) {
-            voiceChannel = channel.asVoiceChannel();
-            final GuildMusicManager musicManager = this.getMusicManager(voiceChannel.getGuild());
-
-            this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
-
-                @Override
-                public void trackLoaded(AudioTrack audioTrack) {
-                    musicManager.scheduler.queue(audioTrack);
-                }
-
-                @Override
-                public void playlistLoaded(AudioPlaylist audioPlaylist) {
-
-                    final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                    if (!tracks.isEmpty()) {
-                        musicManager.scheduler.queue(tracks.get(0));
-                    }
-                }
-
-                @Override
-                public void noMatches() {
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("No song found!");
-
-                    voiceChannel.sendMessageEmbeds(builder.build()).queue();
-                }
-
-                @Override
-                public void loadFailed(FriendlyException e) {
-
-                }
-            });
-        }
-
+            }
+        });
     }
 
     public static PlayerManager getINSTANCE() {
