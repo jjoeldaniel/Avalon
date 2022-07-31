@@ -136,7 +136,7 @@ public class MusicCommands extends ListenerAdapter {
 
                         // Plays song
                         try {
-                            PlayerManager.getINSTANCE().loadAndPlay_NoURI(messageChannelUnion, link);
+                            PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
                         } catch (Exception e) {
                             event.getHook().sendMessageEmbeds(Util.genericError().build()).queue();
                             return;
@@ -195,10 +195,11 @@ public class MusicCommands extends ListenerAdapter {
                     link = ("ytsearch:" + link + " audio");
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
+                    System.out.println("\nnot url");
 
                     // Plays song
                     try {
-                        PlayerManager.getINSTANCE().loadAndPlay_NoURI(messageChannelUnion, link);
+                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
                     } catch (Exception e) {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
@@ -209,6 +210,7 @@ public class MusicCommands extends ListenerAdapter {
                 else {
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
+                    System.out.println("\nvalid url");
 
                     // Plays song
                     try {
@@ -224,10 +226,6 @@ public class MusicCommands extends ListenerAdapter {
                         .setColor(Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
                 event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
-                Util.wait(500);
-                if (bot.getVoiceState().inAudioChannel()) {
-                    event.getGuild().deafen(bot, true).queue();
-                }
                 event.getHook().deleteOriginal().queue();
             }
 
@@ -611,10 +609,14 @@ public class MusicCommands extends ListenerAdapter {
         // If JDA
         if (event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
             Member member = event.getGuild().getSelfMember();
-            member.deafen(true).queue();
+            if (Objects.requireNonNull(member.getVoiceState()).inAudioChannel()) {
+                Util.wait(500);
+                member.deafen(true).queue();
+            }
         }
     }
 
+    // Button Interactions
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
         if (!event.isFromGuild()) return;
@@ -989,6 +991,7 @@ public class MusicCommands extends ListenerAdapter {
         }
     }
 
+    // Sends `now playing` message to channel along with currentTrack
     public static void sendNowPlaying(AudioTrack currentTrack, MessageChannelUnion channel) {
         setSendNowPlaying(false);
 
@@ -1012,17 +1015,18 @@ public class MusicCommands extends ListenerAdapter {
         channel.sendMessageEmbeds(builder.build()).queue();
     }
 
+    // Returns event channel
     public static MessageChannelUnion returnChannel() {
         return messageChannelUnion;
     }
 
+    // Enables/disables `now playing` message
     public static void setSendNowPlaying(boolean bool) {
         sendNowPlaying = bool;
     }
 
-
-    // Validates links
-    public boolean isURL(String url) {
+    // Returns true if url is valid
+    public static boolean isURL(String url) {
         try {
             new URI(url);
             return true;
