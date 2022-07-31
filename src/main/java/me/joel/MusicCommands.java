@@ -136,7 +136,7 @@ public class MusicCommands extends ListenerAdapter {
 
                         // Plays song
                         try {
-                            PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
+                            PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
                         } catch (Exception e) {
                             event.getHook().sendMessageEmbeds(Util.genericError().build()).queue();
                             return;
@@ -150,7 +150,7 @@ public class MusicCommands extends ListenerAdapter {
                             // Joins VC
                             audioManager.openAudioConnection(memberChannel);
 
-                            PlayerManager.getINSTANCE().loadAndPlay_SpotifyPlaylists(messageChannelUnion, ("ytsearch:" + i + " audio"));
+                            PlayerManager.getINSTANCE().loadAndPlaySpotify(messageChannelUnion, ("ytsearch:" + i + " audio"), event.getGuild());
                         }
 
                         EmbedBuilder builder = new EmbedBuilder()
@@ -173,7 +173,7 @@ public class MusicCommands extends ListenerAdapter {
                             // Joins VC
                             audioManager.openAudioConnection(memberChannel);
 
-                            PlayerManager.getINSTANCE().loadAndPlay_SpotifyPlaylists(messageChannelUnion, ("ytsearch:" + i + " audio"));
+                            PlayerManager.getINSTANCE().loadAndPlaySpotify(messageChannelUnion, ("ytsearch:" + i + " audio"), event.getGuild());
                         }
 
                         EmbedBuilder builder = new EmbedBuilder()
@@ -195,11 +195,9 @@ public class MusicCommands extends ListenerAdapter {
                     link = ("ytsearch:" + link + " audio");
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
-                    System.out.println("\nnot url");
-
                     // Plays song
                     try {
-                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
+                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
                     } catch (Exception e) {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
@@ -210,11 +208,9 @@ public class MusicCommands extends ListenerAdapter {
                 else {
                     // Joins VC
                     audioManager.openAudioConnection(memberChannel);
-                    System.out.println("\nvalid url");
-
                     // Plays song
                     try {
-                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link);
+                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
                     } catch (Exception e) {
                         event.replyEmbeds(Util.genericError().build()).queue();
                         return;
