@@ -587,6 +587,7 @@ public class MusicCommands extends ListenerAdapter {
                             .queue();
                 }
             }
+
         } catch (Exception e) {
             event.getHook().sendMessageEmbeds(Util.genericError().build()).queue();
         }
