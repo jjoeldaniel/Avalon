@@ -139,7 +139,7 @@ public class Spotify {
                 final Paging<PlaylistTrack> playlistTrackPaging = pagingFuture.join();
 
                 // Add tracks to list
-                for (int i = 0; i < playlistTrackPaging.getTotal(); i++) {
+                for (int i = 0; i < 99 && i < playlistTrackPaging.getTotal(); i++) {
                     String trackName = (playlistTrackPaging.getItems()[i].getTrack().getName());
 
                     // Get artist name
