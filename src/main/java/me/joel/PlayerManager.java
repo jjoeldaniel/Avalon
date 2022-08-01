@@ -95,7 +95,7 @@ public class PlayerManager {
                             .setTitle(audioPlaylist.getName())
                             .setDescription("`[" + playlistSize + "] songs`")
                             .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                            .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
 
                     channel.sendMessageEmbeds(builder.build()).queue();
@@ -178,7 +178,7 @@ public class PlayerManager {
                 .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
                 .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                 .setThumbnail(trackThumbnail)
-                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
                 .setFooter("Use /help for a list of music commands!");
     }
 

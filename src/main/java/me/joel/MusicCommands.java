@@ -21,18 +21,28 @@ import java.util.Objects;
 
 public class MusicCommands extends ListenerAdapter {
 
-    static Member member;
+    private static Member member;
     EmbedBuilder queue = new EmbedBuilder();
     List<AudioTrack> playlist;
     int queueSize;
     static boolean sendNowPlaying = false;
-    static MessageChannelUnion messageChannelUnion;
+    private static MessageChannelUnion messageChannelUnion;
+
+    public static Member getMember() {
+        return member;
+    }
 
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        // check if event is not from guild
         if (!event.isFromGuild()) return;
 
+        // JDA audioManager, NOT lava player
         final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+
+        // gets event member
         member = event.getMember();
+
+        // paw bot
         Member bot = event.getGuild().getMemberById("971239438892019743");
         assert bot != null;
 
@@ -159,7 +169,7 @@ public class MusicCommands extends ListenerAdapter {
                                 .setTitle(playlistName, link)
                                 .setDescription("`[" + playlistTracks.size() + "] songs`")
                                 .setThumbnail(Spotify.getPlaylistThumbnail())
-                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
                                 .setFooter("Use /help for a list of music commands!");
 
                         event.getHook().sendMessageEmbeds(builder.build()).queue();
@@ -182,7 +192,7 @@ public class MusicCommands extends ListenerAdapter {
                                 .setTitle(albumName, link)
                                 .setDescription("`[" + albumTracks.size() + "] songs`")
                                 .setThumbnail(Spotify.getAlbumThumbnail())
-                                .addField("Requested by:", MusicCommands.member.getAsMention(), false)
+                                .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
                                 .setFooter("Use /help for a list of music commands!");
 
                         event.getHook().sendMessageEmbeds(builder.build()).queue();
