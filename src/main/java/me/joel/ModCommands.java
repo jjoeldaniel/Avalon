@@ -132,7 +132,9 @@ public class ModCommands extends ListenerAdapter {
      * @return Result EmbedBuilder
      */
     public EmbedBuilder reloadCommands (Guild guild) {
+
         try {
+
             guild.updateCommands().addCommands(
 
                     // General
@@ -170,16 +172,12 @@ public class ModCommands extends ListenerAdapter {
                     .setThumbnail(guild.getSelfMember().getEffectiveAvatarUrl());
 
         } catch (Exception exception) {
-
-            return new EmbedBuilder()
-                    .addField("An error has occurred attempting to reload commands!", "If this persists, try re-adding the bot to the server!", false)
-                    .setColor(Util.randColor())
-                    .setThumbnail(guild.getSelfMember().getEffectiveAvatarUrl());
+            return Util.genericError();
         }
     }
 
     /**
-     *  Insufficient permissions response
+     *  Insufficient permissions embed
      */
     public EmbedBuilder noPermissions() {
         return new EmbedBuilder()
