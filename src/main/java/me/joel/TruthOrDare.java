@@ -2,6 +2,9 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 
+/**
+ * Utility methods for Truth or Dare
+ */
 public class TruthOrDare {
 
     /**
