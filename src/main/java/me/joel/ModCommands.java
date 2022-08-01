@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -12,7 +11,6 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class ModCommands extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -27,13 +25,13 @@ public class ModCommands extends ListenerAdapter {
                             .setColor(Util.randColor())
                             .setFooter("Use /help for the commands list");
 
-                    event.replyEmbeds(builder.build()).queue();
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
                 }
 
                 if (Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER)) {
                     EmbedBuilder builder = reloadCommands(event.getGuild());
-                    event.replyEmbeds(builder.build()).queue();
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
 
                 }
 
