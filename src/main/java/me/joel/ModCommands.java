@@ -19,6 +19,7 @@ public class ModCommands extends ListenerAdapter {
 
             // Reload Commands
             if (event.getName().equals("reload_commands")) {
+
                 if (!event.isFromGuild()) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("This command only works in a server!")
@@ -32,105 +33,91 @@ public class ModCommands extends ListenerAdapter {
                 if (Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER)) {
                     EmbedBuilder builder = reloadCommands(event.getGuild());
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-
                 }
-
             }
 
             // Purge
             if (event.getName().equals("purge")) {
-                try {
-                    if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) {
-                        EmbedBuilder noPerms = new EmbedBuilder()
-                                .setDescription("You don't have permission for this command!")
-                                .setColor(Util.randColor())
-                                .setFooter("Think this is an error?", "Try contacting your local server administrator/moderator!");
-                        event.replyEmbeds(noPerms.build()).queue();
-                        return;
-                    }
 
-                    int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
+                // Insufficient Permissions
+                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) {
+                    EmbedBuilder builder = noPermissions();
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
 
-                    if (amount > 100) {
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setDescription("Unable to purge over 100 messages!")
-                                .setFooter("Use /help for a list of commands!");
+                // # of messages to be purged
+                int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
 
-                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                        return;
-                    }
-                    if (event.getChannel().getType() == ChannelType.TEXT) {
-                        TextChannel textChannel = event.getChannel().asTextChannel();
-                        textChannel.getIterableHistory()
-                                .takeAsync(amount)
-                                .thenAccept(textChannel::purgeMessages);
-
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setDescription("`" + amount + "` message(s) purged!")
-                                .setFooter("Use /help for a list of commands!");
-
-                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    } else if (event.getChannel().getType() == ChannelType.VOICE) {
-                        VoiceChannel voiceChannel = event.getChannel().asVoiceChannel();
-                        voiceChannel.getIterableHistory()
-                                .takeAsync(amount)
-                                .thenAccept(voiceChannel::purgeMessages);
-
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setDescription("`" + amount + "` message(s) purged!")
-                                .setFooter("Use /help for a list of commands!");
-
-                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    }
-
-                } catch (Exception except) {
+                // Max of 100 messages
+                if (amount > 100) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
-                            .setDescription("Unable to purge messages!")
+                            .setDescription("Unable to purge over 100 messages!")
                             .setFooter("Use /help for a list of commands!");
 
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
                 }
+
+                // Text Channel
+                if (event.getChannel().getType() == ChannelType.TEXT) {
+                    TextChannel textChannel = event.getChannel().asTextChannel();
+                    textChannel.getIterableHistory()
+                            .takeAsync(amount)
+                            .thenAccept(textChannel::purgeMessages);
+                }
+
+                // Voice Channel
+                else if (event.getChannel().getType() == ChannelType.VOICE) {
+                    VoiceChannel voiceChannel = event.getChannel().asVoiceChannel();
+                    voiceChannel.getIterableHistory()
+                            .takeAsync(amount)
+                            .thenAccept(voiceChannel::purgeMessages);
+                }
+
+                // Reply
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("`" + amount + "` message(s) purged!")
+                        .setFooter("Use /help for a list of commands!");
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
 
             // Broadcast
             if (event.getName().equals("broadcast")) {
+
+                // Insufficient Permissions
                 if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && !(event.getMember().getId().equals("205862976689799168"))) {
                     EmbedBuilder builder = noPermissions();
                     event.replyEmbeds(builder.build()).queue();
                     return;
                 }
 
+                // Get channel and message
                 GuildChannelUnion channel = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
+                String message = Objects.requireNonNull(event.getOption("message")).getAsString();
 
+                // Embed
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Message sent!")
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setColor(Util.randColor())
+                        .setDescription("\"" + message + "\"");
+
+                // Text Channel
                 if (channel.getType() == ChannelType.VOICE) {
                     VoiceChannel voiceChannel = channel.asVoiceChannel();
-                    String message = Objects.requireNonNull(event.getOption("message")).getAsString();
-
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setTitle("Message sent!")
-                            .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                            .setColor(Util.randColor())
-                            .setDescription("\"" + message + "\"");
-
                     voiceChannel.sendMessage(message).queue();
-                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                } else {
-                    TextChannel textChannel = channel.asTextChannel();
-                    String message = Objects.requireNonNull(event.getOption("message")).getAsString();
-
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setTitle("Message sent!")
-                            .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                            .setColor(Util.randColor())
-                            .setDescription("\"" + message + "\"");
-
-                    textChannel.sendMessage(message).queue();
-                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
+                // Voice Channel
+                else if (channel.getType() == ChannelType.TEXT) {
+                    TextChannel textChannel = channel.asTextChannel();
+                    textChannel.sendMessage(message).queue();
+                }
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
 
         } catch (Exception e) {
