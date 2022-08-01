@@ -111,7 +111,7 @@ public class Commands extends ListenerAdapter {
             }
 
             // Truth or Dare
-            if (event.getName().equals("TruthOrDare")) {
+            if (event.getName().equals("truthordare")) {
 
                 if (Objects.equals(event.getSubcommandName(), "truth")) {
 
@@ -121,7 +121,7 @@ public class Commands extends ListenerAdapter {
                             .addActionRow(
                                     Button.success("truth", "Truth"),
                                     Button.success("dare", "Dare"),
-                                    Button.danger("randomTruthOrDare", "Random")
+                                    Button.danger("randomtruthordare", "Random")
                             )
                             .queue();
                 } else if (Objects.equals(event.getSubcommandName(), "dare")) {
@@ -132,7 +132,7 @@ public class Commands extends ListenerAdapter {
                             .addActionRow(
                                     Button.success("truth", "Truth"),
                                     Button.success("dare", "Dare"),
-                                    Button.danger("randomTruthOrDare", "Random")
+                                    Button.danger("randomtruthordare", "Random")
                             )
                             .queue();
                 } else if (Objects.equals(event.getSubcommandName(), "random")) {
@@ -144,7 +144,7 @@ public class Commands extends ListenerAdapter {
                                 .addActionRow(
                                         Button.success("truth", "Truth"),
                                         Button.success("dare", "Dare"),
-                                        Button.danger("randomTruthOrDare", "Random")
+                                        Button.danger("randomtruthordare", "Random")
                                 )
                                 .queue();
                     }
@@ -155,7 +155,7 @@ public class Commands extends ListenerAdapter {
                                 .addActionRow(
                                         Button.success("truth", "Truth"),
                                         Button.success("dare", "Dare"),
-                                        Button.danger("randomTruthOrDare", "Random")
+                                        Button.danger("randomtruthordare", "Random")
                                 )
                                 .queue();
                     }
@@ -408,7 +408,7 @@ public class Commands extends ListenerAdapter {
                         .queue();
             }
 
-            else if (event.getComponentId().equals("randomTruthOrDare")) {
+            else if (event.getComponentId().equals("randomtruthordare")) {
 
                 if (Util.randomWithRange(0, 100) > 50) {
                     EmbedBuilder builder = TruthOrDare.getDare();
@@ -417,7 +417,7 @@ public class Commands extends ListenerAdapter {
                             .addActionRow(
                                     Button.success("truth", "Truth"),
                                     Button.success("dare", "Dare"),
-                                    Button.danger("randomTruthOrDare", "Random")
+                                    Button.danger("randomtruthordare", "Random")
                             )
                             .queue();
                 }
@@ -428,7 +428,7 @@ public class Commands extends ListenerAdapter {
                             .addActionRow(
                                     Button.success("truth", "Truth"),
                                     Button.success("dare", "Dare"),
-                                    Button.danger("randomTruthOrDare", "Random")
+                                    Button.danger("randomtruthordare", "Random")
                             )
                             .queue();
                 }
