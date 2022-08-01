@@ -53,8 +53,8 @@ public class Commands extends ListenerAdapter {
                                 `/truth` : Requests truth
                                 `/dare` : Requests dare
                                 `/afk` : Sets AFK status
-                                `/avatar (user)` : Retrieves user (or target) profile picture
-                                `/8ball (message)` : Asks the magic 8ball a question
+                                `/avatar` : Retrieves target profile picture
+                                `/8ball` : Asks the magic 8ball a question
                                 `/confess` : Sends anonymous confession""", false);
 
                 event.replyEmbeds(builder.build()).setEphemeral(true)
@@ -379,8 +379,8 @@ public class Commands extends ListenerAdapter {
                                 `/truth` : Requests truth
                                 `/dare` : Requests dare
                                 `/afk` : Sets AFK status
-                                `/avatar (user)` : Retrieves user (or target) profile picture
-                                `/8ball (message)` : Asks the magic 8ball a question
+                                `/avatar` : Retrieves target profile picture
+                                `/8ball` : Asks the magic 8ball a question
                                 `/confess` : Sends anonymous confession""", false);
 
                 event.editMessageEmbeds(builder.build())
@@ -396,9 +396,9 @@ public class Commands extends ListenerAdapter {
                         .setTitle("PawBot Commands")
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("Moderation Commands", """
-                                `/purge (num)` : Purges messages (up to 100)
+                                `/purge` : Purges messages (up to 100)
                                 `/reload_commands` : Reloads bot commands (in case of commands not appearing)
-                                `/broadcast (channel) (message)` : Sends message as PawBot""", false);
+                                `/broadcast` : Sends message as PawBot""", false);
 
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
@@ -413,15 +413,15 @@ public class Commands extends ListenerAdapter {
                         .setTitle("PawBot Commands")
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("Music Commands", """
-                                `/play (song)` : Plays YouTube and Spotify links
+                                `/play` : Plays YouTube and Spotify links
                                 `/pause` : Pauses playback
                                 `/resume` : Resumes playback
                                 `/clear` : Clears queue
                                 `/queue` : Displays song queue
                                 `/playing` : Displays currently playing song
-                                `/volume (num)` : Sets volume
+                                `/volume` : Sets volume
                                 `/loop` : Loops the currently playing song until disabled/cleared/skipped
-                                `/skip (song_num)` : Skips song with an optional song number specific skip""", false);
+                                `/skip` : Skips song with an optional song number specific skip""", false);
 
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
