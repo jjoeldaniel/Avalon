@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 public class TruthOrDare {
 
     /**
-     * Truth or Dare Generator
+     * Truth Generator
      * @return Random truth
      */
     private static String truth() {
@@ -118,7 +118,7 @@ public class TruthOrDare {
     }
 
     /**
-     * Truth or Dare Generator
+     * Dare Generator
      * @return Random dare
      */
     private static String dare() {
@@ -154,7 +154,7 @@ public class TruthOrDare {
     }
 
     /**
-     * Truth or Dare Embed
+     * Embed Generator
      * @return Truth embed
      */
     public static EmbedBuilder getTruth() {
@@ -169,7 +169,7 @@ public class TruthOrDare {
     }
 
     /**
-     * Truth or Dare Embed
+     * Embed Generator
      * @return Dare embed
      */
     public static EmbedBuilder getDare() {
