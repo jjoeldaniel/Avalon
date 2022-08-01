@@ -49,7 +49,8 @@ public class CommandsRegister extends ListenerAdapter {
                 Commands.slash("whois", "Provides user information")
                         .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true),
                 Commands.slash("afk", "Sets AFK status"),
-                Commands.slash("confess", "Sends anonymous confession"),
+                Commands.slash("confess", "Sends anonymous confession")
+                        .addOption(OptionType.STRING, "message", "Confession message", true),
 
                 // Mod
                 Commands.slash("kick", "Kicks selected user")
