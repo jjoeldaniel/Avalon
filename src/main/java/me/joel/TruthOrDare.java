@@ -2,7 +2,7 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 
-public class truthordare {
+public class TruthOrDare {
 
     /**
      * Truth or Dare Generator

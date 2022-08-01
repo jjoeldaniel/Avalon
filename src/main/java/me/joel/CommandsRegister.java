@@ -27,7 +27,7 @@ public class CommandsRegister extends ListenerAdapter {
                 Commands.slash("8ball", "Asks the magic 8ball a question")
                         .addOption(OptionType.STRING, "question", "Your question to the 8ball", true),
                 Commands.slash("coinflip", "Flips a coin for heads or tails"),
-                Commands.slash("truthordare", "Generates a random truth/dare question")
+                Commands.slash("TruthOrDare", "Generates a random truth/dare question")
                         .addSubcommands(truth)
                         .addSubcommands(dare)
                         .addSubcommands(random),

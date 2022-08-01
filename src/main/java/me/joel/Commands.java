@@ -111,11 +111,11 @@ public class Commands extends ListenerAdapter {
             }
 
             // Truth or Dare
-            if (event.getName().equals("truthordare")) {
+            if (event.getName().equals("TruthOrDare")) {
 
                 if (Objects.equals(event.getSubcommandName(), "truth")) {
 
-                    EmbedBuilder builder = truthordare.getTruth();
+                    EmbedBuilder builder = TruthOrDare.getTruth();
 
                     event.replyEmbeds(builder.build())
                             .addActionRow(
@@ -126,7 +126,7 @@ public class Commands extends ListenerAdapter {
                             .queue();
                 } else if (Objects.equals(event.getSubcommandName(), "dare")) {
 
-                    EmbedBuilder builder = truthordare.getDare();
+                    EmbedBuilder builder = TruthOrDare.getDare();
 
                     event.replyEmbeds(builder.build())
                             .addActionRow(
@@ -138,7 +138,7 @@ public class Commands extends ListenerAdapter {
                 } else if (Objects.equals(event.getSubcommandName(), "random")) {
 
                     if (Util.randomWithRange(0, 100) > 50) {
-                        EmbedBuilder builder = truthordare.getDare();
+                        EmbedBuilder builder = TruthOrDare.getDare();
 
                         event.replyEmbeds(builder.build())
                                 .addActionRow(
@@ -149,7 +149,7 @@ public class Commands extends ListenerAdapter {
                                 .queue();
                     }
                     else {
-                        EmbedBuilder builder = truthordare.getTruth();
+                        EmbedBuilder builder = TruthOrDare.getTruth();
 
                         event.replyEmbeds(builder.build())
                                 .addActionRow(
@@ -385,7 +385,7 @@ public class Commands extends ListenerAdapter {
         }
 
             if (event.getComponentId().equals("truth")) {
-                EmbedBuilder builder = truthordare.getTruth();
+                EmbedBuilder builder = TruthOrDare.getTruth();
 
                 event.replyEmbeds(builder.build())
                         .addActionRow(
@@ -397,7 +397,7 @@ public class Commands extends ListenerAdapter {
             }
 
             else if (event.getComponentId().equals("dare")) {
-                EmbedBuilder builder = truthordare.getDare();
+                EmbedBuilder builder = TruthOrDare.getDare();
 
                 event.replyEmbeds(builder.build())
                         .addActionRow(
@@ -411,7 +411,7 @@ public class Commands extends ListenerAdapter {
             else if (event.getComponentId().equals("randomTruthOrDare")) {
 
                 if (Util.randomWithRange(0, 100) > 50) {
-                    EmbedBuilder builder = truthordare.getDare();
+                    EmbedBuilder builder = TruthOrDare.getDare();
 
                     event.replyEmbeds(builder.build())
                             .addActionRow(
@@ -422,7 +422,7 @@ public class Commands extends ListenerAdapter {
                             .queue();
                 }
                 else {
-                    EmbedBuilder builder = truthordare.getTruth();
+                    EmbedBuilder builder = TruthOrDare.getTruth();
 
                     event.replyEmbeds(builder.build())
                             .addActionRow(
