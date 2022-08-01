@@ -396,9 +396,6 @@ public class Commands extends ListenerAdapter {
                         .setTitle("PawBot Commands")
                         .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                         .addField("Moderation Commands", """
-                                `/kick (user) (reason)` : Kicks user with optional reason
-                                `/ban (user) (reason)` : Bans user with optional reason
-                                `/timeout (user) (length)` : Times out user (Default: 1hr)
                                 `/purge (num)` : Purges messages (up to 100)
                                 `/reload_commands` : Reloads bot commands (in case of commands not appearing)
                                 `/broadcast (channel) (message)` : Sends message as PawBot""", false);

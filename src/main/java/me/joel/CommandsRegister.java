@@ -53,12 +53,6 @@ public class CommandsRegister extends ListenerAdapter {
                         .addOption(OptionType.STRING, "message", "Confession message", true),
 
                 // Mod
-                Commands.slash("kick", "Kicks selected user")
-                        .addOption(OptionType.MENTIONABLE, "user", "Kicks selected user", true).addOption(OptionType.STRING, "reason", "Optional kick reason", false),
-                Commands.slash("ban", "Bans selected user")
-                        .addOption(OptionType.MENTIONABLE, "user", "Bans selected user", true).addOption(OptionType.STRING, "reason", "Optional ban reason", false),
-                Commands.slash("timeout", "Time-outs selected user")
-                        .addOption(OptionType.MENTIONABLE, "user", "Times out selected user", true).addOption(OptionType.INTEGER, "length", "Time in hours", false),
                 Commands.slash("broadcast", "Broadcasts message in selected channel")
                         .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true),
                 Commands.slash("purge", "Purges up to 100 messages")
