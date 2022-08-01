@@ -40,22 +40,10 @@ public class Commands extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         try {
+
             // Help
             if (event.getName().equals("help")) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setTitle("PawBot Commands")
-                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
-                        .addField("General Commands", """
-                                `/help` : Lists commands
-                                `/ping` : Pings bot
-                                `/coinflip` Flips a coin
-                                `/truth` : Requests truth
-                                `/dare` : Requests dare
-                                `/afk` : Sets AFK status
-                                `/avatar` : Retrieves target profile picture
-                                `/8ball` : Asks the magic 8ball a question
-                                `/confess` : Sends anonymous confession""", false);
+                EmbedBuilder builder = help(1);
 
                 event.replyEmbeds(builder.build()).setEphemeral(true)
                         .addActionRow(
@@ -65,6 +53,7 @@ public class Commands extends ListenerAdapter {
                                 Button.link(inviteLink, "Invite"))
                         .queue();
             }
+
             // Coin Flip
             if (event.getName().equals("coinflip")) {
                 String flip;
@@ -75,6 +64,7 @@ public class Commands extends ListenerAdapter {
                         .setColor(Util.randColor());
                 event.replyEmbeds(coin.build()).queue();
             }
+
             // Ping
             if (event.getName().equals("ping")) {
                 EmbedBuilder ping = new EmbedBuilder()
@@ -82,6 +72,7 @@ public class Commands extends ListenerAdapter {
                         .setColor(Util.randColor());
                 event.replyEmbeds(ping.build()).setEphemeral(true).queue();
             }
+
             // 8Ball
             if (event.getName().equals("8ball")) {
                 int randomResult = Util.randomWithRange(1, 19);
@@ -118,18 +109,15 @@ public class Commands extends ListenerAdapter {
 
                 event.replyEmbeds(ball.build()).queue();
             }
+
             // Truth or Dare
             if (event.getName().equals("truthordare")) {
 
                 if (Objects.equals(event.getSubcommandName(), "truth")) {
-                    String truth = truthordare.truth();
 
-                    EmbedBuilder truthNotDare = new EmbedBuilder()
-                            .setTitle("Truth or Dare")
-                            .addField("Truth: ", truth, false)
-                            .setColor(Util.randColor());
+                    EmbedBuilder builder = truthordare.getTruth();
 
-                    event.replyEmbeds(truthNotDare.build())
+                    event.replyEmbeds(builder.build())
                             .addActionRow(
                                     Button.success("truth", "Truth"),
                                     Button.success("dare", "Dare"),
@@ -137,14 +125,10 @@ public class Commands extends ListenerAdapter {
                             )
                             .queue();
                 } else if (Objects.equals(event.getSubcommandName(), "dare")) {
-                    String dare = truthordare.dare();
 
-                    EmbedBuilder dareNotTruth = new EmbedBuilder()
-                            .setTitle("Truth or Dare")
-                            .addField("Dare: ", dare, false)
-                            .setColor(Util.randColor());
+                    EmbedBuilder builder = truthordare.getDare();
 
-                    event.replyEmbeds(dareNotTruth.build())
+                    event.replyEmbeds(builder.build())
                             .addActionRow(
                                     Button.success("truth", "Truth"),
                                     Button.success("dare", "Dare"),
@@ -152,28 +136,22 @@ public class Commands extends ListenerAdapter {
                             )
                             .queue();
                 } else if (Objects.equals(event.getSubcommandName(), "random")) {
-                    if (Util.randomWithRange(0, 100) > 50) {
-                        String dare = truthordare.dare();
-                        EmbedBuilder dareNotTruth = new EmbedBuilder()
-                                .setTitle("Truth or Dare")
-                                .addField("Dare: ", dare, false)
-                                .setColor(Util.randColor());
 
-                        event.replyEmbeds(dareNotTruth.build())
+                    if (Util.randomWithRange(0, 100) > 50) {
+                        EmbedBuilder builder = truthordare.getDare();
+
+                        event.replyEmbeds(builder.build())
                                 .addActionRow(
                                         Button.success("truth", "Truth"),
                                         Button.success("dare", "Dare"),
                                         Button.danger("randomTruthOrDare", "Random")
                                 )
                                 .queue();
-                    } else {
-                        String truth = truthordare.truth();
-                        EmbedBuilder truthNotDare = new EmbedBuilder()
-                                .setTitle("Truth or Dare")
-                                .addField("Truth: ", truth, false)
-                                .setColor(Util.randColor());
+                    }
+                    else {
+                        EmbedBuilder builder = truthordare.getTruth();
 
-                        event.replyEmbeds(truthNotDare.build())
+                        event.replyEmbeds(builder.build())
                                 .addActionRow(
                                         Button.success("truth", "Truth"),
                                         Button.success("dare", "Dare"),
@@ -183,6 +161,7 @@ public class Commands extends ListenerAdapter {
                     }
                 }
             }
+
             // Avatar
             if (event.getName().equals("avatar")) {
                 String targetName;
@@ -219,6 +198,7 @@ public class Commands extends ListenerAdapter {
 
                 event.replyEmbeds(avatar.build()).queue();
             }
+
             // Confess
             if (event.getName().equals("confess")) {
                 String message = Objects.requireNonNull(event.getOption("message")).getAsString();
@@ -274,6 +254,7 @@ public class Commands extends ListenerAdapter {
                     event.replyEmbeds(confessionError.build()).setEphemeral(true).queue();
                 }
             }
+
             // Whois Command
             if (event.getName().equals("whois")) {
                 Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
@@ -300,6 +281,7 @@ public class Commands extends ListenerAdapter {
                 event.replyEmbeds(whois.build()).queue();
 
             }
+
             // AFK
             if (event.getName().equals("afk")) {
 
@@ -357,6 +339,7 @@ public class Commands extends ListenerAdapter {
                 }
 
             }
+
         } catch (Exception e) {
             event.replyEmbeds(Util.genericError().build()).setEphemeral(true).queue();
         }
@@ -367,21 +350,9 @@ public class Commands extends ListenerAdapter {
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
 
         if (event.getComponentId().startsWith("help")) {
+
             if (event.getComponentId().equals("helpGeneral")) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setTitle("PawBot Commands")
-                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
-                        .addField("General Commands", """
-                                `/help` : Lists commands
-                                `/ping` : Pings bot
-                                `/coinflip` Flips a coin
-                                `/truth` : Requests truth
-                                `/dare` : Requests dare
-                                `/afk` : Sets AFK status
-                                `/avatar` : Retrieves target profile picture
-                                `/8ball` : Asks the magic 8ball a question
-                                `/confess` : Sends anonymous confession""", false);
+                EmbedBuilder builder = help(1);
 
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
@@ -391,14 +362,7 @@ public class Commands extends ListenerAdapter {
                                 Button.link(inviteLink, "Invite"))
                         .queue();
             } else if (event.getComponentId().equals("helpMod")) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setTitle("PawBot Commands")
-                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
-                        .addField("Moderation Commands", """
-                                `/purge` : Purges messages (up to 100)
-                                `/reload_commands` : Reloads bot commands (in case of commands not appearing)
-                                `/broadcast` : Sends message as PawBot""", false);
+                EmbedBuilder builder = help(2);
 
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
@@ -408,20 +372,7 @@ public class Commands extends ListenerAdapter {
                                 Button.link(inviteLink, "Invite"))
                         .queue();
             } else if (event.getComponentId().equals("helpMusic")) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setTitle("PawBot Commands")
-                        .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
-                        .addField("Music Commands", """
-                                `/play` : Plays YouTube and Spotify links
-                                `/pause` : Pauses playback
-                                `/resume` : Resumes playback
-                                `/clear` : Clears queue
-                                `/queue` : Displays song queue
-                                `/playing` : Displays currently playing song
-                                `/volume` : Sets volume
-                                `/loop` : Loops the currently playing song
-                                `/skip` : Skips song""", false);
+                EmbedBuilder builder = help(3);
 
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
@@ -433,59 +384,47 @@ public class Commands extends ListenerAdapter {
             }
         }
 
-        if (event.getComponentId().equals("truth") || event.getComponentId().equals("dare") || event.getComponentId().equals("randomTruthOrDare")) {
             if (event.getComponentId().equals("truth")) {
-                String truth = truthordare.truth();
-                EmbedBuilder truthNotDare = new EmbedBuilder()
-                        .setTitle("Truth or Dare")
-                        .addField("Truth: ", truth, false)
-                        .setColor(Util.randColor());
+                EmbedBuilder builder = truthordare.getTruth();
 
-                event.replyEmbeds(truthNotDare.build())
+                event.replyEmbeds(builder.build())
                         .addActionRow(
                                 Button.success("truth", "Truth"),
                                 Button.success("dare", "Dare"),
                                 Button.danger("randomTruthOrDare", "Random")
                         )
                         .queue();
-            } else if (event.getComponentId().equals("dare")) {
-                String dare = truthordare.dare();
-                EmbedBuilder dareNotTruth = new EmbedBuilder()
-                        .setTitle("Truth or Dare")
-                        .addField("Dare: ", dare, false)
-                        .setColor(Util.randColor());
+            }
 
-                event.replyEmbeds(dareNotTruth.build())
+            else if (event.getComponentId().equals("dare")) {
+                EmbedBuilder builder = truthordare.getDare();
+
+                event.replyEmbeds(builder.build())
                         .addActionRow(
                                 Button.success("truth", "Truth"),
                                 Button.success("dare", "Dare"),
                                 Button.danger("randomTruthOrDare", "Random")
                         )
                         .queue();
-            } else if (event.getComponentId().equals("randomTruthOrDare")) {
+            }
+
+            else if (event.getComponentId().equals("randomTruthOrDare")) {
 
                 if (Util.randomWithRange(0, 100) > 50) {
-                    String dare = truthordare.dare();
-                    EmbedBuilder dareNotTruth = new EmbedBuilder()
-                            .setTitle("Truth or Dare")
-                            .addField("Dare: ", dare, false)
-                            .setColor(Util.randColor());
+                    EmbedBuilder builder = truthordare.getDare();
 
-                    event.replyEmbeds(dareNotTruth.build())
+                    event.replyEmbeds(builder.build())
                             .addActionRow(
                                     Button.success("truth", "Truth"),
                                     Button.success("dare", "Dare"),
                                     Button.danger("randomTruthOrDare", "Random")
                             )
                             .queue();
-                } else {
-                    String truth = truthordare.truth();
-                    EmbedBuilder truthNotDare = new EmbedBuilder()
-                            .setTitle("Truth or Dare")
-                            .addField("Truth: ", truth, false)
-                            .setColor(Util.randColor());
+                }
+                else {
+                    EmbedBuilder builder = truthordare.getTruth();
 
-                    event.replyEmbeds(truthNotDare.build())
+                    event.replyEmbeds(builder.build())
                             .addActionRow(
                                     Button.success("truth", "Truth"),
                                     Button.success("dare", "Dare"),
@@ -494,25 +433,90 @@ public class Commands extends ListenerAdapter {
                             .queue();
                 }
             }
-        }
     }
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+
         if (!event.getAuthor().isBot() && event.isFromGuild()) {
+
+            // AFK Member
+            Member member;
+
+            // Get member, return if null;
             try {
-                Member member = event.getMessage().getMentions().getMembers().get(0);
+                member = event.getMessage().getMentions().getMembers().get(0);
+            }
+            catch (Exception e) {
+                return;
+            }
 
-                // AFK Return
-                if (member.getEffectiveName().contains("(AFK)")) {
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setDescription("Mentioned member is AFK, " + Objects.requireNonNull(event.getMember()).getAsMention() + "!")
-                            .setColor(Util.randColor());
+            // AFK Mention
+            if (member.getEffectiveName().contains("(AFK)")) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("Mentioned member is AFK, " + Objects.requireNonNull(event.getMember()).getAsMention() + "!")
+                        .setColor(Util.randColor());
 
-                    event.getChannel().sendMessageEmbeds(builder.build()).queue();
-                }
-            } catch (Exception ignore) {
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
             }
         }
     }
+
+    /**
+     * Help Embed
+     * @param setting 1 = General, 2 = Mod, 3 = Music
+     * @return Help embed
+     */
+    public EmbedBuilder help(int setting) {
+
+        EmbedBuilder builder = null;
+
+        if (setting == 1) {
+            builder = new EmbedBuilder()
+                    .setColor(Util.randColor())
+                    .setTitle("PawBot Commands")
+                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
+                    .addField("General Commands", """
+                                `/help` : Lists commands
+                                `/ping` : Pings bot
+                                `/coinflip` Flips a coin
+                                `/truth` : Requests truth
+                                `/dare` : Requests dare
+                                `/afk` : Sets AFK status
+                                `/avatar` : Retrieves target profile picture
+                                `/8ball` : Asks the magic 8ball a question
+                                `/confess` : Sends anonymous confession""", false);
+        }
+
+        else if (setting == 2) {
+            builder = new EmbedBuilder()
+                    .setColor(Util.randColor())
+                    .setTitle("PawBot Commands")
+                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
+                    .addField("Moderation Commands", """
+                                `/purge` : Purges messages (up to 100)
+                                `/reload_commands` : Reloads bot commands (in case of commands not appearing)
+                                `/broadcast` : Sends message as PawBot""", false);
+        }
+
+        else if (setting == 3) {
+            builder = new EmbedBuilder()
+                    .setColor(Util.randColor())
+                    .setTitle("PawBot Commands")
+                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
+                    .addField("Music Commands", """
+                                `/play` : Plays YouTube and Spotify links
+                                `/pause` : Pauses playback
+                                `/resume` : Resumes playback
+                                `/clear` : Clears queue
+                                `/queue` : Displays song queue
+                                `/playing` : Displays currently playing song
+                                `/volume` : Sets volume
+                                `/loop` : Loops the currently playing song
+                                `/skip` : Skips song""", false);
+        }
+
+        return builder;
+    }
+
 }

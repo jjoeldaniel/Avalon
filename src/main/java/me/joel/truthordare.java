@@ -1,8 +1,10 @@
 package me.joel;
 
+import net.dv8tion.jda.api.EmbedBuilder;
+
 public class truthordare {
 
-    public static String truth() {
+    private static String truth() {
         int num = Util.randomWithRange(0, 100);
         String[] truth = new String[101];
 
@@ -111,7 +113,7 @@ public class truthordare {
         return truth[num];
     }
 
-    public static String dare() {
+    private static String dare() {
         int num = Util.randomWithRange(0, 23);
         String[] dare = new String[24];
 
@@ -142,4 +144,27 @@ public class truthordare {
 
         return dare[num];
     }
+
+    public static EmbedBuilder getTruth() {
+
+        // Random truth
+        String truth = truth();
+
+        return new EmbedBuilder()
+                .setTitle("Truth or Dare")
+                .addField("Truth: ", truth, false)
+                .setColor(Util.randColor());
+    }
+
+    public static EmbedBuilder getDare() {
+
+        // Random dare
+        String dare = dare();
+
+        return new EmbedBuilder()
+                .setTitle("Truth or Dare")
+                .addField("Dare: ", dare, false)
+                .setColor(Util.randColor());
+    }
+
 }
