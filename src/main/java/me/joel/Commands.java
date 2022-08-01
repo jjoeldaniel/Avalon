@@ -23,7 +23,7 @@ public class Commands extends ListenerAdapter {
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
         System.out.println("Joined server: \"" + event.getGuild().getName() + "\"");
-        EmbedBuilder onJoin = new EmbedBuilder()
+        EmbedBuilder builder = new EmbedBuilder()
                 .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                 .setTitle("Thank you for inviting PawBot to " + event.getGuild().getName() + "!")
                 .setColor(Util.randColor())
@@ -32,7 +32,7 @@ public class Commands extends ListenerAdapter {
                 .addField("Need to contact us?", "Add joel#0005 on Discord for questions!", false)
                 .addField("Want to invite PawBot to another server?", "Click on my profile and click \" Add to Server\" to invite PawBot!", false);
 
-        Objects.requireNonNull(event.getGuild().getSystemChannel()).sendMessageEmbeds(onJoin.build()).setActionRow(
+        Objects.requireNonNull(event.getGuild().getSystemChannel()).sendMessageEmbeds(builder.build()).setActionRow(
                         Button.link(inviteLink, "Invite"))
                 .queue();
     }
@@ -420,8 +420,8 @@ public class Commands extends ListenerAdapter {
                                 `/queue` : Displays song queue
                                 `/playing` : Displays currently playing song
                                 `/volume` : Sets volume
-                                `/loop` : Loops the currently playing song until disabled/cleared/skipped
-                                `/skip` : Skips song with an optional song number specific skip""", false);
+                                `/loop` : Loops the currently playing song
+                                `/skip` : Skips song""", false);
 
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
