@@ -4,6 +4,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 
 public class truthordare {
 
+    /**
+     * Truth or Dare Generator
+     * @return Random truth
+     */
     private static String truth() {
         int num = Util.randomWithRange(0, 100);
         String[] truth = new String[101];
@@ -113,6 +117,10 @@ public class truthordare {
         return truth[num];
     }
 
+    /**
+     * Truth or Dare Generator
+     * @return Random dare
+     */
     private static String dare() {
         int num = Util.randomWithRange(0, 23);
         String[] dare = new String[24];
@@ -145,6 +153,10 @@ public class truthordare {
         return dare[num];
     }
 
+    /**
+     * Truth or Dare Embed
+     * @return Truth embed
+     */
     public static EmbedBuilder getTruth() {
 
         // Random truth
@@ -156,6 +168,10 @@ public class truthordare {
                 .setColor(Util.randColor());
     }
 
+    /**
+     * Truth or Dare Embed
+     * @return Dare embed
+     */
     public static EmbedBuilder getDare() {
 
         // Random dare
