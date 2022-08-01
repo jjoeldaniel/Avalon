@@ -21,14 +21,30 @@ public class Spotify {
     private static String albumThumbnail;
     private static String playlistThumbnail;
 
+    /**
+     * SpotifyAPI
+     * <p>
+     * <a href="https://github.com/spotify-web-api-java/spotify-web-api-java#Documentation">See Documentation Here</a>
+     * </p>
+     */
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId("3451401ce3b148039cbba35a2c25cd5f")
             .setClientSecret("6531d1fa12f645b581a8bbce029139f1")
             .build();
 
+    /**
+     * Authentication Flow
+     * <p>
+     * <a href="https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/">See Documentation Here</a>
+     * </p>
+     */
     private static final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
             .build();
 
+    /**
+     * Generates Spotify API Access Token
+     * <p>(Required to make requests)</p>
+     */
     public static void clientCredentials_Async() {
         try {
             final CompletableFuture<ClientCredentials> clientCredentialsFuture = clientCredentialsRequest.executeAsync();
@@ -45,7 +61,11 @@ public class Spotify {
         }
     }
 
-    // Search method
+    /**
+     * Generates search request for individual Tracks, (public) Playlists, and Albums
+     * @param query (User input, valid YouTube/Spotify link)
+     * @return Song/Playlist/Album name + Artist name
+     */
     public static String searchSpotify(String query) {
         // Set token
         clientCredentials_Async();
@@ -122,7 +142,10 @@ public class Spotify {
         return "";
     }
 
-    // Get Tracks from Playlist/Album
+    /**
+     * @param query Track, Playlist, Album URLs
+     * @return Tracks in (trackName + artistName) format
+     */
     public static ArrayList<String> getTracks(String query) {
         ArrayList<String> tracks = new ArrayList<>();
 
@@ -196,15 +219,27 @@ public class Spotify {
         return tracks;
     }
 
+    /**
+     * Album Thumbnail Getter
+     * @return Thumbnail URL
+     */
     public static String getAlbumThumbnail() {
         return albumThumbnail;
     }
+
+    /**
+     * Playlist Thumbnail Getter
+     * @return Thumbnail URL
+     */
     public static String getPlaylistThumbnail() {
         return playlistThumbnail;
     }
 
-
-    // Grab ID from URL
+    /**
+     * Separates Spotify ID
+     * @param url Spotify URL
+     * @return Spotify ID
+     */
     public static String separateID(String url) {
 
         String id;
