@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -344,6 +345,59 @@ public class Commands extends ListenerAdapter {
             event.replyEmbeds(Util.genericError().build()).setEphemeral(true).queue();
         }
 
+    }
+
+    @Override
+    public void onUserContextInteraction(@NotNull UserContextInteractionEvent event) {
+
+        // Get user avatar
+        if (event.getName().equals("Get member avatar")) {
+
+            Member member = event.getTargetMember();
+            String targetName;
+            String targetPFP;
+
+            assert member != null;
+            targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
+            targetPFP = member.getEffectiveAvatarUrl();
+
+            // Embed
+            EmbedBuilder avatar = new EmbedBuilder()
+                    .setTitle(targetName)
+                    .setColor(Util.randColor())
+                    .setImage(targetPFP + "?size=256")
+                    .setFooter("ID: " + member.getId());
+
+            event.replyEmbeds(avatar.build()).queue();
+        }
+
+        // Get user info
+        if (event.getName().equals("Get member info")) {
+
+            Member member = event.getTargetMember();
+            assert member != null;
+
+            LocalDateTime joinTime = member.getTimeJoined().toLocalDateTime();
+            LocalDateTime creationDate = member.getTimeCreated().toLocalDateTime();
+
+            int numRoles = member.getRoles().size();
+            StringBuilder roles = new StringBuilder();
+            for (int i = 0; i < numRoles; ++i) {
+                roles.append("<@&").append(member.getRoles().get(i).getId()).append("> ");
+            }
+
+            EmbedBuilder whois = new EmbedBuilder()
+                    .setDescription(member.getAsMention())
+                    .setAuthor(member.getUser().getName() + "#" + member.getUser().getDiscriminator(), member.getUser().getAvatarUrl(), member.getUser().getAvatarUrl())
+                    .setThumbnail(member.getEffectiveAvatarUrl())
+                    .addField("Joined", joinTime.getMonthValue() + "/" + joinTime.getDayOfMonth() + "/" + joinTime.getYear(), true)
+                    .addField("Created", creationDate.getMonthValue() + "/" + creationDate.getDayOfMonth() + "/" + creationDate.getYear(), true)
+                    .addField("Roles [" + numRoles + "]", roles.toString(), false)
+                    .setFooter("ID: " + member.getId())
+                    .setColor(Util.randColor());
+
+            event.replyEmbeds(whois.build()).queue();
+        }
     }
 
     @Override

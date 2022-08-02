@@ -3,6 +3,7 @@ package me.joel;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -23,6 +24,7 @@ public class CommandsRegister extends ListenerAdapter {
         // Global Commands
         event.getJDA().updateCommands().addCommands(
 
+                // Slash
                 Commands.slash("help", "Lists commands"),
                 Commands.slash("8ball", "Asks the magic 8ball a question")
                         .addOption(OptionType.STRING, "question", "Your question to the 8ball", true),
@@ -51,6 +53,8 @@ public class CommandsRegister extends ListenerAdapter {
                 Commands.slash("afk", "Sets AFK status"),
                 Commands.slash("confess", "Sends anonymous confession")
                         .addOption(OptionType.STRING, "message", "Confession message", true),
+                Commands.context(Command.Type.USER, "Get member avatar"),
+                Commands.context(Command.Type.USER, "Get member info"),
 
                 // Mod
                 Commands.slash("broadcast", "Broadcasts message in selected channel")

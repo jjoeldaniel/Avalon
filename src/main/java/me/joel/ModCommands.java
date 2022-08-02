@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,7 @@ public class ModCommands extends ListenerAdapter {
             // Reload Commands
             if (event.getName().equals("reload_commands")) {
 
+                // DMs
                 if (!event.isFromGuild()) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle("This command only works in a server!")
@@ -30,10 +32,15 @@ public class ModCommands extends ListenerAdapter {
                     return;
                 }
 
-                if (Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER)) {
-                    EmbedBuilder builder = reloadCommands(event.getGuild());
+                // Insufficient Permissions
+                if (!(Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER))) {
+                    EmbedBuilder builder = noPermissions();
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
                 }
+
+                EmbedBuilder builder = reloadCommands(event.getGuild());
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
 
             // Purge
@@ -143,6 +150,8 @@ public class ModCommands extends ListenerAdapter {
                     Commands.slash("afk", "Sets AFK status"),
                     Commands.slash("confess", "Sends anonymous confession")
                             .addOption(OptionType.STRING, "message", "Confession message", true),
+                    Commands.context(Command.Type.USER, "Get member avatar"),
+                    Commands.context(Command.Type.USER, "Get member info"),
 
                     // Mod
                     Commands.slash("broadcast", "Broadcasts message in selected channel")
