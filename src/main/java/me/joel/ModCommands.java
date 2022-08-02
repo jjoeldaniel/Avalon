@@ -14,123 +14,118 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class ModCommands extends ListenerAdapter {
-    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         try {
 
-            // Reload Commands
-            if (event.getName().equals("reload_commands")) {
+            var invoke = event.getName();
 
-                // DMs
-                if (!event.isFromGuild()) {
+            switch (invoke) {
+                case ("reload_commands") -> {
+                    // DMs
+                    if (!event.isFromGuild()) {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setTitle("This command only works in a server!")
+                                .setColor(Util.randColor())
+                                .setFooter("Use /help for the commands list");
+
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                        return;
+                    }
+
+                    // Insufficient Permissions
+                    if (!(Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER))) {
+                        EmbedBuilder builder = noPermissions();
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                        return;
+                    }
+
+                    EmbedBuilder builder = reloadCommands(event.getGuild());
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                }
+                case ("purge") -> {
+                    // Insufficient Permissions
+                    if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) {
+                        EmbedBuilder builder = noPermissions();
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                        return;
+                    }
+
+                    // # of messages to be purged
+                    int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
+
+                    // Max of 100 messages
+                    if (amount > 100) {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setDescription("Unable to purge over 100 messages!")
+                                .setFooter("Use /help for a list of commands!");
+
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                        return;
+                    }
+
+                    // Text Channel
+                    if (event.getChannel().getType() == ChannelType.TEXT) {
+                        TextChannel textChannel = event.getChannel().asTextChannel();
+                        textChannel.getIterableHistory()
+                                .takeAsync(amount)
+                                .thenAccept(textChannel::purgeMessages);
+                    }
+
+                    // Voice Channel
+                    else if (event.getChannel().getType() == ChannelType.VOICE) {
+                        VoiceChannel voiceChannel = event.getChannel().asVoiceChannel();
+                        voiceChannel.getIterableHistory()
+                                .takeAsync(amount)
+                                .thenAccept(voiceChannel::purgeMessages);
+                    }
+
+                    // Reply
                     EmbedBuilder builder = new EmbedBuilder()
-                            .setTitle("This command only works in a server!")
                             .setColor(Util.randColor())
-                            .setFooter("Use /help for the commands list");
-
-                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    return;
-                }
-
-                // Insufficient Permissions
-                if (!(Objects.requireNonNull(event.getMember()).hasPermission(Permission.MANAGE_SERVER))) {
-                    EmbedBuilder builder = noPermissions();
-                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    return;
-                }
-
-                EmbedBuilder builder = reloadCommands(event.getGuild());
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-            }
-
-            // Purge
-            if (event.getName().equals("purge")) {
-
-                // Insufficient Permissions
-                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) {
-                    EmbedBuilder builder = noPermissions();
-                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    return;
-                }
-
-                // # of messages to be purged
-                int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
-
-                // Max of 100 messages
-                if (amount > 100) {
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("Unable to purge over 100 messages!")
+                            .setDescription("`" + amount + "` message(s) purged!")
                             .setFooter("Use /help for a list of commands!");
 
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    return;
                 }
+                case ("broadcast") -> {
+                    // Insufficient Permissions
+                    if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && !(event.getMember().getId().equals("205862976689799168"))) {
+                        EmbedBuilder builder = noPermissions();
+                        event.replyEmbeds(builder.build()).queue();
+                        return;
+                    }
 
-                // Text Channel
-                if (event.getChannel().getType() == ChannelType.TEXT) {
-                    TextChannel textChannel = event.getChannel().asTextChannel();
-                    textChannel.getIterableHistory()
-                            .takeAsync(amount)
-                            .thenAccept(textChannel::purgeMessages);
+                    // Get channel and message
+                    GuildChannelUnion channel = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
+                    String message = Objects.requireNonNull(event.getOption("message")).getAsString();
+
+                    // Embed
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setTitle("Message sent!")
+                            .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                            .setColor(Util.randColor())
+                            .setDescription("\"" + message + "\"");
+
+                    // Text Channel
+                    if (channel.getType() == ChannelType.VOICE) {
+                        VoiceChannel voiceChannel = channel.asVoiceChannel();
+                        voiceChannel.sendMessage(message).queue();
+                    }
+                    // Voice Channel
+                    else if (channel.getType() == ChannelType.TEXT) {
+                        TextChannel textChannel = channel.asTextChannel();
+                        textChannel.sendMessage(message).queue();
+                    }
+
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
-
-                // Voice Channel
-                else if (event.getChannel().getType() == ChannelType.VOICE) {
-                    VoiceChannel voiceChannel = event.getChannel().asVoiceChannel();
-                    voiceChannel.getIterableHistory()
-                            .takeAsync(amount)
-                            .thenAccept(voiceChannel::purgeMessages);
-                }
-
-                // Reply
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setDescription("`" + amount + "` message(s) purged!")
-                        .setFooter("Use /help for a list of commands!");
-
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-            }
-
-            // Broadcast
-            if (event.getName().equals("broadcast")) {
-
-                // Insufficient Permissions
-                if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && !(event.getMember().getId().equals("205862976689799168"))) {
-                    EmbedBuilder builder = noPermissions();
-                    event.replyEmbeds(builder.build()).queue();
-                    return;
-                }
-
-                // Get channel and message
-                GuildChannelUnion channel = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
-                String message = Objects.requireNonNull(event.getOption("message")).getAsString();
-
-                // Embed
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setTitle("Message sent!")
-                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                        .setColor(Util.randColor())
-                        .setDescription("\"" + message + "\"");
-
-                // Text Channel
-                if (channel.getType() == ChannelType.VOICE) {
-                    VoiceChannel voiceChannel = channel.asVoiceChannel();
-                    voiceChannel.sendMessage(message).queue();
-                }
-                // Voice Channel
-                else if (channel.getType() == ChannelType.TEXT) {
-                    TextChannel textChannel = channel.asTextChannel();
-                    textChannel.sendMessage(message).queue();
-                }
-
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
 
         } catch (Exception e) {
             event.replyEmbeds(Util.genericError().build()).setEphemeral(true).queue();
         }
-
     }
 
     /**
@@ -139,11 +134,9 @@ public class ModCommands extends ListenerAdapter {
      * @return Result EmbedBuilder
      */
     public EmbedBuilder reloadCommands (Guild guild) {
-
         try {
 
             guild.updateCommands().addCommands(
-
                     // General
                     Commands.slash("whois", "Provides user information")
                             .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true),
@@ -172,7 +165,6 @@ public class ModCommands extends ListenerAdapter {
                     Commands.slash("queue", "Displays music queue"),
                     Commands.slash("playing", "Displays currently playing song"),
                     Commands.slash("loop", "Loops currently playing song")
-
             ).queue();
 
             return new EmbedBuilder()
