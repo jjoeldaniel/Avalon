@@ -1,7 +1,7 @@
 # Avalon
 Avalon is a Discord bot that includes music, moderation, utility, react-messages, and various fun commands! 
 
-![Image of corgi sitting down](https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096|width)
+![Image of floating island with river](https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256)
  
  ## **FAQ**
  
