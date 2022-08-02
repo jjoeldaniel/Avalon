@@ -731,6 +731,7 @@ public class MusicCommands extends ListenerAdapter {
         }
     }
 
+
     /**
      * Queue Page EmbedBuilder
      * @param range1 Beginning queue index
@@ -764,7 +765,9 @@ public class MusicCommands extends ListenerAdapter {
         return queuePage;
     }
 
-    // Sends `now playing` message to channel along with currentTrack
+    /**
+     * Sends `now playing` message to channel along with currentTrack
+     */
     public static void sendNowPlaying(AudioTrack currentTrack, MessageChannelUnion channel) {
         setSendNowPlaying(false);
 
@@ -788,17 +791,23 @@ public class MusicCommands extends ListenerAdapter {
         channel.sendMessageEmbeds(builder.build()).queue();
     }
 
-    // Returns event channel
+    /**
+     * @return Event channel
+     */
     public static MessageChannelUnion returnChannel() {
         return messageChannelUnion;
     }
 
-    // Enables/disables `now playing` message
+    /**
+     * Toggles `now playing` message
+     */
     public static void setSendNowPlaying(boolean bool) {
         sendNowPlaying = bool;
     }
 
-    // Returns true if url is valid
+    /**
+     * @return True if url is valid
+     */
     public static boolean isURL(String url) {
         try {
             new URI(url);
