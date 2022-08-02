@@ -176,6 +176,68 @@ public class Spotify {
                     tracks.add(track);
                 }
 
+                // Get next 100 (100-200)
+                if (playlistTrackPaging.getTotal() > 99) {
+
+                    final GetPlaylistsItemsRequest getPlaylistsItemsRequest1 = spotifyApi
+                            .getPlaylistsItems(id)
+                            .offset(99)
+                            .build();
+
+                    final CompletableFuture<Paging<PlaylistTrack>> pagingFuture1 = getPlaylistsItemsRequest1.executeAsync();
+                    final Paging<PlaylistTrack> playlistTrackPaging1 = pagingFuture1.join();
+
+                    // Add tracks to list
+                    try {
+                        for (int i = 0; i < 99 && i < playlistTrackPaging1.getTotal(); i++) {
+                            String trackName = (playlistTrackPaging1.getItems()[i].getTrack().getName());
+
+                            // Get artist name
+                            String artistName = String.valueOf(((Track) playlistTrackPaging1.getItems()[i].getTrack()).getArtists()[0]);
+                            artistName = artistName.replace("ArtistSimplified(name=", "");
+                            String[] array2 = artistName.split(",", 2);
+                            artistName = array2[0];
+                            artistName = artistName.replace(",", "");
+
+                            String track = trackName + " " + artistName;
+                            tracks.add(track);
+                        }
+                    }
+                    catch (Exception ignore) {
+                    }
+                }
+
+                // Get next 100 (200-300)
+                if (playlistTrackPaging.getTotal() > 199) {
+
+                    final GetPlaylistsItemsRequest getPlaylistsItemsRequest2 = spotifyApi
+                            .getPlaylistsItems(id)
+                            .offset(199)
+                            .build();
+
+                    final CompletableFuture<Paging<PlaylistTrack>> pagingFuture2 = getPlaylistsItemsRequest2.executeAsync();
+                    final Paging<PlaylistTrack> playlistTrackPaging2 = pagingFuture2.join();
+
+                    // Add tracks to list
+                    try {
+                        for (int i = 0; i < 99 && i < playlistTrackPaging2.getTotal(); i++) {
+                            String trackName = (playlistTrackPaging2.getItems()[i].getTrack().getName());
+
+                            // Get artist name
+                            String artistName = String.valueOf(((Track) playlistTrackPaging2.getItems()[i].getTrack()).getArtists()[0]);
+                            artistName = artistName.replace("ArtistSimplified(name=", "");
+                            String[] array2 = artistName.split(",", 2);
+                            artistName = array2[0];
+                            artistName = artistName.replace(",", "");
+
+                            String track = trackName + " " + artistName;
+                            tracks.add(track);
+                        }
+                    }
+                    catch (Exception ignore) {
+                    }
+                }
+
                 return tracks;
 
             } catch (CompletionException e) {
