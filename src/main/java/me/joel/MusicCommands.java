@@ -55,7 +55,7 @@ public class MusicCommands extends ListenerAdapter {
         // sameVCRequirement embed
         final EmbedBuilder sameVCRequirement = new EmbedBuilder()
                 .setColor(Util.randColor())
-                .setDescription("You need to be in a voice channel to use this command!")
+                .setDescription("You need to be in the same voice channel to use this command!")
                 .setFooter("Use /help for a list of music commands!");
 
         try {
