@@ -11,11 +11,11 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
     
  ### **2) What functions does Avalon provide?**
  
-   PawBot currently supports Music, Moderation commands (kick, ban, timeout, broadcast), Utility commands (ping, av, afk) and Fun commands (8ball, truth or dare).
+   Avalon currently supports Music, Moderation commands (kick, ban, timeout, broadcast), Utility commands (ping, av, afk) and Fun commands (8ball, truth or dare).
 
  ### **3) What permissions does Avalon require?**
  
-   PawBot requires various permissions (all previewed when inviting) and for its role to be moved up as high as possible in the role hierarchy.
+   Avalon requires various permissions (all previewed when inviting) and for its role to be moved up as high as possible in the role hierarchy.
 
 ### **4) Where can I contact you if I have questions?**
 
