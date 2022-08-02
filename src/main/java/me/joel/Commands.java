@@ -18,8 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Commands extends ListenerAdapter {
 
-    // Global invite link
-    String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot";
+    final String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot";
 
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {

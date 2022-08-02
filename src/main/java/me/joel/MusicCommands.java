@@ -58,400 +58,368 @@ public class MusicCommands extends ListenerAdapter {
                 .setDescription("You need to be in a voice channel to use this command!")
                 .setFooter("Use /help for a list of music commands!");
 
-
         try {
 
-            // Loop
-            if (event.getName().equals("loop")) {
-                // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    event.getHook().sendMessageEmbeds(VCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
+            // command
+            var invoke = event.getName();
 
-                // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                    long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
-                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                    if (!(botVC == memberVC)) {
-                        event.getHook().sendMessageEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
+            switch (invoke) {
+                case ("loop") -> {
+                    // Checks requester voice state
+                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                        event.getHook().sendMessageEmbeds(VCRequirement.build()).setEphemeral(true).queue();
                         return;
                     }
-                }
 
-                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() == null) {
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("There is no song currently playing!");
+                    // Compare JDA and member voice state
+                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                        long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
+                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
 
-                    event.replyEmbeds(builder.build()).queue();
-                    return;
-                }
-
-                if (!AudioEventAdapter.isLooping()) {
-                    AudioEventAdapter.setLoop(true);
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("Song is now looping!");
-
-                    event.replyEmbeds(builder.build()).queue();
-                } else {
-                    AudioEventAdapter.setLoop(false);
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("Song is no longer looping!");
-
-                    event.replyEmbeds(builder.build()).queue();
-                    return;
-                }
-            }
-
-            // Play
-            if (event.getName().equals("play")) {
-                event.deferReply().queue();
-                messageChannelUnion = event.getChannel();
-
-                // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    event.getHook().sendMessageEmbeds(VCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
-
-                // Check jda voice state and compare with member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                    long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
-                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                    if (!(botVC == memberVC)) {
-                        event.getHook().sendMessageEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
-                        return;
-                    }
-                }
-
-                final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
-                String link = Objects.requireNonNull(event.getOption("song")).getAsString();
-
-                // Spotify
-                if (link.startsWith("https://open.spotify.com/")) {
-
-                    if (link.contains("/track/")) {
-                        link = ("ytsearch:" + Spotify.searchSpotify(link) + " audio");
-
-                        // Joins VC
-                        audioManager.openAudioConnection(memberChannel);
-
-                        // Plays song
-                        try {
-                            PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
-                        } catch (Exception e) {
-                            event.getHook().sendMessageEmbeds(Util.genericError().build()).queue();
+                        if (!(botVC == memberVC)) {
+                            event.getHook().sendMessageEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
                             return;
                         }
                     }
-                    else if (link.contains("/playlist/")) {
-                        String playlistName = Spotify.searchSpotify(link);
-                        ArrayList<String> playlistTracks = Spotify.getTracks(link);
 
-                        // Joins VC
-                        audioManager.openAudioConnection(memberChannel);
-
-                        // Queue song
-                        for (String i: playlistTracks) {
-                            PlayerManager.getINSTANCE().loadAndPlaySpotify(messageChannelUnion, ("ytsearch:" + i + " audio"), event.getGuild());
-                        }
-
-
+                    if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() == null) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
-                                .setAuthor("Playlist queued")
-                                .setTitle(playlistName, link)
-                                .setDescription("`[" + playlistTracks.size() + "] songs`")
-                                .setThumbnail(Spotify.getPlaylistThumbnail())
-                                .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
-                                .setFooter("Use /help for a list of music commands!");
+                                .setDescription("There is no song currently playing!");
 
-                        event.getHook().sendMessageEmbeds(builder.build()).queue();
+                        event.replyEmbeds(builder.build()).queue();
                         return;
                     }
-                    else if (link.contains("/album/")) {
-                        String albumName = Spotify.searchSpotify(link);
-                        ArrayList<String> albumTracks = Spotify.getTracks(link);
 
-                        // Joins VC
-                        audioManager.openAudioConnection(memberChannel);
-
-                        for (String i: albumTracks) {
-                            PlayerManager.getINSTANCE().loadAndPlaySpotify(messageChannelUnion, ("ytsearch:" + i + " audio"), event.getGuild());
-                        }
-
+                    if (!AudioEventAdapter.isLooping()) {
+                        AudioEventAdapter.setLoop(true);
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
-                                .setAuthor("Album queued")
-                                .setTitle(albumName, link)
-                                .setDescription("`[" + albumTracks.size() + "] songs`")
-                                .setThumbnail(Spotify.getAlbumThumbnail())
-                                .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
+                                .setDescription("Song is now looping!");
+
+                        event.replyEmbeds(builder.build()).queue();
+                    } else {
+                        AudioEventAdapter.setLoop(false);
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setDescription("Song is no longer looping!");
+
+                        event.replyEmbeds(builder.build()).queue();
+                    }
+                }
+                case ("play") -> {
+                    event.deferReply().queue();
+                    messageChannelUnion = event.getChannel();
+
+                    // Checks requester voice state
+                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                        event.getHook().sendMessageEmbeds(VCRequirement.build()).setEphemeral(true).queue();
+                        return;
+                    }
+
+                    // Check jda voice state and compare with member voice state
+                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                        long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
+                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+
+                        if (!(botVC == memberVC)) {
+                            event.getHook().sendMessageEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
+                            return;
+                        }
+                    }
+
+                    final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+                    String link = Objects.requireNonNull(event.getOption("song")).getAsString();
+
+                    // Spotify
+                    if (link.startsWith("https://open.spotify.com/")) {
+
+                        if (link.contains("/track/")) {
+                            link = ("ytsearch:" + Spotify.searchSpotify(link) + " audio");
+
+                            // Joins VC
+                            audioManager.openAudioConnection(memberChannel);
+
+                            // Plays song
+                            PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
+                        }
+                        else if (link.contains("/playlist/")) {
+                            String playlistName = Spotify.searchSpotify(link);
+                            ArrayList<String> playlistTracks = Spotify.getTracks(link);
+
+                            // Joins VC
+                            audioManager.openAudioConnection(memberChannel);
+
+                            // Queue song
+                            for (String i: playlistTracks) {
+                                PlayerManager.getINSTANCE().loadAndPlaySpotify(messageChannelUnion, ("ytsearch:" + i + " audio"), event.getGuild());
+                            }
+
+
+                            EmbedBuilder builder = new EmbedBuilder()
+                                    .setColor(Util.randColor())
+                                    .setAuthor("Playlist queued")
+                                    .setTitle(playlistName, link)
+                                    .setDescription("`[" + playlistTracks.size() + "] songs`")
+                                    .setThumbnail(Spotify.getPlaylistThumbnail())
+                                    .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
+                                    .setFooter("Use /help for a list of music commands!");
+
+                            event.getHook().sendMessageEmbeds(builder.build()).queue();
+                            return;
+                        }
+                        else if (link.contains("/album/")) {
+                            String albumName = Spotify.searchSpotify(link);
+                            ArrayList<String> albumTracks = Spotify.getTracks(link);
+
+                            // Joins VC
+                            audioManager.openAudioConnection(memberChannel);
+
+                            for (String i: albumTracks) {
+                                PlayerManager.getINSTANCE().loadAndPlaySpotify(messageChannelUnion, ("ytsearch:" + i + " audio"), event.getGuild());
+                            }
+
+                            EmbedBuilder builder = new EmbedBuilder()
+                                    .setColor(Util.randColor())
+                                    .setAuthor("Album queued")
+                                    .setTitle(albumName, link)
+                                    .setDescription("`[" + albumTracks.size() + "] songs`")
+                                    .setThumbnail(Spotify.getAlbumThumbnail())
+                                    .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
+                                    .setFooter("Use /help for a list of music commands!");
+
+                            event.getHook().sendMessageEmbeds(builder.build()).queue();
+                            return;
+                        }
+                    }
+
+                    // Invalid links
+                    else if (!isURL(link)) {
+                        link = ("ytsearch:" + link + " audio");
+                        // Joins VC
+                        audioManager.openAudioConnection(memberChannel);
+                        // Plays song
+                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
+                    }
+
+                    // Valid links (Basically just YouTube)
+                    else {
+                        // Joins VC
+                        audioManager.openAudioConnection(memberChannel);
+                        // Plays song
+                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
+                    }
+
+                    EmbedBuilder error = new EmbedBuilder()
+                            .setDescription("Loading playlist...")
+                            .setColor(Util.randColor())
+                            .setFooter("Use /help for a list of music commands!");
+                    event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
+                    Util.wait(1000);
+                    event.getHook().deleteOriginal().queue();
+                }
+                case ("volume") -> {
+                    // Checks requester voice state
+                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                        event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
+                        return;
+                    }
+
+                    // Compare JDA and member voice state
+                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                        long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
+                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+
+                        if (!(botVC == memberVC)) {
+                            event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
+                            return;
+                        }
+                    }
+
+                    int num = Objects.requireNonNull(event.getOption("num")).getAsInt();
+
+                    if (num <= 0 || num > 100) {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                                .setTitle("Error! You can't set the volume to 0 or above 100.")
                                 .setFooter("Use /help for a list of music commands!");
 
-                        event.getHook().sendMessageEmbeds(builder.build()).queue();
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
                     }
-                }
-
-                // Invalid links
-                else if (!isURL(link)) {
-                    link = ("ytsearch:" + link + " audio");
-                    // Joins VC
-                    audioManager.openAudioConnection(memberChannel);
-                    // Plays song
-                    try {
-                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
-                    } catch (Exception e) {
-                        event.replyEmbeds(Util.genericError().build()).queue();
-                        return;
-                    }
-                }
-
-                // Valid links (Basically just YouTube)
-                else {
-                    // Joins VC
-                    audioManager.openAudioConnection(memberChannel);
-                    // Plays song
-                    try {
-                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
-                    } catch (Exception e) {
-                        event.replyEmbeds(Util.genericError().build()).queue();
-                        return;
-                    }
-                }
-
-                EmbedBuilder error = new EmbedBuilder()
-                        .setDescription("Loading playlist...")
-                        .setColor(Util.randColor())
-                        .setFooter("Use /help for a list of music commands!");
-                event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
-                Util.wait(1000);
-                event.getHook().deleteOriginal().queue();
-            }
-
-            // Volume
-            if (event.getName().equals("volume")) {
-                // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
-
-                // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                    long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
-                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                    if (!(botVC == memberVC)) {
-                        event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
-                        return;
-                    }
-                }
-
-                int num = Objects.requireNonNull(event.getOption("num")).getAsInt();
-
-                if (num <= 0 || num > 100) {
+                    int prevVolume = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getVolume();
+                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(num / 2);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                            .setTitle("Error! You can't set the volume to 0 or above 100.")
-                            .setFooter("Use /help for a list of music commands!");
-
-                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    return;
-                }
-                int prevVolume = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getVolume();
-                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(num / 2);
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                        .setTitle("Volume is now set to " + num + "%. (Prev: " + prevVolume * 2 + "%)")
-                        .setFooter("Use /help for a list of music commands!");
-
-                event.replyEmbeds(builder.build()).queue();
-            }
-
-            // Pause
-            if (event.getName().equals("pause")) {
-                // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
-
-                // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                    long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
-                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-                    if (!(botVC == memberVC)) {
-                        event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
-                        return;
-                    }
-                }
-                if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(true);
-
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setDescription("Playback paused")
-                            .setColor(Util.randColor())
-                            .setFooter("Use /help for a list of music commands!");
-
-                    event.replyEmbeds(builder.build()).setEphemeral(false).queue();
-                    return;
-                }
-
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("No song is playing or an error has occurred!")
-                        .setColor(Util.randColor())
-                        .setFooter("Use /help for a list of music commands!");
-
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-            }
-
-            // Playing
-            if (event.getName().equals("playing")) {
-
-                try {
-                    AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
-
-                    // Time from ms to m:s
-                    long trackLength = track.getInfo().length;
-                    long minutes = (trackLength / 1000) / 60;
-                    long seconds = ((trackLength / 1000) % 60);
-                    String songSeconds = String.valueOf(seconds);
-                    if (seconds < 10) songSeconds = "0" + seconds;
-
-                    // Thumbnail
-                    String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
-
-                    // Embed
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setAuthor("Now Playing")
-                            .setTitle(track.getInfo().title, track.getInfo().uri)
-                            .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
-                            .setThumbnail(trackThumbnail)
+                            .setTitle("Volume is now set to " + num + "%. (Prev: " + prevVolume * 2 + "%)")
                             .setFooter("Use /help for a list of music commands!");
 
                     event.replyEmbeds(builder.build()).queue();
+                }
+                case ("pause") -> {
+                    // Checks requester voice state
+                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                        event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
+                        return;
+                    }
 
-                } catch (Exception exception) {
+                    // Compare JDA and member voice state
+                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                        long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
+                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+                        if (!(botVC == memberVC)) {
+                            event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
+                            return;
+                        }
+                    }
+                    if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(true);
+
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setDescription("Playback paused")
+                                .setColor(Util.randColor())
+                                .setFooter("Use /help for a list of music commands!");
+
+                        event.replyEmbeds(builder.build()).setEphemeral(false).queue();
+                        return;
+                    }
+
                     EmbedBuilder builder = new EmbedBuilder()
+                            .setDescription("No song is playing or an error has occurred!")
                             .setColor(Util.randColor())
-                            .setDescription("No song is playing!")
                             .setFooter("Use /help for a list of music commands!");
+
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
-            }
-
-            // Resume
-            if (event.getName().equals("resume")) {
-                // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
-
-                // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                    long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
-                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-                    if (!(botVC == memberVC)) {
-                        event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
+                case ("resume") -> {
+                    // Checks requester voice state
+                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                        event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
                         return;
                     }
-                }
 
-                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(false);
+                    // Compare JDA and member voice state
+                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                        long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
+                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+                        if (!(botVC == memberVC)) {
+                            event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
+                            return;
+                        }
+                    }
 
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setDescription("Playback resumed")
-                            .setColor(Util.randColor())
-                            .setFooter("Use /help for a list of music commands!");
+                    if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(false);
 
-                    event.replyEmbeds(builder.build()).setEphemeral(false).queue();
-                    return;
-                }
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setDescription("Playback resumed")
+                                .setColor(Util.randColor())
+                                .setFooter("Use /help for a list of music commands!");
 
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("No song is playing or an error has occurred!")
-                        .setFooter("Use /help for a list of music commands!")
-                        .setColor(Util.randColor());
-
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-            }
-
-            // Clear
-            if (event.getName().equals("clear")) {
-
-                // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
-
-                // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                    long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
-                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                    if (!(botVC == memberVC)) {
-                        event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
+                        event.replyEmbeds(builder.build()).setEphemeral(false).queue();
                         return;
                     }
-                }
 
-                if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0) {
                     EmbedBuilder builder = new EmbedBuilder()
-                            .setDescription("The queue is empty or an error has occurred!")
+                            .setDescription("No song is playing or an error has occurred!")
+                            .setFooter("Use /help for a list of music commands!")
+                            .setColor(Util.randColor());
+
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                }
+                case ("playing") -> {
+                    try {
+                        AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+
+                        // Time from ms to m:s
+                        long trackLength = track.getInfo().length;
+                        long minutes = (trackLength / 1000) / 60;
+                        long seconds = ((trackLength / 1000) % 60);
+                        String songSeconds = String.valueOf(seconds);
+                        if (seconds < 10) songSeconds = "0" + seconds;
+
+                        // Thumbnail
+                        String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
+
+                        // Embed
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setAuthor("Now Playing")
+                                .setTitle(track.getInfo().title, track.getInfo().uri)
+                                .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                                .setThumbnail(trackThumbnail)
+                                .setFooter("Use /help for a list of music commands!");
+
+                        event.replyEmbeds(builder.build()).queue();
+
+                    } catch (Exception exception) {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setColor(Util.randColor())
+                                .setDescription("No song is playing!")
+                                .setFooter("Use /help for a list of music commands!");
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    }
+                }
+                case ("clear") -> {
+                    // Checks requester voice state
+                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                        event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
+                        return;
+                    }
+
+                    // Compare JDA and member voice state
+                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                        long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
+                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+
+                        if (!(botVC == memberVC)) {
+                            event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
+                            return;
+                        }
+                    }
+
+                    if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0) {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setDescription("The queue is empty or an error has occurred!")
+                                .setFooter("Use /help for a list of music commands!")
+                                .setColor(Util.randColor());
+
+                        event.replyEmbeds(builder.build()).queue();
+                        return;
+                    }
+
+                    AudioEventAdapter.setLoop(false);
+                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.clear();
+                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.destroy();
+
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setDescription("Queue cleared")
                             .setFooter("Use /help for a list of music commands!")
                             .setColor(Util.randColor());
 
                     event.replyEmbeds(builder.build()).queue();
-                    return;
                 }
-
-                AudioEventAdapter.setLoop(false);
-                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.clear();
-                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.destroy();
-
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("Queue cleared")
-                        .setFooter("Use /help for a list of music commands!")
-                        .setColor(Util.randColor());
-
-                event.replyEmbeds(builder.build()).queue();
-            }
-
-            // Skip
-            if (event.getName().equals("skip")) {
-
-                // Checks requester voice state
-                if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                    AudioEventAdapter.setLoop(false);
-                    event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
-
-                // Compare JDA and member voice state
-                if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                    long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
-                    long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                    if (!(botVC == memberVC)) {
-                        event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
+                case ("skip") -> {
+                    // Checks requester voice state
+                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
+                        AudioEventAdapter.setLoop(false);
+                        event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
                         return;
                     }
-                }
 
-                try {
+                    // Compare JDA and member voice state
+                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
+                        long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
+                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
+
+                        if (!(botVC == memberVC)) {
+                            event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
+                            return;
+                        }
+                    }
+
                     AudioTrack audioTrack;
                     audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
 
@@ -493,43 +461,38 @@ public class MusicCommands extends ListenerAdapter {
                     event.replyEmbeds(builder.build()).queue();
                     AudioEventAdapter.setLoop(false);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
-                    return;
-                } catch (Exception ignore) {
                 }
-            }
+                case ("queue") -> {
+                    playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
+                    AudioTrack currentTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                    queueSize = playlist.size();
 
-            // Queue
-            if (event.getName().equals("queue")) {
+                    if (queueSize == 0) {
+                        EmbedBuilder builder = new EmbedBuilder()
+                                .setDescription("The queue is empty or an error has occurred!")
+                                .setFooter("Use /help for a list of music commands!")
+                                .setColor(Util.randColor());
 
-                playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
-                AudioTrack currentTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
-                queueSize = playlist.size();
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                        return;
+                    }
 
-                if (queueSize == 0) {
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setDescription("The queue is empty or an error has occurred!")
-                            .setFooter("Use /help for a list of music commands!")
-                            .setColor(Util.randColor());
+                    EmbedBuilder builder = queuePage(0, 5, 1, currentTrack, event.getGuild());
 
-                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                    return;
-                }
-
-                EmbedBuilder builder = queuePage(0, 5, 1, currentTrack, event.getGuild());
-
-                // disable next page if next page is blank
-                if (queueSize <= 5) {
-                    event.replyEmbeds(builder.build())
-                            .addActionRow(
-                                    Button.primary("page1", "Previous Page").asDisabled(),
-                                    Button.primary("page2", "Next Page").asDisabled())
-                            .queue();
-                } else {
-                    event.replyEmbeds(builder.build())
-                            .addActionRow(
-                                    Button.primary("page1", "Previous Page").asDisabled(),
-                                    Button.primary("page2", "Next Page"))
-                            .queue();
+                    // disable next page if next page is blank
+                    if (queueSize <= 5) {
+                        event.replyEmbeds(builder.build())
+                                .addActionRow(
+                                        Button.primary("page1", "Previous Page").asDisabled(),
+                                        Button.primary("page2", "Next Page").asDisabled())
+                                .queue();
+                    } else {
+                        event.replyEmbeds(builder.build())
+                                .addActionRow(
+                                        Button.primary("page1", "Previous Page").asDisabled(),
+                                        Button.primary("page2", "Next Page"))
+                                .queue();
+                    }
                 }
             }
 
