@@ -26,12 +26,12 @@ public class Commands extends ListenerAdapter {
         System.out.println("Joined server: \"" + event.getGuild().getName() + "\"");
         EmbedBuilder builder = new EmbedBuilder()
                 .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                .setTitle("Thank you for inviting PawBot to " + event.getGuild().getName() + "!")
+                .setTitle("Thank you for inviting Avalon to " + event.getGuild().getName() + "!")
                 .setColor(Util.randColor())
                 .setDescription("Make sure to use /help to get the full commands list!")
                 .addBlankField(false)
                 .addField("Need to contact us?", "Add joel#0005 on Discord for questions!", false)
-                .addField("Want to invite PawBot to another server?", "Click on my profile and click \" Add to Server\" to invite PawBot!", false);
+                .addField("Want to invite Avalon to another server?", "Click on my profile and click \" Add to Server\" to invite Avalon!", false);
 
         Objects.requireNonNull(event.getGuild().getSystemChannel()).sendMessageEmbeds(builder.build()).setActionRow(
                         Button.link(inviteLink, "Invite"))
@@ -333,7 +333,7 @@ public class Commands extends ListenerAdapter {
                 catch (Exception exception) {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("Unknown error occurred, try again later!")
-                            .setFooter("Make sure PawBots role is set as high as possible in the role hierarchy if this error continues to occur!")
+                            .setFooter("Make sure Avalons role is set as high as possible in the role hierarchy if this error continues to occur!")
                             .setColor(Util.randColor());
 
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
@@ -528,7 +528,7 @@ public class Commands extends ListenerAdapter {
         if (setting == 1) {
             builder = new EmbedBuilder()
                     .setColor(Util.randColor())
-                    .setTitle("PawBot Commands")
+                    .setTitle("Avalon Commands")
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                     .addField("General Commands", """
                                 `/help` : Lists commands
@@ -545,18 +545,18 @@ public class Commands extends ListenerAdapter {
         else if (setting == 2) {
             builder = new EmbedBuilder()
                     .setColor(Util.randColor())
-                    .setTitle("PawBot Commands")
+                    .setTitle("Avalon Commands")
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                     .addField("Moderation Commands", """
                                 `/purge` : Purges messages (up to 100)
                                 `/reload_commands` : Reloads bot commands (in case of commands not appearing)
-                                `/broadcast` : Sends message as PawBot""", false);
+                                `/broadcast` : Sends message as Avalon""", false);
         }
 
         else if (setting == 3) {
             builder = new EmbedBuilder()
                     .setColor(Util.randColor())
-                    .setTitle("PawBot Commands")
+                    .setTitle("Avalon Commands")
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
                     .addField("Music Commands", """
                                 `/play` : Plays YouTube and Spotify links

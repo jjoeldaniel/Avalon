@@ -1,5 +1,5 @@
-# PawBot
-PawBot is a Discord bot that includes music, moderation, utility, react-messages, and various fun commands! 
+# Avalon
+Avalon is a Discord bot that includes music, moderation, utility, react-messages, and various fun commands! 
 
 ![Image of corgi sitting down](https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096|width)
  
@@ -9,11 +9,11 @@ PawBot is a Discord bot that includes music, moderation, utility, react-messages
  
    Use `/help` for the complete commands list.
     
- ### **2) What functions does PawBot provide?**
+ ### **2) What functions does Avalon provide?**
  
    PawBot currently supports Music, Moderation commands (kick, ban, timeout, broadcast), Utility commands (ping, av, afk) and Fun commands (8ball, truth or dare).
 
- ### **3) What permissions does PawBot require?**
+ ### **3) What permissions does Avalon require?**
  
    PawBot requires various permissions (all previewed when inviting) and for its role to be moved up as high as possible in the role hierarchy.
 
@@ -56,7 +56,7 @@ PawBot is a Discord bot that includes music, moderation, utility, react-messages
 
 `/reload_commands` : Reloads bot commands (in case of commands not appearing)
 
-`/broadcast (channel) (message)` : Sends message as PawBot
+`/broadcast (channel) (message)` : Sends message as Avalon
 
 
 **Music Commands**
