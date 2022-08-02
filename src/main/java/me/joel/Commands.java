@@ -529,7 +529,7 @@ public class Commands extends ListenerAdapter {
             builder = new EmbedBuilder()
                     .setColor(Util.randColor())
                     .setTitle("Avalon Commands")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
+                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("General Commands", """
                                 `/help` : Lists commands
                                 `/ping` : Pings bot
@@ -546,7 +546,7 @@ public class Commands extends ListenerAdapter {
             builder = new EmbedBuilder()
                     .setColor(Util.randColor())
                     .setTitle("Avalon Commands")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
+                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("Moderation Commands", """
                                 `/purge` : Purges messages (up to 100)
                                 `/reload_commands` : Reloads bot commands (in case of commands not appearing)
@@ -557,7 +557,7 @@ public class Commands extends ListenerAdapter {
             builder = new EmbedBuilder()
                     .setColor(Util.randColor())
                     .setTitle("Avalon Commands")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/6931bbb87c32bf98a10d7ab9ff5f1b91.png?size=4096")
+                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("Music Commands", """
                                 `/play` : Plays YouTube and Spotify links
                                 `/pause` : Pauses playback
