@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -25,13 +26,17 @@ public class MusicCommands extends ListenerAdapter {
     List<AudioTrack> playlist;
     int queueSize;
     static boolean sendNowPlaying = false;
-    private static MessageChannelUnion messageChannelUnion;
+
+    private static SlashCommandInteractionEvent newEvent;
 
     public static Member getMember() {
         return member;
     }
 
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+
+        // newEvent
+        newEvent = event;
 
         // check if event is not from guild
         if (!event.isFromGuild()) return;
@@ -107,7 +112,6 @@ public class MusicCommands extends ListenerAdapter {
                 }
                 case ("play") -> {
                     event.deferReply().queue();
-                    messageChannelUnion = event.getChannel();
 
                     // Checks requester voice state
                     if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
@@ -139,7 +143,7 @@ public class MusicCommands extends ListenerAdapter {
                             audioManager.openAudioConnection(memberChannel);
 
                             // Plays song
-                            PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
+                            PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link, event.getGuild());
                         }
                         else if (link.contains("/playlist/")) {
                             String playlistName = Spotify.searchSpotify(link);
@@ -150,7 +154,7 @@ public class MusicCommands extends ListenerAdapter {
 
                             // Queue song
                             for (String i: playlistTracks) {
-                                PlayerManager.getINSTANCE().loadAndPlaySpotify(messageChannelUnion, ("ytsearch:" + i + " audio"), event.getGuild());
+                                PlayerManager.getINSTANCE().loadAndPlaySpotify(returnChannel(), ("ytsearch:" + i + " audio"), event.getGuild());
                             }
 
 
@@ -174,7 +178,7 @@ public class MusicCommands extends ListenerAdapter {
                             audioManager.openAudioConnection(memberChannel);
 
                             for (String i: albumTracks) {
-                                PlayerManager.getINSTANCE().loadAndPlaySpotify(messageChannelUnion, ("ytsearch:" + i + " audio"), event.getGuild());
+                                PlayerManager.getINSTANCE().loadAndPlaySpotify(returnChannel(), ("ytsearch:" + i + " audio"), event.getGuild());
                             }
 
                             EmbedBuilder builder = new EmbedBuilder()
@@ -197,7 +201,7 @@ public class MusicCommands extends ListenerAdapter {
                         // Joins VC
                         audioManager.openAudioConnection(memberChannel);
                         // Plays song
-                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
+                        PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link, event.getGuild());
                     }
 
                     // Valid links (Basically just YouTube)
@@ -205,7 +209,7 @@ public class MusicCommands extends ListenerAdapter {
                         // Joins VC
                         audioManager.openAudioConnection(memberChannel);
                         // Plays song
-                        PlayerManager.getINSTANCE().loadAndPlay(messageChannelUnion, link, event.getGuild());
+                        PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link, event.getGuild());
                     }
 
                     EmbedBuilder error = new EmbedBuilder()
@@ -766,6 +770,13 @@ public class MusicCommands extends ListenerAdapter {
     }
 
     /**
+     * Return event
+     */
+    public static Event getEvent() {
+        return newEvent;
+    }
+
+    /**
      * Sends `now playing` message to channel along with currentTrack
      */
     public static void sendNowPlaying(AudioTrack currentTrack, MessageChannelUnion channel) {
@@ -795,7 +806,7 @@ public class MusicCommands extends ListenerAdapter {
      * @return Event channel
      */
     public static MessageChannelUnion returnChannel() {
-        return messageChannelUnion;
+        return newEvent.getChannel();
     }
 
     /**

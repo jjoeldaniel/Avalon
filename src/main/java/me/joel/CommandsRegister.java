@@ -1,7 +1,10 @@
 package me.joel;
 
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -15,7 +18,7 @@ public class CommandsRegister extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
 
-        //event.getJDA().updateCommands().queue();
+        event.getJDA().updateCommands().queue();
 
         SubcommandData truth = new SubcommandData("truth", "Generates a random truth question");
         SubcommandData dare = new SubcommandData("dare", "Generates a random dare question");
@@ -35,8 +38,7 @@ public class CommandsRegister extends ListenerAdapter {
                         .addSubcommands(random),
                 Commands.slash("ping", "Sends pong"),
                 Commands.slash("avatar", "Sends user avatar")
-                        .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true),
-                Commands.slash("reload_commands", "Reloads bot commands (in case of commands not appearing)")
+                        .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
 
         ).queue();
     }
@@ -78,4 +80,47 @@ public class CommandsRegister extends ListenerAdapter {
 
         ).queue();
     }
+
+    @Override
+    public void onGuildReady(@NotNull GuildReadyEvent event) {
+        reloadCommands(event.getGuild());
+    }
+
+    /**
+     * Reloads guild commands
+     * @param guild Event guild
+     */
+    public static void reloadCommands(Guild guild) {
+        guild.updateCommands().addCommands(
+                // General
+                Commands.slash("whois", "Provides user information")
+                        .addOption(OptionType.MENTIONABLE, "user", "Sends user info", true),
+                Commands.slash("afk", "Sets AFK status"),
+                Commands.slash("confess", "Sends anonymous confession")
+                        .addOption(OptionType.STRING, "message", "Confession message", true),
+                Commands.context(Command.Type.USER, "Get member avatar"),
+                Commands.context(Command.Type.USER, "Get member info"),
+
+                // Mod
+                Commands.slash("broadcast", "Broadcasts message in selected channel")
+                        .addOption(OptionType.CHANNEL, "channel", "Channel message is broadcast in", true).addOption(OptionType.STRING, "message", "Broadcast message", true),
+                Commands.slash("purge", "Purges up to 100 messages")
+                        .addOption(OptionType.INTEGER, "number", "Number of messages to purge", true),
+
+                // Music
+                Commands.slash("play", "Requests a song")
+                        .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true),
+                Commands.slash("pause", "Pause playback"),
+                Commands.slash("volume", "Requests a song")
+                        .addOption(OptionType.STRING, "num", "Sets volume (between 1 and 100)", true),
+                Commands.slash("resume", "Resume playback"),
+                Commands.slash("clear", "Clears queue"),
+                Commands.slash("skip", "Skips song")
+                        .addOption(OptionType.INTEGER, "song_num", "Removes selected song from queue", false),
+                Commands.slash("queue", "Displays music queue"),
+                Commands.slash("playing", "Displays currently playing song"),
+                Commands.slash("loop", "Loops currently playing song")
+        ).queue();
+    }
+
 }
