@@ -18,7 +18,7 @@ public class CommandsRegister extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
 
-        event.getJDA().updateCommands().queue();
+        //event.getJDA().updateCommands().queue();
 
         SubcommandData truth = new SubcommandData("truth", "Generates a random truth question");
         SubcommandData dare = new SubcommandData("dare", "Generates a random dare question");

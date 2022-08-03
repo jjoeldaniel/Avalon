@@ -533,7 +533,6 @@ public class Commands extends ListenerAdapter {
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("Moderation Commands", """
                                 `/purge` : Purges messages (up to 100)
-                                `/reload_commands` : Reloads bot commands (in case of commands not appearing)
                                 `/broadcast` : Sends message as Avalon""", false);
         }
 
