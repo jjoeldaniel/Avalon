@@ -46,15 +46,8 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 **Moderation Commands**
 
-`/kick (user) (reason)` : Kicks user with optional reason
-
-`/ban (user) (reason)` : Bans user with optional reason
-
-`/timeout (user) (length)` : Times out user (Default: 1hr)
-
 `/purge (num)` : Purges messages (up to 100)
 
-`/reload_commands` : Reloads bot commands (in case of commands not appearing)
 
 `/broadcast (channel) (message)` : Sends message as Avalon
 
