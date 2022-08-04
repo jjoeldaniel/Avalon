@@ -34,7 +34,12 @@ public class TrackScheduler extends AudioEventAdapter {
             if (me.joel.AudioEventAdapter.isLooping()) {
                 AudioTrack loop = track.makeClone();
                 this.audioPlayer.startTrack(loop, false);
-            } else {
+            }
+//            else if (shuffle) {
+//                int random = Util.randomWithRange(0, this.queue.size());
+//                AudioTrack track = this.queue.
+//            }
+            else {
                 nextTrack();
             }
         }
