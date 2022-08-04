@@ -19,7 +19,7 @@ public class Avalon {
                 .addEventListeners(new CommandsRegister())
                 .addEventListeners(new TestServer())
                 .enableCache(CacheFlag.VOICE_STATE)
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 .build()
                 .awaitReady();
 
