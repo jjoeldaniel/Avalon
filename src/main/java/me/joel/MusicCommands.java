@@ -11,8 +11,6 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +35,7 @@ public class MusicCommands extends ListenerAdapter {
         // check if event is not from guild
         if (!event.isFromGuild()) return;
 
-        // JDA audioManager, NOT lava player
+        // JDA AudioManager
         final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
         // gets event member
@@ -197,8 +195,16 @@ public class MusicCommands extends ListenerAdapter {
                         }
                     }
 
+                    // Valid links
+                    else if (link.contains("https://youtube.com")) {
+                        // Joins VC
+                        audioManager.openAudioConnection(memberChannel);
+                        // Plays song
+                        PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link, event.getGuild());
+                    }
+
                     // Invalid links
-                    else if (!isURL(link)) {
+                    else {
                         link = ("ytsearch:" + link + " audio");
                         // Joins VC
                         audioManager.openAudioConnection(memberChannel);
@@ -206,13 +212,6 @@ public class MusicCommands extends ListenerAdapter {
                         PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link, event.getGuild());
                     }
 
-                    // Valid links (Basically just YouTube)
-                    else {
-                        // Joins VC
-                        audioManager.openAudioConnection(memberChannel);
-                        // Plays song
-                        PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link, event.getGuild());
-                    }
                     event.getHook().deleteOriginal().queue();
                 }
                 case ("volume") -> {
@@ -763,18 +762,6 @@ public class MusicCommands extends ListenerAdapter {
      */
     public static MessageChannelUnion returnChannel() {
         return newEvent.getChannel();
-    }
-
-    /**
-     * @return True if url is valid
-     */
-    public static boolean isURL(String url) {
-        try {
-            new URI(url);
-            return true;
-        } catch (URISyntaxException e) {
-            return false;
-        }
     }
 
 }
