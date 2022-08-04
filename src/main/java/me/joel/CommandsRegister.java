@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class CommandsRegister extends ListenerAdapter {
 
 
+    // Registers global commands
     @Override
     public void onReady(@NotNull ReadyEvent event) {
 
@@ -43,6 +44,7 @@ public class CommandsRegister extends ListenerAdapter {
         ).queue();
     }
 
+    // Registers guild commands
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         reloadCommands(event.getGuild());

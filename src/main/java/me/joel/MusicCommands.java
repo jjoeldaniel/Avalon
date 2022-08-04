@@ -521,31 +521,6 @@ public class MusicCommands extends ListenerAdapter {
         }
     }
 
-    // Deafens bot on vc join
-    @Override
-    public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
-
-        // If JDA
-        if (event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
-            Member member = event.getGuild().getSelfMember();
-            member.deafen(true).queue();
-        }
-    }
-
-    // Deafens bot if bot is un-deafened
-    @Override
-    public void onGuildVoiceGuildDeafen(@NotNull GuildVoiceGuildDeafenEvent event) {
-
-        // If JDA
-        if (event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
-            Member member = event.getGuild().getSelfMember();
-            if (Objects.requireNonNull(member.getVoiceState()).inAudioChannel()) {
-                Util.wait(500);
-                member.deafen(true).queue();
-            }
-        }
-    }
-
     // Button Interactions
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
@@ -752,7 +727,6 @@ public class MusicCommands extends ListenerAdapter {
             }
         }
     }
-
 
     /**
      * Queue Page EmbedBuilder

@@ -17,7 +17,7 @@ public class Avalon {
                 .addEventListeners(new Commands(), new ModCommands(), new MusicCommands())
                 .addEventListeners(new ReactMessages())
                 .addEventListeners(new CommandsRegister())
-                .addEventListeners(new TestServer())
+                .addEventListeners(new GuildEvents())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 .build()
