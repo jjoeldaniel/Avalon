@@ -433,13 +433,12 @@ public class MusicCommands extends ListenerAdapter {
                         return;
                     }
                     EmbedBuilder builder = new EmbedBuilder()
-                            .setDescription("Song skipped")
+                            .setDescription("Song(s) skipped")
                             .setFooter("Use /help for a list of music commands!")
                             .setColor(Util.randColor());
 
                     if (event.getOption("song_num") != null) {
-                        int songSkip;
-                        songSkip = (Objects.requireNonNull(event.getOption("song_num")).getAsInt()) - 1;
+                        int songSkip = (Objects.requireNonNull(event.getOption("song_num")).getAsInt()) - 1;
 
                         if (songSkip >= 2) {
                             if (songSkip >= playlist.size()) {
@@ -458,6 +457,27 @@ public class MusicCommands extends ListenerAdapter {
                             return;
                         }
                     }
+
+                    if (event.getOption("songs_to_skip") != null) {
+                        int songs = Objects.requireNonNull(event.getOption("songs_to_skip")).getAsInt();
+
+                        if (songs > playlist.size()) {
+                            EmbedBuilder builder1 = new EmbedBuilder()
+                                    .setColor(Util.randColor())
+                                    .setDescription("That isn't a valid number!")
+                                    .setFooter("Use /help for a list of music commands!");
+
+                            event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
+                            return;
+                        }
+                        for (int i = 0; i < songs; i++) {
+                            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
+                        }
+
+                        event.replyEmbeds(builder.build()).queue();
+                        return;
+                    }
+
                     event.replyEmbeds(builder.build()).queue();
                     AudioEventAdapter.setLoop(false);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
