@@ -59,7 +59,7 @@ public class PlayerManager {
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
 
                 // tracks
-                if (!trackURL.contains("https://youtube.com")) {
+                if (!MusicCommands.isURL(trackURL)) {
                     final List<AudioTrack> tracks = audioPlaylist.getTracks();
                     if (!tracks.isEmpty()) {
                         musicManager.scheduler.queue(tracks.get(0));
