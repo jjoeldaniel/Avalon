@@ -4,7 +4,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
-import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -25,7 +24,6 @@ public class MusicCommands extends ListenerAdapter {
     private static Member member;
     List<AudioTrack> playlist;
     int queueSize;
-    static boolean sendNowPlaying = false;
 
     private static SlashCommandInteractionEvent newEvent;
 
@@ -770,50 +768,10 @@ public class MusicCommands extends ListenerAdapter {
     }
 
     /**
-     * Return event
-     */
-    public static Event getEvent() {
-        return newEvent;
-    }
-
-    /**
-     * Sends `now playing` message to channel along with currentTrack
-     */
-    public static void sendNowPlaying(AudioTrack currentTrack, MessageChannelUnion channel) {
-        setSendNowPlaying(false);
-
-        // Time from ms to m:s
-        long trackLength = currentTrack.getInfo().length;
-        long minutes = (trackLength / 1000) / 60;
-        long seconds = ((trackLength / 1000) % 60);
-        String songSeconds = String.valueOf(seconds);
-        if (seconds < 10) songSeconds = "0" + seconds;
-        // Thumbnail
-        String trackThumbnail = PlayerManager.getThumbnail(currentTrack.getInfo().uri);
-
-        EmbedBuilder builder = new EmbedBuilder()
-                .setColor(Util.randColor())
-                .setAuthor("Now Playing")
-                .setTitle(currentTrack.getInfo().title, currentTrack.getInfo().uri)
-                .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
-                .setThumbnail(trackThumbnail)
-                .setFooter("Use /help for a list of music commands!");
-
-        channel.sendMessageEmbeds(builder.build()).queue();
-    }
-
-    /**
      * @return Event channel
      */
     public static MessageChannelUnion returnChannel() {
         return newEvent.getChannel();
-    }
-
-    /**
-     * Toggles `now playing` message
-     */
-    public static void setSendNowPlaying(boolean bool) {
-        sendNowPlaying = bool;
     }
 
     /**

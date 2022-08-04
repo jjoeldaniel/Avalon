@@ -26,9 +26,6 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void nextTrack() {
         this.audioPlayer.startTrack(this.queue.poll(), false);
-        if (audioPlayer.getPlayingTrack() == null) return;
-        MusicCommands.setSendNowPlaying(true);
-        MusicCommands.sendNowPlaying(audioPlayer.getPlayingTrack(), MusicCommands.returnChannel());
     }
 
     @Override
