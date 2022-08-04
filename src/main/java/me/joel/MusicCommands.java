@@ -129,6 +129,12 @@ public class MusicCommands extends ListenerAdapter {
                     final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
                     String link = Objects.requireNonNull(event.getOption("song")).getAsString();
 
+                    EmbedBuilder error = new EmbedBuilder()
+                            .setDescription("Loading playlist...")
+                            .setColor(Util.randColor())
+                            .setFooter("Use /help for a list of music commands!");
+                    event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
+
                     // Spotify
                     if (link.startsWith("https://open.spotify.com/")) {
 
@@ -207,13 +213,6 @@ public class MusicCommands extends ListenerAdapter {
                         // Plays song
                         PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link, event.getGuild());
                     }
-
-                    EmbedBuilder error = new EmbedBuilder()
-                            .setDescription("Loading playlist...")
-                            .setColor(Util.randColor())
-                            .setFooter("Use /help for a list of music commands!");
-                    event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
-                    Util.wait(1000);
                     event.getHook().deleteOriginal().queue();
                 }
                 case ("volume") -> {

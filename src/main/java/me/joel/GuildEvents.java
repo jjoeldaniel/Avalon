@@ -34,7 +34,6 @@ public class GuildEvents extends ListenerAdapter {
         if (event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
             Member member = event.getGuild().getSelfMember();
             if (Objects.requireNonNull(member.getVoiceState()).inAudioChannel()) {
-                Util.wait(500);
                 member.deafen(true).queue();
             }
         }
