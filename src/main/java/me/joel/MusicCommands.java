@@ -382,7 +382,7 @@ public class MusicCommands extends ListenerAdapter {
                                 .setFooter("Use /help for a list of music commands!")
                                 .setColor(Util.randColor());
 
-                        event.replyEmbeds(builder.build()).queue();
+                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
                     }
 
