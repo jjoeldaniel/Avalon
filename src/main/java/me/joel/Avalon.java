@@ -14,7 +14,7 @@ public class Avalon {
 
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GHpHqT.uOTGGrIGK2fFj2RFQE9GllzgLGMQ8EjMyzzL1Q")
                 .setStatus(OnlineStatus.ONLINE)
-                .addEventListeners(new Commands(), new ModCommands(), new MusicCommands())
+                .addEventListeners(new Commands(), new MusicCommands())
                 .addEventListeners(new ReactMessages())
                 .addEventListeners(new CommandsRegister())
                 .addEventListeners(new GuildEvents())
