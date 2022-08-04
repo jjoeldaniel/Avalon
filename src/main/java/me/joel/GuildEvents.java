@@ -12,7 +12,6 @@ import java.util.Objects;
 
 public class GuildEvents extends ListenerAdapter {
 
-    // Deafens bot on vc join
     @Override
     public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
 
@@ -22,7 +21,6 @@ public class GuildEvents extends ListenerAdapter {
         }
     }
 
-    // Deafens bot
     @Override
     public void onGuildVoiceGuildDeafen(@NotNull GuildVoiceGuildDeafenEvent event) {
 
@@ -35,7 +33,6 @@ public class GuildEvents extends ListenerAdapter {
         }
     }
 
-    // Join events
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
 
         // paw patrol and cat club welcome messages

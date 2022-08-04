@@ -23,7 +23,7 @@ public class Commands extends ListenerAdapter {
 
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
-        System.out.println("Joined server: \"" + event.getGuild().getName() + "\"");
+
         EmbedBuilder builder = new EmbedBuilder()
                 .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                 .setTitle("Thank you for inviting Avalon to " + event.getGuild().getName() + "!")
