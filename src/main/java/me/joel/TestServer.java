@@ -10,7 +10,6 @@ import java.util.Objects;
 
 public class TestServer extends ListenerAdapter {
 
-    // TODO: Fix onGuildMemberJoin, fails to trigger on member join
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         // paw patrol and cat club (test server)
