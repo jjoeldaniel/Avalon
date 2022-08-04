@@ -4,8 +4,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
