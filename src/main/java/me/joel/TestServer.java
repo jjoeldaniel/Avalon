@@ -23,10 +23,10 @@ public class TestServer extends ListenerAdapter {
                     .setDescription
                             (
                                     "Welcome " + member.getAsMention() + " to " + event.getGuild().getName() +
-                                            "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
+                                    "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
                             )
                     .setThumbnail(member.getEffectiveAvatarUrl())
-                    .setFooter("User: " + member.getUser().getName() + " ID: " + member.getId());
+                    .setFooter("User: " + member.getUser().getName() +"#" + member.getUser().getDiscriminator() + " ID: " + member.getId());
 
             // find welcome channel
             try {
