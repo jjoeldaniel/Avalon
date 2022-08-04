@@ -458,7 +458,7 @@ public class MusicCommands extends ListenerAdapter {
                         }
                     }
 
-                    if (event.getOption("songs_to_skip") != null) {
+                    else if (event.getOption("songs_to_skip") != null) {
                         int songs = Objects.requireNonNull(event.getOption("songs_to_skip")).getAsInt();
 
                         if (songs > playlist.size()) {
