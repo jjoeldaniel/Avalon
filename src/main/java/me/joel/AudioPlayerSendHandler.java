@@ -3,35 +3,41 @@ package me.joel;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
+/**
+ * Wrapper around AudioPlayer which makes it behave as an AudioSendHandler for JDA. As JDA calls canProvide
+ * before every call to provide20MsAudio(), we pull the frame in canProvide() and use the frame we already pulled in
+ * provide20MsAudio().
+ */
 public class AudioPlayerSendHandler implements AudioSendHandler {
-
     private final AudioPlayer audioPlayer;
     private final ByteBuffer buffer;
     private final MutableAudioFrame frame;
 
+    /**
+     * @param audioPlayer Audio player to wrap.
+     */
     public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
         this.buffer = ByteBuffer.allocate(1024);
         this.frame = new MutableAudioFrame();
         this.frame.setBuffer(buffer);
-        audioPlayer.setVolume(50);
     }
 
     @Override
     public boolean canProvide() {
-        return this.audioPlayer.provide(this.frame);
+        // returns true if audio was provided
+        return audioPlayer.provide(frame);
     }
 
-    @Nullable
     @Override
     public ByteBuffer provide20MsAudio() {
-        final Buffer buffer = ((Buffer) this.buffer).flip();
-        return (ByteBuffer) buffer;
+        // flip to make it a read buffer
+        ((Buffer) buffer).flip();
+        return buffer;
     }
 
     @Override
