@@ -135,28 +135,26 @@ public class MusicCommands extends ListenerAdapter {
                             .setFooter("Use /help for a list of music commands!");
                     event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
 
+                    // Joins VC
+                    audioManager.openAudioConnection(memberChannel);
+                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setVolume(50);
+
                     // Spotify
                     if (link.startsWith("https://open.spotify.com/")) {
 
                         if (link.contains("/track/")) {
                             link = ("ytsearch:" + Spotify.searchSpotify(link) + " audio");
 
-                            // Joins VC
-                            audioManager.openAudioConnection(memberChannel);
-
                             // Plays song
-                            PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link, event.getGuild());
+                            PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link);
                         }
                         else if (link.contains("/playlist/")) {
                             String playlistName = Spotify.searchSpotify(link);
                             ArrayList<String> playlistTracks = Spotify.getTracks(link);
 
-                            // Joins VC
-                            audioManager.openAudioConnection(memberChannel);
-
                             // Queue song
                             for (String i: playlistTracks) {
-                                PlayerManager.getINSTANCE().loadAndPlaySpotify(returnChannel(), ("ytsearch:" + i + " audio"), event.getGuild());
+                                PlayerManager.getINSTANCE().loadAndPlaySpotify(returnChannel(), ("ytmsearch:" + i + " audio"));
                             }
 
 
@@ -176,11 +174,8 @@ public class MusicCommands extends ListenerAdapter {
                             String albumName = Spotify.searchSpotify(link);
                             ArrayList<String> albumTracks = Spotify.getTracks(link);
 
-                            // Joins VC
-                            audioManager.openAudioConnection(memberChannel);
-
                             for (String i: albumTracks) {
-                                PlayerManager.getINSTANCE().loadAndPlaySpotify(returnChannel(), ("ytsearch:" + i + " audio"), event.getGuild());
+                                PlayerManager.getINSTANCE().loadAndPlaySpotify(returnChannel(), ("ytmsearch:" + i + " audio"));
                             }
 
                             EmbedBuilder builder = new EmbedBuilder()
@@ -199,22 +194,18 @@ public class MusicCommands extends ListenerAdapter {
 
                     // Valid links
                     else if (isURL(link)) {
-                        // Joins VC
-                        audioManager.openAudioConnection(memberChannel);
                         // Plays song
-                        PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link, event.getGuild());
+                        PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link);
                     }
 
                     // Invalid links
                     else {
                         link = ("ytsearch:" + link + " audio");
-                        // Joins VC
-                        audioManager.openAudioConnection(memberChannel);
                         // Plays song
-                        PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link, event.getGuild());
+                        PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link);
                     }
 
-                    Thread.sleep(1000);
+                    Thread.sleep(1500);
                     event.getHook().deleteOriginal().queue();
                 }
                 case ("volume") -> {
