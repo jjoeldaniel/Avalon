@@ -81,7 +81,7 @@ public class MusicCommands extends ListenerAdapter {
                         }
                     }
 
-                    if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() == null) {
+                    if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack() == null) {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor(Util.randColor())
                                 .setDescription("There is no song currently playing!");
@@ -247,8 +247,8 @@ public class MusicCommands extends ListenerAdapter {
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                         return;
                     }
-                    int prevVolume = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getVolume();
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setVolume(num / 2);
+                    int prevVolume = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getVolume();
+                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setVolume(num / 2);
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
@@ -273,8 +273,8 @@ public class MusicCommands extends ListenerAdapter {
                             return;
                         }
                     }
-                    if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
-                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(true);
+                    if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack() != null) {
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setPaused(true);
 
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setDescription("Playback paused")
@@ -309,8 +309,8 @@ public class MusicCommands extends ListenerAdapter {
                         }
                     }
 
-                    if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack() != null) {
-                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.setPaused(false);
+                    if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack() != null) {
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setPaused(false);
 
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setDescription("Playback resumed")
@@ -330,7 +330,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
                 case ("playing") -> {
                     try {
-                        AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                        AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
 
                         // Time from ms to m:s
                         long trackLength = track.getInfo().length;
@@ -391,7 +391,7 @@ public class MusicCommands extends ListenerAdapter {
 
                     AudioEventAdapter.setLoop(false);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.clear();
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.destroy();
+                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.destroy();
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("Queue cleared")
@@ -420,7 +420,7 @@ public class MusicCommands extends ListenerAdapter {
                     }
 
                     AudioTrack audioTrack;
-                    audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                    audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
 
                     if (audioTrack == null) {
                         EmbedBuilder builder = new EmbedBuilder()
@@ -483,7 +483,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
                 case ("queue") -> {
                     playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
-                    AudioTrack currentTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                    AudioTrack currentTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                     queueSize = playlist.size();
 
                     if (queueSize == 0) {
@@ -530,7 +530,7 @@ public class MusicCommands extends ListenerAdapter {
 
         switch (invoke) {
             case ("page1") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(0, 5, 1, audioTrack, event.getGuild());
 
                 // disable next page if next page is blank
@@ -549,7 +549,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
             }
             case ("page2") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(5, 10, 2, audioTrack, event.getGuild());
 
                 // disable next page if next page is blank
@@ -568,7 +568,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
             }
             case ("page3") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(10, 15, 3, audioTrack, event.getGuild());
 
                 // disable next page if next page is blank
@@ -589,7 +589,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
             }
             case ("page4") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(15, 20, 4, audioTrack, event.getGuild());
 
                 // disable next page if next page is blank
@@ -610,7 +610,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
             }
             case ("page5") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(20, 25, 5, audioTrack, event.getGuild());
 
                 // disable next page if next page is blank
@@ -631,7 +631,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
             }
             case ("page6") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(25, 30, 6, audioTrack, event.getGuild());
 
                 // disable next page if next page is blank
@@ -652,7 +652,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
             }
             case ("page7") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(30, 35, 7, audioTrack, event.getGuild());
 
                 // disable next page if next page is blank
@@ -673,7 +673,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
             }
             case ("page8") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(35, 40, 8, audioTrack, event.getGuild());
 
                 // disable next page if next page is blank
@@ -694,7 +694,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
             }
             case ("page9") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(40, 45, 9, audioTrack, event.getGuild());
 
                 // disable next page if next page is blank
@@ -715,7 +715,7 @@ public class MusicCommands extends ListenerAdapter {
                 }
             }
             case ("page10") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).audioPlayer.getPlayingTrack();
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(45, 50, 10, audioTrack, event.getGuild());
 
                 event.editMessageEmbeds(builder.build())
