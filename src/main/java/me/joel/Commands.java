@@ -368,13 +368,6 @@ public class Commands extends ListenerAdapter {
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
                 case ("broadcast") -> {
-                    // Insufficient Permissions
-                    if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && !(event.getMember().getId().equals("205862976689799168"))) {
-                        EmbedBuilder builder = noPermissions();
-                        event.replyEmbeds(builder.build()).queue();
-                        return;
-                    }
-
                     // Get channel and message
                     GuildChannelUnion channel = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
                     String message = Objects.requireNonNull(event.getOption("message")).getAsString();
