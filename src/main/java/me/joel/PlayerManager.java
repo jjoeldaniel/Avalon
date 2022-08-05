@@ -38,8 +38,14 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(MessageChannelUnion channel, String trackURL, Guild guild) {
+    public void loadAndPlay(MessageChannelUnion channel, String trackURL) {
 
+        Guild guild = null;
+
+        if (channel.getType() == ChannelType.TEXT) guild = channel.asTextChannel().getGuild();
+        else if (channel.getType() == ChannelType.VOICE) guild = channel.asVoiceChannel().getGuild();
+
+        assert guild != null;
         final GuildMusicManager musicManager = this.getMusicManager(guild);
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
@@ -119,8 +125,14 @@ public class PlayerManager {
 
     }
 
-    public void loadAndPlaySpotify(MessageChannelUnion channel, String trackURL, Guild guild) {
+    public void loadAndPlaySpotify(MessageChannelUnion channel, String trackURL) {
 
+        Guild guild = null;
+
+        if (channel.getType() == ChannelType.TEXT) guild = channel.asTextChannel().getGuild();
+        else if (channel.getType() == ChannelType.VOICE) guild = channel.asVoiceChannel().getGuild();
+
+        assert guild != null;
         final GuildMusicManager musicManager = this.getMusicManager(guild);
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
