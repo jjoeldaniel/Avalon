@@ -1,6 +1,7 @@
 package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -8,6 +9,7 @@ import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -15,7 +17,10 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class GuildEvents extends ListenerAdapter {
 
@@ -108,6 +113,40 @@ public class GuildEvents extends ListenerAdapter {
         registerCommands(event.getGuild());
     }
 
+    @Override
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+
+        // Checks if user
+        if (event.isFromType(ChannelType.TEXT)) {
+
+            if (!event.getAuthor().isBot() && event.isFromGuild() && !event.getChannel().asTextChannel().isNSFW()) {
+
+                // Grabs user input
+                String messageSent = event.getMessage().getContentRaw().toLowerCase();
+
+                // Goodnight
+                if (messageSent.contains("goodnight") || messageSent.contains("good night") && Util.randomWithRange(0, 100) > 50) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("goodnight sweetie!");
+                    event.getMessage().replyEmbeds(builder.build()).queue();
+                }
+                // Good morning
+                if (messageSent.contains("goodmorning") || messageSent.contains("good morning") && Util.randomWithRange(0, 100) > 50) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("good morning sweetie!");
+                    event.getMessage().replyEmbeds(builder.build()).queue();
+                }
+                // Insult
+                if (isInsult(messageSent) && Util.randomWithRange(0, 100) > 75) {
+                    event.getMessage().replyEmbeds(randomInsult().build()).queue();
+                }
+
+            }
+        }
+    }
+
     void registerCommands(Guild guild) {
         guild.updateCommands().addCommands(
                 // General
@@ -140,6 +179,43 @@ public class GuildEvents extends ListenerAdapter {
                 Commands.slash("playing", "Displays currently playing song"),
                 Commands.slash("loop", "Loops currently playing song")
         ).queue();
+    }
+
+    private static boolean isInsult(String message) {
+        return message.contains("fuck") || (message.contains("cunt")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
+    }
+
+    private static EmbedBuilder randomInsult() {
+        Random rand = new Random();
+
+        List<String> insultList = new ArrayList<>();
+        insultList.add("No you");
+        insultList.add("Fuck you");
+        insultList.add("Your mom");
+        insultList.add("Stfu");
+        insultList.add("Bruh");
+        insultList.add("Dickhead");
+        insultList.add("Asshole");
+        insultList.add("Idiot");
+        insultList.add("You can do better");
+        insultList.add("Stfu inbred");
+        insultList.add("Bitch pls");
+        insultList.add("Shut your mouth");
+        insultList.add("You disgust me");
+        insultList.add("Fuck off");
+        insultList.add("Dumbfuck");
+        insultList.add("Dumbass");
+        insultList.add("You're dumb");
+        insultList.add("Fuck off midget");
+        insultList.add("I'll fucking roundhouse kick you in the teeth, dumbfuck");
+        insultList.add("Shut the fuck up, literally no one is paying attention");
+        insultList.add("Minorly whore");
+
+        int num = rand.nextInt(insultList.size());
+
+        return new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setDescription(insultList.get(num));
     }
 
 }
