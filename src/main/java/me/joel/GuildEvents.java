@@ -147,6 +147,9 @@ public class GuildEvents extends ListenerAdapter {
         }
     }
 
+    /**
+     * Registers commands on guild
+     */
     void registerCommands(Guild guild) {
         guild.updateCommands().addCommands(
                 // General
@@ -181,10 +184,7 @@ public class GuildEvents extends ListenerAdapter {
         ).queue();
     }
 
-    // Insults
-
     /**
-
      * @return True if message contains insult
      */
     boolean isInsult(String message) {
@@ -192,7 +192,7 @@ public class GuildEvents extends ListenerAdapter {
         }
 
     /**
-     * @return Insult embed
+     * @return Insult embed reply
      */
     EmbedBuilder randomInsult() {
         Random rand = new Random();
