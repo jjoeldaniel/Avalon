@@ -181,11 +181,20 @@ public class GuildEvents extends ListenerAdapter {
         ).queue();
     }
 
-    private static boolean isInsult(String message) {
-        return message.contains("fuck") || (message.contains("cunt")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
-    }
+    // Insults
 
-    private static EmbedBuilder randomInsult() {
+    /**
+
+     * @return True if message contains insult
+     */
+    boolean isInsult(String message) {
+            return message.contains("fuck") || (message.contains("cunt")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
+        }
+
+    /**
+     * @return Insult embed
+     */
+    EmbedBuilder randomInsult() {
         Random rand = new Random();
 
         List<String> insultList = new ArrayList<>();
