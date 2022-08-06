@@ -23,6 +23,7 @@ public class Avalon {
 
                 .addEventListeners(new GuildEvents())
                 .addEventListeners(new Register())
+                .addEventListeners(new ReactMessages())
 
                 // Global
                 .addEventListeners(new Avatar(), new Ball8(), new CoinFlip(), new Help(), new Ping(), new TruthOrDare())
