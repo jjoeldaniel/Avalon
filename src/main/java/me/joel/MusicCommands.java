@@ -105,46 +105,6 @@ public class MusicCommands extends ListenerAdapter {
                         event.replyEmbeds(builder.build()).queue();
                     }
                 }
-                case ("volume") -> {
-                    // Checks requester voice state
-                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                        event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
-                        return;
-                    }
-
-                    // Compare JDA and member voice state
-                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                        long memberVC = Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getIdLong();
-                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                        if (!(botVC == memberVC)) {
-                            event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
-                            return;
-                        }
-                    }
-
-                    int num = Objects.requireNonNull(event.getOption("num")).getAsInt();
-
-                    if (num <= 0 || num > 100) {
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                                .setTitle("Error! You can't set the volume to 0 or above 100.")
-                                .setFooter("Use /help for a list of music commands!");
-
-                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                        return;
-                    }
-                    int prevVolume = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getVolume();
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setVolume(num / 2);
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                            .setTitle("Volume is now set to " + num + "%. (Prev: " + prevVolume * 2 + "%)")
-                            .setFooter("Use /help for a list of music commands!");
-
-                    event.replyEmbeds(builder.build()).queue();
-                }
                 case ("playing") -> {
                     try {
                         AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
