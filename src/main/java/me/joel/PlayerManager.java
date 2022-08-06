@@ -113,6 +113,10 @@ public class PlayerManager {
                             .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
 
+                    if (trackURL.contains("spotify.com")) {
+                        builder.setThumbnail(Spotify.searchSpotify(trackURL));
+                    }
+
                     channel.sendMessageEmbeds(builder.build()).queue();
                 }
             }
