@@ -17,7 +17,7 @@ public class Avalon {
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands(), new MusicCommands())
                 .addEventListeners(new GuildEvents())
-                .addEventListeners(new Play(),new Resume(), new Skip(), new Volume(), new Queue(), new Clear())
+                .addEventListeners(new Play(),new Resume(), new Skip(), new Volume(), new Queue(), new Clear(), new Playing())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 .build()
