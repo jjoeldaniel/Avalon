@@ -8,15 +8,24 @@ import java.util.Random;
 
 public class Util {
 
-    // Random number from 0 - i
+    /**
+     * Random int
+     * @param min Floor
+     * @param max Ceiling
+     * @return Int in range of floor and ceiling
+     */
     public static int randomWithRange(int min, int max) {
         Random rand = new Random();
         return rand.nextInt(min, max);
     }
 
-    // Random dog thumbnail
+    /**
+     * Random dog thumbnail
+     * @return Thumbnail URL
+     */
     public static String randomThumbnail() {
         ArrayList<String> dogs = new ArrayList<>();
+
         dogs.add("https://c.tenor.com/HxNhwwXRcdEAAAAj/brickhill-bh.gif");
         dogs.add("https://c.tenor.com/eRTjXVkts5kAAAAj/pug-dog.gif");
         dogs.add("https://c.tenor.com/BpGpliwaBcMAAAAj/dogjam-dog.gif");
@@ -24,12 +33,23 @@ public class Util {
         dogs.add("https://c.tenor.com/V4jrINyqhGcAAAAj/dance-dancing.gif");
         dogs.add("https://c.tenor.com/0vy31sXqwYcAAAAj/dog-doggo.gif");
         dogs.add("https://c.tenor.com/9TsiJq--SsEAAAAj/doge-dance.gif");
+        dogs.add("https://c.tenor.com/IgknKg_YnbgAAAAC/fluffy-cute.gif");
+        dogs.add("https://c.tenor.com/_4xCiEhhoZsAAAAd/dog-smile.gif");
+        dogs.add("https://c.tenor.com/F5KHwoW46WQAAAAd/hotdog.gif");
+        dogs.add("https://c.tenor.com/nEsdZ0qa6QcAAAAd/dog.gif");
+        dogs.add("https://c.tenor.com/lfLqrldlPO0AAAAd/bee-dog-dog-bee.gif");
+        dogs.add("https://c.tenor.com/he7fisueH2QAAAAd/puppy-cute.gif");
+        dogs.add("https://c.tenor.com/f-paU3H3PAMAAAAd/dog-happy.gif");
+        dogs.add("https://c.tenor.com/X85gBisS1bAAAAAd/dog-looking.gif");
 
         int num = randomWithRange(0, dogs.size());
         return dogs.get(num);
     }
 
-    // Generic error
+    /**
+     * Generic error
+     * @return Error embed
+     */
     public static EmbedBuilder genericError() {
         return new EmbedBuilder()
                 .setDescription("An error has occurred!")
@@ -37,7 +57,10 @@ public class Util {
                 .setFooter("Use /help for the commands list");
     }
 
-    // Random color
+    /**
+     * Generates colors
+     * @return Color
+     */
     public static Color randColor() {
         int num1 = randomWithRange(0, 255);
         int num2 = randomWithRange(0, 255);
