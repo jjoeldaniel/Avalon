@@ -1,7 +1,6 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import me.joel.MusicCommands;
 import me.joel.PlayerManager;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
