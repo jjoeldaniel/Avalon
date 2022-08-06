@@ -10,10 +10,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static me.joel.MusicCommands.isURL;
 import static me.joel.MusicCommands.returnChannel;
 
 public class Play extends ListenerAdapter {
@@ -79,6 +80,18 @@ public class Play extends ListenerAdapter {
             }
 
             event.getHook().deleteOriginal().queueAfter(1000, TimeUnit.MILLISECONDS);
+        }
+    }
+
+    /**
+     * @return True if url is valid
+     */
+    public static boolean isURL(String url) {
+        try {
+            new URI(url);
+            return true;
+        } catch (URISyntaxException e) {
+            return false;
         }
     }
 }

@@ -9,6 +9,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import me.joel.commands.music.Play;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
@@ -74,7 +75,7 @@ public class PlayerManager {
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
 
                 // tracks
-                if (!MusicCommands.isURL(trackURL)) {
+                if (!Play.isURL(trackURL)) {
                     final List<AudioTrack> tracks = audioPlaylist.getTracks();
                     if (!tracks.isEmpty()) {
                         musicManager.scheduler.queue(tracks.get(0));
