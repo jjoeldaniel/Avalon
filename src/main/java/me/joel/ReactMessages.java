@@ -1,17 +1,13 @@
 package me.joel;
 
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import me.joel.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class ReactMessages extends ListenerAdapter {
@@ -59,7 +55,7 @@ public class ReactMessages extends ListenerAdapter {
 //            }
 
             // Check for bot
-            if (Objects.requireNonNull(event.getMember()).getUser().isBot()) return;
+            if ((event.getMember()).getUser().isBot()) return;
 
             // Goodnight
             if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn") && Util.randomWithRange(0, 100) > 50) {
