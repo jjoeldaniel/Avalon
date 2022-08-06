@@ -111,7 +111,7 @@ public class PlayerManager {
                             .setTitle(audioPlaylist.getName())
                             .setDescription("`[" + playlistSize + "] songs`")
                             .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
+                            .addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false)
                             .setFooter("Use /help for a list of music commands!");
 
                     if (trackURL.contains("spotify.com")) {
@@ -162,7 +162,7 @@ public class PlayerManager {
                 .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
                 .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
                 .setThumbnail(trackThumbnail)
-                .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
+                .addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false)
                 .setFooter("Use /help for a list of music commands!");
     }
 

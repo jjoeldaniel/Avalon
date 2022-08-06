@@ -15,9 +15,9 @@ public class Avalon {
 
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GHpHqT.uOTGGrIGK2fFj2RFQE9GllzgLGMQ8EjMyzzL1Q")
                 .setStatus(OnlineStatus.ONLINE)
-                .addEventListeners(new Commands(), new MusicCommands())
+                .addEventListeners(new Commands())
                 .addEventListeners(new GuildEvents())
-                .addEventListeners(new Play(),new Resume(), new Skip(), new Volume(), new Queue(), new Clear(), new Playing())
+                .addEventListeners(new Play(),new Resume(), new Skip(), new Volume(), new Queue(), new Clear(), new Playing(), new Loop())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 .build()
