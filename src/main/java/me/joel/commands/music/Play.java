@@ -1,7 +1,6 @@
 package me.joel.commands.music;
 
 import me.joel.PlayerManager;
-import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -14,8 +13,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-
-import static me.joel.MusicCommands.returnChannel;
 
 public class Play extends ListenerAdapter {
 
@@ -37,7 +34,7 @@ public class Play extends ListenerAdapter {
 
             // Checks requester voice state
             if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                event.getHook().sendMessageEmbeds(Embeds.VCRequirement.build()).setEphemeral(true).queue();
+                event.getHook().sendMessageEmbeds(Util.VCRequirement.build()).setEphemeral(true).queue();
                 return;
             }
 
@@ -50,14 +47,14 @@ public class Play extends ListenerAdapter {
                 long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
 
                 if (!(botVC == memberVC)) {
-                    event.getHook().sendMessageEmbeds(Embeds.sameVCRequirement.build()).setEphemeral(true).queue();
+                    event.getHook().sendMessageEmbeds(Util.sameVCRequirement.build()).setEphemeral(true).queue();
                     return;
                 }
             }
 
             EmbedBuilder error = new EmbedBuilder()
                     .setDescription("Loading song(s)...")
-                    .setColor(Util.randColor())
+                    .setColor(me.joel.Util.randColor())
                     .setFooter("Use /help for a list of music commands!");
             event.getHook().sendMessageEmbeds(error.build()).setEphemeral(true).queue();
 
@@ -69,14 +66,14 @@ public class Play extends ListenerAdapter {
 
             // Valid links
             if (isURL(link)) {
-                PlayerManager.getINSTANCE().loadAndPlay(returnChannel(),link);
+                PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(),link);
             }
 
             // Invalid links
             else {
                 link = ("ytsearch:" + link + " audio");
                 // Plays song
-                PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link);
+                PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(), link);
             }
 
             event.getHook().deleteOriginal().queueAfter(1000, TimeUnit.MILLISECONDS);

@@ -1,7 +1,6 @@
 package me.joel.commands.music;
 
 import me.joel.PlayerManager;
-import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -29,7 +28,7 @@ public class Volume extends ListenerAdapter {
 
             // Checks requester voice state
             if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                event.replyEmbeds(Embeds.VCRequirement.build()).setEphemeral(true).queue();
+                event.replyEmbeds(Util.VCRequirement.build()).setEphemeral(true).queue();
                 return;
             }
 
@@ -39,7 +38,7 @@ public class Volume extends ListenerAdapter {
                 long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
 
                 if (!(botVC == memberVC)) {
-                    event.replyEmbeds(Embeds.sameVCRequirement.build()).setEphemeral(true).queue();
+                    event.replyEmbeds(Util.sameVCRequirement.build()).setEphemeral(true).queue();
                     return;
                 }
             }
@@ -48,7 +47,7 @@ public class Volume extends ListenerAdapter {
 
             if (num <= 0 || num > 100) {
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
+                        .setColor(me.joel.Util.randColor())
                         .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                         .setTitle("Error! You can't set the volume to 0 or above 100.")
                         .setFooter("Use /help for a list of music commands!");
@@ -61,7 +60,7 @@ public class Volume extends ListenerAdapter {
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setVolume(num / 2);
 
             EmbedBuilder builder = new EmbedBuilder()
-                    .setColor(Util.randColor())
+                    .setColor(me.joel.Util.randColor())
                     .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                     .setTitle("Volume is now set to " + num + "%. (Prev: " + prevVolume * 2 + "%)")
                     .setFooter("Use /help for a list of music commands!");

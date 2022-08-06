@@ -3,7 +3,6 @@ package me.joel.commands.music;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.joel.AudioEventAdapter;
 import me.joel.PlayerManager;
-import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -33,7 +32,7 @@ public class Skip extends ListenerAdapter {
             // Checks requester voice state
             if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                 AudioEventAdapter.setLoop(false);
-                event.replyEmbeds(Embeds.VCRequirement.build()).setEphemeral(true).queue();
+                event.replyEmbeds(Util.VCRequirement.build()).setEphemeral(true).queue();
                 return;
             }
 
@@ -43,7 +42,7 @@ public class Skip extends ListenerAdapter {
                 long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
 
                 if (!(botVC == memberVC)) {
-                    event.replyEmbeds(Embeds.sameVCRequirement.build()).setEphemeral(true).queue();
+                    event.replyEmbeds(Util.sameVCRequirement.build()).setEphemeral(true).queue();
                     return;
                 }
             }
@@ -55,7 +54,7 @@ public class Skip extends ListenerAdapter {
             if (audioTrack == null) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setDescription("No song is playing or an error has occurred!")
-                        .setColor(Util.randColor())
+                        .setColor(me.joel.Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
@@ -65,14 +64,14 @@ public class Skip extends ListenerAdapter {
             EmbedBuilder builder = new EmbedBuilder()
                     .setDescription("Song(s) skipped")
                     .setFooter("Use /help for a list of music commands!")
-                    .setColor(Util.randColor());
+                    .setColor(me.joel.Util.randColor());
 
             if (event.getOption("target") != null) {
                 int songSkip = (Objects.requireNonNull(event.getOption("target")).getAsInt()) - 1;
 
                 if (songSkip >= playlist.size() || songSkip < 1) {
                     EmbedBuilder skipOutOfBounds = new EmbedBuilder()
-                            .setColor(Util.randColor())
+                            .setColor(me.joel.Util.randColor())
                             .setDescription("That isn't a valid song number!")
                             .setFooter("Use /help for a list of music commands!");
 
@@ -92,7 +91,7 @@ public class Skip extends ListenerAdapter {
 
                 if (songs > playlist.size() || songs < 1) {
                     EmbedBuilder builder1 = new EmbedBuilder()
-                            .setColor(Util.randColor())
+                            .setColor(me.joel.Util.randColor())
                             .setDescription("That isn't a valid number!")
                             .setFooter("Use /help for a list of music commands!");
 

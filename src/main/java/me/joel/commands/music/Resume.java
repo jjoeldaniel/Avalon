@@ -1,7 +1,6 @@
 package me.joel.commands.music;
 
 import me.joel.PlayerManager;
-import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -30,7 +29,7 @@ public class Resume extends ListenerAdapter {
 
             // Checks requester voice state
             if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                event.replyEmbeds(Embeds.VCRequirement.build()).setEphemeral(true).queue();
+                event.replyEmbeds(Util.VCRequirement.build()).setEphemeral(true).queue();
                 return;
             }
 
@@ -39,7 +38,7 @@ public class Resume extends ListenerAdapter {
                 long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
                 long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
                 if (!(botVC == memberVC)) {
-                    event.replyEmbeds(Embeds.sameVCRequirement.build()).setEphemeral(true).queue();
+                    event.replyEmbeds(Util.sameVCRequirement.build()).setEphemeral(true).queue();
                     return;
                 }
             }
@@ -49,7 +48,7 @@ public class Resume extends ListenerAdapter {
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setDescription("Playback resumed")
-                        .setColor(Util.randColor())
+                        .setColor(me.joel.Util.randColor())
                         .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(false).queue();
@@ -59,7 +58,7 @@ public class Resume extends ListenerAdapter {
             EmbedBuilder builder = new EmbedBuilder()
                     .setDescription("No song is playing or an error has occurred!")
                     .setFooter("Use /help for a list of music commands!")
-                    .setColor(Util.randColor());
+                    .setColor(me.joel.Util.randColor());
 
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
