@@ -45,6 +45,10 @@ public class Playing extends ListenerAdapter {
                         .setThumbnail(trackThumbnail)
                         .setFooter("Use /help for a list of music commands!");
 
+                if (track.getInfo().uri.contains("/track")) {
+                    builder.setThumbnail(Util.randomThumbnail());
+                }
+
                 event.replyEmbeds(builder.build()).queue();
 
             } catch (Exception exception) {
