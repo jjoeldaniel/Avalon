@@ -21,7 +21,6 @@ public class Avalon {
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GHpHqT.uOTGGrIGK2fFj2RFQE9GllzgLGMQ8EjMyzzL1Q")
                 .setStatus(OnlineStatus.ONLINE)
 
-                .addEventListeners(new Commands())
                 .addEventListeners(new GuildEvents())
                 .addEventListeners(new Register())
 
