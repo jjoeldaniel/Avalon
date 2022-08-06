@@ -158,20 +158,38 @@ public class PlayerManager {
         long trackLength = audioTrack.getInfo().length;
         long minutes = (trackLength / 1000) / 60;
         long seconds = ((trackLength / 1000) % 60);
+
+        long hours = 0;
+        if (minutes >= 60) {
+            while (minutes > 60) {
+                hours++;
+                minutes -= 60;
+            }
+        }
+
+        String songMinutes = String.valueOf(minutes);
+        if (minutes < 10) songMinutes = "0" + minutes;
+
         String songSeconds = String.valueOf(seconds);
         if (seconds < 10) songSeconds = "0" + seconds;
 
         // Thumbnail
         String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
 
-        return new EmbedBuilder()
+        EmbedBuilder builder = new EmbedBuilder()
                 .setColor(Util.randColor())
                 .setAuthor("Added to queue (#" + queueSize + ")")
                 .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                .setDescription("`[0:00 / [" + songMinutes + ":" + songSeconds + "]`")
                 .setThumbnail(trackThumbnail)
                 .addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false)
                 .setFooter("Use /help for a list of music commands!");
+
+        if (hours > 0) {
+            builder.setDescription("`[0:00 / [" + hours + ":" + songMinutes + ":" + songSeconds + "]`");
+        }
+
+        return builder;
     }
 
     // Gets YouTube thumbnail
