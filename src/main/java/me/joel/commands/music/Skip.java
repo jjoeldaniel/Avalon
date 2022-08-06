@@ -30,9 +30,6 @@ public class Skip extends ListenerAdapter {
 
         if (invoke.equals("skip")) {
 
-            List<AudioTrack> playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
-            int queueSize;
-
             // Checks requester voice state
             if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
                 AudioEventAdapter.setLoop(false);
@@ -51,6 +48,7 @@ public class Skip extends ListenerAdapter {
                 }
             }
 
+            List<AudioTrack> playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
             AudioTrack audioTrack;
             audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
 
@@ -63,29 +61,30 @@ public class Skip extends ListenerAdapter {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
+
             EmbedBuilder builder = new EmbedBuilder()
                     .setDescription("Song(s) skipped")
                     .setFooter("Use /help for a list of music commands!")
                     .setColor(Util.randColor());
 
-            if (event.getOption("song_num") != null) {
-                int songSkip = (Objects.requireNonNull(event.getOption("song_num")).getAsInt()) - 1;
+            if (event.getOption("target") != null) {
+                int songSkip = (Objects.requireNonNull(event.getOption("target")).getAsInt()) - 1;
 
-                if (songSkip >= 2) {
-                    if (songSkip >= playlist.size()) {
-                        EmbedBuilder skipOutOfBounds = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setDescription("That isn't a valid song number!")
-                                .setFooter("Use /help for a list of music commands!");
+                if (songSkip >= playlist.size() || songSkip < 1) {
+                    EmbedBuilder skipOutOfBounds = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("That isn't a valid song number!")
+                            .setFooter("Use /help for a list of music commands!");
 
-                        event.replyEmbeds(skipOutOfBounds.build()).setEphemeral(true).queue();
-                        return;
-                    }
-                    AudioTrack songToSkip = playlist.get(songSkip);
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.remove(songToSkip);
-
-                    event.replyEmbeds(builder.build()).queue();
+                    event.replyEmbeds(skipOutOfBounds.build()).setEphemeral(true).queue();
+                    return;
                 }
+
+                AudioTrack songToSkip = playlist.get(songSkip);
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.remove(songToSkip);
+
+                event.replyEmbeds(builder.build()).queue();
+                return;
             }
 
             else if (event.getOption("songs_to_skip") != null) {
@@ -100,12 +99,17 @@ public class Skip extends ListenerAdapter {
                     event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
                     return;
                 }
+
                 for (int i = 0; i < songs; i++) {
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
                 }
 
                 event.replyEmbeds(builder.build()).queue();
+                return;
             }
+
+            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
+            event.replyEmbeds(builder.build()).queue();
         }
     }
 }
