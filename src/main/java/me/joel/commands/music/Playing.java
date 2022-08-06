@@ -18,10 +18,10 @@ public class Playing extends ListenerAdapter {
 
         var invoke = event.getName();
 
-        // JDA AudioManager
-        final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
-
         if (invoke.equals("playing")) {
+
+            // JDA AudioManager
+            final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
             try {
                 AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();

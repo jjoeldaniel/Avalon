@@ -16,11 +16,11 @@ public class Shuffle extends ListenerAdapter {
 
         var invoke = event.getName();
 
-        // Avalon
-        Member bot = Objects.requireNonNull(event.getGuild()).getMemberById("971239438892019743");
-        assert bot != null;
-
         if (invoke.equals("shuffle")) {
+
+            // Avalon
+            Member bot = Objects.requireNonNull(event.getGuild()).getMemberById("971239438892019743");
+            assert bot != null;
 
             // Checks requester voice state
             if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
