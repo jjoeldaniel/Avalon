@@ -57,8 +57,7 @@ public class Playing extends ListenerAdapter {
                         .setAuthor("Now Playing")
                         .setTitle(track.getInfo().title, track.getInfo().uri)
                         .setDescription("`[0:00 / [" + songMinutes + ":" + songSeconds + "]`")
-                        .setThumbnail(trackThumbnail)
-                        .setFooter("Use /help for a list of music commands!");
+                        .setThumbnail(trackThumbnail);
 
                 if (hours > 0) {
                     builder.setDescription("`[0:00 / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
