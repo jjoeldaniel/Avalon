@@ -26,14 +26,14 @@ public class Queue extends ListenerAdapter {
 
         var invoke = event.getName();
 
-        // Avalon
-        Member bot = Objects.requireNonNull(event.getGuild()).getMemberById("971239438892019743");
-        assert bot != null;
-
-        // JDA AudioManager
-        final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
-
         if (invoke.equals("queue")) {
+
+            // Avalon
+            Member bot = Objects.requireNonNull(event.getGuild()).getMemberById("971239438892019743");
+            assert bot != null;
+
+            // JDA AudioManager
+            final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
             playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
             AudioTrack currentTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
