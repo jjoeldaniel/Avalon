@@ -42,7 +42,8 @@ public class Pause extends ListenerAdapter {
                     return;
                 }
             }
-            if (!PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack() != null) {
+
+            if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack() != null) {
                 PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setPaused(true);
 
                 EmbedBuilder builder = new EmbedBuilder()

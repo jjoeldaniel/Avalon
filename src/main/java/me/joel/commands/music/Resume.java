@@ -43,7 +43,7 @@ public class Resume extends ListenerAdapter {
                 }
             }
 
-            if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.isPaused() && PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack() != null) {
+            if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack() != null) {
                 PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setPaused(false);
 
                 EmbedBuilder builder = new EmbedBuilder()
