@@ -87,10 +87,10 @@ public class Skip extends ListenerAdapter {
                 return;
             }
 
-            else if (event.getOption("songs_to_skip") != null) {
-                int songs = Objects.requireNonNull(event.getOption("songs_to_skip")).getAsInt();
+            else if (event.getOption("num") != null) {
+                int songs = Objects.requireNonNull(event.getOption("num")).getAsInt();
 
-                if (songs > playlist.size()) {
+                if (songs > playlist.size() || songs < 1) {
                     EmbedBuilder builder1 = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("That isn't a valid number!")
