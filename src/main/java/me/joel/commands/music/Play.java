@@ -1,6 +1,7 @@
 package me.joel.commands.music;
 
 import me.joel.lavaplayer.PlayerManager;
+import me.joel.lavaplayer.Spotify;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -65,7 +66,13 @@ public class Play extends ListenerAdapter {
             String link = Objects.requireNonNull(event.getOption("song")).getAsString();
 
             // Valid links
-            if (isURL(link)) {
+            if (isURL(link) && !link.contains("/track/")) {
+                PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(),link);
+            }
+
+            // Spotify tracks (can't get thumbnails otherwise)
+            else if (link.contains("/track")) {
+                link = Spotify.searchSpotify(link);
                 PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(),link);
             }
 

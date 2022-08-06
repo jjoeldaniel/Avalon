@@ -6,6 +6,7 @@ import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistRequest;
+import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
 
 import java.util.Arrays;
 import java.util.concurrent.CancellationException;
@@ -70,7 +71,32 @@ public class Spotify {
         // Grab ID
         String id = separateID(query);
 
-        // Playlists
+        // Track Request
+        if (query.contains("/track/")) {
+            // Search request
+            final GetTrackRequest getTrackRequest = spotifyApi.getTrack(id)
+                .build();
+            try {
+                final CompletableFuture<Track> trackFuture = getTrackRequest.executeAsync();
+                final Track track = trackFuture.join();
+
+                String artist = Arrays.stream(track.getArtists()).toList().get(0).toString();
+
+                StringBuilder stringBuilder = new StringBuilder(artist);
+                stringBuilder.delete(0, 22);
+                artist = stringBuilder.toString();
+                String[] artists = artist.split(",", 2);
+                artist = artists[0];
+
+                return "ytmsearch: " + track.getName() + " " + artist + " audio";
+            } catch (CompletionException e) {
+                System.out.println("Error: " + e.getCause().getMessage());
+            } catch (CancellationException e) {
+                System.out.println("Async operation cancelled.");
+            }
+        }
+
+        // Playlist Thumbnail
         if (query.contains("/playlist/")) {
 
             // Search request
@@ -87,7 +113,7 @@ public class Spotify {
                 System.out.println("Async operation cancelled.");
             }
         }
-        // Albums
+        // Album Thumbnail
         else if (query.contains("/album/")) {
 
             // Search request
