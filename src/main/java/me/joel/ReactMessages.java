@@ -22,7 +22,7 @@ public class ReactMessages extends ListenerAdapter {
             String messageSent = event.getMessage().getContentRaw().toLowerCase();
 
             // Goodnight
-            if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase(" gn ") && Util.randomWithRange(0, 100) > 50) {
+            if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn") && Util.randomWithRange(0, 100) > 50) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setDescription("goodnight sweetie!");
