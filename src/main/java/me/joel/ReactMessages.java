@@ -16,7 +16,11 @@ public class ReactMessages extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
         // Checks if user
-        if (event.isFromGuild() && !event.getChannel().asTextChannel().isNSFW()) {
+        if (event.isFromGuild()) {
+
+            if (event.getChannel().getType() == ChannelType.TEXT) {
+                if (event.getChannel().asTextChannel().isNSFW()) return;
+            }
 
             // Grabs user input
             String messageSent = event.getMessage().getContentRaw().toLowerCase();
