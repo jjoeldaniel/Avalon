@@ -1,6 +1,5 @@
 package me.joel;
 
-import com.sedmelluq.discord.lavaplayer.player.event.AudioEventListener;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.joel.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -96,7 +95,7 @@ public class GuildEvents extends ListenerAdapter {
             builder.setThumbnail(PlayerManager.getThumbnail(track.getInfo().uri));
         }
 
-        VoiceChannel channel = event.getGuild().getVoiceChannelById(event.getMember().getVoiceState().getChannel().getId());
+        VoiceChannel channel = event.getGuild().getVoiceChannelById(Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getId());
         if (channel == null) return;
 
         channel.sendMessageEmbeds(builder.build()).queue();
