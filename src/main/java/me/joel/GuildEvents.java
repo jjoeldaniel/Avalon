@@ -95,15 +95,15 @@ public class GuildEvents extends ListenerAdapter {
         event.getJDA().updateCommands().addCommands(
 
                 // Slash
-                net.dv8tion.jda.api.interactions.commands.build.Commands.slash("help", "Lists commands"),
-                net.dv8tion.jda.api.interactions.commands.build.Commands.slash("8ball", "Asks the magic 8ball a question")
+                Commands.slash("help", "Lists commands"),
+                Commands.slash("8ball", "Asks the magic 8ball a question")
                         .addOption(OptionType.STRING, "question", "Your question to the 8ball", true),
-                net.dv8tion.jda.api.interactions.commands.build.Commands.slash("coinflip", "Flips a coin for heads or tails"),
-                net.dv8tion.jda.api.interactions.commands.build.Commands.slash("truthordare", "Generates a random truth/dare question")
+                Commands.slash("coinflip", "Flips a coin for heads or tails"),
+                Commands.slash("truthordare", "Generates a random truth/dare question")
                         .addSubcommands(truth)
                         .addSubcommands(dare)
                         .addSubcommands(random),
-                net.dv8tion.jda.api.interactions.commands.build.Commands.slash("ping", "Sends pong"),
+                Commands.slash("ping", "Sends pong"),
                 Commands.slash("avatar", "Sends user avatar")
                         .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
 

@@ -2,10 +2,9 @@ package me.joel;
 
 import javax.security.auth.login.LoginException;
 
-import me.joel.commands.mod.Broadcast;
-import me.joel.commands.mod.Purge;
+import me.joel.commands.guild.*;
+import me.joel.commands.mod.*;
 import me.joel.commands.music.*;
-import me.joel.commands.music.Util;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -21,7 +20,8 @@ public class Avalon {
                 .addEventListeners(new Commands())
                 .addEventListeners(new GuildEvents())
                 .addEventListeners(new Purge(), new Broadcast())
-                .addEventListeners(new Play(),new Resume(), new Pause(), new Skip(), new Volume(), new Queue(), new Clear(), new Playing(), new Loop(), new Util())
+                .addEventListeners(new AFK(), new Confess(), new WhoIs())
+                .addEventListeners(new Play(),new Resume(), new Pause(), new Skip(), new Volume(), new Queue(), new Clear(), new Playing(), new Loop(), new me.joel.commands.music.Util())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 .build()
