@@ -2,6 +2,7 @@ package me.joel;
 
 import javax.security.auth.login.LoginException;
 
+import me.joel.commands.Register;
 import me.joel.commands.guild.*;
 import me.joel.commands.mod.*;
 import me.joel.commands.music.*;
@@ -19,6 +20,7 @@ public class Avalon {
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())
                 .addEventListeners(new GuildEvents())
+                .addEventListeners(new Register())
                 .addEventListeners(new Purge(), new Broadcast())
                 .addEventListeners(new AFK(), new Confess(), new WhoIs())
                 .addEventListeners(new Play(),new Resume(), new Pause(), new Skip(), new Volume(), new Queue(), new Clear(), new Playing(), new Loop(), new me.joel.commands.music.Util())
