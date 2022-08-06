@@ -36,7 +36,7 @@ public class Play extends ListenerAdapter {
 
             // Checks requester voice state
             if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                event.getHook().sendMessageEmbeds(Embed.VCRequirement.build()).setEphemeral(true).queue();
+                event.getHook().sendMessageEmbeds(Embeds.VCRequirement.build()).setEphemeral(true).queue();
                 return;
             }
 
@@ -49,7 +49,7 @@ public class Play extends ListenerAdapter {
                 long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
 
                 if (!(botVC == memberVC)) {
-                    event.getHook().sendMessageEmbeds(Embed.sameVCRequirement.build()).setEphemeral(true).queue();
+                    event.getHook().sendMessageEmbeds(Embeds.sameVCRequirement.build()).setEphemeral(true).queue();
                     return;
                 }
             }
