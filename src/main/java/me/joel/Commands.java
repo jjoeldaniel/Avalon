@@ -551,6 +551,7 @@ public class Commands extends ListenerAdapter {
                                 `/playing` : Displays currently playing song
                                 `/volume` : Sets volume
                                 `/loop` : Loops the currently playing song
+                                `/shuffle` : Shuffles music queue
                                 `/skip` : Skips song""", false);
         }
 
