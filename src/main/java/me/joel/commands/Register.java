@@ -72,8 +72,6 @@ public class Register extends ListenerAdapter {
 
         // Global Commands
         event.getJDA().updateCommands().addCommands(
-
-                // Slash
                 Commands.slash("help", "Lists commands"),
                 Commands.slash("8ball", "Asks the magic 8ball a question")
                         .addOption(OptionType.STRING, "question", "Your question to the 8ball", true),
@@ -85,7 +83,6 @@ public class Register extends ListenerAdapter {
                 Commands.slash("ping", "Sends pong"),
                 Commands.slash("avatar", "Sends user avatar")
                         .addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true)
-
         ).queue();
     }
 }
