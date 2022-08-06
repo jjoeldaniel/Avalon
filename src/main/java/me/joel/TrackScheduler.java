@@ -5,6 +5,7 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -53,6 +54,14 @@ public class TrackScheduler extends AudioEventAdapter {
             if (me.joel.AudioEventAdapter.isLooping()) {
                 AudioTrack loop = track.makeClone();
                 this.player.startTrack(loop, false);
+            }
+            else if (me.joel.AudioEventAdapter.isShuffling()) {
+                System.out.println("is shuffling");
+                List<AudioTrack> playlist = queue.stream().toList();
+                AudioTrack randomTrack = playlist.get(Util.randomWithRange(0, playlist.size()));
+                AudioTrack cloneTrack = playlist.get(Util.randomWithRange(0, playlist.size())).makeClone();
+                this.player.startTrack(cloneTrack, false);
+                queue.remove(randomTrack);
             }
             else {
                 nextTrack();

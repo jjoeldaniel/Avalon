@@ -53,7 +53,8 @@ public class Register extends ListenerAdapter {
                         .addOption(OptionType.INTEGER, "num", "Removes \"x\" number of songs", false),
                 Commands.slash("queue", "Displays music queue"),
                 Commands.slash("playing", "Displays currently playing song"),
-                Commands.slash("loop", "Loops currently playing song")
+                Commands.slash("loop", "Loops currently playing song"),
+                Commands.slash("shuffle", "Shuffles music queue")
         ).queue();
     }
 

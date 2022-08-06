@@ -53,21 +53,26 @@ public class Loop extends ListenerAdapter {
                 return;
             }
 
-            if (!AudioEventAdapter.isLooping()) {
+            EmbedBuilder builder;
+
+            if (AudioEventAdapter.isShuffling()) {
+                builder = new EmbedBuilder()
+                        .setColor(me.joel.Util.randColor())
+                        .setDescription("You can't enable /shuffle and /queue at the same time!");
+            }
+            else if (!AudioEventAdapter.isLooping()) {
                 AudioEventAdapter.setLoop(true);
-                EmbedBuilder builder = new EmbedBuilder()
+                builder = new EmbedBuilder()
                         .setColor(me.joel.Util.randColor())
                         .setDescription("Song is now looping!");
-
-                event.replyEmbeds(builder.build()).queue();
             } else {
                 AudioEventAdapter.setLoop(false);
-                EmbedBuilder builder = new EmbedBuilder()
+                builder = new EmbedBuilder()
                         .setColor(me.joel.Util.randColor())
                         .setDescription("Song is no longer looping!");
-
-                event.replyEmbeds(builder.build()).queue();
             }
+
+            event.replyEmbeds(builder.build()).queue();
         }
     }
 }

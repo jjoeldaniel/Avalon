@@ -23,7 +23,7 @@ public class Avalon {
                 .addEventListeners(new Register())
                 .addEventListeners(new Purge(), new Broadcast())
                 .addEventListeners(new AFK(), new Confess(), new WhoIs())
-                .addEventListeners(new Play(),new Resume(), new Pause(), new Skip(), new Volume(), new Queue(), new Clear(), new Playing(), new Loop(), new me.joel.commands.music.Util())
+                .addEventListeners(new Play(),new Resume(), new Pause(), new Skip(),new Shuffle(), new Volume(), new Queue(), new Clear(), new Playing(), new Loop(), new me.joel.commands.music.Util())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 .build()

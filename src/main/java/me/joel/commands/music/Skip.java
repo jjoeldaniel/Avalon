@@ -31,7 +31,6 @@ public class Skip extends ListenerAdapter {
 
             // Checks requester voice state
             if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                AudioEventAdapter.setLoop(false);
                 event.replyEmbeds(Util.VCRequirement.build()).setEphemeral(true).queue();
                 return;
             }
@@ -79,6 +78,8 @@ public class Skip extends ListenerAdapter {
                     return;
                 }
 
+                AudioEventAdapter.setLoop(false);
+                AudioEventAdapter.setShuffle(false);
                 AudioTrack songToSkip = playlist.get(songSkip);
                 PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.remove(songToSkip);
 
@@ -99,6 +100,8 @@ public class Skip extends ListenerAdapter {
                     return;
                 }
 
+                AudioEventAdapter.setLoop(false);
+                AudioEventAdapter.setShuffle(false);
                 for (int i = 0; i < songs; i++) {
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
                 }
@@ -107,6 +110,8 @@ public class Skip extends ListenerAdapter {
                 return;
             }
 
+            AudioEventAdapter.setLoop(false);
+            AudioEventAdapter.setShuffle(false);
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
             event.replyEmbeds(builder.build()).queue();
         }
