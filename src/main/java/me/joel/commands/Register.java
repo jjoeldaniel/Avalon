@@ -11,6 +11,9 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Registers slash commands
+ */
 public class Register extends ListenerAdapter {
 
     /**
