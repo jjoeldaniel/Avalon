@@ -322,13 +322,6 @@ public class Commands extends ListenerAdapter {
                     }
                 }
                 case ("purge") -> {
-                    // Insufficient Permissions
-                    if (!Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)) {
-                        EmbedBuilder builder = noPermissions();
-                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                        return;
-                    }
-
                     // # of messages to be purged
                     int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
 
@@ -364,31 +357,6 @@ public class Commands extends ListenerAdapter {
                             .setColor(Util.randColor())
                             .setDescription("`" + amount + "` message(s) purged!")
                             .setFooter("Use /help for a list of commands!");
-
-                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                }
-                case ("broadcast") -> {
-                    // Get channel and message
-                    GuildChannelUnion channel = Objects.requireNonNull(event.getOption("channel")).getAsChannel();
-                    String message = Objects.requireNonNull(event.getOption("message")).getAsString();
-
-                    // Embed
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setTitle("Message sent!")
-                            .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                            .setColor(Util.randColor())
-                            .setDescription("\"" + message + "\"");
-
-                    // Text Channel
-                    if (channel.getType() == ChannelType.VOICE) {
-                        VoiceChannel voiceChannel = channel.asVoiceChannel();
-                        voiceChannel.sendMessage(message).queue();
-                    }
-                    // Voice Channel
-                    else if (channel.getType() == ChannelType.TEXT) {
-                        TextChannel textChannel = channel.asTextChannel();
-                        textChannel.sendMessage(message).queue();
-                    }
 
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
@@ -626,16 +594,6 @@ public class Commands extends ListenerAdapter {
         }
 
         return builder;
-    }
-
-    /**
-     *  Insufficient permissions embed
-     */
-    public static EmbedBuilder noPermissions() {
-        return new EmbedBuilder()
-                .setDescription("You don't have permission for this command!")
-                .setColor(Util.randColor())
-                .setFooter("Think this is an error?", "Try contacting your local server administrator/moderator!");
     }
 
 }

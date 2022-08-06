@@ -2,6 +2,8 @@ package me.joel;
 
 import javax.security.auth.login.LoginException;
 
+import me.joel.commands.mod.Broadcast;
+import me.joel.commands.mod.Purge;
 import me.joel.commands.music.*;
 import me.joel.commands.music.Util;
 import net.dv8tion.jda.api.JDA;
@@ -18,6 +20,7 @@ public class Avalon {
                 .setStatus(OnlineStatus.ONLINE)
                 .addEventListeners(new Commands())
                 .addEventListeners(new GuildEvents())
+                .addEventListeners(new Purge(), new Broadcast())
                 .addEventListeners(new Play(),new Resume(), new Pause(), new Skip(), new Volume(), new Queue(), new Clear(), new Playing(), new Loop(), new Util())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
