@@ -1,6 +1,6 @@
 package me.joel.commands.music;
 
-import me.joel.AudioEventAdapter;
+import me.joel.lavaplayer.AudioEventAdapter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -49,6 +49,8 @@ public class Shuffle extends ListenerAdapter {
                 builder = new EmbedBuilder()
                         .setColor(me.joel.Util.randColor())
                         .setDescription("You can't enable /shuffle and /queue at the same time!");
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
 
             if (AudioEventAdapter.isShuffling()) {

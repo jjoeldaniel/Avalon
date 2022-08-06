@@ -1,9 +1,10 @@
-package me.joel;
+package me.joel.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import me.joel.Util;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -51,11 +52,11 @@ public class TrackScheduler extends AudioEventAdapter {
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
         if (endReason.mayStartNext) {
-            if (me.joel.AudioEventAdapter.isLooping()) {
+            if (me.joel.lavaplayer.AudioEventAdapter.isLooping()) {
                 AudioTrack loop = track.makeClone();
                 this.player.startTrack(loop, false);
             }
-            else if (me.joel.AudioEventAdapter.isShuffling()) {
+            else if (me.joel.lavaplayer.AudioEventAdapter.isShuffling()) {
                 List<AudioTrack> playlist = queue.stream().toList();
                 AudioTrack randomTrack = playlist.get(Util.randomWithRange(0, playlist.size()));
                 AudioTrack cloneTrack = playlist.get(Util.randomWithRange(0, playlist.size())).makeClone();

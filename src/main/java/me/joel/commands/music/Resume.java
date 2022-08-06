@@ -1,6 +1,6 @@
 package me.joel.commands.music;
 
-import me.joel.PlayerManager;
+import me.joel.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;

@@ -1,8 +1,8 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import me.joel.AudioEventAdapter;
-import me.joel.PlayerManager;
+import me.joel.lavaplayer.AudioEventAdapter;
+import me.joel.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -112,7 +112,7 @@ public class Skip extends ListenerAdapter {
 
             AudioEventAdapter.setLoop(false);
 
-            if (me.joel.AudioEventAdapter.isShuffling()) {
+            if (AudioEventAdapter.isShuffling()) {
                 int num = me.joel.Util.randomWithRange(0, playlist.size());
 
                 AudioTrack randomTrack = playlist.get(num);
