@@ -50,16 +50,26 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
         if (endReason.mayStartNext) {
+
             if (me.joel.lavaplayer.AudioEventAdapter.isLooping()) {
                 AudioTrack loop = track.makeClone();
                 this.player.startTrack(loop, false);
             }
+
             else if (me.joel.lavaplayer.AudioEventAdapter.isShuffling()) {
                 List<AudioTrack> playlist = queue.stream().toList();
+
+                if (playlist.size() < 1) {
+                    nextTrack();
+                    return;
+                }
+
                 AudioTrack randomTrack = playlist.get(Util.randomWithRange(0, playlist.size()));
                 AudioTrack cloneTrack = playlist.get(Util.randomWithRange(0, playlist.size())).makeClone();
+
                 this.player.startTrack(cloneTrack, false);
                 queue.remove(randomTrack);
             }
