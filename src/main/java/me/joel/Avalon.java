@@ -20,9 +20,11 @@ public class Avalon {
 
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GHpHqT.uOTGGrIGK2fFj2RFQE9GllzgLGMQ8EjMyzzL1Q")
                 .setStatus(OnlineStatus.ONLINE)
+
                 .addEventListeners(new Commands())
                 .addEventListeners(new GuildEvents())
                 .addEventListeners(new Register())
+
                 // Global
                 .addEventListeners(new Avatar(), new Ball8(), new CoinFlip(), new Help(), new Ping(), new TruthOrDare())
                 // Mod
@@ -31,8 +33,10 @@ public class Avalon {
                 .addEventListeners(new AFK(), new Confess(), new WhoIs())
                 // Music
                 .addEventListeners(new Play(),new Resume(), new Pause(), new Skip(),new Shuffle(), new Volume(), new Queue(), new Clear(), new Playing(), new Loop(), new me.joel.commands.music.Util())
+
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
+
                 .build()
                 .awaitReady();
 
