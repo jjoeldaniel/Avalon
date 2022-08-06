@@ -543,7 +543,7 @@ public class Commands extends ListenerAdapter {
                     .setTitle("Avalon Commands")
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("Music Commands", """
-                                `/play` : Plays YouTube and Spotify links
+                                `/play` : Plays YouTube, Spotify, Apple Music
                                 `/pause` : Pauses playback
                                 `/resume` : Resumes playback
                                 `/clear` : Clears queue
