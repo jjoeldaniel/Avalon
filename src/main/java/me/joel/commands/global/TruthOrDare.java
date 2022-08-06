@@ -23,12 +23,8 @@ public class TruthOrDare extends ListenerAdapter {
             EmbedBuilder builder = null;
 
             switch (Objects.requireNonNull(invoke1)) {
-                case ("truth") -> {
-                    builder = getTruth();
-                }
-                case ("dare") -> {
-                    builder = getDare();
-                }
+                case ("truth") -> builder = getTruth();
+                case ("dare") -> builder = getDare();
                 case ("randomtruthordare") -> {
                     if (Util.randomWithRange(0, 100) > 50) builder = getDare();
                     else builder = getTruth();
@@ -47,12 +43,8 @@ public class TruthOrDare extends ListenerAdapter {
         EmbedBuilder builder = null;
         
         switch (invoke) {
-            case ("truth") -> {
-                builder = getTruth();
-            }
-            case ("dare") -> {
-                builder = getDare();
-            }
+            case ("truth") -> builder = getTruth();
+            case ("dare") -> builder = getDare();
             case ("randomtruthordare") -> {
                 if (Util.randomWithRange(0, 100) > 50) builder = getDare();
                 else builder = getTruth();
