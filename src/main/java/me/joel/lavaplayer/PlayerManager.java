@@ -70,8 +70,10 @@ public class PlayerManager {
                 musicManager.scheduler.queue(audioTrack);
 
                 EmbedBuilder builder = addedTrackToQueue(audioTrack, musicManager.scheduler.queue.size());
+
                 if (musicManager.scheduler.queue.size() <= 0) {
                     builder.setAuthor(("Added to queue"));
+                    builder.setThumbnail(Util.randomThumbnail());
                 }
                 channel.sendMessageEmbeds(builder.build()).queue();
             }
