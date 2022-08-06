@@ -321,45 +321,6 @@ public class Commands extends ListenerAdapter {
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     }
                 }
-                case ("purge") -> {
-                    // # of messages to be purged
-                    int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
-
-                    // Max of 100 messages
-                    if (amount > 100) {
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setColor(Util.randColor())
-                                .setDescription("Unable to purge over 100 messages!")
-                                .setFooter("Use /help for a list of commands!");
-
-                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                        return;
-                    }
-
-                    // Text Channel
-                    if (event.getChannel().getType() == ChannelType.TEXT) {
-                        TextChannel textChannel = event.getChannel().asTextChannel();
-                        textChannel.getIterableHistory()
-                                .takeAsync(amount)
-                                .thenAccept(textChannel::purgeMessages);
-                    }
-
-                    // Voice Channel
-                    else if (event.getChannel().getType() == ChannelType.VOICE) {
-                        VoiceChannel voiceChannel = event.getChannel().asVoiceChannel();
-                        voiceChannel.getIterableHistory()
-                                .takeAsync(amount)
-                                .thenAccept(voiceChannel::purgeMessages);
-                    }
-
-                    // Reply
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setColor(Util.randColor())
-                            .setDescription("`" + amount + "` message(s) purged!")
-                            .setFooter("Use /help for a list of commands!");
-
-                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                }
             }
 
         } catch (Exception e) {
