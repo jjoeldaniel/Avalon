@@ -30,6 +30,21 @@ public class Playing extends ListenerAdapter {
                 long trackLength = track.getInfo().length;
                 long minutes = (trackLength / 1000) / 60;
                 long seconds = ((trackLength / 1000) % 60);
+
+                long hours = 0;
+                if (minutes >= 60) {
+                    while (minutes > 60) {
+                        hours++;
+                        minutes -= 60;
+                    }
+                }
+
+                String songHours = String.valueOf(hours);
+                if (hours < 10) songHours = "0" + minutes;
+
+                String songMinutes = String.valueOf(minutes);
+                if (minutes < 10) songMinutes = "0" + minutes;
+
                 String songSeconds = String.valueOf(seconds);
                 if (seconds < 10) songSeconds = "0" + seconds;
 
@@ -41,9 +56,14 @@ public class Playing extends ListenerAdapter {
                         .setColor(Util.randColor())
                         .setAuthor("Now Playing")
                         .setTitle(track.getInfo().title, track.getInfo().uri)
-                        .setDescription("`[0:00 / [" + minutes + ":" + songSeconds + "]`")
+                        .setDescription("`[0:00 / [" + songMinutes + ":" + songSeconds + "]`")
                         .setThumbnail(trackThumbnail)
                         .setFooter("Use /help for a list of music commands!");
+
+                if (hours > 0) {
+                    builder.setDescription("`[0:00 / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
+                }
+
 
                 if (track.getInfo().uri.contains("/track")) {
                     builder.setThumbnail(Util.randomThumbnail());

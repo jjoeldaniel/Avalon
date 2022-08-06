@@ -167,6 +167,9 @@ public class PlayerManager {
             }
         }
 
+        String songHours = String.valueOf(hours);
+        if (hours < 10) songHours = "0" + minutes;
+
         String songMinutes = String.valueOf(minutes);
         if (minutes < 10) songMinutes = "0" + minutes;
 
@@ -186,7 +189,7 @@ public class PlayerManager {
                 .setFooter("Use /help for a list of music commands!");
 
         if (hours > 0) {
-            builder.setDescription("`[0:00 / [" + hours + ":" + songMinutes + ":" + songSeconds + "]`");
+            builder.setDescription("`[0:00 / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
         }
 
         return builder;
