@@ -6,13 +6,15 @@ import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistRequest;
-import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
 
 import java.util.Arrays;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
+/**
+ * Used for retrieving album/playlist thumbnail images
+ */
 public class Spotify {
 
     /**
@@ -61,43 +63,17 @@ public class Spotify {
      * @return Song/Playlist/Album name + Artist name
      */
     public static String searchSpotify(String query) {
+
         // Set token
         clientCredentials_Async();
 
         // Grab ID
         String id = separateID(query);
 
-        // Tracks (Returns track name + artist name)
-        if (query.contains("/track/")) {
-
-            // Search title request
-            final GetTrackRequest getTrackRequest = spotifyApi.getTrack(id)
-                    .build();
-            try {
-                final CompletableFuture<Track> trackFuture = getTrackRequest.executeAsync();
-                final Track track = trackFuture.join();
-
-                // Get artist name
-                if (Arrays.stream(Arrays.stream(track.getArtists()).toArray()).findFirst().isPresent()) {
-                    String artistName = Arrays.stream(Arrays.stream(track.getArtists()).toArray()).findFirst().get().toString();
-                    artistName = artistName.replace("ArtistSimplified(name=", "");
-                    String[] array2 = artistName.split(",", 2);
-                    artistName = array2[0];
-                    artistName = artistName.replace(",", "");
-
-                    return track.getName() + " " + artistName;
-                }
-
-            } catch (CompletionException e) {
-                System.out.println("Error: " + e.getCause().getMessage());
-            } catch (CancellationException e) {
-                System.out.println("Async operation cancelled.");
-            }
-        }
         // Playlists
         if (query.contains("/playlist/")) {
 
-            // Search title request
+            // Search request
             final GetPlaylistRequest getPlaylistRequest = spotifyApi.getPlaylist(id)
                     .build();
             try {
@@ -114,7 +90,7 @@ public class Spotify {
         // Albums
         else if (query.contains("/album/")) {
 
-            // Search title request
+            // Search request
             final GetAlbumRequest getAlbumRequest = spotifyApi.getAlbum(id)
                     .build();
             try {
