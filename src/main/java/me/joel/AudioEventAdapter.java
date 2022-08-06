@@ -2,14 +2,21 @@ package me.joel;
 
 public class AudioEventAdapter extends com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter {
 
-    private static boolean isLoop = false;
-
+    // Loop
+    private static boolean loop = false;
     public static void setLoop(boolean value) {
-        isLoop = value;
+        loop = value;
     }
-
     public static boolean isLooping() {
-        return isLoop;
+        return loop;
     }
 
+    // Shuffle
+    private static boolean shuffle = false;
+    public static void setShuffle(boolean value) {
+        shuffle = value;
+    }
+    public static boolean isShuffling() {
+        return shuffle;
+    }
 }
