@@ -42,7 +42,7 @@ public class Register extends ListenerAdapter {
 
                 // Music
                 Commands.slash("play", "Requests a song")
-                        .addOption(OptionType.STRING, "song", "Accepts youtube links or song names", true),
+                        .addOption(OptionType.STRING, "song", "Accepts Spotify, YouTube, or Apple Music", true),
                 Commands.slash("pause", "Pause playback"),
                 Commands.slash("volume", "Requests a song")
                         .addOption(OptionType.STRING, "num", "Sets volume (between 1 and 100)", true),
