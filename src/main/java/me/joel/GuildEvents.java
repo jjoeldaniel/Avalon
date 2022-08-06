@@ -1,21 +1,22 @@
 package me.joel;
 
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEventListener;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import me.joel.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceSelfMuteEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 public class GuildEvents extends ListenerAdapter {
 
@@ -44,6 +45,61 @@ public class GuildEvents extends ListenerAdapter {
         Objects.requireNonNull(event.getGuild().getSystemChannel()).sendMessageEmbeds(builder.build()).setActionRow(
                         Button.link(inviteLink, "Invite"))
                 .queue();
+    }
+
+    @Override
+    public void onGuildVoiceSelfMute(@NotNull GuildVoiceSelfMuteEvent event) {
+        // Only takes Avalon as input
+        if (!(event.getMember().getId().equals("971239438892019743"))) return;
+
+        // Only if not muted
+        if (Objects.requireNonNull(event.getMember().getVoiceState()).isSelfMuted()) return;
+
+        final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+        AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
+
+        if (track == null) return;
+
+        // Time from ms to m:s
+        long trackLength = track.getInfo().length;
+        long minutes = (trackLength / 1000) / 60;
+        long seconds = ((trackLength / 1000) % 60);
+
+        long hours = 0;
+        if (minutes >= 60) {
+            while (minutes > 60) {
+                hours++;
+                minutes -= 60;
+            }
+        }
+
+        String songHours = String.valueOf(hours);
+        if (hours < 10) songHours = "0" + minutes;
+
+        String songMinutes = String.valueOf(minutes);
+        if (minutes < 10) songMinutes = "0" + minutes;
+
+        String songSeconds = String.valueOf(seconds);
+        if (seconds < 10) songSeconds = "0" + seconds;
+
+        EmbedBuilder builder = new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setAuthor("Now Playing")
+                .setTitle(track.getInfo().title, track.getInfo().uri)
+                .setDescription("`[0:00 / [" + songMinutes + ":" + songSeconds + "]`");
+
+        if (hours > 0) {
+            builder.setDescription("`[0:00 / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
+        }
+
+        if (track.getInfo().uri.contains("youtube.com")) {
+            builder.setThumbnail(PlayerManager.getThumbnail(track.getInfo().uri));
+        }
+
+        VoiceChannel channel = event.getGuild().getVoiceChannelById(event.getMember().getVoiceState().getChannel().getId());
+        if (channel == null) return;
+
+        channel.sendMessageEmbeds(builder.build()).queue();
     }
 
     @Override
