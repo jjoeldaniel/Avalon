@@ -4,6 +4,7 @@ import javax.security.auth.login.LoginException;
 
 import me.joel.commands.Register;
 import me.joel.commands.global.*;
+import me.joel.commands.global.TruthOrDare;
 import me.joel.commands.guild.*;
 import me.joel.commands.mod.*;
 import me.joel.commands.music.*;
@@ -22,9 +23,13 @@ public class Avalon {
                 .addEventListeners(new Commands())
                 .addEventListeners(new GuildEvents())
                 .addEventListeners(new Register())
-                .addEventListeners(new Avatar(), new Ball8(), new CoinFlip(), new Help(), new Ping())
+                // Global
+                .addEventListeners(new Avatar(), new Ball8(), new CoinFlip(), new Help(), new Ping(), new TruthOrDare())
+                // Mod
                 .addEventListeners(new Purge(), new Broadcast())
+                // Guild
                 .addEventListeners(new AFK(), new Confess(), new WhoIs())
+                // Music
                 .addEventListeners(new Play(),new Resume(), new Pause(), new Skip(),new Shuffle(), new Volume(), new Queue(), new Clear(), new Playing(), new Loop(), new me.joel.commands.music.Util())
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
