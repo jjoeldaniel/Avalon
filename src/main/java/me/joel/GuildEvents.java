@@ -3,11 +3,13 @@ package me.joel;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -24,6 +26,24 @@ public class GuildEvents extends ListenerAdapter {
             Member member = event.getGuild().getSelfMember();
             member.deafen(true).queue();
         }
+    }
+
+    @Override
+    public void onGuildJoin(@NotNull GuildJoinEvent event) {
+        final String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot";
+
+        EmbedBuilder builder = new EmbedBuilder()
+                .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                .setTitle("Thank you for inviting Avalon to " + event.getGuild().getName() + "!")
+                .setColor(Util.randColor())
+                .setDescription("Make sure to use /help to get the full commands list!")
+                .addBlankField(false)
+                .addField("Need to contact us?", "Add joel#0005 on Discord for questions!", false)
+                .addField("Want to invite Avalon to another server?", "Click on my profile and click \" Add to Server\" to invite Avalon!", false);
+
+        Objects.requireNonNull(event.getGuild().getSystemChannel()).sendMessageEmbeds(builder.build()).setActionRow(
+                        Button.link(inviteLink, "Invite"))
+                .queue();
     }
 
     @Override
