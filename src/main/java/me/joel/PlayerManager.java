@@ -1,5 +1,7 @@
 package me.joel;
 
+import com.github.topislavalinkplugins.topissourcemanagers.spotify.SpotifyConfig;
+import com.github.topislavalinkplugins.topissourcemanagers.spotify.SpotifySourceManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -24,6 +26,13 @@ public class PlayerManager {
     public PlayerManager() {
         this.musicManagers = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
+
+        SpotifyConfig spotifyConfig = new SpotifyConfig();
+        spotifyConfig.setClientId("3451401ce3b148039cbba35a2c25cd5f");
+        spotifyConfig.setClientSecret("08becf6c9969424c833f0d8daaf00135");
+        spotifyConfig.setCountryCode("US");
+
+        this.audioPlayerManager.registerSourceManager(new SpotifySourceManager(null, spotifyConfig, this.audioPlayerManager));
 
         AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
         AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
@@ -123,48 +132,6 @@ public class PlayerManager {
             }
         });
 
-    }
-
-    public void loadAndPlaySpotify(MessageChannelUnion channel, String trackURL) {
-
-        Guild guild = null;
-
-        if (channel.getType() == ChannelType.TEXT) guild = channel.asTextChannel().getGuild();
-        else if (channel.getType() == ChannelType.VOICE) guild = channel.asVoiceChannel().getGuild();
-
-        assert guild != null;
-        final GuildMusicManager musicManager = this.getMusicManager(guild);
-
-        this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
-
-            @Override
-            public void trackLoaded(AudioTrack audioTrack) {
-                musicManager.scheduler.queue(audioTrack);
-            }
-
-            @Override
-            public void playlistLoaded(AudioPlaylist audioPlaylist) {
-                final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                if (!tracks.isEmpty()) {
-                    musicManager.scheduler.queue(tracks.get(0));
-                }
-            }
-
-            @Override
-            public void noMatches() {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setDescription("No song found!")
-                        .setFooter("Use /help for a list of music commands!");
-
-                channel.sendMessageEmbeds(builder.build()).queue();
-            }
-
-            @Override
-            public void loadFailed(FriendlyException e) {
-
-            }
-        });
     }
 
     public static PlayerManager getINSTANCE() {

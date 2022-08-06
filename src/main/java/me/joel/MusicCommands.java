@@ -139,63 +139,9 @@ public class MusicCommands extends ListenerAdapter {
                     audioManager.openAudioConnection(memberChannel);
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setVolume(50);
 
-                    // Spotify
-                    if (link.startsWith("https://open.spotify.com/")) {
-
-                        if (link.contains("/track/")) {
-                            link = ("ytsearch:" + Spotify.searchSpotify(link) + " audio");
-
-                            // Plays song
-                            PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link);
-                        }
-                        else if (link.contains("/playlist/")) {
-                            String playlistName = Spotify.searchSpotify(link);
-                            ArrayList<String> playlistTracks = Spotify.getTracks(link);
-
-                            // Queue song
-                            for (String i: playlistTracks) {
-                                PlayerManager.getINSTANCE().loadAndPlaySpotify(returnChannel(), ("ytmsearch:" + i + " audio"));
-                            }
-
-
-                            EmbedBuilder builder = new EmbedBuilder()
-                                    .setColor(Util.randColor())
-                                    .setAuthor("Playlist queued")
-                                    .setTitle(playlistName, link)
-                                    .setDescription("`[" + playlistTracks.size() + "] songs`")
-                                    .setThumbnail(Spotify.getPlaylistThumbnail())
-                                    .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
-                                    .setFooter("Use /help for a list of music commands!");
-
-                            event.getHook().sendMessageEmbeds(builder.build()).queue();
-                            return;
-                        }
-                        else if (link.contains("/album/")) {
-                            String albumName = Spotify.searchSpotify(link);
-                            ArrayList<String> albumTracks = Spotify.getTracks(link);
-
-                            for (String i: albumTracks) {
-                                PlayerManager.getINSTANCE().loadAndPlaySpotify(returnChannel(), ("ytmsearch:" + i + " audio"));
-                            }
-
-                            EmbedBuilder builder = new EmbedBuilder()
-                                    .setColor(Util.randColor())
-                                    .setAuthor("Album queued")
-                                    .setTitle(albumName, link)
-                                    .setDescription("`[" + albumTracks.size() + "] songs`")
-                                    .setThumbnail(Spotify.getAlbumThumbnail())
-                                    .addField("Requested by:", MusicCommands.getMember().getAsMention(), false)
-                                    .setFooter("Use /help for a list of music commands!");
-
-                            event.getHook().sendMessageEmbeds(builder.build()).queue();
-                            return;
-                        }
-                    }
-
                     // Valid links
-                    else if (isURL(link)) {
-                        // Plays song
-                        PlayerManager.getINSTANCE().loadAndPlay(returnChannel(), link);
+                    if (isURL(link)) {
+                        PlayerManager.getINSTANCE().loadAndPlay(returnChannel(),link);
                     }
 
                     // Invalid links
