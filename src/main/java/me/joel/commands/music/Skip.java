@@ -111,8 +111,24 @@ public class Skip extends ListenerAdapter {
             }
 
             AudioEventAdapter.setLoop(false);
-            AudioEventAdapter.setShuffle(false);
-            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
+
+            if (me.joel.AudioEventAdapter.isShuffling()) {
+                int num = me.joel.Util.randomWithRange(0, playlist.size());
+
+                AudioTrack randomTrack = playlist.get(num);
+                while (randomTrack == PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack()) {
+                    num = me.joel.Util.randomWithRange(0, playlist.size());
+                    randomTrack = playlist.get(num);
+                }
+
+                AudioTrack cloneTrack = playlist.get(num).makeClone();
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.startTrack(cloneTrack, false);
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.remove(randomTrack);
+            }
+            else {
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
+            }
+
             event.replyEmbeds(builder.build()).queue();
         }
     }

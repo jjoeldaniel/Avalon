@@ -56,7 +56,6 @@ public class TrackScheduler extends AudioEventAdapter {
                 this.player.startTrack(loop, false);
             }
             else if (me.joel.AudioEventAdapter.isShuffling()) {
-                System.out.println("is shuffling");
                 List<AudioTrack> playlist = queue.stream().toList();
                 AudioTrack randomTrack = playlist.get(Util.randomWithRange(0, playlist.size()));
                 AudioTrack cloneTrack = playlist.get(Util.randomWithRange(0, playlist.size())).makeClone();

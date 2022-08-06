@@ -108,11 +108,12 @@ public class PlayerManager {
 
                     // Playlist size
                     int playlistSize = audioPlaylist.getTracks().size();
+                    String firstURI = audioPlaylist.getTracks().get(0).getInfo().uri;
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setAuthor("Playlist queued")
-                            .setTitle(audioPlaylist.getName())
+                            .setTitle(audioPlaylist.getName(), firstURI)
                             .setDescription("`[" + playlistSize + "] songs`")
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false)
