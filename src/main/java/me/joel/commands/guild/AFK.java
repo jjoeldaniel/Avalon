@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
@@ -69,6 +70,31 @@ public class AFK extends ListenerAdapter {
                         .setColor(Util.randColor());
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
+        }
+    }
+
+    @Override
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+
+        if (!event.getAuthor().isBot() && event.isFromGuild()) {
+
+            // AFK Member
+            Member member;
+
+            // Get member, return if null;
+            try {
+                member = event.getMessage().getMentions().getMembers().get(0);
+            }
+            catch (Exception e) { return; }
+
+            // AFK Mention
+            if (member.getEffectiveName().contains("(AFK)")) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("Mentioned member is AFK, " + Objects.requireNonNull(event.getMember()).getAsMention() + "!")
+                        .setColor(Util.randColor());
+
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
             }
         }
     }
