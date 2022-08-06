@@ -138,45 +138,6 @@ public class MusicCommands extends ListenerAdapter {
                         event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     }
                 }
-                case ("clear") -> {
-                    // Checks requester voice state
-                    if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                        event.replyEmbeds(VCRequirement.build()).setEphemeral(true).queue();
-                        return;
-                    }
-
-                    // Compare JDA and member voice state
-                    if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                        long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
-                        long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                        if (!(botVC == memberVC)) {
-                            event.replyEmbeds(sameVCRequirement.build()).setEphemeral(true).queue();
-                            return;
-                        }
-                    }
-
-                    if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0) {
-                        EmbedBuilder builder = new EmbedBuilder()
-                                .setDescription("The queue is empty or an error has occurred!")
-                                .setFooter("Use /help for a list of music commands!")
-                                .setColor(Util.randColor());
-
-                        event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                        return;
-                    }
-
-                    AudioEventAdapter.setLoop(false);
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.clear();
-                    PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.destroy();
-
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setDescription("Queue cleared")
-                            .setFooter("Use /help for a list of music commands!")
-                            .setColor(Util.randColor());
-
-                    event.replyEmbeds(builder.build()).queue();
-                }
             }
 
         } catch (Exception e) {
