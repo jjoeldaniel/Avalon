@@ -68,7 +68,7 @@ public class Skip extends ListenerAdapter {
             if (event.getOption("target") != null) {
                 int songSkip = (Objects.requireNonNull(event.getOption("target")).getAsInt()) - 1;
 
-                if (songSkip >= playlist.size() || songSkip < 1) {
+                if (songSkip >= playlist.size() || songSkip < 0) {
                     EmbedBuilder skipOutOfBounds = new EmbedBuilder()
                             .setColor(me.joel.Util.randColor())
                             .setDescription("That isn't a valid song number!")
