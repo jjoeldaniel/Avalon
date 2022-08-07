@@ -40,12 +40,53 @@ public class Queue extends ListenerAdapter {
             queueSize = playlist.size();
 
             if (queueSize == 0) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("The queue is empty or an error has occurred!")
-                        .setFooter("Use /help for a list of music commands!")
-                        .setColor(Util.randColor());
+                // Sends empty message if there is nothing playing, sends now playing otherwise
+                if (currentTrack == null) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setDescription("The queue is empty or an error has occurred!")
+                            .setFooter("Use /help for a list of music commands!")
+                            .setColor(Util.randColor());
 
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+                // Time from ms to m:s
+                long trackLength = currentTrack.getInfo().length;
+                long minutes = (trackLength / 1000) / 60;
+                long seconds = ((trackLength / 1000) % 60);
+                long hours = 0;
+
+                while (minutes >= 60) {
+                    minutes -= 60;
+                    hours++;
+                }
+
+                String songHours = String.valueOf(hours);
+                if (hours < 10) songHours = "0" + hours;
+                String songMinutes = String.valueOf(minutes);
+                if (minutes < 10) songMinutes = "0" + minutes;
+                String songSeconds = String.valueOf(seconds);
+                if (seconds < 10) songSeconds = "0" + seconds;
+
+                // Thumbnail
+                String trackThumbnail = PlayerManager.getThumbnail(currentTrack.getInfo().uri);
+
+                // Embed
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setAuthor("Now Playing")
+                        .setTitle(currentTrack.getInfo().title, currentTrack.getInfo().uri)
+                        .setDescription("`[0:00] / [" + songMinutes + ":" + songSeconds + "]`")
+                        .setThumbnail(trackThumbnail);
+
+                if (hours > 0) {
+                    builder.setDescription("`[0:00] / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
+                }
+                if (currentTrack.getInfo().uri.contains("/track")) {
+                    builder.setThumbnail(Util.randomThumbnail());
+                }
+
+                event.replyEmbeds(builder.build()).queue();
                 return;
             }
 
