@@ -32,15 +32,13 @@ public class Playing extends ListenerAdapter {
                 long seconds = ((trackLength / 1000) % 60);
 
                 long hours = 0;
-                if (minutes >= 60) {
-                    while (minutes > 60) {
-                        hours++;
-                        minutes -= 60;
-                    }
+                while (minutes >= 60) {
+                    minutes -= 60;
+                    hours++;
                 }
 
                 String songHours = String.valueOf(hours);
-                if (hours < 10) songHours = "0" + minutes;
+                if (hours < 10) songHours = "0" + hours;
 
                 String songMinutes = String.valueOf(minutes);
                 if (minutes < 10) songMinutes = "0" + minutes;
@@ -56,11 +54,11 @@ public class Playing extends ListenerAdapter {
                         .setColor(Util.randColor())
                         .setAuthor("Now Playing")
                         .setTitle(track.getInfo().title, track.getInfo().uri)
-                        .setDescription("`[0:00 / [" + songMinutes + ":" + songSeconds + "]`")
+                        .setDescription("`[0:00] / [" + songMinutes + ":" + songSeconds + "]`")
                         .setThumbnail(trackThumbnail);
 
                 if (hours > 0) {
-                    builder.setDescription("`[0:00 / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
+                    builder.setDescription("`[0:00] / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
                 }
 
 
