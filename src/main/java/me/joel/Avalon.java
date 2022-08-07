@@ -21,14 +21,26 @@ public class Avalon {
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GHpHqT.uOTGGrIGK2fFj2RFQE9GllzgLGMQ8EjMyzzL1Q")
                 .setStatus(OnlineStatus.ONLINE)
 
-                .addEventListeners(new GuildEvents())
-                .addEventListeners(new Register())
-                .addEventListeners(new ReactMessages())
+                .addEventListeners(
+                        new GuildEvents(),
+                        new Register(),
+                        new ReactMessages()
+                )
 
                 // Global
-                .addEventListeners(new Avatar(), new Ball8(), new CoinFlip(), new Help(), new Ping(), new TruthOrDare())
+                .addEventListeners(
+                        new Avatar(),
+                        new Ball8(),
+                        new Help(),
+                        new Ping(),
+                        new TruthOrDare()
+                )
+
                 // Mod
-                .addEventListeners(new Purge(), new Broadcast())
+                .addEventListeners(
+                        new Purge(),
+                        new Broadcast()
+                )
                 // Guild
                 .addEventListeners(new AFK(), new Confess(), new WhoIs())
                 // Music
