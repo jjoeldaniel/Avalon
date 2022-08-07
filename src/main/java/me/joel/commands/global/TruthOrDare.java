@@ -47,24 +47,26 @@ public class TruthOrDare extends ListenerAdapter {
 
         var invoke = event.getComponentId();
         EmbedBuilder builder = null;
-        
-        switch (invoke) {
-            case ("truth") -> builder = getTruth();
-            case ("dare") -> builder = getDare();
-            case ("randomTruthOrDare") -> {
-                if (Util.randomWithRange(0, 100) > 50) builder = getDare();
-                else builder = getTruth();
-            }
-        }
 
-        assert builder != null;
-        event.replyEmbeds(builder.build())
-                .addActionRow(
-                        Button.success("truth", "Truth"),
-                        Button.success("dare", "Dare"),
-                        Button.danger("randomTruthOrDare", "Random")
-                )
-                .queue();
+        if (invoke.equals("truth") || invoke.equals("dare") || invoke.equals("randomTruthOrDare")) {
+
+            switch (invoke) {
+                case ("truth") -> builder = getTruth();
+                case ("dare") -> builder = getDare();
+                case ("randomTruthOrDare") -> {
+                    if (Util.randomWithRange(0, 100) > 50) builder = getDare();
+                    else builder = getTruth();
+                }
+            }
+
+            event.replyEmbeds(builder.build())
+                    .addActionRow(
+                            Button.success("truth", "Truth"),
+                            Button.success("dare", "Dare"),
+                            Button.danger("randomTruthOrDare", "Random")
+                    )
+                    .queue();
+        }
     }
 
     /**
