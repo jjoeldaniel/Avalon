@@ -65,6 +65,7 @@ public class PlayerManager {
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
 
+            // YT Tracks
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
                 musicManager.scheduler.queue(audioTrack);
@@ -73,7 +74,12 @@ public class PlayerManager {
 
                 if (musicManager.scheduler.queue.size() <= 0) {
                     builder.setAuthor(("Added to queue"));
-                    builder.setThumbnail(Util.randomThumbnail());
+
+                    builder.setThumbnail(getThumbnail(audioTrack.getInfo().uri));
+
+                    if (audioTrack.getInfo().uri.contains("/track/")) {
+                        builder.setThumbnail(Util.randomThumbnail());
+                    }
                 }
                 channel.sendMessageEmbeds(builder.build()).queue();
             }
