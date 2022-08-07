@@ -78,7 +78,7 @@ public class Queue extends ListenerAdapter {
                         .setTitle(currentTrack.getInfo().title, currentTrack.getInfo().uri)
                         .setDescription("`[0:00] / [" + songMinutes + ":" + songSeconds + "]`")
                         .setThumbnail(trackThumbnail)
-                        .setFooter("If you see this, it means the queue is empty!");
+                        .setFooter("The queue is empty!");
 
                 if (hours > 0) {
                     builder.setDescription("`[0:00] / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
