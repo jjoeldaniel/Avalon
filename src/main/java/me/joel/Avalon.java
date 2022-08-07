@@ -21,12 +21,12 @@ public class Avalon {
         JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.GHpHqT.uOTGGrIGK2fFj2RFQE9GllzgLGMQ8EjMyzzL1Q")
                 .setStatus(OnlineStatus.ONLINE)
 
+                // Events
                 .addEventListeners(
                         new GuildEvents(),
                         new Register(),
                         new ReactMessages()
                 )
-
                 // Global
                 .addEventListeners(
                         new Avatar(),
@@ -35,16 +35,29 @@ public class Avalon {
                         new Ping(),
                         new TruthOrDare()
                 )
-
                 // Mod
                 .addEventListeners(
                         new Purge(),
                         new Broadcast()
                 )
                 // Guild
-                .addEventListeners(new AFK(), new Confess(), new WhoIs())
+                .addEventListeners(
+                        new AFK(),
+                        new Confess(),
+                        new WhoIs()
+                )
                 // Music
-                .addEventListeners(new Play(),new Resume(), new Pause(), new Skip(),new Shuffle(), new Volume(), new Queue(), new Clear(), new Playing(), new Loop(), new me.joel.commands.music.Util())
+                .addEventListeners(
+                        new Play(),
+                        new Resume(),
+                        new Pause(), new Skip(),
+                        new Shuffle(), new Volume(),
+                        new Queue(),
+                        new Clear(),
+                        new Playing(),
+                        new Loop(),
+                        new me.joel.commands.music.Util()
+                )
 
                 .enableCache(CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
