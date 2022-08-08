@@ -28,7 +28,7 @@ public class Util extends ListenerAdapter {
     /**
      * User is required to be in VC
      */
-    static final EmbedBuilder VCRequirement = new EmbedBuilder()
+    public static final EmbedBuilder VCRequirement = new EmbedBuilder()
             .setColor(me.joel.Util.randColor())
             .setDescription("You need to be in a voice channel to use this command!")
             .setFooter("Use /help for a list of music commands!");
@@ -36,7 +36,7 @@ public class Util extends ListenerAdapter {
     /**
      * User is required to be in same VC as bot
      */
-    static final EmbedBuilder sameVCRequirement = new EmbedBuilder()
+    public static final EmbedBuilder sameVCRequirement = new EmbedBuilder()
             .setColor(me.joel.Util.randColor())
             .setDescription("You need to be in the same voice channel to use this command!")
             .setFooter("Use /help for a list of music commands!");
