@@ -58,16 +58,21 @@ public class Translate extends ListenerAdapter {
      * @throws IOException API Exception
      */
     private static String translate(String text) throws IOException {
+
+        // Google script URL
         String urlStr = "https://script.google.com/macros/s/AKfycbzCWLTSgDZTKaSyE3sgcb2KTcFDNMvpL1nH1gRXFhMDV3by792WUjxviYk3lPxic7Wf3Q/exec" +
                 "?q=" + URLEncoder.encode(text, StandardCharsets.UTF_8) +
                 "&target=" + "en" +
                 "&source=" + "";
         URL url = new URL(urlStr);
+
         StringBuilder response = new StringBuilder();
+
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("User-Agent", "Mozilla/5.0");
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
+
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }
