@@ -37,6 +37,7 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.slash("leave", "Request for bot to leave VC"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member avatar"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member info"));
+        guildCommandData.add(Commands.context(Command.Type.MESSAGE, "Translate message"));
 
         // mod
         guildCommandData.add(Commands.slash("broadcast", "Broadcasts message in selected channel").addOption(OptionType.CHANNEL, "channel", "Broadcast channel", true).addOption(OptionType.STRING, "message", "Broadcast Message", true));
