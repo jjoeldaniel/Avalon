@@ -43,6 +43,10 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 `/confess` : Sends anonymous confession (Requires confession channel)
 
+`/join` : Request for bot to join VC
+
+`/leave` : Request for bot to leave VC
+
 
 **Moderation Commands**
 
