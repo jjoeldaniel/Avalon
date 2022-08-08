@@ -44,7 +44,9 @@ public class Avalon {
                 .addEventListeners(
                         new AFK(),
                         new Confess(),
-                        new WhoIs()
+                        new WhoIs(),
+                        new Join(),
+                        new Leave()
                 )
                 // Music
                 .addEventListeners(
