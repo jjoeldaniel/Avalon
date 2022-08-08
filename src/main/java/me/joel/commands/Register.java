@@ -39,7 +39,7 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member info"));
 
         // mod
-        guildCommandData.add(Commands.slash("broadcast", "Broadcasts message in selected channel"));
+        guildCommandData.add(Commands.slash("broadcast", "Broadcasts message in selected channel").addOption(OptionType.CHANNEL, "channel", "Broadcast channel", true).addOption(OptionType.STRING, "message", "Broadcast Message", true));
         guildCommandData.add(Commands.slash("purge", "Purges up to 100 messages").addOption(OptionType.INTEGER, "number", "Number of messages to purge", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
 
         // music
