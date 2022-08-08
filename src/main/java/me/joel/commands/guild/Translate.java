@@ -48,7 +48,7 @@ public class Translate extends ListenerAdapter {
 
     // Google Translate API
     private static String translate(String text) throws IOException {
-        String urlStr = "https://script.google.com/macros/s/AKfycbwciRctDD7yp_KkjuO8y5o8daw3DoFdk61kS1I4QVGlD6rr-y8ZKBnkjHILQmhcQ3c7aw/exec" +
+        String urlStr = "https://script.google.com/macros/s/AKfycbzCWLTSgDZTKaSyE3sgcb2KTcFDNMvpL1nH1gRXFhMDV3by792WUjxviYk3lPxic7Wf3Q/exec " +
                 "?q=" + URLEncoder.encode(text, StandardCharsets.UTF_8) +
                 "&target=" + "en" +
                 "&source=" + "";
