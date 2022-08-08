@@ -27,7 +27,7 @@ public class Translate extends ListenerAdapter {
             event.deferReply().queue();
 
             // Attempts translation, ignores and returns null on exception
-            String text = event.getTarget().getContentRaw();
+            String text = event.getTarget().getContentDisplay();
             String translation = null;
             try {
                 translation = translate(text);
