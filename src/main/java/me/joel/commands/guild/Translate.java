@@ -23,6 +23,7 @@ public class Translate extends ListenerAdapter {
 
         if (invoke.equals("Translate message")) {
 
+            // Attempts translation, ignores and returns null on exception
             String text = event.getTarget().getContentRaw();
             String translation = null;
             try {
@@ -31,10 +32,12 @@ public class Translate extends ListenerAdapter {
 
             EmbedBuilder builder = new EmbedBuilder();
 
+            // On Exception
             if (translation == null) {
                 builder = Util.genericError();
             }
 
+            // On Success
             else {
                 builder.setTitle("Translated Text").setDescription("\"" + translation + "\"").setColor(Util.randColor());
             }
@@ -43,6 +46,7 @@ public class Translate extends ListenerAdapter {
         }
     }
 
+    // Google Translate API
     private static String translate(String text) throws IOException {
         String urlStr = "https://script.google.com/macros/s/AKfycbwciRctDD7yp_KkjuO8y5o8daw3DoFdk61kS1I4QVGlD6rr-y8ZKBnkjHILQmhcQ3c7aw/exec" +
                 "?q=" + URLEncoder.encode(text, StandardCharsets.UTF_8) +
