@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 public class Translate extends ListenerAdapter {
 
@@ -22,6 +23,8 @@ public class Translate extends ListenerAdapter {
         var invoke = event.getName();
 
         if (invoke.equals("Translate message")) {
+
+            event.deferReply().queue();
 
             // Attempts translation, ignores and returns null on exception
             String text = event.getTarget().getContentRaw();
@@ -42,7 +45,9 @@ public class Translate extends ListenerAdapter {
                 builder.setTitle("Translated Text").setDescription("\"" + translation + "\"").setColor(Util.randColor());
             }
 
-            event.replyEmbeds(builder.build()).setEphemeral(false).queue();
+            // Deletes message after 1 minute
+            event.getHook().sendMessageEmbeds(builder.build()).queue();
+            event.getHook().deleteOriginal().queueAfter(3, TimeUnit.MINUTES);
         }
     }
 
