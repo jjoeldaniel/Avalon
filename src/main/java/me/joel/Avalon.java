@@ -33,7 +33,8 @@ public class Avalon {
                         new Ball8(),
                         new Help(),
                         new Ping(),
-                        new TruthOrDare()
+                        new TruthOrDare(),
+                        new CoinFlip()
                 )
                 // Mod
                 .addEventListeners(
