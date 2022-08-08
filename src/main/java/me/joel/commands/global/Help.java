@@ -82,49 +82,46 @@ public class Help extends ListenerAdapter {
 
         EmbedBuilder builder = null;
 
-        if (setting == 1) {
-            builder = new EmbedBuilder()
+        switch (setting) {
+            case 1 -> builder = new EmbedBuilder()
                     .setColor(Util.randColor())
                     .setTitle("Avalon Commands")
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("General Commands", """
-                                `/help` : Lists commands
-                                `/ping` : Pings bot
-                                `/coinflip` Flips a coin
-                                `/truth` : Requests truth
-                                `/dare` : Requests dare
-                                `/afk` : Sets AFK status
-                                `/avatar` : Retrieves target profile picture
-                                `/8ball` : Asks the magic 8ball a question
-                                `/confess` : Sends anonymous confession""", false);
-        }
-
-        else if (setting == 2) {
-            builder = new EmbedBuilder()
+                            `/help` : Lists commands
+                            `/ping` : Pings bot
+                            `/coinflip` Flips a coin
+                            `/truth` : Requests truth
+                            `/dare` : Requests dare
+                            `/avatar` : Retrieves target profile picture
+                            `/whois` : Provides user information
+                            `/afk` : Sets AFK status
+                            `/confess` : Sends anonymous confession
+                            `/8ball` : Asks the magic 8ball a question""", false);
+            case 2 -> builder = new EmbedBuilder()
                     .setColor(Util.randColor())
                     .setTitle("Avalon Commands")
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("Moderation Commands", """
-                                `/purge` : Purges messages (up to 100)
-                                `/broadcast` : Sends message as Avalon""", false);
-        }
-
-        else if (setting == 3) {
-            builder = new EmbedBuilder()
+                            `/purge` : Purges messages (up to 100)
+                            `/broadcast` : Sends message as Avalon""", false);
+            case 3 -> builder = new EmbedBuilder()
                     .setColor(Util.randColor())
                     .setTitle("Avalon Commands")
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("Music Commands", """
-                                `/play` : Plays YouTube, Spotify, Apple Music
-                                `/pause` : Pauses playback
-                                `/resume` : Resumes playback
-                                `/clear` : Clears queue
-                                `/queue` : Displays song queue
-                                `/playing` : Displays currently playing song
-                                `/volume` : Sets volume
-                                `/loop` : Loops the currently playing song
-                                `/shuffle` : Shuffles music queue
-                                `/skip` : Skips song""", false);
+                            `/play` : Plays YouTube, Spotify, Apple Music
+                            `/pause` : Pauses playback
+                            `/resume` : Resumes playback
+                            `/clear` : Clears queue
+                            `/queue` : Displays song queue
+                            `/playing` : Displays currently playing song
+                            `/join` : Requests for bot to join VC
+                            `/leave` : Requests for bot to leave VC
+                            `/volume` : Sets volume
+                            `/loop` : Loops the currently playing song
+                            `/shuffle` : Shuffles music queue
+                            `/skip` : Skips song""", false);
         }
 
         return builder;
