@@ -51,7 +51,12 @@ public class Translate extends ListenerAdapter {
         }
     }
 
-    // Google Translate API
+    /**
+     * Translates messages using Google API (limit of 5,000 requests daily)
+     * @param text Message pre-translation
+     * @return Translated text
+     * @throws IOException API Exception
+     */
     private static String translate(String text) throws IOException {
         String urlStr = "https://script.google.com/macros/s/AKfycbzCWLTSgDZTKaSyE3sgcb2KTcFDNMvpL1nH1gRXFhMDV3by792WUjxviYk3lPxic7Wf3Q/exec" +
                 "?q=" + URLEncoder.encode(text, StandardCharsets.UTF_8) +
