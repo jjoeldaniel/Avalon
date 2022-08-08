@@ -24,8 +24,6 @@ public class Translate extends ListenerAdapter {
 
         if (invoke.equals("Translate message")) {
 
-            event.deferReply().queue();
-
             // Attempts translation, ignores and returns null on exception
             String text = event.getTarget().getContentDisplay();
             String translation = null;
@@ -38,12 +36,14 @@ public class Translate extends ListenerAdapter {
             // On Exception
             if (translation == null) {
                 builder = Util.genericError();
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
             }
 
-            // On Success
-            else {
-                builder.setTitle("Translated Text").setDescription("\"" + translation + "\"").setColor(Util.randColor());
-            }
+            event.deferReply().queue();
+
+            translation = translation.replace("&#39;", "'");
+            builder.setTitle("Translated Text").setDescription("\"" + translation + "\"").setColor(Util.randColor());
 
             // Deletes message after 1 minute
             event.getHook().sendMessageEmbeds(builder.build()).queue();
