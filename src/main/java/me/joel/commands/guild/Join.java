@@ -53,6 +53,7 @@ public class Join extends ListenerAdapter {
                         .setDescription("Already in " + memberChannel.getName() + "!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
             }
 
 
