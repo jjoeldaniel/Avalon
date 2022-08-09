@@ -45,7 +45,7 @@ public class Leave extends ListenerAdapter {
             final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
             final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
-            audioManager.openAudioConnection(memberChannel);
+            audioManager.closeAudioConnection();
 
             assert memberChannel != null;
             EmbedBuilder builder = new EmbedBuilder()

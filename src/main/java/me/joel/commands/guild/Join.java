@@ -45,6 +45,17 @@ public class Join extends ListenerAdapter {
             final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
             final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+
+            if (bot.getVoiceState().getChannel() == memberChannel) {
+                assert memberChannel != null;
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(me.joel.Util.randColor())
+                        .setDescription("Already in " + memberChannel.getName() + "!");
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
+
+
             audioManager.openAudioConnection(memberChannel);
 
             assert memberChannel != null;
