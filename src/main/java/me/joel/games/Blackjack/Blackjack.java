@@ -1,4 +1,4 @@
-package me.joel.games;
+package me.joel.games.Blackjack;
 
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -59,8 +59,15 @@ public class Blackjack extends ListenerAdapter {
                 event.editMessageEmbeds(builder.build()).queue();
             }
             case ("play") -> {
+                String card1 = Deck.randomCard();
+                String card2 = Deck.randomCard();
+                int total = Deck.deck.get(card1) + Deck.deck.get(card2);
+
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("You start with 2 cards")
+                        .setDescription("Your total is " + total)
+                        .addField("Card 1: " + card1, "", true)
+                        .addField("Card 2: " + card2, "", true)
                         .setColor(Util.randColor());
 
                 event.editMessageEmbeds(builder.build()).queue();
