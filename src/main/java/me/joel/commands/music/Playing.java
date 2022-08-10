@@ -26,45 +26,8 @@ public class Playing extends ListenerAdapter {
             try {
                 AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
 
-                // Time from ms to m:s
-                long trackLength = track.getInfo().length;
-                long minutes = (trackLength / 1000) / 60;
-                long seconds = ((trackLength / 1000) % 60);
-
-                long hours = 0;
-                while (minutes >= 60) {
-                    minutes -= 60;
-                    hours++;
-                }
-
-                String songHours = String.valueOf(hours);
-                if (hours < 10) songHours = "0" + hours;
-
-                String songMinutes = String.valueOf(minutes);
-                if (minutes < 10) songMinutes = "0" + minutes;
-
-                String songSeconds = String.valueOf(seconds);
-                if (seconds < 10) songSeconds = "0" + seconds;
-
-                // Thumbnail
-                String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
-
-                // Embed
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setAuthor("Now Playing")
-                        .setTitle(track.getInfo().title, track.getInfo().uri)
-                        .setDescription("`[0:00] / [" + songMinutes + ":" + songSeconds + "]`")
-                        .setThumbnail(trackThumbnail);
-
-                if (hours > 0) {
-                    builder.setDescription("`[0:00] / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
-                }
-
-
-                if (track.getInfo().uri.contains("/track")) {
-                    builder.setThumbnail(Util.randomThumbnail());
-                }
+                EmbedBuilder builder = nowPlaying(track);
+                builder.setFooter("");
 
                 event.replyEmbeds(builder.build()).queue();
 
@@ -76,5 +39,46 @@ public class Playing extends ListenerAdapter {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
         }
+    }
+
+    public static EmbedBuilder nowPlaying(AudioTrack track) {
+        // Time from ms to m:s
+        long trackLength = track.getInfo().length;
+        long minutes = (trackLength / 1000) / 60;
+        long seconds = ((trackLength / 1000) % 60);
+        long hours = 0;
+
+        while (minutes >= 60) {
+            minutes -= 60;
+            hours++;
+        }
+
+        String songHours = String.valueOf(hours);
+        if (hours < 10) songHours = "0" + hours;
+        String songMinutes = String.valueOf(minutes);
+        if (minutes < 10) songMinutes = "0" + minutes;
+        String songSeconds = String.valueOf(seconds);
+        if (seconds < 10) songSeconds = "0" + seconds;
+
+        // Thumbnail
+        String trackThumbnail = track.getInfo().uri;
+
+        // Embed
+        EmbedBuilder builder = new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setAuthor("Now Playing")
+                .setTitle(track.getInfo().title, trackThumbnail)
+                .setDescription("`[0:00] / [" + songMinutes + ":" + songSeconds + "]`")
+                .setThumbnail(trackThumbnail)
+                .setFooter("The queue is empty!");
+
+        if (hours > 0) {
+            builder.setDescription("`[0:00] / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
+        }
+        if (track.getInfo().uri.contains("/track")) {
+            builder.setThumbnail(Util.randomThumbnail());
+        }
+
+        return builder;
     }
 }
