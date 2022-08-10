@@ -15,10 +15,13 @@ public class Blackjack extends ListenerAdapter {
 
     User user;
     String messageID;
+    int total = 0;
 
     Button rules = Button.primary("rules", "See Rules");
     Button play = Button.success("play", "Play");
     Button menu = Button.primary("menu", "Menu");
+    Button hit = Button.success("hit", "Hit");
+    Button stand = Button.danger("stand", "Stand");
 
     public EmbedBuilder menu() {
         return new EmbedBuilder()
@@ -73,7 +76,7 @@ public class Blackjack extends ListenerAdapter {
             case ("play") -> {
                 String card1 = Deck.randomCard();
                 String card2 = Deck.randomCard();
-                int total = Deck.deck.get(card1) + Deck.deck.get(card2);
+                total = Deck.deck.get(card1) + Deck.deck.get(card2);
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("You start with 2 cards")
@@ -83,12 +86,13 @@ public class Blackjack extends ListenerAdapter {
                         .setColor(Util.randColor());
 
                 event.editMessageEmbeds(builder.build())
-                        .setActionRow(rules.asDisabled(), play.asDisabled(), menu.asEnabled())
+                        .setActionRow(hit.asEnabled(), stand.asEnabled(), menu.asEnabled())
                         .queue();
 
+                // blackjack
                 if (total == 21) {
                     event.getHook().editMessageEmbedsById(messageID, builder.build())
-                            .setActionRow(rules.asDisabled(), play.asDisabled(), menu.asDisabled())
+                            .setActionRow(hit.asDisabled(), stand.asDisabled(), menu.asDisabled())
                             .queue();
 
                     EmbedBuilder hit21 = new EmbedBuilder()
@@ -101,9 +105,59 @@ public class Blackjack extends ListenerAdapter {
                             .queueAfter(3, TimeUnit.SECONDS);
                 }
             }
+            case ("hit") -> {
+
+            }
+            case ("stand") -> {
+                int dealerTotal = Deck.deck.get(Deck.randomCard()) + Deck.deck.get(Deck.randomCard());
+
+                // hit if 11 or under
+                if (dealerTotal <= 11) {
+                    dealerTotal += Deck.deck.get(Deck.randomCard());
+                }
+
+                // hit if below 16
+                else if (dealerTotal < 16) {
+                    int r = Util.randomWithRange(0,100);
+
+                    if (r > 33) {
+                        dealerTotal += Deck.deck.get(Deck.randomCard());
+                    }
+                }
+
+                // decide if dealer wil hit/stand on 16+
+                if (dealerTotal >= 16 && dealerTotal < 20) {
+                    int r = Util.randomWithRange(0, 100);
+
+                    // hit, else stand
+                    if (r > 50) {
+                        dealerTotal += Deck.deck.get(Deck.randomCard());
+                    }
+                }
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setTitle("Result: You won!")
+                        .addField("Dealer", "The dealer had " + dealerTotal + ".", false);
+
+                if (dealerTotal > total && dealerTotal <= 21) {
+                    builder.setTitle("Result: You lost!");
+                }
+                else if (dealerTotal > 21 && total <= 21) {
+                    builder.clearFields().addField("Dealer busted!", "The dealer had " + dealerTotal + ".", false);
+                }
+                else if (dealerTotal == total) {
+                    builder.setTitle("Result: You tied!");
+                }
+
+                event.editMessageEmbeds(builder.build())
+                        .setActionRow(menu)
+                        .queue();
+            }
             case ("menu") -> {
                 EmbedBuilder builder = menu();
-                event.editMessageEmbeds(builder.build()).queue();
+                event.editMessageEmbeds(builder.build())
+                        .setActionRow(rules, menu.asDisabled(), play)
+                        .queue();
             }
         }
     }
