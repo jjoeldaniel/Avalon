@@ -43,6 +43,7 @@ public class Translate extends ListenerAdapter {
             event.deferReply().queue();
 
             translation = translation.replace("&#39;", "'");
+            translation = translation.replace("&quot;", "\"");
             builder.setTitle("Translated Text").setDescription("\"" + translation + "\"").setColor(Util.randColor());
 
             // Deletes message after 1 minute
