@@ -83,7 +83,7 @@ public class Play extends ListenerAdapter {
                 PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(), link);
             }
 
-            event.getHook().deleteOriginal().queueAfter(125, TimeUnit.MILLISECONDS);
+            event.getHook().deleteOriginal().queueAfter(250, TimeUnit.MILLISECONDS);
         }
     }
 
