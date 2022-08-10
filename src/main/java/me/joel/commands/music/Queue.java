@@ -18,6 +18,7 @@ import java.util.Objects;
 
 public class Queue extends ListenerAdapter {
 
+    // Queue vars
     int min = 0;
     int max = 5;
     int pageNumber = 1;
