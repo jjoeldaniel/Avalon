@@ -75,7 +75,10 @@ public class Blackjack extends ListenerAdapter {
             case ("rules") -> {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Rules")
-                        .addField("The premise of the game is simple..", "The first player to 21 wins.\nWatch out though, if you go over 21, you lose!", false)
+                        .addField("The premise of the game is simple..", """
+                                The first player to 21 wins.
+                                After receiving your cards, you can decide to hit or stand.\s
+                                Watch out though, if you go over 21, you lose!""", false)
                         .addField("Special card values are as follows:", "Ace = 1/11, Jack, King, and Queen are 10", false)
                         .setColor(Util.randColor());
 
