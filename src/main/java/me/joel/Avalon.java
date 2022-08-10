@@ -19,7 +19,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class Avalon {
     public static void main(String[] args) throws LoginException, InterruptedException {
 
-        JDA jda = JDABuilder.createDefault("MTAwMjgwNjQ2NDMzNjkwNDIzMg.G7kyzc.IOjYfrG_ND0e1u_mofa_zPSh9hqO9O31Z_bqBY")
+        JDA jda = JDABuilder.createDefault("OTcxMjM5NDM4ODkyMDE5NzQz.G0_CMv.0gpt8AWNd9V1RdU97Fub9d2tJFrzmYpCXZf-u8")
                 .setStatus(OnlineStatus.ONLINE)
 
                 // Events

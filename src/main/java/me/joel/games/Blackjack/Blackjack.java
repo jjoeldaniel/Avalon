@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class Blackjack extends ListenerAdapter {
@@ -16,6 +17,11 @@ public class Blackjack extends ListenerAdapter {
     User user;
     String messageID;
     int total = 0;
+
+    // user bet
+    int bet = 100;
+    // profit 125% of bet, loss is 100%
+    int profit = 125;
 
     Button rules = Button.primary("rules", "See Rules");
     Button play = Button.success("play", "Play");
@@ -26,7 +32,7 @@ public class Blackjack extends ListenerAdapter {
     public EmbedBuilder menu() {
         return new EmbedBuilder()
                 .setColor(Util.randColor())
-                .setTitle("Blackjack Menu (WIP)")
+                .setTitle("Blackjack Menu")
                 .setDescription("Press one of the buttons below to start playing!")
                 .setColor(Util.randColor());
     }
@@ -36,6 +42,11 @@ public class Blackjack extends ListenerAdapter {
 
         var invoke = event.getName();
         user = event.getUser();
+
+        if (event.getOption("bet") != null) {
+            bet = Objects.requireNonNull(event.getOption("bet")).getAsInt();
+            profit = (int) (bet * 1.25);
+        }
 
         if (invoke.equalsIgnoreCase("blackjack")) {
 
@@ -106,7 +117,7 @@ public class Blackjack extends ListenerAdapter {
 
                     EmbedBuilder hit21 = new EmbedBuilder()
                             .setTitle("Blackjack!")
-                            .setDescription("You have won 100 credits")
+                            .setDescription("You have won " + profit + " credits")
                             .setColor(Util.randColor());
 
                     event.getHook().editMessageEmbedsById(messageID, hit21.build())
@@ -132,7 +143,7 @@ public class Blackjack extends ListenerAdapter {
                 if (total > 21) {
                     builder
                             .setTitle("Result: You bust!")
-                            .setDescription("You have lost 100 credits.")
+                            .setDescription("You have lost " + bet + " credits.")
                             .addField("Total", "Your total was " + total + ".", false)
                             .addField("You received:", card, false)
                             .setColor(Util.randColor());
@@ -145,7 +156,7 @@ public class Blackjack extends ListenerAdapter {
                 else if (total == 21) {
                     builder
                             .setTitle("Result: You won!")
-                            .setDescription("You have won 100 credits.")
+                            .setDescription("You have won " + bet + " credits")
                             .addField("You received:", card, false)
                             .setColor(Util.randColor());
 
@@ -195,14 +206,14 @@ public class Blackjack extends ListenerAdapter {
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Result: You won!")
-                        .setDescription("You have won 100 credits.")
+                        .setDescription("You have won " + profit + " credits")
                         .setColor(Util.randColor())
                         .addField("Dealer", "The dealer had " + dealerTotal + ".", false)
                         .addField("Your total", String.valueOf(total), false);
 
                 if (dealerTotal > total && dealerTotal <= 21) {
                     builder.setTitle("Result: You lost!");
-                    builder.setDescription("You have lost 100 credits.");
+                    builder.setDescription("You have lost " + bet + " credits.");
                     builder.addField("Your total", String.valueOf(total), false);
                 }
                 else if (dealerTotal > 21 && total <= 21) {

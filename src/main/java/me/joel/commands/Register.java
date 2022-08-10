@@ -79,7 +79,7 @@ public class Register extends ListenerAdapter {
         globalCommandData.add(Commands.slash("avatar", "Sends user avatar").addOption(OptionType.MENTIONABLE, "user", "Sends mentioned users avatar", true));
 
         // games
-        globalCommandData.add(Commands.slash("blackjack", "Blackjack card game"));
+        globalCommandData.add(Commands.slash("blackjack", "Blackjack card game").addOption(OptionType.INTEGER, "bet", "Set bet amount, default to 100 otherwise"));
 
         event.getJDA().updateCommands().addCommands(globalCommandData).queue();
     }
