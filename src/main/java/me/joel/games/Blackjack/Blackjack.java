@@ -49,7 +49,6 @@ public class Blackjack extends ListenerAdapter {
 
         var invoke = event.getComponentId();
         messageID = event.getMessageId();
-        System.out.println(invoke);
 
         // If interaction member != /blackjack member
         if (event.getUser() != user) {
@@ -75,14 +74,24 @@ public class Blackjack extends ListenerAdapter {
             }
             case ("play") -> {
                 String card1 = Deck.randomCard();
+                total = Deck.deck.get(card1);
+
                 String card2 = Deck.randomCard();
-                total = Deck.deck.get(card1) + Deck.deck.get(card2);
+                // check for second ace
+                if (card2.equalsIgnoreCase("ace")) {
+                    if (total + Deck.deck.get(card2) > 21) {
+                        total += 1;
+                    }
+                }
+                else {
+                    total += Deck.deck.get(card2);
+                }
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("You start with 2 cards")
                         .setDescription("Your total is " + total)
-                        .addField("Card 1: " + card1, "", true)
-                        .addField("Card 2: " + card2, "", true)
+                        .addField("Card 1:", card1, true)
+                        .addField("Card 2:", card2, true)
                         .setColor(Util.randColor());
 
                 event.editMessageEmbeds(builder.build())
@@ -106,6 +115,55 @@ public class Blackjack extends ListenerAdapter {
                 }
             }
             case ("hit") -> {
+                String card = Deck.randomCard();
+
+                if (card.equalsIgnoreCase("ace")) {
+                    if (total + Deck.deck.get(card) > 21) {
+                        total += 1;
+                    }
+                }
+                else {
+                    total += Deck.deck.get(card);
+                }
+
+                EmbedBuilder builder = new EmbedBuilder();
+
+                // bust
+                if (total > 21) {
+                    builder
+                            .setTitle("Result: You bust!")
+                            .setDescription("You have lost 100 credits.")
+                            .addField("Total", "Your total was " + total + ".", false)
+                            .addField("You received:", card, false)
+                            .setColor(Util.randColor());
+
+                    event.editMessageEmbeds(builder.build())
+                            .setActionRow(menu.asEnabled())
+                            .queue();
+                    return;
+                }
+                else if (total == 21) {
+                    builder
+                            .setTitle("Result: You won!")
+                            .setDescription("You have won 100 credits.")
+                            .addField("You received:", card, false)
+                            .setColor(Util.randColor());
+
+                    event.editMessageEmbeds(builder.build())
+                            .setActionRow(menu.asEnabled())
+                            .queue();
+                    return;
+                }
+
+                builder = new EmbedBuilder()
+                        .setTitle("Hit")
+                        .setDescription("Your new total is " + total + ".")
+                        .addField("You received:", card, false)
+                        .setColor(Util.randColor());
+
+                event.editMessageEmbeds(builder.build())
+                        .setActionRow(hit.asEnabled(), stand.asEnabled(), menu.asEnabled())
+                        .queue();
 
             }
             case ("stand") -> {
@@ -137,16 +195,23 @@ public class Blackjack extends ListenerAdapter {
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Result: You won!")
-                        .addField("Dealer", "The dealer had " + dealerTotal + ".", false);
+                        .setDescription("You have won 100 credits.")
+                        .setColor(Util.randColor())
+                        .addField("Dealer", "The dealer had " + dealerTotal + ".", false)
+                        .addField("Your total", String.valueOf(total), false);
 
                 if (dealerTotal > total && dealerTotal <= 21) {
                     builder.setTitle("Result: You lost!");
+                    builder.setDescription("You have lost 100 credits.");
+                    builder.addField("Your total", String.valueOf(total), false);
                 }
                 else if (dealerTotal > 21 && total <= 21) {
-                    builder.clearFields().addField("Dealer busted!", "The dealer had " + dealerTotal + ".", false);
+                    builder.clearFields().addField("Dealer bust!", "The dealer had " + dealerTotal + ".", false);
+                    builder.addField("Your total", String.valueOf(total), false);
                 }
                 else if (dealerTotal == total) {
                     builder.setTitle("Result: You tied!");
+                    builder.addField("Your total", String.valueOf(total), false);
                 }
 
                 event.editMessageEmbeds(builder.build())
