@@ -18,7 +18,6 @@ public class Confess extends ListenerAdapter {
         if (invoke.equals("confess")) {
 
             String message = Objects.requireNonNull(event.getOption("message")).getAsString();
-            String channelID = "";
 
             // If message contains @role or @everyone
             if (Objects.requireNonNull(event.getOption("message")).getMentions().getRoles().size() > 0 || message.contains("@everyone")) {
@@ -39,36 +38,36 @@ public class Confess extends ListenerAdapter {
                 return;
             }
 
-            EmbedBuilder confessionPost = new EmbedBuilder()
-                    .setTitle("Anonymous Confession")
-                    .setDescription("\"" + message + "\"")
-                    .setColor(Util.randColor());
-
             // Find confessions channel
-            try {
-                int channelNum = Objects.requireNonNull(event.getGuild()).getTextChannels().size();
-                for (int i = 0; i < channelNum; ++i) {
-                    if (event.getGuild().getTextChannels().get(i).getName().contains("confessions")) {
-                        channelID = event.getGuild().getTextChannels().get(i).getId();
-                    }
-                }
+            String channelID = Util.findChannel("confess", Objects.requireNonNull(event.getGuild()));
 
-                Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessageEmbeds(confessionPost.build()).queue();
-
-                EmbedBuilder confessionSubmit = new EmbedBuilder()
-                        .setTitle("Confession Submitted")
-                        .setDescription("\"" + message + "\"")
-                        .setColor(Util.randColor());
-
-                event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();
-            } catch (Exception channelNotFound) {
+            // No channel Found
+            if (channelID == null) {
                 EmbedBuilder confessionError = new EmbedBuilder()
                         .setTitle("Error!")
                         .setDescription("No confession channel found!")
                         .setColor(Util.randColor());
 
                 event.replyEmbeds(confessionError.build()).setEphemeral(true).queue();
+                return;
             }
+
+            // Channel found
+
+            // Confession Post
+            EmbedBuilder confessionPost = new EmbedBuilder()
+                    .setTitle("Anonymous Confession")
+                    .setDescription("\"" + message + "\"")
+                    .setColor(Util.randColor());
+
+            // Submit message
+            EmbedBuilder confessionSubmit = new EmbedBuilder()
+                    .setTitle("Confession Submitted")
+                    .setDescription("\"" + message + "\"")
+                    .setColor(Util.randColor());
+
+            Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessageEmbeds(confessionPost.build()).queue();
+            event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();
         }
     }
 }
