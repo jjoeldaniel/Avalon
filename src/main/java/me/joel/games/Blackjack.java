@@ -23,7 +23,7 @@ public class Blackjack extends ListenerAdapter {
 
             EmbedBuilder builder = new EmbedBuilder()
                     .setColor(Util.randColor())
-                    .setTitle("Blackjack Menu (WIP")
+                    .setTitle("Blackjack Menu (WIP)")
                     .setDescription("Press one of the buttons below to start playing!")
                     .setColor(Util.randColor());
 
@@ -39,13 +39,14 @@ public class Blackjack extends ListenerAdapter {
 
         var invoke = event.getComponentId();
 
-        // If different member
+        // If interaction member != /blackjack member
         if (event.getUser() != user) {
             EmbedBuilder builder = new EmbedBuilder()
                     .setDescription("You can't interact with another members game!")
                     .setColor(Util.randColor());
 
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            return;
         }
 
         switch (invoke) {
