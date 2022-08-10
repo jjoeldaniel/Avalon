@@ -18,6 +18,10 @@ import java.util.Objects;
 
 public class Queue extends ListenerAdapter {
 
+    int min = 0;
+    int max = 5;
+    int pageNumber = 1;
+
     private static List<AudioTrack> playlist;
     private static int queueSize;
 
@@ -27,6 +31,11 @@ public class Queue extends ListenerAdapter {
         var invoke = event.getName();
 
         if (invoke.equals("queue")) {
+
+            // Resets queue
+            min = 0;
+            max = 5;
+            pageNumber = 1;
 
             // Avalon
             Member bot = Objects.requireNonNull(event.getGuild()).getMemberById("971239438892019743");
@@ -39,6 +48,7 @@ public class Queue extends ListenerAdapter {
             AudioTrack currentTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
             queueSize = playlist.size();
 
+            // Empty queue
             if (queueSize == 0) {
                 // Sends empty message if there is nothing playing, sends now playing otherwise
                 if (currentTrack == null) {
@@ -97,14 +107,14 @@ public class Queue extends ListenerAdapter {
             if (queueSize <= 5) {
                 event.replyEmbeds(builder.build())
                         .addActionRow(
-                                Button.primary("page1", "Previous Page").asDisabled(),
-                                Button.primary("page2", "Next Page").asDisabled())
+                                Button.primary("previous", "Previous Page").asDisabled(),
+                                Button.primary("next", "Next Page").asDisabled())
                         .queue();
             } else {
                 event.replyEmbeds(builder.build())
                         .addActionRow(
-                                Button.primary("page1", "Previous Page").asDisabled(),
-                                Button.primary("page2", "Next Page"))
+                                Button.primary("previous", "Previous Page").asDisabled(),
+                                Button.primary("next", "Next Page"))
                         .queue();
             }
         }
@@ -120,199 +130,60 @@ public class Queue extends ListenerAdapter {
 
         switch (invoke) {
 
-            case ("page1") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(0, 5, 1, audioTrack, event.getGuild());
+            case ("previous") -> {
+                if (max > queueSize) max = queueSize;
 
-                // disable next page if next page is blank
-                if (queueSize <= 5) {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page1", "Previous Page").asDisabled(),
-                                    Button.primary("page2", "Next Page").asDisabled())
-                            .queue();
-                } else {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page1", "Previous Page").asDisabled(),
-                                    Button.primary("page2", "Next Page"))
-                            .queue();
-                }
-            }
-            case ("page2") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(5, 10, 2, audioTrack, event.getGuild());
+                // if first page
+                if (pageNumber == 1) {
+                    AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
+                    EmbedBuilder builder = queuePage(min, max, pageNumber, audioTrack, event.getGuild());
 
-                // disable next page if next page is blank
-                if (queueSize <= 10) {
                     event.editMessageEmbeds(builder.build())
                             .setActionRow(
-                                    Button.primary("page1", "Previous Page"),
-                                    Button.primary("page3", "Next Page").asDisabled())
+                                    Button.primary("previous", "Previous Page").asDisabled(),
+                                    Button.primary("next", "Next Page").asEnabled())
                             .queue();
-                } else {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page1", "Previous Page"),
-                                    Button.primary("page3", "Next Page"))
-                            .queue();
+                    return;
                 }
-            }
-            case ("page3") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(10, 15, 3, audioTrack, event.getGuild());
+                else {
+                    min -= 5;
+                    max -= 5;
+                    pageNumber--;
+                }
 
-                // disable next page if next page is blank
-                if (queueSize <= 15) {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page2", "Previous Page"),
-                                    Button.primary("page4", "Next Page").asDisabled(),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                } else {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page2", "Previous Page"),
-                                    Button.primary("page4", "Next Page"),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                }
-            }
-            case ("page4") -> {
                 AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(15, 20, 4, audioTrack, event.getGuild());
-
-                // disable next page if next page is blank
-                if (queueSize <= 20) {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page3", "Previous Page"),
-                                    Button.primary("page5", "Next Page").asDisabled(),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                } else {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page3", "Previous Page"),
-                                    Button.primary("page5", "Next Page"),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                }
-            }
-            case ("page5") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(20, 25, 5, audioTrack, event.getGuild());
-
-                // disable next page if next page is blank
-                if (queueSize <= 25) {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page4", "Previous Page"),
-                                    Button.primary("page6", "Next Page").asDisabled(),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                } else {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page4", "Previous Page"),
-                                    Button.primary("page6", "Next Page"),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                }
-            }
-            case ("page6") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(25, 30, 6, audioTrack, event.getGuild());
-
-                // disable next page if next page is blank
-                if (queueSize <= 30) {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page5", "Previous Page"),
-                                    Button.primary("page7", "Next Page").asDisabled(),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                } else {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page5", "Previous Page"),
-                                    Button.primary("page7", "Next Page"),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                }
-            }
-            case ("page7") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(30, 35, 7, audioTrack, event.getGuild());
-
-                // disable next page if next page is blank
-                if (queueSize <= 35) {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page6", "Previous Page"),
-                                    Button.primary("page8", "Next Page").asDisabled(),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                } else {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page6", "Previous Page"),
-                                    Button.primary("page8", "Next Page"),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                }
-            }
-            case ("page8") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(35, 40, 8, audioTrack, event.getGuild());
-
-                // disable next page if next page is blank
-                if (queueSize <= 40) {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page7", "Previous Page"),
-                                    Button.primary("page9", "Next Page").asDisabled(),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                } else {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page7", "Previous Page"),
-                                    Button.primary("page9", "Next Page"),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                }
-            }
-            case ("page9") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(40, 45, 9, audioTrack, event.getGuild());
-
-                // disable next page if next page is blank
-                if (queueSize <= 45) {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page8", "Previous Page"),
-                                    Button.primary("page10", "Next Page").asDisabled(),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                } else {
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(
-                                    Button.primary("page8", "Previous Page"),
-                                    Button.primary("page10", "Next Page"),
-                                    Button.success("page1", "First Page"))
-                            .queue();
-                }
-            }
-            case ("page10") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(45, 50, 10, audioTrack, event.getGuild());
+                EmbedBuilder builder = queuePage(min, max, pageNumber, audioTrack, event.getGuild());
 
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
-                                Button.primary("page9", "Previous Page"),
-                                Button.success("page1", "First Page"))
+                                Button.primary("previous", "Previous Page").asEnabled(),
+                                Button.primary("next", "Next Page").asEnabled())
+                        .queue();
+            }
+            case ("next") -> {
+                if (max > queueSize) max = queueSize;
+
+                min += 5;
+                max += 5;
+                pageNumber++;
+
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
+                EmbedBuilder builder = queuePage(min, max, pageNumber, audioTrack, event.getGuild());
+
+                // if next page is empty
+                if (max >= queueSize) {
+                    event.editMessageEmbeds(builder.build())
+                            .setActionRow(
+                                    Button.primary("previous", "Previous Page").asEnabled(),
+                                    Button.primary("next", "Next Page").asDisabled())
+                            .queue();
+                    return;
+                }
+
+                event.editMessageEmbeds(builder.build())
+                        .setActionRow(
+                                Button.primary("previous", "Previous Page").asEnabled(),
+                                Button.primary("next", "Next Page").asEnabled())
                         .queue();
             }
         }
