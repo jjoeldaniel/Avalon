@@ -109,13 +109,15 @@ public class Queue extends ListenerAdapter {
                 event.replyEmbeds(builder.build())
                         .addActionRow(
                                 Button.primary("previous", "Previous Page").asDisabled(),
-                                Button.primary("next", "Next Page").asDisabled())
+                                Button.primary("next", "Next Page").asDisabled(),
+                                Button.success("first", "Page 1").asDisabled())
                         .queue();
             } else {
                 event.replyEmbeds(builder.build())
                         .addActionRow(
                                 Button.primary("previous", "Previous Page").asDisabled(),
-                                Button.primary("next", "Next Page"))
+                                Button.primary("next", "Next Page").asEnabled(),
+                                Button.success("first", "Page 1").asDisabled())
                         .queue();
             }
         }
@@ -129,11 +131,16 @@ public class Queue extends ListenerAdapter {
         final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
         var invoke = event.getComponentId();
 
+        AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
+
         switch (invoke) {
 
             case ("first") -> {
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-                EmbedBuilder builder = queuePage(0, 5, 1, audioTrack, event.getGuild());
+                min = 0;
+                max = 5;
+                pageNumber = 1;
+
+                EmbedBuilder builder = queuePage(min, max, pageNumber, audioTrack, event.getGuild());
 
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
@@ -147,7 +154,6 @@ public class Queue extends ListenerAdapter {
 
                 // if first page
                 if (pageNumber == 1) {
-                    AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                     EmbedBuilder builder = queuePage(min, max, pageNumber, audioTrack, event.getGuild());
 
                     event.editMessageEmbeds(builder.build())
@@ -164,9 +170,17 @@ public class Queue extends ListenerAdapter {
                     pageNumber--;
                 }
 
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(min, max, pageNumber, audioTrack, event.getGuild());
 
+                if (pageNumber == 1) {
+                    event.editMessageEmbeds(builder.build())
+                            .setActionRow(
+                                    Button.primary("previous", "Previous Page").asDisabled(),
+                                    Button.primary("next", "Next Page").asEnabled(),
+                                    Button.success("first", "Page 1").asDisabled())
+                            .queue();
+                    return;
+                }
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
                                 Button.primary("previous", "Previous Page").asEnabled(),
@@ -181,7 +195,6 @@ public class Queue extends ListenerAdapter {
                 max += 5;
                 pageNumber++;
 
-                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
                 EmbedBuilder builder = queuePage(min, max, pageNumber, audioTrack, event.getGuild());
 
                 // if next page is empty
