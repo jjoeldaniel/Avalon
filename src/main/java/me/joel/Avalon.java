@@ -8,7 +8,7 @@ import me.joel.commands.global.TruthOrDare;
 import me.joel.commands.guild.*;
 import me.joel.commands.mod.*;
 import me.joel.commands.music.*;
-import me.joel.games.Blackjack;
+import me.joel.games.Blackjack.Blackjack;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
