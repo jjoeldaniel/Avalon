@@ -23,6 +23,17 @@ public class Purge extends ListenerAdapter {
             // # of messages to be purged
             int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
 
+            // If <= 0
+            if (amount <= 0) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Util.randColor())
+                        .setDescription("`" + amount + "` is not a valid number!")
+                        .setFooter("Use /help for a list of commands!");
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
+            }
+
             // Max of 100 messages
             if (amount > 100) {
                 EmbedBuilder builder = new EmbedBuilder()
