@@ -41,14 +41,14 @@ public class Blackjack extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
         var invoke = event.getName();
-        user = event.getUser();
-
-        if (event.getOption("bet") != null) {
-            bet = Objects.requireNonNull(event.getOption("bet")).getAsInt();
-            profit = (int) (bet * 1.25);
-        }
 
         if (invoke.equalsIgnoreCase("blackjack")) {
+            user = event.getUser();
+
+            if (event.getOption("bet") != null) {
+                bet = Objects.requireNonNull(event.getOption("bet")).getAsInt();
+                profit = (int) (bet * 1.25);
+            }
 
             EmbedBuilder builder = menu();
             event.replyEmbeds(builder.build()).addActionRow(rules, menu.asDisabled(), play).queue();
