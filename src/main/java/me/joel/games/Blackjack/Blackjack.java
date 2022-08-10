@@ -61,14 +61,17 @@ public class Blackjack extends ListenerAdapter {
         var invoke = event.getComponentId();
         messageID = event.getMessageId();
 
-        // If interaction member != /blackjack member
-        if (event.getUser() != user) {
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setDescription("You can't interact with another members game!")
-                    .setColor(Util.randColor());
 
-            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-            return;
+        if (invoke.equals("rules") || invoke.equals("play") || invoke.equals("stand") || invoke.equals("menu")) {
+            // If interaction member != /blackjack member
+            if (event.getUser() != user) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("You can't interact with another members game!")
+                        .setColor(Util.randColor());
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
+            }
         }
 
         switch (invoke) {
