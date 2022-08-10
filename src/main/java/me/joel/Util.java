@@ -1,9 +1,11 @@
 package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class Util {
@@ -18,6 +20,26 @@ public class Util {
         Random rand = new Random();
         return rand.nextInt(min, max);
     }
+
+    /**
+     * Finds a guild channel
+     * @param query Channel name
+     * @param guild Guild
+     * @return The first channel ID containing query
+     */
+    public static String findChannel(String query, Guild guild) {
+        int channelNum = guild.getTextChannels().size();
+        String channelID = null;
+
+        for (int i = 0; i < channelNum; ++i) {
+            if (guild.getTextChannels().get(i).getName().contains(query)) {
+                channelID = guild.getTextChannels().get(i).getId();
+                break;
+            }
+        }
+        return channelID;
+    }
+
 
     /**
      * Random dog thumbnail
