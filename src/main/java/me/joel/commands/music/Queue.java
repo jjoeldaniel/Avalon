@@ -130,6 +130,17 @@ public class Queue extends ListenerAdapter {
 
         switch (invoke) {
 
+            case ("first") -> {
+                AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
+                EmbedBuilder builder = queuePage(min, max, pageNumber, audioTrack, event.getGuild());
+
+                event.editMessageEmbeds(builder.build())
+                        .setActionRow(
+                                Button.primary("previous", "Previous Page").asDisabled(),
+                                Button.primary("next", "Next Page").asEnabled(),
+                                Button.primary("first", "Page 1"))
+                        .queue();
+            }
             case ("previous") -> {
                 if (max > queueSize) max = queueSize;
 
@@ -141,7 +152,8 @@ public class Queue extends ListenerAdapter {
                     event.editMessageEmbeds(builder.build())
                             .setActionRow(
                                     Button.primary("previous", "Previous Page").asDisabled(),
-                                    Button.primary("next", "Next Page").asEnabled())
+                                    Button.primary("next", "Next Page").asEnabled(),
+                                    Button.primary("first", "Page 1"))
                             .queue();
                     return;
                 }
@@ -175,7 +187,8 @@ public class Queue extends ListenerAdapter {
                     event.editMessageEmbeds(builder.build())
                             .setActionRow(
                                     Button.primary("previous", "Previous Page").asEnabled(),
-                                    Button.primary("next", "Next Page").asDisabled())
+                                    Button.primary("next", "Next Page").asDisabled(),
+                                    Button.primary("first", "Page 1"))
                             .queue();
                     return;
                 }
@@ -183,7 +196,8 @@ public class Queue extends ListenerAdapter {
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
                                 Button.primary("previous", "Previous Page").asEnabled(),
-                                Button.primary("next", "Next Page").asEnabled())
+                                Button.primary("next", "Next Page").asEnabled(),
+                                Button.primary("first", "Page 1"))
                         .queue();
             }
         }
