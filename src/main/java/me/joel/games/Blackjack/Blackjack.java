@@ -123,7 +123,7 @@ public class Blackjack extends ListenerAdapter {
 
                     EmbedBuilder hit21 = new EmbedBuilder()
                             .setTitle("Blackjack!")
-                            .setDescription("You have won " + profit + " credits")
+                            .setDescription("You have won `" + profit + "` credits")
                             .setColor(Util.randColor());
 
                     event.getHook().editMessageEmbedsById(messageID, hit21.build())
@@ -149,8 +149,8 @@ public class Blackjack extends ListenerAdapter {
                 if (total > 21) {
                     builder
                             .setTitle("Result: You bust!")
-                            .setDescription("You have lost " + bet + " credits.")
-                            .addField("Total", "Your total was " + total + ".", false)
+                            .setDescription("You have lost `" + bet + "` credits.")
+                            .addField("Total", "Your total was `" + total + "`.", false)
                             .addField("You received:", card, false)
                             .setColor(Util.randColor());
 
@@ -162,7 +162,7 @@ public class Blackjack extends ListenerAdapter {
                 else if (total == 21) {
                     builder
                             .setTitle("Result: You won!")
-                            .setDescription("You have won " + bet + " credits")
+                            .setDescription("You have won `" + bet + "` credits")
                             .addField("You received:", card, false)
                             .setColor(Util.randColor());
 
@@ -174,7 +174,7 @@ public class Blackjack extends ListenerAdapter {
 
                 builder = new EmbedBuilder()
                         .setTitle("Hit")
-                        .setDescription("Your new total is " + total + ".")
+                        .setDescription("Your new total is `" + total + "`.")
                         .addField("You received:", card, false)
                         .setColor(Util.randColor());
 
@@ -212,22 +212,23 @@ public class Blackjack extends ListenerAdapter {
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle("Result: You won!")
-                        .setDescription("You have won " + profit + " credits")
+                        .setDescription("You have won `" + profit + "` credits")
                         .setColor(Util.randColor())
-                        .addField("Dealer", "The dealer had " + dealerTotal + ".", false)
+                        .addField("Dealer", "The dealer had `" + dealerTotal + "`.", false)
                         .addField("Your total", String.valueOf(total), false);
 
                 if (dealerTotal > total && dealerTotal <= 21) {
                     builder.setTitle("Result: You lost!");
-                    builder.setDescription("You have lost " + bet + " credits.");
+                    builder.setDescription("You have lost `" + bet + "` credits.");
                     builder.addField("Your total", String.valueOf(total), false);
                 }
                 else if (dealerTotal > 21 && total <= 21) {
-                    builder.clearFields().addField("Dealer bust!", "The dealer had " + dealerTotal + ".", false);
+                    builder.clearFields().addField("Dealer bust!", "The dealer had `" + dealerTotal + "`.", false);
                     builder.addField("Your total", String.valueOf(total), false);
                 }
                 else if (dealerTotal == total) {
                     builder.setTitle("Result: You tied!");
+                    builder.setDescription("Your bet of `" + bet + "` has been returned to you");
                     builder.addField("Your total", String.valueOf(total), false);
                 }
 
