@@ -15,7 +15,10 @@ public class Util extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        member = event.getMember();
+
+        if (event.getName().equalsIgnoreCase("play")) {
+            member = event.getMember();
+        }
     }
 
     /**
