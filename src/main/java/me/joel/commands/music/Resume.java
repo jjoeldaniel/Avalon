@@ -7,8 +7,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class Resume extends ListenerAdapter {
 
     @Override
@@ -20,10 +18,9 @@ public class Resume extends ListenerAdapter {
         if (invoke.equals("resume")) {
 
             // JDA AudioManager
-            final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+            final AudioManager audioManager = event.getGuild().getAudioManager();
 
-            EmbedBuilder builder;
-            builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
+            EmbedBuilder builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
 
             if (builder != null) {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();

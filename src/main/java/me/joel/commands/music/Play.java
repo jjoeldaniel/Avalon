@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class Play extends ListenerAdapter {
@@ -51,7 +50,7 @@ public class Play extends ListenerAdapter {
             audioManager.openAudioConnection(memberChannel);
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setVolume(50);
 
-            String link = Objects.requireNonNull(event.getOption("song")).getAsString();
+            String link = event.getOption("song").getAsString();
 
             // Valid links
             if (isURL(link) && !link.contains("/track/")) {

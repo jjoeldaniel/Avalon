@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Skip extends ListenerAdapter {
 
@@ -53,7 +52,7 @@ public class Skip extends ListenerAdapter {
                 .setColor(me.joel.Util.randColor());
 
             if (event.getOption("target") != null) {
-                int songSkip = (Objects.requireNonNull(event.getOption("target")).getAsInt()) - 1;
+                int songSkip = (event.getOption("target").getAsInt()) - 1;
 
                 if (songSkip >= playlist.size() || songSkip < 0) {
                     EmbedBuilder skipOutOfBounds = new EmbedBuilder()

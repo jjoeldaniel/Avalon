@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Queue extends ListenerAdapter {
 
@@ -91,7 +90,7 @@ public class Queue extends ListenerAdapter {
 
         if (!event.isFromGuild()) return;
 
-        final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+        final AudioManager audioManager = event.getGuild().getAudioManager();
         var invoke = event.getComponentId();
 
         AudioTrack audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
