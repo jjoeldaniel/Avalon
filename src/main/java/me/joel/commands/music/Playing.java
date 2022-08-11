@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class Playing extends ListenerAdapter {
 
     @Override
@@ -33,7 +35,7 @@ public class Playing extends ListenerAdapter {
 
             } catch (Exception exception) {
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
+                        .setColor(Color.red)
                         .setDescription("No song is playing!")
                         .setFooter("Use /help for a list of music commands!");
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();

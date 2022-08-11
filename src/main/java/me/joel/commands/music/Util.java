@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 /**
  * Utility class
  */
@@ -65,7 +67,7 @@ public class Util extends ListenerAdapter {
      * User is required to be in VC
      */
     public static final EmbedBuilder VCRequirement = new EmbedBuilder()
-            .setColor(me.joel.Util.randColor())
+            .setColor(Color.red)
             .setDescription("You need to be in a voice channel to use this command!")
             .setFooter("Use /help for a list of music commands!");
 
@@ -73,7 +75,7 @@ public class Util extends ListenerAdapter {
      * User is required to be in same VC as bot
      */
     public static final EmbedBuilder sameVCRequirement = new EmbedBuilder()
-            .setColor(me.joel.Util.randColor())
+            .setColor(Color.red)
             .setDescription("You need to be in the same voice channel to use this command!")
             .setFooter("Use /help for a list of music commands!");
 

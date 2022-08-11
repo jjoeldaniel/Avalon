@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class Pause extends ListenerAdapter {
 
     @Override
@@ -34,7 +36,7 @@ public class Pause extends ListenerAdapter {
 
                 EmbedBuilder builder1 = new EmbedBuilder()
                         .setDescription("Playback paused")
-                        .setColor(me.joel.Util.randColor())
+                        .setColor(Color.green)
                         .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder1.build()).setEphemeral(false).queue();
@@ -43,7 +45,7 @@ public class Pause extends ListenerAdapter {
 
             EmbedBuilder builder2 = new EmbedBuilder()
                     .setDescription("No song is playing or an error has occurred!")
-                    .setColor(me.joel.Util.randColor())
+                    .setColor(Color.green)
                     .setFooter("Use /help for a list of music commands!");
 
             event.replyEmbeds(builder2.build()).setEphemeral(true).queue();

@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.List;
 
 public class Skip extends ListenerAdapter {
@@ -39,7 +40,7 @@ public class Skip extends ListenerAdapter {
             if (audioTrack == null) {
                 builder = new EmbedBuilder()
                     .setDescription("No song is playing or an error has occurred!")
-                    .setColor(me.joel.Util.randColor())
+                    .setColor(Color.green)
                     .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
@@ -49,14 +50,14 @@ public class Skip extends ListenerAdapter {
             builder = new EmbedBuilder()
                 .setDescription("Song(s) skipped")
                 .setFooter("Use /help for a list of music commands!")
-                .setColor(me.joel.Util.randColor());
+                .setColor(Color.green);
 
             if (event.getOption("target") != null) {
                 int songSkip = (event.getOption("target").getAsInt()) - 1;
 
                 if (songSkip >= playlist.size() || songSkip < 0) {
                     EmbedBuilder skipOutOfBounds = new EmbedBuilder()
-                            .setColor(me.joel.Util.randColor())
+                            .setColor(Color.green)
                             .setDescription("That isn't a valid song number!")
                             .setFooter("Use /help for a list of music commands!");
 
@@ -78,7 +79,7 @@ public class Skip extends ListenerAdapter {
 
                 if (songs > playlist.size() || songs < 1) {
                     EmbedBuilder builder1 = new EmbedBuilder()
-                            .setColor(me.joel.Util.randColor())
+                            .setColor(Color.red)
                             .setDescription("That isn't a valid number!")
                             .setFooter("Use /help for a list of music commands!");
 

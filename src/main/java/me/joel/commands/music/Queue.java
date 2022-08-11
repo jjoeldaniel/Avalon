@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.List;
 
 public class Queue extends ListenerAdapter {
@@ -52,7 +53,7 @@ public class Queue extends ListenerAdapter {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("The queue is empty or an error has occurred!")
                             .setFooter("Use /help for a list of music commands!")
-                            .setColor(Util.randColor());
+                            .setColor(Color.red);
 
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;

@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class Clear extends ListenerAdapter {
 
     @Override
@@ -33,7 +35,7 @@ public class Clear extends ListenerAdapter {
                 builder = new EmbedBuilder()
                     .setDescription("The queue is empty or an error has occurred!")
                     .setFooter("Use /help for a list of music commands!")
-                    .setColor(me.joel.Util.randColor());
+                    .setColor(Color.red);
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
@@ -46,7 +48,7 @@ public class Clear extends ListenerAdapter {
             builder = new EmbedBuilder()
                 .setDescription("Queue cleared")
                 .setFooter("Use /help for a list of music commands!")
-                .setColor(me.joel.Util.randColor());
+                .setColor(Color.green);
 
             event.replyEmbeds(builder.build()).queue();
         }

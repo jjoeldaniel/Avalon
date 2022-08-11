@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class Resume extends ListenerAdapter {
 
     @Override
@@ -32,7 +34,7 @@ public class Resume extends ListenerAdapter {
 
                 EmbedBuilder builder1 = new EmbedBuilder()
                         .setDescription("Playback resumed")
-                        .setColor(me.joel.Util.randColor())
+                        .setColor(Color.green)
                         .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder1.build()).setEphemeral(false).queue();
@@ -42,7 +44,7 @@ public class Resume extends ListenerAdapter {
             EmbedBuilder builder1 = new EmbedBuilder()
                     .setDescription("No song is playing or an error has occurred!")
                     .setFooter("Use /help for a list of music commands!")
-                    .setColor(me.joel.Util.randColor());
+                    .setColor(Color.red);
 
             event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
         }

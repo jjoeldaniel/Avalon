@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class Shuffle extends ListenerAdapter {
 
     @Override
@@ -26,7 +28,7 @@ public class Shuffle extends ListenerAdapter {
 
             if (AudioEventAdapter.isLooping()) {
                 builder = new EmbedBuilder()
-                        .setColor(me.joel.Util.randColor())
+                        .setColor(Color.red)
                         .setDescription("You can't enable /shuffle and /queue at the same time!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
@@ -36,11 +38,11 @@ public class Shuffle extends ListenerAdapter {
 
             if (AudioEventAdapter.isShuffling()) {
                 builder = new EmbedBuilder()
-                        .setColor(me.joel.Util.randColor())
+                        .setColor(Color.green)
                         .setDescription("The queue is now shuffling!");
             } else {
                 builder = new EmbedBuilder()
-                        .setColor(me.joel.Util.randColor())
+                        .setColor(Color.red)
                         .setDescription("The queue is no longer shuffling!");
             }
 

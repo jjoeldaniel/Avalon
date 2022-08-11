@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class Loop extends ListenerAdapter {
 
     @Override
@@ -31,7 +33,7 @@ public class Loop extends ListenerAdapter {
 
             if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack() == null) {
                 EmbedBuilder builder1 = new EmbedBuilder()
-                        .setColor(me.joel.Util.randColor())
+                        .setColor(Color.red)
                         .setDescription("There is no song currently playing!");
 
                 event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
@@ -42,18 +44,18 @@ public class Loop extends ListenerAdapter {
 
             if (AudioEventAdapter.isShuffling()) {
                 builder1 = new EmbedBuilder()
-                        .setColor(me.joel.Util.randColor())
+                        .setColor(Color.red)
                         .setDescription("You can't enable /shuffle and /queue at the same time!");
             }
             else if (!AudioEventAdapter.isLooping()) {
                 AudioEventAdapter.setLoop(true);
                 builder1 = new EmbedBuilder()
-                        .setColor(me.joel.Util.randColor())
+                        .setColor(Color.green)
                         .setDescription("Song is now looping!");
             } else {
                 AudioEventAdapter.setLoop(false);
                 builder1 = new EmbedBuilder()
-                        .setColor(me.joel.Util.randColor())
+                        .setColor(Color.red)
                         .setDescription("Song is no longer looping!");
             }
 
