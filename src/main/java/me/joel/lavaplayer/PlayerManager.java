@@ -12,6 +12,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.joel.Util;
 import me.joel.commands.music.Play;
+import me.joel.commands.music.Playing;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
@@ -126,8 +127,7 @@ public class PlayerManager {
                             .setTitle(audioPlaylist.getName(), firstURI)
                             .setDescription("`[" + playlistSize + "] songs`")
                             .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false)
-                            .setFooter("Use /help for a list of music commands!");
+                            .addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false);
 
                     if (trackURL.contains("spotify.com")) {
                         builder.setThumbnail(Spotify.searchSpotify(trackURL));
@@ -150,7 +150,7 @@ public class PlayerManager {
             public void loadFailed(FriendlyException e) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Color.red)
-                        .setDescription("Loading track found!");
+                        .setDescription("Loading track failed!");
 
                 channel.sendMessageEmbeds(builder.build()).queue();
             }
@@ -165,48 +165,15 @@ public class PlayerManager {
 
     public static EmbedBuilder addedTrackToQueue(AudioTrack audioTrack, int queueSize) {
 
-        // Time from ms to m:s
-        long trackLength = audioTrack.getInfo().length;
-        long minutes = (trackLength / 1000) / 60;
-        long seconds = ((trackLength / 1000) % 60);
+        EmbedBuilder builder1 = Playing.nowPlaying(audioTrack);
+        builder1.setAuthor("Added to queue (#" + queueSize + ")");
+        builder1.addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false);
 
-        long hours = 0;
-        while (minutes >= 60) {
-            minutes -= 60;
-            hours++;
-        }
-
-        String songHours = String.valueOf(hours);
-        if (hours < 10) songHours = "0" + hours;
-
-        String songMinutes = String.valueOf(minutes);
-        if (minutes < 10) songMinutes = "0" + minutes;
-
-        String songSeconds = String.valueOf(seconds);
-        if (seconds < 10) songSeconds = "0" + seconds;
-
-        // Thumbnail
-        String trackThumbnail = getThumbnail(audioTrack.getInfo().uri);
-
-        EmbedBuilder builder = new EmbedBuilder()
-                .setColor(Util.randColor())
-                .setAuthor("Added to queue (#" + queueSize + ")")
-                .setTitle(audioTrack.getInfo().title, audioTrack.getInfo().uri)
-                .setDescription("`[0:00] / [" + songMinutes + ":" + songSeconds + "]`")
-                .setThumbnail(trackThumbnail)
-                .addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false)
-                .setFooter("Use /help for a list of music commands!");
-
-        if (hours > 0) {
-            builder.setDescription("`[0:00] / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
-        }
-
-        return builder;
+        return builder1;
     }
 
     // Gets YouTube thumbnail
     public static String getThumbnail(String link) {
-
         int linkLength = link.length() + 1;
         String linkPrefix = "https://img.youtube.com/vi/";
         String linkSuffix = "/0.jpg";
