@@ -9,8 +9,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class Purge extends ListenerAdapter {
 
     @Override
@@ -21,24 +19,13 @@ public class Purge extends ListenerAdapter {
         if (invoke.equals("purge")) {
 
             // # of messages to be purged
-            int amount = Objects.requireNonNull(event.getOption("number")).getAsInt();
+            int amount = event.getOption("number").getAsInt();
 
-            // If <= 0
-            if (amount <= 0) {
+            // Invalid numbers
+            if (amount <= 0 || amount > 100) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setDescription("`" + amount + "` is not a valid number!")
-                        .setFooter("Use /help for a list of commands!");
-
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                return;
-            }
-
-            // Max of 100 messages
-            if (amount > 100) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setDescription("Unable to purge over 100 messages!")
                         .setFooter("Use /help for a list of commands!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
