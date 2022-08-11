@@ -113,7 +113,13 @@ public class Skip extends ListenerAdapter {
             AudioEventAdapter.setLoop(false);
 
             if (AudioEventAdapter.isShuffling()) {
-                int num = me.joel.Util.randomWithRange(0, playlist.size());
+                int num;
+                if (playlist.size() == 0) {
+                    num = 0;
+                }
+                else {
+                    num = me.joel.Util.randomWithRange(0, playlist.size());
+                }
 
                 AudioTrack randomTrack = playlist.get(num);
                 while (randomTrack == PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack()) {
