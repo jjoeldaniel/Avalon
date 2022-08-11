@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class Join extends ListenerAdapter {
 
     @Override
@@ -35,7 +37,7 @@ public class Join extends ListenerAdapter {
             if (bot.getVoiceState().inAudioChannel()) {
                 if (bot.getVoiceState().getChannel() == memberChannel) {
                     EmbedBuilder builder1 = new EmbedBuilder()
-                            .setColor(me.joel.Util.randColor())
+                            .setColor(Color.red)
                             .setDescription("Already in " + memberChannel.getName() + "!");
 
                     event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
@@ -46,7 +48,7 @@ public class Join extends ListenerAdapter {
             audioManager.openAudioConnection(memberChannel);
 
             EmbedBuilder builder1 = new EmbedBuilder()
-                    .setColor(me.joel.Util.randColor())
+                    .setColor(Color.green)
                     .setDescription("Joined " + memberChannel.getName() + "!");
 
             event.replyEmbeds(builder1.build()).setEphemeral(true).queue();

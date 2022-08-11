@@ -44,7 +44,7 @@ public class Leave extends ListenerAdapter {
             audioManager.closeAudioConnection();
 
             builder = new EmbedBuilder()
-                .setColor(Color.red)
+                .setColor(Color.green)
                 .setDescription("Left " + memberChannel.getName() + "!");
 
             event.replyEmbeds(builder.build()).setEphemeral(false).queue();

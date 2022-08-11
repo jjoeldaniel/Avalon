@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class Confess extends ListenerAdapter {
 
     @Override
@@ -22,7 +24,7 @@ public class Confess extends ListenerAdapter {
             // If message contains @role or @everyone
             if (event.getOption("message").getMentions().getRoles().size() > 0 || message.contains("@everyone")) {
                 EmbedBuilder noMentions = new EmbedBuilder()
-                        .setColor(Util.randColor())
+                        .setColor(Color.red)
                         .setDescription("You can't @ roles in a confession!");
 
                 event.replyEmbeds(noMentions.build()).setEphemeral(true).queue();
@@ -31,7 +33,7 @@ public class Confess extends ListenerAdapter {
             // If message contains @member
             if (event.getOption("message").getMentions().getUsers().size() > 0) {
                 EmbedBuilder noMentions = new EmbedBuilder()
-                        .setColor(Util.randColor())
+                        .setColor(Color.red)
                         .setDescription("You can't @ someone in a confession!");
 
                 event.replyEmbeds(noMentions.build()).setEphemeral(true).queue();
@@ -46,7 +48,7 @@ public class Confess extends ListenerAdapter {
                 EmbedBuilder confessionError = new EmbedBuilder()
                         .setTitle("Error!")
                         .setDescription("No confession channel found!")
-                        .setColor(Util.randColor());
+                        .setColor(Color.red);
 
                 event.replyEmbeds(confessionError.build()).setEphemeral(true).queue();
                 return;
@@ -64,7 +66,7 @@ public class Confess extends ListenerAdapter {
             EmbedBuilder confessionSubmit = new EmbedBuilder()
                     .setTitle("Confession Submitted")
                     .setDescription("\"" + message + "\"")
-                    .setColor(Util.randColor());
+                    .setColor(Color.green);
 
             event.getGuild().getTextChannelById(channelID).sendMessageEmbeds(confessionPost.build()).queue();
             event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();

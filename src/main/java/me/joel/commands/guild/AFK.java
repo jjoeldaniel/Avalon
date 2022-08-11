@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class AFK extends ListenerAdapter {
 
     @Override
@@ -27,7 +29,7 @@ public class AFK extends ListenerAdapter {
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("Owner/Admins cannot use /afk!")
-                            .setColor(Util.randColor());
+                            .setColor(Color.red);
 
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                     return;
@@ -53,7 +55,7 @@ public class AFK extends ListenerAdapter {
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setDescription("Your AFK status has been set, " + event.getMember().getAsMention() + "!")
-                            .setColor(Util.randColor());
+                            .setColor(Color.green);
 
                     member.modifyNickname(newName).queue();
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
@@ -65,7 +67,7 @@ public class AFK extends ListenerAdapter {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setDescription("Unknown error occurred, try again later!")
                         .setFooter("Make sure Avalons role is set as high as possible in the role hierarchy if this error continues to occur!")
-                        .setColor(Util.randColor());
+                        .setColor(Color.red);
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
@@ -90,7 +92,7 @@ public class AFK extends ListenerAdapter {
             if (member.getEffectiveName().contains("(AFK)")) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setDescription("Mentioned member is AFK, " + event.getMember().getAsMention() + "!")
-                        .setColor(Util.randColor());
+                        .setColor(Color.red);
 
                 event.getChannel().sendMessageEmbeds(builder.build()).queue();
             }
