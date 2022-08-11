@@ -148,7 +148,11 @@ public class PlayerManager {
 
             @Override
             public void loadFailed(FriendlyException e) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.red)
+                        .setDescription("Loading track found!");
 
+                channel.sendMessageEmbeds(builder.build()).queue();
             }
         });
 
