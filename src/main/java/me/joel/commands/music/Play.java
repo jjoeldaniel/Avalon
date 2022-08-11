@@ -25,10 +25,10 @@ public class Play extends ListenerAdapter {
         if (invoke.equals("play")) {
 
             // JDA AudioManager
-            final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+            final AudioManager audioManager = event.getGuild().getAudioManager();
 
             EmbedBuilder builder;
-            builder = Util.compareVoice(Objects.requireNonNull(event.getMember()));
+            builder = Util.compareVoice(event.getMember());
 
             if (builder != null) {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
@@ -38,7 +38,7 @@ public class Play extends ListenerAdapter {
             event.deferReply().queue();
 
             // Check jda voice state and compare with member voice state
-            final VoiceChannel memberChannel = (VoiceChannel) Objects.requireNonNull(event.getMember().getVoiceState()).getChannel();
+            final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
 
             EmbedBuilder error = new EmbedBuilder()
                     .setDescription("Loading song(s)...")

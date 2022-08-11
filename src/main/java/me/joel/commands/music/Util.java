@@ -7,8 +7,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 /**
  * Utility class
  */
@@ -27,24 +25,30 @@ public class Util extends ListenerAdapter {
 
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-        avalon = event.getGuild().getMemberById("971239438892019743");
+        avalon = event.getGuild().retrieveMemberById("971239438892019743").complete();
     }
 
+    /**
+     * Validates member voice state
+     * @param member
+     * @return VCReq embed if member is not in VC, sameVCReq embed if in different VC, null if neither
+     */
     public static EmbedBuilder compareVoice(Member member) {
 
         EmbedBuilder builder = new EmbedBuilder();
 
         // Checks requester voice state
-        if (!Objects.requireNonNull(member.getVoiceState()).inAudioChannel()) {
+        if (!member.getVoiceState().inAudioChannel()) {
             builder = VCRequirement;
             return builder;
         }
 
-        // Compare JDA and member voice state
-        if (Objects.requireNonNull(getAvalon().getVoiceState()).inAudioChannel()) {
-            long memberVC = Objects.requireNonNull(member.getVoiceState().getChannel()).getIdLong();
-            long botVC = Objects.requireNonNull(Objects.requireNonNull(avalon.getVoiceState()).getChannel()).getIdLong();
-            if (botVC != memberVC) {
+        System.out.println(member.getVoiceState().getChannel().getName());
+        if (avalon.getVoiceState().getChannel() != null) System.out.println(avalon.getVoiceState().getChannel().getName());
+
+        // Compare bot and member voice state
+        if (avalon.getVoiceState().inAudioChannel()) {
+            if (avalon.getVoiceState().getChannel() != member.getVoiceState().getChannel()) {
                 builder = sameVCRequirement;
             }
             return builder;
@@ -62,6 +66,7 @@ public class Util extends ListenerAdapter {
     }
 
     /**
+     * /play member
      * @return Event member
      */
     public static Member getMember() {

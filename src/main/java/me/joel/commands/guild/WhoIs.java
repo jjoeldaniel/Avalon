@@ -19,9 +19,8 @@ public class WhoIs extends ListenerAdapter {
         var invoke = event.getName();
 
         if (invoke.equals("whois")) {
-            Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
+            Member member = event.getOption("user").getAsMember();
 
-            assert member != null;
             LocalDateTime joinTime = member.getTimeJoined().toLocalDateTime();
             LocalDateTime creationDate = member.getTimeCreated().toLocalDateTime();
             int numRoles = member.getRoles().size();
@@ -53,7 +52,6 @@ public class WhoIs extends ListenerAdapter {
 
             if (invoke.equals("Get member info")) {
                 Member member = event.getTargetMember();
-                assert member != null;
 
                 LocalDateTime joinTime = member.getTimeJoined().toLocalDateTime();
                 LocalDateTime creationDate = member.getTimeCreated().toLocalDateTime();

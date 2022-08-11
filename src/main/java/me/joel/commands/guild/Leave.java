@@ -20,37 +20,23 @@ public class Leave extends ListenerAdapter {
 
         if (invoke.equals("leave")) {
 
-            // Avalon
-            Member bot = Objects.requireNonNull(event.getGuild()).getMemberById("971239438892019743");
-            assert bot != null;
+            EmbedBuilder builder;
+            builder = Util.compareVoice(event.getMember());
 
-            // Checks requester voice state
-            if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                event.replyEmbeds(Util.VCRequirement.build()).setEphemeral(true).queue();
+            if (builder != null) {
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
 
-            // Compare JDA and member voice state
-            if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
-                long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                if (!(botVC == memberVC)) {
-                    event.replyEmbeds(Util.sameVCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
-            }
-
             // JDA AudioManager
-            final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+            final AudioManager audioManager = event.getGuild().getAudioManager();
 
             final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
             audioManager.closeAudioConnection();
 
-            assert memberChannel != null;
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setColor(me.joel.Util.randColor())
-                    .setDescription("Left " + memberChannel.getName() + "!");
+            builder = new EmbedBuilder()
+                .setColor(me.joel.Util.randColor())
+                .setDescription("Left " + memberChannel.getName() + "!");
 
             event.replyEmbeds(builder.build()).setEphemeral(false).queue();
         }
