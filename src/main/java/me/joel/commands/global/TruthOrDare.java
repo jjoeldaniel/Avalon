@@ -8,8 +8,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class TruthOrDare extends ListenerAdapter {
 
     @Override
@@ -19,10 +17,10 @@ public class TruthOrDare extends ListenerAdapter {
 
         if (invoke.equals("truthordare")) {
 
-            var invoke1 = event.getSubcommandName();
+            var sub_invoke = event.getSubcommandName();
             EmbedBuilder builder = null;
 
-            switch (Objects.requireNonNull(invoke1)) {
+            switch (sub_invoke) {
                 case ("truth") -> builder = getTruth();
                 case ("dare") -> builder = getDare();
                 case ("random") -> {

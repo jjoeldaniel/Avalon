@@ -7,8 +7,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class Volume extends ListenerAdapter {
 
     @Override
@@ -30,7 +28,7 @@ public class Volume extends ListenerAdapter {
                 return;
             }
 
-            int num = Objects.requireNonNull(event.getOption("num")).getAsInt();
+            int num = event.getOption("num").getAsInt();
 
             if (num <= 0 || num > 100) {
                 builder = new EmbedBuilder()
