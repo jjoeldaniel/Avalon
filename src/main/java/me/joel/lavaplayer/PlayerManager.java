@@ -73,7 +73,7 @@ public class PlayerManager {
 
                 EmbedBuilder builder = addedTrackToQueue(audioTrack, musicManager.scheduler.queue.size());
 
-                if (musicManager.scheduler.queue.size() <= 0) {
+                if (musicManager.scheduler.queue.size() == 0) {
                     builder.setAuthor(("Added to queue"));
 
                     builder.setThumbnail(getThumbnail(audioTrack.getInfo().uri));
@@ -97,7 +97,7 @@ public class PlayerManager {
 
                     AudioTrack audioTrack = tracks.get(0);
                     EmbedBuilder builder = addedTrackToQueue(audioTrack, musicManager.scheduler.queue.size());
-                    if (musicManager.scheduler.queue.size() <= 0) {
+                    if (musicManager.scheduler.queue.size() == 0) {
                         builder.setAuthor(("Added to queue"));
                     }
                     channel.sendMessageEmbeds(builder.build()).queue();
