@@ -60,6 +60,7 @@ public class Queue extends ListenerAdapter {
                 }
 
                 EmbedBuilder builder = Playing.nowPlaying(currentTrack);
+                builder.setFooter("The queue is empty!");
 
                 event.replyEmbeds(builder.build()).queue();
                 return;

@@ -71,8 +71,7 @@ public class Playing extends ListenerAdapter {
                 .setAuthor("Now Playing")
                 .setTitle(track.getInfo().title, trackThumbnail)
                 .setDescription("`[0:00] / [" + songMinutes + ":" + songSeconds + "]`")
-                .setThumbnail(trackThumbnail)
-                .setFooter("The queue is empty!");
+                .setThumbnail(trackThumbnail);
 
         if (hours > 0) {
             builder.setDescription("`[0:00] / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
