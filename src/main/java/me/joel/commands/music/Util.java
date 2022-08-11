@@ -29,7 +29,7 @@ public class Util extends ListenerAdapter {
      */
     public static EmbedBuilder compareVoice(Member member, Member bot) {
 
-        EmbedBuilder builder = new EmbedBuilder();
+        EmbedBuilder builder = null;
 
         // Checks requester voice state
         if (!member.getVoiceState().inAudioChannel()) {
@@ -39,9 +39,6 @@ public class Util extends ListenerAdapter {
 
         // Compare bot and member voice state
         if (bot.getVoiceState().inAudioChannel()) {
-
-            System.out.println(bot.getVoiceState().getChannel().getName());
-            System.out.println(member.getVoiceState().getChannel().getName());
 
             if (bot.getVoiceState().getChannel() != member.getVoiceState().getChannel()) {
                 builder = sameVCRequirement;

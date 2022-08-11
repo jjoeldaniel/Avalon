@@ -17,15 +17,12 @@ public class Shuffle extends ListenerAdapter {
 
         if (invoke.equals("shuffle")) {
 
-            EmbedBuilder builder;
-            builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
+            EmbedBuilder builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
 
             if (builder != null) {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
-
-            AudioEventAdapter.setShuffle(!AudioEventAdapter.isShuffling());
 
             if (AudioEventAdapter.isLooping()) {
                 builder = new EmbedBuilder()
@@ -34,6 +31,8 @@ public class Shuffle extends ListenerAdapter {
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
             }
+
+            AudioEventAdapter.setShuffle(!AudioEventAdapter.isShuffling());
 
             if (AudioEventAdapter.isShuffling()) {
                 builder = new EmbedBuilder()

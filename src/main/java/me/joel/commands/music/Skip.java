@@ -26,8 +26,7 @@ public class Skip extends ListenerAdapter {
             // JDA AudioManager
             final AudioManager audioManager = event.getGuild().getAudioManager();
 
-            EmbedBuilder builder;
-            builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
+            EmbedBuilder builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
 
             if (builder != null) {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();

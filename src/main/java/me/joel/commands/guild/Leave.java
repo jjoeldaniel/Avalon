@@ -20,8 +20,7 @@ public class Leave extends ListenerAdapter {
 
         if (invoke.equals("leave")) {
 
-            EmbedBuilder builder;
-            builder = Util.compareVoice(event.getMember());
+            EmbedBuilder builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
 
             if (builder != null) {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
