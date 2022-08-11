@@ -15,8 +15,6 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class GuildEvents extends ListenerAdapter {
 
     @Override
@@ -41,7 +39,7 @@ public class GuildEvents extends ListenerAdapter {
                 .addField("Need to contact us?", "Add joel#0005 on Discord for questions!", false)
                 .addField("Want to invite Avalon to another server?", "Click on my profile and click \" Add to Server\" to invite Avalon!", false);
 
-        Objects.requireNonNull(event.getGuild().getSystemChannel()).sendMessageEmbeds(builder.build()).setActionRow(
+        event.getGuild().getSystemChannel().sendMessageEmbeds(builder.build()).setActionRow(
                         Button.link(inviteLink, "Invite"))
                 .queue();
     }
@@ -52,9 +50,9 @@ public class GuildEvents extends ListenerAdapter {
         if (!(event.getMember().getId().equals("971239438892019743"))) return;
 
         // Only if not muted
-        if (Objects.requireNonNull(event.getMember().getVoiceState()).isSelfMuted()) return;
+        if (event.getMember().getVoiceState().isSelfMuted()) return;
 
-        final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+        final AudioManager audioManager = event.getGuild().getAudioManager();
         AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
 
         if (track == null) return;
@@ -95,7 +93,7 @@ public class GuildEvents extends ListenerAdapter {
             builder.setThumbnail(PlayerManager.getThumbnail(track.getInfo().uri));
         }
 
-        VoiceChannel channel = event.getGuild().getVoiceChannelById(Objects.requireNonNull(event.getMember().getVoiceState().getChannel()).getId());
+        VoiceChannel channel = event.getGuild().getVoiceChannelById(event.getMember().getVoiceState().getChannel().getId());
         if (channel == null) return;
 
         channel.sendMessageEmbeds(builder.build()).queue();
@@ -106,7 +104,7 @@ public class GuildEvents extends ListenerAdapter {
 
         if (event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
             Member member = event.getGuild().getSelfMember();
-            if (Objects.requireNonNull(member.getVoiceState()).inAudioChannel()) {
+            if (member.getVoiceState().inAudioChannel()) {
                 member.deafen(true).queue();
             }
         }
@@ -133,7 +131,7 @@ public class GuildEvents extends ListenerAdapter {
             // find welcome channel
             try {
 
-                int channelNum = Objects.requireNonNull(event.getGuild()).getTextChannels().size();
+                int channelNum = event.getGuild().getTextChannels().size();
                 for (int i = 0; i < channelNum; ++i) {
 
                     if (event.getGuild().getTextChannels().get(i).getName().contains("welcome")) {
