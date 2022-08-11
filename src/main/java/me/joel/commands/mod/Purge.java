@@ -9,6 +9,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class Purge extends ListenerAdapter {
 
     @Override
@@ -24,7 +26,7 @@ public class Purge extends ListenerAdapter {
             // Invalid numbers
             if (amount <= 0 || amount > 100) {
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
+                        .setColor(Color.red)
                         .setDescription("`" + amount + "` is not a valid number!")
                         .setFooter("Use /help for a list of commands!");
 
@@ -50,7 +52,7 @@ public class Purge extends ListenerAdapter {
 
             // Reply
             EmbedBuilder builder = new EmbedBuilder()
-                    .setColor(Util.randColor())
+                    .setColor(Color.green)
                     .setDescription("`" + amount + "` message(s) purged!")
                     .setFooter("Use /help for a list of commands!");
 

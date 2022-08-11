@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+
 public class Broadcast extends ListenerAdapter {
 
     @Override
@@ -24,7 +26,7 @@ public class Broadcast extends ListenerAdapter {
             if (!(event.getMember()).hasPermission(Permission.ADMINISTRATOR) && !event.getMember().getId().equals("205862976689799168")) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setDescription("You don't have permission for this command!")
-                        .setColor(Util.randColor())
+                        .setColor(Color.red)
                         .setFooter("Think this is an error?", "Try contacting your local server administrator/moderator!");
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
@@ -38,7 +40,7 @@ public class Broadcast extends ListenerAdapter {
             EmbedBuilder builder = new EmbedBuilder()
                     .setTitle("Message sent!")
                     .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-                    .setColor(Util.randColor())
+                    .setColor(Color.green)
                     .setDescription("\"" + message + "\"");
 
             // Text Channel
