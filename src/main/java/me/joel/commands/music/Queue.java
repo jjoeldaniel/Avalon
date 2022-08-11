@@ -5,7 +5,6 @@ import me.joel.lavaplayer.PlayerManager;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -31,6 +30,8 @@ public class Queue extends ListenerAdapter {
 
         var invoke = event.getName();
 
+        if (event.getGuild() == null) return;
+
         if (invoke.equals("queue")) {
 
             // Resets queue
@@ -38,12 +39,8 @@ public class Queue extends ListenerAdapter {
             max = 5;
             pageNumber = 1;
 
-            // Avalon
-            Member bot = Objects.requireNonNull(event.getGuild()).getMemberById("971239438892019743");
-            assert bot != null;
-
             // JDA AudioManager
-            final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+            final AudioManager audioManager = event.getGuild().getAudioManager();
 
             playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
             AudioTrack currentTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
