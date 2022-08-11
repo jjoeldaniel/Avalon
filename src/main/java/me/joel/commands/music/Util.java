@@ -30,7 +30,7 @@ public class Util extends ListenerAdapter {
 
     /**
      * Validates member voice state
-     * @param member
+     * @param member Compared member
      * @return VCReq embed if member is not in VC, sameVCReq embed if in different VC, null if neither
      */
     public static EmbedBuilder compareVoice(Member member) {
