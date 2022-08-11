@@ -2,9 +2,12 @@ package me.joel.commands.music;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * Utility class
@@ -12,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class Util extends ListenerAdapter {
 
     private static Member member;
+    private static Member avalon;
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -19,6 +23,42 @@ public class Util extends ListenerAdapter {
         if (event.getName().equalsIgnoreCase("play")) {
             member = event.getMember();
         }
+    }
+
+    @Override
+    public void onGuildReady(@NotNull GuildReadyEvent event) {
+        avalon = event.getGuild().getMemberById("971239438892019743");
+    }
+
+    public static EmbedBuilder compareVoice(Member member) {
+
+        EmbedBuilder builder = new EmbedBuilder();
+
+        // Checks requester voice state
+        if (!Objects.requireNonNull(member.getVoiceState()).inAudioChannel()) {
+            builder = VCRequirement;
+            return builder;
+        }
+
+        // Compare JDA and member voice state
+        if (Objects.requireNonNull(getAvalon().getVoiceState()).inAudioChannel()) {
+            long memberVC = Objects.requireNonNull(member.getVoiceState().getChannel()).getIdLong();
+            long botVC = Objects.requireNonNull(Objects.requireNonNull(avalon.getVoiceState()).getChannel()).getIdLong();
+            if (botVC != memberVC) {
+                builder = sameVCRequirement;
+            }
+            return builder;
+        }
+
+        return null;
+    }
+
+    /**
+     * Get Avalon
+     * @return Avalon as member
+     */
+    public static Member getAvalon() {
+        return avalon;
     }
 
     /**

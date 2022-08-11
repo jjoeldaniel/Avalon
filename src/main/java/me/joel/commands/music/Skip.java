@@ -23,8 +23,7 @@ public class Skip extends ListenerAdapter {
         if (invoke.equals("skip")) {
 
             // Avalon
-            Member bot = Objects.requireNonNull(event.getGuild()).getMemberById("971239438892019743");
-            assert bot != null;
+            Member bot = Util.getAvalon();
 
             // JDA AudioManager
             final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();

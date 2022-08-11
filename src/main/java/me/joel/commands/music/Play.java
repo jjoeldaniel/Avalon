@@ -3,7 +3,6 @@ package me.joel.commands.music;
 import me.joel.lavaplayer.PlayerManager;
 import me.joel.lavaplayer.Spotify;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -24,34 +23,22 @@ public class Play extends ListenerAdapter {
         var invoke = event.getName();
 
         if (invoke.equals("play")) {
-            event.deferReply().queue();
-
-            // Avalon
-            Member bot = Objects.requireNonNull(event.getGuild()).getMemberById("971239438892019743");
-            assert bot != null;
 
             // JDA AudioManager
             final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
-            // Checks requester voice state
-            if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                event.getHook().sendMessageEmbeds(Util.VCRequirement.build()).setEphemeral(true).queue();
+            EmbedBuilder builder;
+            builder = Util.compareVoice(Objects.requireNonNull(event.getMember()));
+
+            if (builder != null) {
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
 
+            event.deferReply().queue();
+
             // Check jda voice state and compare with member voice state
-            final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
-
-            if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                assert memberChannel != null;
-                long memberVC = memberChannel.getIdLong();
-                long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                if (!(botVC == memberVC)) {
-                    event.getHook().sendMessageEmbeds(Util.sameVCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
-            }
+            final VoiceChannel memberChannel = (VoiceChannel) Objects.requireNonNull(event.getMember().getVoiceState()).getChannel();
 
             EmbedBuilder error = new EmbedBuilder()
                     .setDescription("Loading song(s)...")

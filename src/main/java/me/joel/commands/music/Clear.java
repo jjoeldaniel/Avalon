@@ -20,28 +20,15 @@ public class Clear extends ListenerAdapter {
 
         if (invoke.equals("clear")) {
 
-            // Avalon
-            Member bot = Objects.requireNonNull(event.getGuild()).getMemberById("971239438892019743");
-            assert bot != null;
-
             // JDA AudioManager
             final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
 
-            // Checks requester voice state
-            if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                event.replyEmbeds(Util.VCRequirement.build()).setEphemeral(true).queue();
+            EmbedBuilder builder1;
+            builder1 = Util.compareVoice(Objects.requireNonNull(event.getMember()));
+
+            if (builder1 != null) {
+                event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
                 return;
-            }
-
-            // Compare JDA and member voice state
-            if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
-                long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                if (!(botVC == memberVC)) {
-                    event.replyEmbeds(Util.sameVCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
             }
 
             if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0) {
