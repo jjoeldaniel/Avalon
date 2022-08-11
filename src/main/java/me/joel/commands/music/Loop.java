@@ -17,13 +17,15 @@ public class Loop extends ListenerAdapter {
 
         var invoke = event.getName();
 
+        if (event.getGuild() == null) return;
+
         if (invoke.equals("loop")) {
 
             // JDA AudioManager
-            final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+            final AudioManager audioManager = event.getGuild().getAudioManager();
 
             EmbedBuilder builder;
-            builder = Util.compareVoice(Objects.requireNonNull(event.getMember()));
+            builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
 
             if (builder != null) {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();

@@ -4,7 +4,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.joel.lavaplayer.AudioEventAdapter;
 import me.joel.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -20,29 +19,19 @@ public class Skip extends ListenerAdapter {
 
         var invoke = event.getName();
 
+        if (event.getGuild() == null) return;
+
         if (invoke.equals("skip")) {
 
-            // Avalon
-            Member bot = Util.getAvalon();
-
             // JDA AudioManager
-            final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+            final AudioManager audioManager = event.getGuild().getAudioManager();
 
-            // Checks requester voice state
-            if (!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()) {
-                event.replyEmbeds(Util.VCRequirement.build()).setEphemeral(true).queue();
+            EmbedBuilder builder;
+            builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
+
+            if (builder != null) {
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
-            }
-
-            // Compare JDA and member voice state
-            if (Objects.requireNonNull(bot.getVoiceState()).inAudioChannel()) {
-                long memberVC = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel()).getIdLong();
-                long botVC = Objects.requireNonNull(bot.getVoiceState().getChannel()).getIdLong();
-
-                if (!(botVC == memberVC)) {
-                    event.replyEmbeds(Util.sameVCRequirement.build()).setEphemeral(true).queue();
-                    return;
-                }
             }
 
             List<AudioTrack> playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
@@ -50,19 +39,19 @@ public class Skip extends ListenerAdapter {
             audioTrack = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
 
             if (audioTrack == null) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("No song is playing or an error has occurred!")
-                        .setColor(me.joel.Util.randColor())
-                        .setFooter("Use /help for a list of music commands!");
+                builder = new EmbedBuilder()
+                    .setDescription("No song is playing or an error has occurred!")
+                    .setColor(me.joel.Util.randColor())
+                    .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
 
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setDescription("Song(s) skipped")
-                    .setFooter("Use /help for a list of music commands!")
-                    .setColor(me.joel.Util.randColor());
+            builder = new EmbedBuilder()
+                .setDescription("Song(s) skipped")
+                .setFooter("Use /help for a list of music commands!")
+                .setColor(me.joel.Util.randColor());
 
             if (event.getOption("target") != null) {
                 int songSkip = (Objects.requireNonNull(event.getOption("target")).getAsInt()) - 1;
@@ -87,7 +76,7 @@ public class Skip extends ListenerAdapter {
             }
 
             else if (event.getOption("num") != null) {
-                int songs = Objects.requireNonNull(event.getOption("num")).getAsInt();
+                int songs = event.getOption("num").getAsInt();
 
                 if (songs > playlist.size() || songs < 1) {
                     EmbedBuilder builder1 = new EmbedBuilder()

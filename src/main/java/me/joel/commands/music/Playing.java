@@ -9,8 +9,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class Playing extends ListenerAdapter {
 
     @Override
@@ -18,10 +16,12 @@ public class Playing extends ListenerAdapter {
 
         var invoke = event.getName();
 
+        if (event.getGuild() == null) return;
+
         if (invoke.equals("playing")) {
 
             // JDA AudioManager
-            final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+            final AudioManager audioManager = event.getGuild().getAudioManager();
 
             try {
                 AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();

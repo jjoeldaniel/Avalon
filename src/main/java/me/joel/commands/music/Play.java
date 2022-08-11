@@ -22,13 +22,15 @@ public class Play extends ListenerAdapter {
         // Command name
         var invoke = event.getName();
 
+        if (event.getGuild() == null) return;
+
         if (invoke.equals("play")) {
 
             // JDA AudioManager
             final AudioManager audioManager = event.getGuild().getAudioManager();
 
             EmbedBuilder builder;
-            builder = Util.compareVoice(event.getMember());
+            builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
 
             if (builder != null) {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();

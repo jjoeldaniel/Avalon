@@ -17,24 +17,26 @@ public class Clear extends ListenerAdapter {
 
         var invoke = event.getName();
 
+        if (event.getGuild() == null) return;
+
         if (invoke.equals("clear")) {
 
-            // JDA AudioManager
-            final AudioManager audioManager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+            /// JDA AudioManager
+            final AudioManager audioManager = event.getGuild().getAudioManager();
 
-            EmbedBuilder builder1;
-            builder1 = Util.compareVoice(Objects.requireNonNull(event.getMember()));
+            EmbedBuilder builder;
+            builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
 
-            if (builder1 != null) {
-                event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
+            if (builder != null) {
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
 
             if (PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.size() == 0) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("The queue is empty or an error has occurred!")
-                        .setFooter("Use /help for a list of music commands!")
-                        .setColor(me.joel.Util.randColor());
+                builder = new EmbedBuilder()
+                    .setDescription("The queue is empty or an error has occurred!")
+                    .setFooter("Use /help for a list of music commands!")
+                    .setColor(me.joel.Util.randColor());
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
@@ -44,10 +46,10 @@ public class Clear extends ListenerAdapter {
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.clear();
             PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.destroy();
 
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setDescription("Queue cleared")
-                    .setFooter("Use /help for a list of music commands!")
-                    .setColor(me.joel.Util.randColor());
+            builder = new EmbedBuilder()
+                .setDescription("Queue cleared")
+                .setFooter("Use /help for a list of music commands!")
+                .setColor(me.joel.Util.randColor());
 
             event.replyEmbeds(builder.build()).queue();
         }

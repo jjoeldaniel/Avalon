@@ -1,8 +1,8 @@
 package me.joel.commands.music;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 public class Util extends ListenerAdapter {
 
     private static Member member;
-    private static Member avalon;
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -23,17 +22,12 @@ public class Util extends ListenerAdapter {
         }
     }
 
-    @Override
-    public void onGuildReady(@NotNull GuildReadyEvent event) {
-        avalon = event.getGuild().retrieveMemberById("971239438892019743").complete();
-    }
-
     /**
      * Validates member voice state
      * @param member Compared member
      * @return VCReq embed if member is not in VC, sameVCReq embed if in different VC, null if neither
      */
-    public static EmbedBuilder compareVoice(Member member) {
+    public static EmbedBuilder compareVoice(Member member, Member bot) {
 
         EmbedBuilder builder = new EmbedBuilder();
 
@@ -43,12 +37,13 @@ public class Util extends ListenerAdapter {
             return builder;
         }
 
-        System.out.println(member.getVoiceState().getChannel().getName());
-        if (avalon.getVoiceState().getChannel() != null) System.out.println(avalon.getVoiceState().getChannel().getName());
-
         // Compare bot and member voice state
-        if (avalon.getVoiceState().inAudioChannel()) {
-            if (avalon.getVoiceState().getChannel() != member.getVoiceState().getChannel()) {
+        if (bot.getVoiceState().inAudioChannel()) {
+
+            System.out.println(bot.getVoiceState().getChannel().getName());
+            System.out.println(member.getVoiceState().getChannel().getName());
+
+            if (bot.getVoiceState().getChannel() != member.getVoiceState().getChannel()) {
                 builder = sameVCRequirement;
             }
             return builder;
@@ -58,19 +53,15 @@ public class Util extends ListenerAdapter {
     }
 
     /**
-     * Get Avalon
-     * @return Avalon as member
-     */
-    public static Member getAvalon() {
-        return avalon;
-    }
-
-    /**
      * /play member
      * @return Event member
      */
     public static Member getMember() {
         return member;
+    }
+
+    public static Member getAvalon(Guild guild) {
+        return guild.retrieveMemberById("971239438892019743").complete();
     }
 
     /**
