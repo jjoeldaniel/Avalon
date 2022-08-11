@@ -61,7 +61,7 @@ public class Playing extends ListenerAdapter {
         if (seconds < 10) songSeconds = "0" + seconds;
 
         // Thumbnail
-        String trackThumbnail = track.getInfo().uri;
+        String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
 
         // Embed
         EmbedBuilder builder = new EmbedBuilder()
