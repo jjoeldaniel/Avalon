@@ -6,8 +6,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class Confess extends ListenerAdapter {
 
     @Override
@@ -15,12 +13,14 @@ public class Confess extends ListenerAdapter {
 
         var invoke = event.getName();
 
+        if (event.getGuild() == null) return;
+
         if (invoke.equals("confess")) {
 
-            String message = Objects.requireNonNull(event.getOption("message")).getAsString();
+            String message = event.getOption("message").getAsString();
 
             // If message contains @role or @everyone
-            if (Objects.requireNonNull(event.getOption("message")).getMentions().getRoles().size() > 0 || message.contains("@everyone")) {
+            if (event.getOption("message").getMentions().getRoles().size() > 0 || message.contains("@everyone")) {
                 EmbedBuilder noMentions = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setDescription("You can't @ roles in a confession!");
@@ -29,7 +29,7 @@ public class Confess extends ListenerAdapter {
                 return;
             }
             // If message contains @member
-            if (Objects.requireNonNull(event.getOption("message")).getMentions().getUsers().size() > 0) {
+            if (event.getOption("message").getMentions().getUsers().size() > 0) {
                 EmbedBuilder noMentions = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setDescription("You can't @ someone in a confession!");
@@ -39,7 +39,7 @@ public class Confess extends ListenerAdapter {
             }
 
             // Find confessions channel
-            String channelID = Util.findChannel("confess", Objects.requireNonNull(event.getGuild()));
+            String channelID = Util.findChannel("confess", event.getGuild());
 
             // No channel Found
             if (channelID == null) {
@@ -66,7 +66,7 @@ public class Confess extends ListenerAdapter {
                     .setDescription("\"" + message + "\"")
                     .setColor(Util.randColor());
 
-            Objects.requireNonNull(event.getGuild().getTextChannelById(channelID)).sendMessageEmbeds(confessionPost.build()).queue();
+            event.getGuild().getTextChannelById(channelID).sendMessageEmbeds(confessionPost.build()).queue();
             event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();
         }
     }

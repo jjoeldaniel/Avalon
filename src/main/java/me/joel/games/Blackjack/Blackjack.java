@@ -9,7 +9,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class Blackjack extends ListenerAdapter {
@@ -46,7 +45,7 @@ public class Blackjack extends ListenerAdapter {
             user = event.getUser();
 
             if (event.getOption("bet") != null) {
-                bet = Objects.requireNonNull(event.getOption("bet")).getAsInt();
+                bet = event.getOption("bet").getAsInt();
                 profit = (int) (bet * 1.25);
             }
 

@@ -6,8 +6,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class Ball8 extends ListenerAdapter {
 
     @Override
@@ -41,7 +39,7 @@ public class Ball8 extends ListenerAdapter {
                 case 18 -> output = ("Outlook not so good.");
                 case 19 -> output = ("Very doubtful.");
             }
-            String question = Objects.requireNonNull(event.getOption("question")).getAsString();
+            String question = event.getOption("question").getAsString();
 
             EmbedBuilder ball = new EmbedBuilder()
                     .setTitle("8Ball")

@@ -9,8 +9,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class AFK extends ListenerAdapter {
 
     @Override
@@ -37,7 +35,7 @@ public class AFK extends ListenerAdapter {
 
                 // Return from AFK
                 if (member.getEffectiveName().startsWith("(AFK)")) {
-                    String user = Objects.requireNonNull(event.getMember()).getEffectiveName();
+                    String user = event.getMember().getEffectiveName();
                     StringBuilder username = new StringBuilder()
                             .append(user)
                             .delete(0, 5);
@@ -91,7 +89,7 @@ public class AFK extends ListenerAdapter {
             // AFK Mention
             if (member.getEffectiveName().contains("(AFK)")) {
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setDescription("Mentioned member is AFK, " + Objects.requireNonNull(event.getMember()).getAsMention() + "!")
+                        .setDescription("Mentioned member is AFK, " + event.getMember().getAsMention() + "!")
                         .setColor(Util.randColor());
 
                 event.getChannel().sendMessageEmbeds(builder.build()).queue();

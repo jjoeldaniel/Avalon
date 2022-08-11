@@ -9,8 +9,6 @@ import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEven
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class Avatar extends ListenerAdapter {
 
     @Override
@@ -24,7 +22,7 @@ public class Avatar extends ListenerAdapter {
 
             // DMs
             if (!event.isFromGuild()) {
-                User user = Objects.requireNonNull(event.getOption("user")).getAsUser();
+                User user = event.getOption("user").getAsUser();
                 targetName = user.getName() + "#" + user.getDiscriminator();
                 targetPFP = user.getEffectiveAvatarUrl();
 
@@ -39,7 +37,7 @@ public class Avatar extends ListenerAdapter {
                 return;
             }
             // Server
-            Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
+            Member member = event.getOption("user").getAsMember();
             assert member != null;
             targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
             targetPFP = member.getEffectiveAvatarUrl();
