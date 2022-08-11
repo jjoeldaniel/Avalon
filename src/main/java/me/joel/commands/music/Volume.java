@@ -28,6 +28,7 @@ public class Volume extends ListenerAdapter {
                 return;
             }
 
+            // option is required, will not return null
             int num = event.getOption("num").getAsInt();
 
             if (num <= 0 || num > 100) {

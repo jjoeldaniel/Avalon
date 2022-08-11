@@ -74,7 +74,7 @@ public class Util {
     public static EmbedBuilder genericError() {
         return new EmbedBuilder()
                 .setDescription("An error has occurred!")
-                .setColor(randColor())
+                .setColor(Color.red)
                 .setFooter("Use /help for the commands list");
     }
 
