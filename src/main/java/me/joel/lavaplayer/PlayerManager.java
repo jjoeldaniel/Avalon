@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,7 +140,7 @@ public class PlayerManager {
             @Override
             public void noMatches() {
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
+                        .setColor(Color.red)
                         .setDescription("No song(s) found!");
 
                 channel.sendMessageEmbeds(builder.build()).queue();
