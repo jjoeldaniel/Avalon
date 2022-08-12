@@ -193,6 +193,14 @@ public class Queue extends ListenerAdapter {
      */
     public static EmbedBuilder queuePage(int range1, int range2, int pageNum, AudioTrack current, Guild guild) {
 
+        // occurs when clearing queue then interacting with queue menu
+        if (current == null) {
+            return new EmbedBuilder()
+                    .setDescription("The queue is empty or an error has occurred!")
+                    .setFooter("Use /help for a list of music commands!")
+                    .setColor(Color.red);
+        }
+
         // Base embed
         EmbedBuilder queuePage = new EmbedBuilder()
                 .setAuthor(guild.getName(), guild.getIconUrl(), guild.getIconUrl())
