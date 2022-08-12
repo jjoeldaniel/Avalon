@@ -69,7 +69,7 @@ public class Playing extends ListenerAdapter {
         EmbedBuilder builder = new EmbedBuilder()
                 .setColor(Util.randColor())
                 .setAuthor("Now Playing")
-                .setTitle(track.getInfo().title, trackThumbnail)
+                .setTitle(track.getInfo().title, track.getInfo().uri)
                 .setDescription("`[0:00] / [" + songMinutes + ":" + songSeconds + "]`")
                 .setThumbnail(trackThumbnail);
 
