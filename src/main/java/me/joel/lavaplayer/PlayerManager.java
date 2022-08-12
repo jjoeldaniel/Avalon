@@ -112,7 +112,6 @@ public class PlayerManager {
 
                 final List<AudioTrack> tracks = audioPlaylist.getTracks();
                 if (!tracks.isEmpty()) {
-                    musicManager.scheduler.queue(tracks.get(0));
 
                     // Thumbnail
                     String trackThumbnail = getThumbnail(tracks.get(0).getInfo().uri);
