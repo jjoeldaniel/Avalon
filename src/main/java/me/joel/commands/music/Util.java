@@ -60,7 +60,7 @@ public class Util extends ListenerAdapter {
     }
 
     public static Member getAvalon(Guild guild) {
-        return guild.retrieveMemberById("971239438892019743").complete();
+        return guild.getSelfMember();
     }
 
     /**
