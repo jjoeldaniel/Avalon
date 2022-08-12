@@ -58,9 +58,10 @@ public class Avalon {
                 // Music
                 .addEventListeners(
                         new Play(),
-                        new Resume(),
-                        new Pause(), new Skip(),
-                        new Shuffle(), new Volume(),
+                        new Resume(), new Pause(),
+                        new Skip(),
+                        new Shuffle(),
+                        new Volume(),
                         new Queue(),
                         new Clear(),
                         new Playing(),
