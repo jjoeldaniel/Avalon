@@ -174,6 +174,8 @@ public class PlayerManager {
 
     // Gets YouTube thumbnail
     public static String getThumbnail(String link) {
+        if (link.contains("spotify.com")) return link;
+
         int linkLength = link.length() + 1;
         String linkPrefix = "https://img.youtube.com/vi/";
         String linkSuffix = "/0.jpg";
