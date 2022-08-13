@@ -45,7 +45,14 @@ public class Playing extends ListenerAdapter {
         }
     }
 
+    /**
+     * Gets track current time
+     * @param track Track
+     * @return Time in [h:m:s] format
+     */
     private static String getTrackTime(AudioTrack track) {
+
+        // seconds are measured in thousands
         int totalSeconds = (int) (Math.ceil(track.getPosition()) / 1000);
         int totalMinutes = 0;
         int totalHours = 0;
