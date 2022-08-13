@@ -120,7 +120,7 @@ public class PlayerManager {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setAuthor("Playlist queued")
-                            .setTitle(audioPlaylist.getName(), firstURI)
+                            .setTitle(audioPlaylist.getName(), trackURL)
                             .setDescription("`[" + playlistSize + "] songs`")
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false);
