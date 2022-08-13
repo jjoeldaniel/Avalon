@@ -48,7 +48,6 @@ public class Play extends ListenerAdapter {
 
             // Joins VC
             audioManager.openAudioConnection(memberChannel);
-            PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.setVolume(50);
 
             String link = event.getOption("song").getAsString();
 
