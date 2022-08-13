@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Skip extends ListenerAdapter {
 
-    public static boolean sendNowPlaying = true;
+    private static boolean sendNowPlaying = true;
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -138,5 +138,13 @@ public class Skip extends ListenerAdapter {
 
             event.replyEmbeds(builder.build()).queue();
         }
+    }
+
+    /**
+     * onTrackStart Now Playing
+     * @return Toggles on/off
+     */
+    public static boolean sendNowPlaying() {
+        return sendNowPlaying;
     }
 }

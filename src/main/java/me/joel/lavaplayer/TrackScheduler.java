@@ -65,7 +65,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) {
-        if (queue.size() == 0 || !Skip.sendNowPlaying) return;
+        if (queue.size() == 0 || !Skip.sendNowPlaying()) return;
 
         EmbedBuilder builder = Playing.nowPlaying(track);
         Play.playing.get(player).sendMessageEmbeds(builder.build()).queue();
