@@ -64,6 +64,7 @@ public class Avalon {
                         new Volume(),
                         new Queue(),
                         new Clear(),
+                        new Seek(),
                         new Playing(),
                         new Loop(),
                         new me.joel.commands.music.Util()
