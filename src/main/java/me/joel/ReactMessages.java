@@ -30,7 +30,7 @@ public class ReactMessages extends ListenerAdapter {
             if ((event.getMember()).getUser().isBot()) return;
 
             // Goodnight
-            if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn") && Util.randomWithRange(0, 100) > 50) {
+            if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn") && Util.randomWithRange(0, 100) >= 75) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setDescription("goodnight sweetie!");
@@ -38,7 +38,7 @@ public class ReactMessages extends ListenerAdapter {
             }
 
             // Good morning
-            if (messageSent.contains("goodmorning") || messageSent.contains("good morning") || messageSent.equalsIgnoreCase("gm") && Util.randomWithRange(0, 100) > 50) {
+            if (messageSent.contains("goodmorning") || messageSent.contains("good morning") || messageSent.equalsIgnoreCase("gm") && Util.randomWithRange(0, 100) >= 75) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Util.randColor())
                         .setDescription("good morning sweetie!");
@@ -46,7 +46,7 @@ public class ReactMessages extends ListenerAdapter {
             }
 
             // Insult
-            if (isInsult(messageSent) && Util.randomWithRange(0, 100) > 75) {
+            if (isInsult(messageSent) && Util.randomWithRange(0, 100) >= 80) {
                 event.getMessage().replyEmbeds(randomInsult().build()).queue();
             }
         }
