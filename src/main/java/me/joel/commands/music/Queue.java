@@ -206,7 +206,7 @@ public class Queue extends ListenerAdapter {
                 .setAuthor(guild.getName(), guild.getIconUrl(), guild.getIconUrl())
                 .setTitle(current.getInfo().title, current.getInfo().uri)
                 .setDescription("`" + Playing.getTrackCurrentTime(current) + " / " + Playing.getTrackTotalTime(current) + "`")
-                .addField("Upcoming Tracks", "", false)
+                .addField("", "**Upcoming Tracks**", false)
                 .setColor(Util.randColor())
                 .setThumbnail(Util.randomThumbnail())
                 .setFooter("Use /help for a list of music commands!");
