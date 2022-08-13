@@ -46,9 +46,13 @@ public class Translate extends ListenerAdapter {
             translation = translation.replace("&quot;", "\"");
             builder.setTitle("Translated Text").setDescription("\"" + translation + "\"").setColor(Util.randColor());
 
-            // Deletes message after 1 minute
+            // Send embed
             event.getHook().sendMessageEmbeds(builder.build()).queue();
-            event.getHook().deleteOriginal().queueAfter(3, TimeUnit.MINUTES);
+
+            // Deletes message after 1 minute
+            try {
+            event.getHook().deleteOriginal().queueAfter(3, TimeUnit.MINUTES); }
+            catch  (Exception ignore) {}
         }
     }
 
