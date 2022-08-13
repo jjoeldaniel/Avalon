@@ -45,6 +45,34 @@ public class Playing extends ListenerAdapter {
         }
     }
 
+    private static String getTrackTime(AudioTrack track) {
+        int totalSeconds = (int) (Math.ceil(track.getPosition()) / 1000);
+        int totalMinutes = 0;
+        int totalHours = 0;
+
+        // seconds -> minutes, minutes -> hours
+        while (totalSeconds >= 60) {
+            totalSeconds = totalSeconds - 60;
+            totalMinutes++;
+        }
+        while (totalMinutes >= 60) {
+            totalMinutes = totalMinutes - 60;
+            totalHours++;
+        }
+
+        String totalSecondsString = String.valueOf(totalSeconds);
+        if (totalSeconds < 10) totalSecondsString = "0" + totalSecondsString;
+
+        if (totalHours > 0) {
+            String totalMinutesString = String.valueOf(totalMinutes);
+            if (totalMinutes < 10) totalMinutesString = "0" + totalMinutesString;
+
+            return "[" + totalHours + ":" + totalMinutesString + ":" + totalSecondsString + "]";
+        }
+
+        return "[" + totalMinutes + ":" + totalSecondsString + "]";
+    }
+
     public static EmbedBuilder nowPlaying(AudioTrack track) {
         // Time from ms to m:s
         long trackLength = track.getInfo().length;
@@ -72,11 +100,11 @@ public class Playing extends ListenerAdapter {
                 .setColor(Util.randColor())
                 .setAuthor("Now Playing")
                 .setTitle(track.getInfo().title, track.getInfo().uri)
-                .setDescription("`[0:00] / [" + songMinutes + ":" + songSeconds + "]`")
+                .setDescription("`" + getTrackTime(track) + " / [" + songMinutes + ":" + songSeconds + "]`")
                 .setThumbnail(trackThumbnail);
 
         if (hours > 0) {
-            builder.setDescription("`[0:00] / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
+            builder.setDescription("`" + getTrackTime(track) + " / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
         }
         if (track.getInfo().uri.contains("/track")) {
             builder.setThumbnail(Util.randomThumbnail());
