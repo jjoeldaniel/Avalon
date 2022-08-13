@@ -121,7 +121,8 @@ public class Help extends ListenerAdapter {
                             `/volume` : Sets volume
                             `/loop` : Loops the currently playing song
                             `/shuffle` : Shuffles music queue
-                            `/skip` : Skips song""", false);
+                            `/skip` : Skips song
+                            `/seek` : Seeks song position""", false);
         }
 
         return builder;

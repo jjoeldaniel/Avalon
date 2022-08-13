@@ -37,9 +37,9 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 `/afk` : Sets AFK status
 
-`/avatar (user)` : Retrieves user (or target) profile picture
+`/avatar` : Retrieves user (or target) profile picture
 
-`/8ball (message)` : Asks the magic 8ball a question
+`/8ball` : Asks the magic 8ball a question
 
 `/confess` : Sends anonymous confession (Requires confession channel)
 
@@ -50,15 +50,15 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 **Moderation Commands**
 
-`/purge (num)` : Purges messages (up to 100)
+`/purge` : Purges messages (up to 100)
 
 
-`/broadcast (channel) (message)` : Sends message as Avalon
+`/broadcast` : Sends message as Avalon
 
 
 **Music Commands**
 
-`/play (song)` : Plays YouTube and Spotify links
+`/play` : Plays YouTube and Spotify links
 
 `/pause` : Pauses playback
 
@@ -70,13 +70,15 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 `/playing` : Displays currently playing song
 
-`/volume (num)` : Sets volume
+`/volume` : Sets volume
 
 `/loop` : Loops the currently playing song until disabled/cleared/skipped
 
 `/shuffe` : Shuffles music queue
 
-`/skip (song_num)` : Skips song with an optional song number specific skip
+`/skip` : Skips song with an optional song number specific skip
+
+`/seek` : Seeks song position
 
 
 
