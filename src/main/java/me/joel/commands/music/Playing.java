@@ -118,14 +118,11 @@ public class Playing extends ListenerAdapter {
         // Thumbnail
         String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
 
-        // Embed
-        EmbedBuilder builder = new EmbedBuilder()
+        return new EmbedBuilder()
                 .setColor(Util.randColor())
                 .setAuthor("Now Playing")
                 .setTitle(track.getInfo().title, track.getInfo().uri)
                 .setDescription("`" + getTrackCurrentTime(track) + " / " + getTrackTotalTime(track) + "`")
                 .setThumbnail(trackThumbnail);
-
-        return builder;
     }
 }
