@@ -1,7 +1,6 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.joel.lavaplayer.PlayerManager;
 import me.joel.lavaplayer.Spotify;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -77,9 +76,7 @@ public class Play extends ListenerAdapter {
 
             // Store in Map
             AudioPlayer player = PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player;
-            MessageChannelUnion channel = event.getChannel();
-
-            playing.put(player, channel);
+            playing.put(player, event.getChannel());
 
             event.getHook().deleteOriginal().queueAfter(250, TimeUnit.MILLISECONDS);
         }
