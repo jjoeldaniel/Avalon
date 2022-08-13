@@ -53,7 +53,7 @@ public class Seek extends ListenerAdapter {
 
             EmbedBuilder builder = new EmbedBuilder()
                     .setColor(Color.green)
-                    .setDescription("Seeking at ");
+                    .setTitle("Seeking at");
 
             builder.appendDescription("\n`SECONDS:" + seconds/1000 + "`");
             builder.appendDescription("\n`MINUTES:" + minutes/60000 + "`");
