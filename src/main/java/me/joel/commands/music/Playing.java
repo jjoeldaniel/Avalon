@@ -25,21 +25,23 @@ public class Playing extends ListenerAdapter {
             // JDA AudioManager
             final AudioManager audioManager = event.getGuild().getAudioManager();
 
-            try {
-                AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
+            AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
 
-                EmbedBuilder builder = nowPlaying(track);
-                builder.setFooter("");
-
-                event.replyEmbeds(builder.build()).queue();
-
-            } catch (Exception exception) {
+            if (track == null) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Color.red)
                         .setDescription("No song is playing!")
                         .setFooter("Use /help for a list of music commands!");
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+
+                event.replyEmbeds(builder.build()).queue();
+                return;
             }
+
+            EmbedBuilder builder = nowPlaying(track);
+            builder.setFooter("");
+
+            event.replyEmbeds(builder.build()).queue();
+
         }
     }
 
