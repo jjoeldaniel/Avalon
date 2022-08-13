@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -52,8 +53,7 @@ public class GuildEvents extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
-
-        // paw patrol and cat club welcome messages
+        // paw patrol and avalon server welcome messages
         if (event.getGuild().getId().equals("645471751316307998") || event.getGuild().getId().equals("971225319153479790")) {
 
             Member member = event.getMember();
@@ -86,4 +86,38 @@ public class GuildEvents extends ListenerAdapter {
         }
     }
 
+    @Override
+    public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
+        // paw patrol and avalon server welcome messages
+        if (event.getGuild().getId().equals("645471751316307998") || event.getGuild().getId().equals("971225319153479790")) {
+
+            Member member = event.getMember();
+            EmbedBuilder memberJoin = new EmbedBuilder()
+                    .setColor(Util.randColor())
+                    .setTitle("A member has left!")
+                    .setDescription
+                            (
+                                     member.getAsMention() + " has left " + event.getGuild().getName() +
+                                            "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
+                            )
+                    .setThumbnail(member.getEffectiveAvatarUrl())
+                    .setFooter("User: " + member.getUser().getName() +"#" + member.getUser().getDiscriminator() + " ID: " + member.getId());
+
+            // find welcome channel
+            try {
+
+                int channelNum = event.getGuild().getTextChannels().size();
+                for (int i = 0; i < channelNum; ++i) {
+
+                    if (event.getGuild().getTextChannels().get(i).getName().contains("welcome")) {
+
+                        event.getGuild().getTextChannels().get(i).sendMessageEmbeds(memberJoin.build()).queue();
+                        return;
+                    }
+                }
+            }
+            // If no welcomeChannel found
+            catch (Exception ignore) {}
+        }
+    }
 }
