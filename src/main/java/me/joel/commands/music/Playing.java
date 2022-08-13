@@ -67,7 +67,10 @@ public class Playing extends ListenerAdapter {
             String totalMinutesString = String.valueOf(totalMinutes);
             if (totalMinutes < 10) totalMinutesString = "0" + totalMinutesString;
 
-            return "[" + totalHours + ":" + totalMinutesString + ":" + totalSecondsString + "]";
+            String totalHoursString = String.valueOf(totalHours);
+            if (totalHours < 10) totalHoursString = "0" + totalHoursString;
+
+            return "[" + totalHoursString + ":" + totalMinutesString + ":" + totalSecondsString + "]";
         }
 
         return "[" + totalMinutes + ":" + totalSecondsString + "]";
