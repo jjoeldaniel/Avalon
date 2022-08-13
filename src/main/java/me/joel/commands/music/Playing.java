@@ -1,11 +1,16 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import me.joel.lavaplayer.AudioEventAdapter;
 import me.joel.lavaplayer.PlayerManager;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.emoji.CustomEmoji;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,8 +45,101 @@ public class Playing extends ListenerAdapter {
             EmbedBuilder builder = nowPlaying(track);
             builder.setFooter("");
 
-            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            // uses custom emojis from paw patrol
+            if (event.getJDA().getGuildById("645471751316307998").getEmojiById("1008015504155361322") != null && event.getJDA().getGuildById("645471751316307998").getEmojiById("1008015531405746197") != null) {
 
+                Emoji forward = event.getJDA().getGuildById("645471751316307998").getEmojiById("1008015504155361322");
+                Emoji backward = event.getJDA().getGuildById("645471751316307998").getEmojiById("1008015531405746197");
+
+                event.replyEmbeds(builder.build()).setEphemeral(true)
+                        .addActionRow(
+                                Button.primary("rewind", backward),
+                                Button.primary("pause", Emoji.fromFormatted("U+23F8")),
+                                Button.primary("resume", Emoji.fromFormatted("U+25B6")),
+                                Button.primary("forward", forward)
+                        )
+                        .addActionRow(
+                                Button.primary("shuffle", Emoji.fromFormatted("U+1F501")),
+                                Button.primary("loop", Emoji.fromFormatted("U+1F500"))
+                        )
+                        .queue();
+                return;
+            }
+
+            event.replyEmbeds(builder.build()).setEphemeral(true)
+                    .addActionRow(
+                            Button.primary("rewind", Emoji.fromFormatted("U+23EA")),
+                            Button.primary("pause", Emoji.fromFormatted("U+23F8")),
+                            Button.primary("resume", Emoji.fromFormatted("U+25B6")),
+                            Button.primary("forward", Emoji.fromFormatted("U+23E9"))
+                    )
+                    .addActionRow(
+                            Button.primary("shuffle", Emoji.fromFormatted("U+1F501")),
+                            Button.primary("loop", Emoji.fromFormatted("U+1F500"))
+                    )
+                    .queue();
+
+        }
+    }
+
+    @Override
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+
+        var invoke = event.getComponentId();
+
+        switch (invoke) {
+            case "pause" -> {
+                PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.setPaused(true);
+
+                EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
+                builder.setFooter("");
+
+                event.editMessageEmbeds(builder.build()).queue();
+            }
+            case "resume" -> {
+                PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.setPaused(false);
+
+                EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
+                builder.setFooter("");
+
+                event.editMessageEmbeds(builder.build()).queue();
+            }
+            case "forward" -> {
+                if (PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.queue.size() != 0) {
+                    PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.nextTrack();
+                }
+
+                EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
+                builder.setFooter("");
+
+                event.editMessageEmbeds(builder.build()).queue();
+            }
+            case "rewind" -> {
+                PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack().setPosition(0);
+
+                EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
+                builder.setFooter("");
+
+                event.editMessageEmbeds(builder.build()).queue();
+            }
+            case "shuffle" -> {
+                if (AudioEventAdapter.isShuffling()) AudioEventAdapter.setShuffle(false);
+                if (!AudioEventAdapter.isShuffling()) AudioEventAdapter.setShuffle(true);
+
+                EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
+                builder.setFooter("");
+
+                event.editMessageEmbeds(builder.build()).queue();
+            }
+            case "loop" -> {
+                if (AudioEventAdapter.isLooping()) AudioEventAdapter.setLoop(false);
+                if (!AudioEventAdapter.isLooping()) AudioEventAdapter.setLoop(true);
+
+                EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
+                builder.setFooter("");
+
+                event.editMessageEmbeds(builder.build()).queue();
+            }
         }
     }
 
