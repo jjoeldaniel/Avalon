@@ -78,7 +78,7 @@ public class Play extends ListenerAdapter {
             AudioPlayer player = PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player;
             playing.put(player, event.getChannel());
 
-            event.getHook().deleteOriginal().queueAfter(250, TimeUnit.MILLISECONDS);
+            event.getHook().deleteOriginal().queueAfter(500, TimeUnit.MILLISECONDS);
         }
     }
 
