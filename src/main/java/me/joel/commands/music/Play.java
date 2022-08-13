@@ -63,7 +63,7 @@ public class Play extends ListenerAdapter {
 
             // Spotify tracks (can't get thumbnails otherwise)
             else if (link.contains("/track")) {
-                link = Spotify.searchSpotify(link);
+                link = Spotify.searchTrack(link);
                 PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(),link);
             }
 

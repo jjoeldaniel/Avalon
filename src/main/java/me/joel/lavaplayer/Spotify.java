@@ -58,13 +58,7 @@ public class Spotify {
         }
     }
 
-    /**
-     * Generates search request for individual Tracks, (public) Playlists, and Albums
-     * @param query (User input, valid YouTube/Spotify link)
-     * @return Song/Playlist/Album name + Artist name
-     */
-    public static String searchSpotify(String query) {
-
+    public static String searchTrack(String query) {
         // Set token
         clientCredentials_Async();
 
@@ -72,10 +66,11 @@ public class Spotify {
         String id = separateID(query);
 
         // Track Request
+        // Returns track name + artist
         if (query.contains("/track/")) {
             // Search request
             final GetTrackRequest getTrackRequest = spotifyApi.getTrack(id)
-                .build();
+                    .build();
             try {
                 final CompletableFuture<Track> trackFuture = getTrackRequest.executeAsync();
                 final Track track = trackFuture.join();
@@ -95,8 +90,25 @@ public class Spotify {
                 System.out.println("Async operation cancelled.");
             }
         }
+        return null;
+    }
 
-        // Playlist Thumbnail
+    /**
+     * Generates search request for individual Tracks, (public) Playlists, and Albums
+     * @param query (User input, valid YouTube/Spotify link)
+     * @return Thumbnail
+     */
+    public static String searchSpotify(String query) {
+
+        // Set token
+        clientCredentials_Async();
+
+        // Grab ID
+        String id = separateID(query);
+
+        // Track Request
+
+        // Playlist
         if (query.contains("/playlist/")) {
 
             // Search request
@@ -113,7 +125,8 @@ public class Spotify {
                 System.out.println("Async operation cancelled.");
             }
         }
-        // Album Thumbnail
+
+        // Album
         else if (query.contains("/album/")) {
 
             // Search request
