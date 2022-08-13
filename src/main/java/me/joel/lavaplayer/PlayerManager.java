@@ -78,11 +78,8 @@ public class PlayerManager {
                     builder.setAuthor(("Added to queue"));
 
                     builder.setThumbnail(getThumbnail(audioTrack.getInfo().uri));
-
-                    if (audioTrack.getInfo().uri.contains("/track/")) {
-                        builder.setThumbnail(Util.randomThumbnail());
-                    }
                 }
+
                 channel.sendMessageEmbeds(builder.build()).queue();
             }
 
@@ -128,10 +125,6 @@ public class PlayerManager {
                             .setThumbnail(trackThumbnail)
                             .addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false);
 
-                    if (trackURL.contains("spotify.com")) {
-                        builder.setThumbnail(Spotify.searchSpotify(trackURL));
-                    }
-
                     channel.sendMessageEmbeds(builder.build()).queue();
                 }
             }
@@ -173,7 +166,9 @@ public class PlayerManager {
 
     // Gets YouTube thumbnail
     public static String getThumbnail(String link) {
-        if (link.contains("spotify.com")) return link;
+        if (link.contains("spotify.com")) {
+            return Spotify.searchSpotify(link);
+        }
 
         int linkLength = link.length() + 1;
         String linkPrefix = "https://img.youtube.com/vi/";

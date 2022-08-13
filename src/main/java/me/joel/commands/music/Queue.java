@@ -208,7 +208,7 @@ public class Queue extends ListenerAdapter {
                 .setDescription("`" + Playing.getTrackCurrentTime(current) + " / " + Playing.getTrackTotalTime(current) + "`")
                 .addField("", "**Upcoming Tracks**", false)
                 .setColor(Util.randColor())
-                .setThumbnail(Util.randomThumbnail())
+                .setThumbnail(PlayerManager.getThumbnail(current.getInfo().uri))
                 .setFooter("Use /help for a list of music commands!");
 
         // Add tracks in range

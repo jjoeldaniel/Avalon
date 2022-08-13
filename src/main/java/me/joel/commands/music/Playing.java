@@ -126,10 +126,6 @@ public class Playing extends ListenerAdapter {
                 .setDescription("`" + getTrackCurrentTime(track) + " / " + getTrackTotalTime(track) + "`")
                 .setThumbnail(trackThumbnail);
 
-        if (track.getInfo().uri.contains("/track")) {
-            builder.setThumbnail(Util.randomThumbnail());
-        }
-
         return builder;
     }
 }

@@ -58,41 +58,6 @@ public class Spotify {
         }
     }
 
-    public static String searchTrack(String query) {
-        // Set token
-        clientCredentials_Async();
-
-        // Grab ID
-        String id = separateID(query);
-
-        // Track Request
-        // Returns track name + artist
-        if (query.contains("/track/")) {
-            // Search request
-            final GetTrackRequest getTrackRequest = spotifyApi.getTrack(id)
-                    .build();
-            try {
-                final CompletableFuture<Track> trackFuture = getTrackRequest.executeAsync();
-                final Track track = trackFuture.join();
-
-                String artist = Arrays.stream(track.getArtists()).toList().get(0).toString();
-
-                StringBuilder stringBuilder = new StringBuilder(artist);
-                stringBuilder.delete(0, 22);
-                artist = stringBuilder.toString();
-                String[] artists = artist.split(",", 2);
-                artist = artists[0];
-
-                return "ytmsearch: " + track.getName() + " " + artist + " audio";
-            } catch (CompletionException e) {
-                System.out.println("Error: " + e.getCause().getMessage());
-            } catch (CancellationException e) {
-                System.out.println("Async operation cancelled.");
-            }
-        }
-        return null;
-    }
-
     /**
      * Generates search request for individual Tracks, (public) Playlists, and Albums
      * @param query (User input, valid YouTube/Spotify link)
@@ -107,6 +72,21 @@ public class Spotify {
         String id = separateID(query);
 
         // Track Request
+        if (query.contains("/track/")) {
+            // Search request
+            final GetTrackRequest getTrackRequest = spotifyApi.getTrack(id)
+                    .build();
+            try {
+                final CompletableFuture<Track> trackFuture = getTrackRequest.executeAsync();
+                final Track track = trackFuture.join();
+
+                return Arrays.stream(track.getAlbum().getImages()).toList().get(0).getUrl();
+            } catch (CompletionException e) {
+                System.out.println("Error: " + e.getCause().getMessage());
+            } catch (CancellationException e) {
+                System.out.println("Async operation cancelled.");
+            }
+        }
 
         // Playlist
         if (query.contains("/playlist/")) {

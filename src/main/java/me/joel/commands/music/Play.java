@@ -2,7 +2,6 @@ package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import me.joel.lavaplayer.PlayerManager;
-import me.joel.lavaplayer.Spotify;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
@@ -58,12 +57,6 @@ public class Play extends ListenerAdapter {
 
             // Valid links
             if (isURL(link) && !link.contains("/track/")) {
-                PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(),link);
-            }
-
-            // Spotify tracks (can't get thumbnails otherwise)
-            else if (link.contains("/track")) {
-                link = Spotify.searchTrack(link);
                 PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(),link);
             }
 
