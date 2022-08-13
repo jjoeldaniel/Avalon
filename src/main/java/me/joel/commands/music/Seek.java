@@ -18,6 +18,13 @@ public class Seek extends ListenerAdapter {
 
         if (invoke.equals("seek")) {
 
+            EmbedBuilder check = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
+
+            if (check != null) {
+                event.replyEmbeds(check.build()).setEphemeral(true).queue();
+                return;
+            }
+
             AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack();
 
             if (track == null) {
