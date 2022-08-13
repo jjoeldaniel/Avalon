@@ -33,14 +33,14 @@ public class Playing extends ListenerAdapter {
                         .setDescription("No song is playing!")
                         .setFooter("Use /help for a list of music commands!");
 
-                event.replyEmbeds(builder.build()).queue();
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
 
             EmbedBuilder builder = nowPlaying(track);
             builder.setFooter("");
 
-            event.replyEmbeds(builder.build()).queue();
+            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
 
         }
     }
