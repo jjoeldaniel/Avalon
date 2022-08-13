@@ -123,7 +123,7 @@ public class Playing extends ListenerAdapter {
                 .setColor(Util.randColor())
                 .setAuthor("Now Playing")
                 .setTitle(track.getInfo().title, track.getInfo().uri)
-                .setDescription("`" + getTrackCurrentTime(track) + " / " + getTrackTotalTime(track))
+                .setDescription("`" + getTrackCurrentTime(track) + " / " + getTrackTotalTime(track) + "`")
                 .setThumbnail(trackThumbnail);
 
         if (track.getInfo().uri.contains("/track")) {

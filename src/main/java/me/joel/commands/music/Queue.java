@@ -217,7 +217,7 @@ public class Queue extends ListenerAdapter {
             String songURI = playlist.get(i).getInfo().uri;
 
             queuePage
-                    .addField("", "` " + i+1 + "` [" + songTile + "](" + songURI + ")\n", false);
+                    .addField("", "` " + (i+1) + "` [" + songTile + "](" + songURI + ")\n", false);
         }
         queuePage.setFooter("Queue Size: " + queueSize + "\nPage " + pageNum);
 
