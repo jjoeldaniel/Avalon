@@ -36,8 +36,7 @@ public class Volume extends ListenerAdapter {
             if (num <= 0 || num > 100) {
                 builder = new EmbedBuilder()
                     .setColor(Color.red)
-                    .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                    .setTitle("Error! You can't set the volume to 0 or above 100.")
+                    .setDescription("Error! You can't set the volume to `0%` or above `100%`.")
                     .setFooter("Use /help for a list of music commands!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
@@ -49,8 +48,7 @@ public class Volume extends ListenerAdapter {
 
             builder = new EmbedBuilder()
                 .setColor(Color.green)
-                .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                .setTitle("Volume is now set to " + num + "%. (Prev: " + prevVolume * 2 + "%)")
+                .setDescription("Volume is now set to `" + num + "%`. (Prev: `" + prevVolume * 2 + "%`)")
                 .setFooter("Use /help for a list of music commands!");
 
             event.replyEmbeds(builder.build()).queue();
