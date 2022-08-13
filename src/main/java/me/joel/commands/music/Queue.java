@@ -204,8 +204,9 @@ public class Queue extends ListenerAdapter {
         // Base embed
         EmbedBuilder queuePage = new EmbedBuilder()
                 .setAuthor(guild.getName(), guild.getIconUrl(), guild.getIconUrl())
-                .setTitle("Queue [" + queueSize + "]")
-                .addField("Now playing", "[" + current.getInfo().title + "](" + current.getInfo().uri + ")\n", false)
+                .setTitle(current.getInfo().title, current.getInfo().uri)
+                .setDescription("`" + Playing.getTrackCurrentTime(current) + " / " + Playing.getTrackTotalTime(current) + "`")
+                .addField("Upcoming Tracks", "", false)
                 .setColor(Util.randColor())
                 .setThumbnail(Util.randomThumbnail())
                 .setFooter("Use /help for a list of music commands!");
@@ -216,9 +217,9 @@ public class Queue extends ListenerAdapter {
             String songURI = playlist.get(i).getInfo().uri;
 
             queuePage
-                    .addField("[" + (i + 1) + "]", "[" + songTile + "](" + songURI + ")\n", false)
-                    .setFooter("Page " + pageNum);
+                    .addField("", "` " + i+1 + "` [" + songTile + "](" + songURI + ")\n", false);
         }
+        queuePage.setFooter("Queue Size: " + queueSize + "\nPage " + pageNum);
 
         return queuePage;
     }

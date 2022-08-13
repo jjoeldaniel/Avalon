@@ -50,7 +50,7 @@ public class Playing extends ListenerAdapter {
      * @param track Track
      * @return Time in [h:m:s] format
      */
-    private static String getTrackTime(AudioTrack track) {
+    public static String getTrackCurrentTime(AudioTrack track) {
 
         // seconds are measured in thousands
         int totalSeconds = (int) (Math.ceil(track.getPosition()) / 1000);
@@ -83,7 +83,13 @@ public class Playing extends ListenerAdapter {
         return "[" + totalMinutes + ":" + totalSecondsString + "]";
     }
 
-    public static EmbedBuilder nowPlaying(AudioTrack track) {
+    /**
+     * Gets track total time
+     * @param track Track
+     * @return Time in {h:m:s] format
+     */
+    public static String getTrackTotalTime(AudioTrack track) {
+
         // Time from ms to m:s
         long trackLength = track.getInfo().length;
         long minutes = (trackLength / 1000) / 60;
@@ -102,6 +108,13 @@ public class Playing extends ListenerAdapter {
         String songSeconds = String.valueOf(seconds);
         if (seconds < 10) songSeconds = "0" + seconds;
 
+        if (hours <= 0) return "[" + songMinutes + ":" + songSeconds + "]";
+
+        return "[" + songHours + ":" + songMinutes + ":" + songSeconds + "]";
+    }
+
+    public static EmbedBuilder nowPlaying(AudioTrack track) {
+
         // Thumbnail
         String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
 
@@ -110,12 +123,9 @@ public class Playing extends ListenerAdapter {
                 .setColor(Util.randColor())
                 .setAuthor("Now Playing")
                 .setTitle(track.getInfo().title, track.getInfo().uri)
-                .setDescription("`" + getTrackTime(track) + " / [" + songMinutes + ":" + songSeconds + "]`")
+                .setDescription("`" + getTrackCurrentTime(track) + " / " + getTrackTotalTime(track))
                 .setThumbnail(trackThumbnail);
 
-        if (hours > 0) {
-            builder.setDescription("`" + getTrackTime(track) + " / [" + songHours + ":" + songMinutes + ":" + songSeconds + "]`");
-        }
         if (track.getInfo().uri.contains("/track")) {
             builder.setThumbnail(Util.randomThumbnail());
         }
