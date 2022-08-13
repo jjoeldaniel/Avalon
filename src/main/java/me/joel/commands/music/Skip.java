@@ -14,6 +14,8 @@ import java.util.List;
 
 public class Skip extends ListenerAdapter {
 
+    public static boolean sendNowPlaying = true;
+
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
@@ -89,9 +91,21 @@ public class Skip extends ListenerAdapter {
 
                 AudioEventAdapter.setLoop(false);
                 AudioEventAdapter.setShuffle(false);
-                for (int i = 0; i < songs; i++) {
+
+                // disable now playing until songs are skipped
+                sendNowPlaying = false;
+
+                // skip -1
+                for (int i = 0; i < songs-1; i++) {
                     PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
                 }
+
+                // re enable now playing
+                sendNowPlaying = true;
+
+                // final skip
+                PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
+
 
                 event.replyEmbeds(builder.build()).queue();
                 return;

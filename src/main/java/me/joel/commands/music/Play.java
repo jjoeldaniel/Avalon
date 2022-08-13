@@ -1,9 +1,12 @@
 package me.joel.commands.music;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.joel.lavaplayer.PlayerManager;
 import me.joel.lavaplayer.Spotify;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -11,9 +14,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class Play extends ListenerAdapter {
+
+    public static HashMap<AudioPlayer, MessageChannelUnion> playing = new HashMap<>();
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -68,6 +74,12 @@ public class Play extends ListenerAdapter {
                 // Plays song
                 PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(), link);
             }
+
+            // Store in Map
+            AudioPlayer player = PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player;
+            MessageChannelUnion channel = event.getChannel();
+
+            playing.put(player, channel);
 
             event.getHook().deleteOriginal().queueAfter(250, TimeUnit.MILLISECONDS);
         }
