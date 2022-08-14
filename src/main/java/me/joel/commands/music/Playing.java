@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.joel.lavaplayer.PlayerManager;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -77,6 +78,23 @@ public class Playing extends ListenerAdapter {
 
         var invoke = event.getComponentId();
 
+        if (invoke.equals("pause") || invoke.equals("resume") || invoke.equals("forward") | invoke.equals("rewind")) {
+            if (!inVC(event.getMember())) {
+                EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
+                builder.setFooter("");
+
+                event.editMessageEmbeds(builder.build()).queue();
+                return;
+            }
+            else if (!inBotVC(event.getMember(), event.getGuild().getSelfMember())) {
+                EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
+                builder.setFooter("");
+
+                event.editMessageEmbeds(builder.build()).queue();
+                return;
+            }
+        }
+
         switch (invoke) {
             case "pause" -> {
                 PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.setPaused(true);
@@ -113,6 +131,14 @@ public class Playing extends ListenerAdapter {
                 event.editMessageEmbeds(builder.build()).queue();
             }
         }
+    }
+
+    private static boolean inVC(Member member) {
+        return member.getVoiceState().inAudioChannel();
+    }
+
+    private static boolean inBotVC(Member member, Member bot) {
+        return (member.getVoiceState().getChannel() == bot.getVoiceState().getChannel());
     }
 
     /**
@@ -183,6 +209,11 @@ public class Playing extends ListenerAdapter {
         return "[" + songHours + ":" + songMinutes + ":" + songSeconds + "]";
     }
 
+    /**
+     * Displays currently playing song in embed
+     * @param track Current track
+     * @return Embed
+     */
     public static EmbedBuilder nowPlaying(AudioTrack track) {
 
         // Thumbnail
