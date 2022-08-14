@@ -4,8 +4,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 
 import java.awt.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Properties;
 import java.util.Random;
 
@@ -61,18 +63,19 @@ public class Util {
         String value = null;
 
         try {
-            String configPath = "config.properties";
-            FileInputStream propsInput = new FileInputStream(configPath);
+            File file = new File(System.getProperty("user.dir")).getAbsoluteFile();
+            String configPath = file.getAbsolutePath() + "\\config.properties";
 
+            FileInputStream propsInput = new FileInputStream(configPath);
             Properties prop = new Properties();
             prop.load(propsInput);
 
             value = prop.getProperty(key);
         }
         catch (IOException e) {
-            e.printStackTrace();
             System.out.println("ERROR: Failed to load property for KEY: " + key);
-            System.exit(1);
+            System.out.println("----------------------------------------");
+            e.printStackTrace();
         }
 
         return value;
