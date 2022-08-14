@@ -2,6 +2,7 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
@@ -91,17 +92,17 @@ public class GuildEvents extends ListenerAdapter {
         // paw patrol and avalon server welcome messages
         if (event.getGuild().getId().equals("645471751316307998") || event.getGuild().getId().equals("971225319153479790")) {
 
-            Member member = event.getMember();
-            EmbedBuilder memberJoin = new EmbedBuilder()
+            User user = event.getUser();
+            EmbedBuilder memberLeave = new EmbedBuilder()
                     .setColor(Util.randColor())
                     .setTitle("A member has left!")
                     .setDescription
                             (
-                                     member.getAsMention() + " has left " + event.getGuild().getName() +
+                                     user.getAsMention() + " has left " + event.getGuild().getName() +
                                             "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
                             )
-                    .setThumbnail(member.getEffectiveAvatarUrl())
-                    .setFooter("User: " + member.getUser().getName() +"#" + member.getUser().getDiscriminator() + " ID: " + member.getId());
+                    .setThumbnail(user.getEffectiveAvatarUrl())
+                    .setFooter("User: " + user.getName() +"#" + user.getDiscriminator() + " ID: " + user.getId());
 
             // find welcome channel
             try {
@@ -111,7 +112,7 @@ public class GuildEvents extends ListenerAdapter {
 
                     if (event.getGuild().getTextChannels().get(i).getName().contains("welcome")) {
 
-                        event.getGuild().getTextChannels().get(i).sendMessageEmbeds(memberJoin.build()).queue();
+                        event.getGuild().getTextChannels().get(i).sendMessageEmbeds(memberLeave.build()).queue();
                         return;
                     }
                 }
