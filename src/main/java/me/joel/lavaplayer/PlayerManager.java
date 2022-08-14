@@ -115,7 +115,6 @@ public class PlayerManager {
 
                     // Playlist size
                     int playlistSize = audioPlaylist.getTracks().size();
-                    String firstURI = audioPlaylist.getTracks().get(0).getInfo().uri;
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
