@@ -1,7 +1,6 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import me.joel.lavaplayer.AudioEventAdapter;
 import me.joel.lavaplayer.PlayerManager;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -57,10 +56,6 @@ public class Playing extends ListenerAdapter {
                                 Button.primary("resume", Emoji.fromFormatted("U+25B6")),
                                 Button.primary("forward", forward)
                         )
-                        .addActionRow(
-                                Button.primary("shuffle", Emoji.fromFormatted("U+1F501")),
-                                Button.primary("loop", Emoji.fromFormatted("U+1F500"))
-                        )
                         .queue();
                 return;
             }
@@ -71,10 +66,6 @@ public class Playing extends ListenerAdapter {
                             Button.primary("pause", Emoji.fromFormatted("U+23F8")),
                             Button.primary("resume", Emoji.fromFormatted("U+25B6")),
                             Button.primary("forward", Emoji.fromFormatted("U+23E9"))
-                    )
-                    .addActionRow(
-                            Button.primary("shuffle", Emoji.fromFormatted("U+1F501")),
-                            Button.primary("loop", Emoji.fromFormatted("U+1F500"))
                     )
                     .queue();
 
@@ -115,24 +106,6 @@ public class Playing extends ListenerAdapter {
             }
             case "rewind" -> {
                 PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack().setPosition(0);
-
-                EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
-                builder.setFooter("");
-
-                event.editMessageEmbeds(builder.build()).queue();
-            }
-            case "shuffle" -> {
-                if (AudioEventAdapter.isShuffling()) AudioEventAdapter.setShuffle(false);
-                if (!AudioEventAdapter.isShuffling()) AudioEventAdapter.setShuffle(true);
-
-                EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
-                builder.setFooter("");
-
-                event.editMessageEmbeds(builder.build()).queue();
-            }
-            case "loop" -> {
-                if (AudioEventAdapter.isLooping()) AudioEventAdapter.setLoop(false);
-                if (!AudioEventAdapter.isLooping()) AudioEventAdapter.setLoop(true);
 
                 EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
                 builder.setFooter("");
