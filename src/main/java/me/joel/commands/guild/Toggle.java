@@ -11,6 +11,7 @@ public class Toggle extends ListenerAdapter {
 
     private static boolean insults = true;
     private static boolean gmgn = true;
+    private static boolean nowPlaying = true;
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -50,6 +51,20 @@ public class Toggle extends ListenerAdapter {
 
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
+                case ("now_playing") -> {
+                    nowPlaying = !nowPlaying;
+
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Color.green)
+                            .setDescription("`Now Playing` messages are now toggled `ON`");
+
+                    if (!nowPlaying) {
+                        builder.setColor(Color.red);
+                        builder.setDescription("`Now Playing` messages are now toggled `OFF`");
+                    }
+
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                }
             }
         }
     }
@@ -60,5 +75,9 @@ public class Toggle extends ListenerAdapter {
 
     public static boolean gmgn() {
         return gmgn;
+    }
+
+    public static boolean isNowPlaying() {
+        return nowPlaying;
     }
 }

@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import me.joel.Util;
+import me.joel.commands.guild.Toggle;
 import me.joel.commands.music.Play;
 import me.joel.commands.music.Playing;
 import me.joel.commands.music.Skip;
@@ -65,7 +66,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) {
-        if (queue.size() == 0 || !Skip.sendNowPlaying()) return;
+        if (queue.size() == 0 || !Toggle.isNowPlaying() || !Skip.sendNowPlaying()) return;
 
         EmbedBuilder builder = Playing.nowPlaying(track);
         Play.playing.get(player).sendMessageEmbeds(builder.build()).queue();
