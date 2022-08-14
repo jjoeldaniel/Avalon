@@ -1,5 +1,6 @@
 package me.joel.lavaplayer;
 
+import me.joel.Util;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.model_objects.specification.*;
@@ -18,6 +19,9 @@ import java.util.concurrent.CompletionException;
  */
 public class Spotify {
 
+    private static final String clientID = Util.loadProperty("SPOTIFY_CLIENT_ID");
+    private static final String clientSecret = Util.loadProperty("SPOTIFY_CLIENT_SECRET");
+
     /**
      * SpotifyAPI
      * <p>
@@ -25,8 +29,8 @@ public class Spotify {
      * </p>
      */
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
-            .setClientId("3451401ce3b148039cbba35a2c25cd5f")
-            .setClientSecret("08becf6c9969424c833f0d8daaf00135")
+            .setClientId(clientID)
+            .setClientSecret(clientSecret)
             .build();
 
     /**
