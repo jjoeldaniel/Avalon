@@ -7,7 +7,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Properties;
 import java.util.Random;
 
@@ -73,9 +72,10 @@ public class Util {
             value = prop.getProperty(key);
         }
         catch (IOException e) {
-            System.out.println("ERROR: Failed to load property for KEY: " + key);
             System.out.println("----------------------------------------");
+            System.out.println("ERROR: Failed to load property for KEY: " + key + "\n");
             e.printStackTrace();
+            System.out.println("----------------------------------------");
         }
 
         return value;
