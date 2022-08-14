@@ -122,6 +122,16 @@ public class Skip extends ListenerAdapter {
                     num = me.joel.Util.randomWithRange(0, playlist.size());
                 }
 
+                if (playlist.isEmpty()) {
+                    EmbedBuilder builder1 = new EmbedBuilder()
+                            .setColor(Color.red)
+                            .setDescription("That isn't a valid number!")
+                            .setFooter("Use /help for a list of music commands!");
+
+                    event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
+                    return;
+                }
+
                 AudioTrack randomTrack = playlist.get(num);
                 while (randomTrack == PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack()) {
                     num = me.joel.Util.randomWithRange(0, playlist.size());
