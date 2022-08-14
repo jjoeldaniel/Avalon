@@ -34,8 +34,8 @@ public class PlayerManager {
 
         // Spotify Source Manager
         SpotifyConfig spotifyConfig = new SpotifyConfig();
-        spotifyConfig.setClientId("3451401ce3b148039cbba35a2c25cd5f");
-        spotifyConfig.setClientSecret("08becf6c9969424c833f0d8daaf00135");
+        spotifyConfig.setClientId(Util.loadProperty("SPOTIFY_CLIENT_ID"));
+        spotifyConfig.setClientSecret(Util.loadProperty("SPOTIFY_CLIENT_SECRET"));
         spotifyConfig.setCountryCode("US");
         this.audioPlayerManager.registerSourceManager(new SpotifySourceManager(null, spotifyConfig, this.audioPlayerManager));
 
