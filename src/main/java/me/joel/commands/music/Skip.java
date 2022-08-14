@@ -67,8 +67,6 @@ public class Skip extends ListenerAdapter {
                     return;
                 }
 
-                AudioEventAdapter.setLoop(false);
-                AudioEventAdapter.setShuffle(false);
                 AudioTrack songToSkip = playlist.get(songSkip);
                 PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.remove(songToSkip);
 
@@ -90,7 +88,6 @@ public class Skip extends ListenerAdapter {
                 }
 
                 AudioEventAdapter.setLoop(false);
-                AudioEventAdapter.setShuffle(false);
 
                 // disable now playing until songs are skipped
                 sendNowPlaying = false;
