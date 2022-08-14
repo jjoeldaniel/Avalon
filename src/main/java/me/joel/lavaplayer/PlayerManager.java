@@ -142,7 +142,7 @@ public class PlayerManager {
             public void loadFailed(FriendlyException e) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Color.red)
-                        .setDescription("Loading track failed!");
+                        .setDescription("Loading track(s) failed!");
 
                 channel.sendMessageEmbeds(builder.build()).queue();
             }
