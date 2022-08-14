@@ -4,7 +4,9 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Random;
 
 public class Util {
@@ -39,34 +41,6 @@ public class Util {
         return channelID;
     }
 
-
-    /**
-     * Random dog thumbnail
-     * @return Thumbnail URL
-     */
-    public static String randomThumbnail() {
-        ArrayList<String> dogs = new ArrayList<>();
-
-        dogs.add("https://c.tenor.com/HxNhwwXRcdEAAAAj/brickhill-bh.gif");
-        dogs.add("https://c.tenor.com/eRTjXVkts5kAAAAj/pug-dog.gif");
-        dogs.add("https://c.tenor.com/BpGpliwaBcMAAAAj/dogjam-dog.gif");
-        dogs.add("https://c.tenor.com/l6wuj9Zdl6wAAAAj/dancing-doge.gif");
-        dogs.add("https://c.tenor.com/V4jrINyqhGcAAAAj/dance-dancing.gif");
-        dogs.add("https://c.tenor.com/0vy31sXqwYcAAAAj/dog-doggo.gif");
-        dogs.add("https://c.tenor.com/9TsiJq--SsEAAAAj/doge-dance.gif");
-        dogs.add("https://c.tenor.com/IgknKg_YnbgAAAAC/fluffy-cute.gif");
-        dogs.add("https://c.tenor.com/_4xCiEhhoZsAAAAd/dog-smile.gif");
-        dogs.add("https://c.tenor.com/F5KHwoW46WQAAAAd/hotdog.gif");
-        dogs.add("https://c.tenor.com/nEsdZ0qa6QcAAAAd/dog.gif");
-        dogs.add("https://c.tenor.com/lfLqrldlPO0AAAAd/bee-dog-dog-bee.gif");
-        dogs.add("https://c.tenor.com/he7fisueH2QAAAAd/puppy-cute.gif");
-        dogs.add("https://c.tenor.com/f-paU3H3PAMAAAAd/dog-happy.gif");
-        dogs.add("https://c.tenor.com/X85gBisS1bAAAAAd/dog-looking.gif");
-
-        int num = randomWithRange(0, dogs.size());
-        return dogs.get(num);
-    }
-
     /**
      * Generic error
      * @return Error embed
@@ -76,6 +50,32 @@ public class Util {
                 .setDescription("An error has occurred!")
                 .setColor(Color.red)
                 .setFooter("Use /help for the commands list");
+    }
+
+    /**
+     * Loads config.properties
+     * @param key Property key
+     * @return Key value or null if key not found
+     */
+    public static String loadProperty(String key) {
+        String value = null;
+
+        try {
+            String configPath = "config.properties";
+            FileInputStream propsInput = new FileInputStream(configPath);
+
+            Properties prop = new Properties();
+            prop.load(propsInput);
+
+            value = prop.getProperty(key);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("ERROR: Failed to load property for KEY: " + key);
+            System.exit(1);
+        }
+
+        return value;
     }
 
     /**
