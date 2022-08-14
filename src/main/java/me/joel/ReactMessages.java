@@ -60,7 +60,7 @@ public class ReactMessages extends ListenerAdapter {
      * @return True if message contains insult
      */
     boolean isInsult(String message) {
-        return message.contains("fuck") || (message.contains("cunt")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
+        return message.contains("fuck") || (message.contains("cunt")) || (message.contains("slag")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
     }
 
     /**
