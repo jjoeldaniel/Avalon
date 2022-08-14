@@ -1,5 +1,6 @@
 package me.joel;
 
+import me.joel.commands.guild.Toggle;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -29,25 +30,28 @@ public class ReactMessages extends ListenerAdapter {
             if (event.getMember() == null) return;
             if ((event.getMember()).getUser().isBot()) return;
 
-            // Goodnight
-            if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn") && Util.randomWithRange(0, 100) >= 75) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setDescription("goodnight sweetie!");
-                event.getMessage().replyEmbeds(builder.build()).queue();
-            }
-
-            // Good morning
-            if (messageSent.contains("goodmorning") || messageSent.contains("good morning") || messageSent.equalsIgnoreCase("gm") && Util.randomWithRange(0, 100) >= 75) {
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setColor(Util.randColor())
-                        .setDescription("good morning sweetie!");
-                event.getMessage().replyEmbeds(builder.build()).queue();
+            if (Toggle.gmgn()) {
+                // Goodnight
+                if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn") && Util.randomWithRange(0, 100) >= 75) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("goodnight sweetie!");
+                    event.getMessage().replyEmbeds(builder.build()).queue();
+                }
+                // Good morning
+                if (messageSent.contains("goodmorning") || messageSent.contains("good morning") || messageSent.equalsIgnoreCase("gm") && Util.randomWithRange(0, 100) >= 75) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription("good morning sweetie!");
+                    event.getMessage().replyEmbeds(builder.build()).queue();
+                }
             }
 
             // Insult
-            if (isInsult(messageSent) && Util.randomWithRange(0, 100) >= 80) {
-                event.getMessage().replyEmbeds(randomInsult().build()).queue();
+            if (Toggle.insults()) {
+                if (isInsult(messageSent) && Util.randomWithRange(0, 100) >= 80) {
+                    event.getMessage().replyEmbeds(randomInsult().build()).queue();
+                }
             }
         }
     }

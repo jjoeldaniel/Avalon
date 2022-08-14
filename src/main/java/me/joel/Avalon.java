@@ -55,7 +55,8 @@ public class Avalon {
                         new WhoIs(),
                         new Join(),
                         new Leave(),
-                        new Translate()
+                        new Translate(),
+                        new Toggle()
                 )
                 // Music
                 .addEventListeners(

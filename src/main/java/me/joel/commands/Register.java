@@ -39,6 +39,12 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member info"));
         guildCommandData.add(Commands.context(Command.Type.MESSAGE, "Translate message"));
 
+        // toggle
+        SubcommandData insults = new SubcommandData("insults", "Toggles insults");
+        SubcommandData gmgn = new SubcommandData("goodmorning_goodnight", "Toggles good morning and goodnight messages");
+
+        guildCommandData.add(Commands.slash("toggle", "Toggles bot features").addSubcommands(insults, gmgn).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
+
         // mod
         guildCommandData.add(Commands.slash("broadcast", "Broadcasts message in selected channel").addOption(OptionType.CHANNEL, "channel", "Broadcast channel", true).addOption(OptionType.STRING, "message", "Broadcast Message", true));
         guildCommandData.add(Commands.slash("purge", "Purges up to 100 messages").addOption(OptionType.INTEGER, "number", "Number of messages to purge", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
