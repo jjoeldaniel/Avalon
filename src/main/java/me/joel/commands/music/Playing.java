@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.joel.lavaplayer.PlayerManager;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -45,16 +46,19 @@ public class Playing extends ListenerAdapter {
             builder.setFooter("");
 
             // uses custom emojis from paw patrol
-            if (event.getJDA().getGuildById("645471751316307998").getEmojiById("1008015504155361322") != null && event.getJDA().getGuildById("645471751316307998").getEmojiById("1008015531405746197") != null) {
+            Guild guild = event.getJDA().getGuildById("645471751316307998");
+            if (guild.getEmojiById("1008015504155361322") != null && guild.getEmojiById("1008015531405746197") != null && guild.getEmojiById("1008346492802715688") != null && guild.getEmojiById("1008347117217128520") != null) {
 
-                Emoji forward = event.getJDA().getGuildById("645471751316307998").getEmojiById("1008015504155361322");
-                Emoji backward = event.getJDA().getGuildById("645471751316307998").getEmojiById("1008015531405746197");
+                Emoji forward = guild.getEmojiById("1008015504155361322");
+                Emoji backward = guild.getEmojiById("1008015531405746197");
+                Emoji play = guild.getEmojiById("1008346492802715688");
+                Emoji pause = guild.getEmojiById("1008347117217128520");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true)
                         .addActionRow(
                                 Button.primary("rewind", backward),
-                                Button.primary("pause", Emoji.fromFormatted("U+23F8")),
-                                Button.primary("resume", Emoji.fromFormatted("U+25B6")),
+                                Button.primary("pause", pause),
+                                Button.primary("resume", play),
                                 Button.primary("forward", forward)
                         )
                         .queue();
