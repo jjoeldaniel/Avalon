@@ -19,68 +19,72 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 ### **4) Where can I contact you if I have questions?**
 
-   Feel free to add me on Discord at joel#0005.
+   Join the [Avalon Support server!](https://discord.gg/BDgCCF7h).
 
 ## Commands List
 
 **General Commands**
 
-`/help` : Lists commands
+`/help`  Lists commands
 
-`/ping` : Pings bot
+`/ping`  Pings bot
 
-`/coinflip` : Flips a coin
+`/coinflip`  Flips a coin
 
-`/truth` : Requests truth
+`/truth`  Requests truth
 
-`/dare` : Requests dare
+`/dare`  Requests dare
 
-`/afk` : Sets AFK status
+`/afk`  Sets AFK status
 
-`/toggle` : Toggles specified react message
+`/toggle`  Toggles specified react message
 
-`/avatar` : Retrieves user (or target) profile picture
+`/avatar`  Retrieves user (or target) profile picture
 
-`/8ball` : Asks the magic 8ball a question
+`/8ball`  Asks the magic 8ball a question
 
-`/confess` : Sends anonymous confession (Requires confession channel)
+`/confess`  Sends anonymous confession (Requires confession channel)
 
-`/join` : Request for bot to join VC
+`/join`  Request for bot to join VC
 
-`/leave` : Request for bot to leave VC
+`/leave`  Request for bot to leave VC
+
+**Games**
+
+`/blackjack` Starts a game of Blackjack
 
 
 **Moderation Commands**
 
-`/purge` : Purges messages (up to 100)
+`/purge`  Purges messages (up to 100)
 
 
-`/broadcast` : Sends message as Avalon
+`/broadcast`  Sends message as Avalon
 
 
 **Music Commands**
 
-`/play` : Plays YouTube and Spotify links
+`/play`  Plays YouTube and Spotify links
 
-`/pause` : Pauses playback
+`/pause`  Pauses playback
 
-`/resume` : Resumes playback
+`/resume`  Resumes playback
 
-`/clear` : Clears queue
+`/clear`  Clears queue
 
-`/queue` : Displays song queue
+`/queue`  Displays song queue
 
-`/playing` : Displays currently playing song
+`/playing`  Displays currently playing song
 
-`/volume` : Sets volume
+`/volume`  Sets volume
 
-`/loop` : Loops the currently playing song until disabled/cleared/skipped
+`/loop`  Loops the currently playing song until disabled/cleared/skipped
 
-`/shuffe` : Shuffles music queue
+`/shuffe`  Shuffles music queue
 
-`/skip` : Skips song with an optional song number specific skip
+`/skip`  Skips song with an optional song number specific skip
 
-`/seek` : Seeks song position
+`/seek`  Seeks song position
 
 
 
