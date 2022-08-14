@@ -45,14 +45,14 @@ public class Playing extends ListenerAdapter {
             EmbedBuilder builder = nowPlaying(track);
             builder.setFooter("");
 
-            // uses custom emojis from paw patrol
-            Guild guild = event.getJDA().getGuildById("645471751316307998");
-            if (guild.getEmojiById("1008015504155361322") != null && guild.getEmojiById("1008015531405746197") != null && guild.getEmojiById("1008346492802715688") != null && guild.getEmojiById("1008347117217128520") != null) {
+            // uses custom emojis from avalon support server
+            Guild guild = event.getJDA().getGuildById("971225319153479790");
+            if (guild.getEmojiById("1008350970872336455") != null && guild.getEmojiById("1008350949716267018") != null && guild.getEmojiById("1008350808041066588") != null && guild.getEmojiById("1008350819655102546") != null) {
 
-                Emoji forward = guild.getEmojiById("1008015504155361322");
-                Emoji backward = guild.getEmojiById("1008015531405746197");
-                Emoji play = guild.getEmojiById("1008346492802715688");
-                Emoji pause = guild.getEmojiById("1008347117217128520");
+                Emoji forward = guild.getEmojiById("1008350970872336455");
+                Emoji backward = guild.getEmojiById("1008350949716267018");
+                Emoji play = guild.getEmojiById("1008350808041066588");
+                Emoji pause = guild.getEmojiById("1008350819655102546");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true)
                         .addActionRow(
