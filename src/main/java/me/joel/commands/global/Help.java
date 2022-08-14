@@ -96,6 +96,7 @@ public class Help extends ListenerAdapter {
                             `/avatar` : Retrieves target profile picture
                             `/whois` : Provides user information
                             `/afk` : Sets AFK status
+                            `/toggle` : Toggles specified react message
                             `/confess` : Sends anonymous confession
                             `/8ball` : Asks the magic 8ball a question""", false);
             case 2 -> builder = new EmbedBuilder()
