@@ -37,8 +37,6 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 `/afk`  Sets AFK status
 
-`/toggle`  Toggles specified react message
-
 `/avatar`  Retrieves user (or target) profile picture
 
 `/8ball`  Asks the magic 8ball a question
@@ -60,6 +58,8 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 
 `/broadcast`  Sends message as Avalon
+
+`/toggle`  Toggles Avalon features
 
 
 **Music Commands**

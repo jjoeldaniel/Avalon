@@ -96,7 +96,6 @@ public class Help extends ListenerAdapter {
                             `/avatar` Retrieves target profile picture
                             `/whois`  Provides user information
                             `/afk`  Sets AFK status
-                            `/toggle`   Toggles specified react message
                             `/confess` Sends anonymous confession
                             `/8ball`   Asks the magic 8ball a question""", false);
             case 2 -> builder = new EmbedBuilder()
@@ -105,6 +104,7 @@ public class Help extends ListenerAdapter {
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("Moderation Commands", """
                             `/purge`  Purges messages (up to 100)
+                            `/toggle`  Toggles Avalon features
                             `/broadcast`  Sends message as Avalon""", false);
             case 3 -> builder = new EmbedBuilder()
                     .setColor(Util.randColor())
