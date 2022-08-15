@@ -46,6 +46,7 @@ public class Avalon {
                 // Mod
                 .addEventListeners(
                         new Purge(),
+                        new Poll(),
                         new Broadcast()
                 )
                 // Guild

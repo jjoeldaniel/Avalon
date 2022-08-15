@@ -56,6 +56,7 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 `/purge`  Purges messages (up to 100)
 
+`/poll` Submits poll to be voted on
 
 `/broadcast`  Sends message as Avalon
 
