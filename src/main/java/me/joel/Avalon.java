@@ -19,6 +19,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class Avalon {
     public static void main(String[] args) throws LoginException, InterruptedException {
 
+        // Grab from properties
         final String token = Util.loadProperty("DISCORD_TOKEN");
 
         JDA jda = JDABuilder.createDefault(token)
