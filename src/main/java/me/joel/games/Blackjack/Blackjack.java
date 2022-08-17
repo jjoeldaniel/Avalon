@@ -165,7 +165,7 @@ public class Blackjack extends ListenerAdapter {
                 else if (total == 21) {
                     builder
                             .setTitle("Result: You won!")
-                            .setDescription("You have won `" + bet + "` credits")
+                            .setDescription("You have won `" + profit + "` credits")
                             .addField("You received:", card, false)
                             .setColor(Color.green);
 
