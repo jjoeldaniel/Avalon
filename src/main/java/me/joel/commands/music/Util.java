@@ -3,9 +3,7 @@ package me.joel.commands.music;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
@@ -13,16 +11,6 @@ import java.awt.*;
  * Utility class
  */
 public class Util extends ListenerAdapter {
-
-    private static Member member;
-
-    @Override
-    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-
-        if (event.getName().equalsIgnoreCase("play")) {
-            member = event.getMember();
-        }
-    }
 
     /**
      * Validates member voice state
@@ -49,14 +37,6 @@ public class Util extends ListenerAdapter {
         }
 
         return null;
-    }
-
-    /**
-     * /play member
-     * @return Event member
-     */
-    public static Member getMember() {
-        return member;
     }
 
     public static Member getAvalon(Guild guild) {
