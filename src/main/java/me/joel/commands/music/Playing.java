@@ -1,6 +1,7 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import me.joel.lavaplayer.AudioEventAdapter;
 import me.joel.lavaplayer.PlayerManager;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -15,6 +16,7 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.List;
 
 public class Playing extends ListenerAdapter {
 
@@ -118,7 +120,42 @@ public class Playing extends ListenerAdapter {
             }
             case "forward" -> {
                 if (PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.queue.size() != 0) {
-                    PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.nextTrack();
+                    final AudioManager audioManager = event.getGuild().getAudioManager();
+
+                    if (AudioEventAdapter.isShuffling()) {
+                        List<AudioTrack> playlist = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.stream().toList();
+
+                        int num;
+                        if (playlist.size() == 0) {
+                            num = 0;
+                        }
+                        else {
+                            num = me.joel.Util.randomWithRange(0, playlist.size());
+                        }
+
+                        if (playlist.isEmpty()) {
+                            EmbedBuilder builder1 = new EmbedBuilder()
+                                    .setColor(Color.red)
+                                    .setDescription("That isn't a valid number!")
+                                    .setFooter("Use /help for a list of music commands!");
+
+                            event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
+                            return;
+                        }
+
+                        AudioTrack randomTrack = playlist.get(num);
+                        while (randomTrack == PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack()) {
+                            num = me.joel.Util.randomWithRange(0, playlist.size());
+                            randomTrack = playlist.get(num);
+                        }
+
+                        AudioTrack cloneTrack = playlist.get(num).makeClone();
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.startTrack(cloneTrack, false);
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.queue.remove(randomTrack);
+                    }
+                    else {
+                        PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).scheduler.nextTrack();
+                    }
                 }
 
                 EmbedBuilder builder = nowPlaying(PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack());
