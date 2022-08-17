@@ -121,7 +121,8 @@ public class PlayerManager {
                             .setAuthor("Playlist queued")
                             .setTitle(audioPlaylist.getName(), trackURL)
                             .setDescription("`[" + playlistSize + "] songs`")
-                            .setThumbnail(trackThumbnail);
+                            .setThumbnail(trackThumbnail)
+                            .addField("Requested by:", Play.getMember().getAsMention(), false);
 
                     channel.sendMessageEmbeds(builder.build()).queue();
                 }
