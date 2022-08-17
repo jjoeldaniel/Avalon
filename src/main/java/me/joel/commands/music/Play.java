@@ -1,8 +1,11 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import me.joel.lavaplayer.GuildMusicManager;
 import me.joel.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -18,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class Play extends ListenerAdapter {
 
     public static HashMap<AudioPlayer, MessageChannelUnion> playing = new HashMap<>();
+    public static HashMap<AudioTrack, Member> requester = new HashMap<>();
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -29,8 +33,9 @@ public class Play extends ListenerAdapter {
 
         if (invoke.equals("play")) {
 
-            // JDA AudioManager
+            // Managers
             final AudioManager audioManager = event.getGuild().getAudioManager();
+            final GuildMusicManager guildMusicManager = PlayerManager.getINSTANCE().getMusicManager(event.getGuild());
 
             EmbedBuilder builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
 
@@ -67,8 +72,12 @@ public class Play extends ListenerAdapter {
                 PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(), link);
             }
 
+            if (PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.queue.size() == 0) {
+                requester.put(guildMusicManager.player.getPlayingTrack(), event.getMember());
+            }
+
             // Store in Map
-            AudioPlayer player = PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player;
+            AudioPlayer player = guildMusicManager.player;
             playing.put(player, event.getChannel());
 
             event.getHook().deleteOriginal().queueAfter(500, TimeUnit.MILLISECONDS);
