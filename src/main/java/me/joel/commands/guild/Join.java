@@ -51,7 +51,7 @@ public class Join extends ListenerAdapter {
                     .setColor(Color.green)
                     .setDescription("Joined " + memberChannel.getName() + "!");
 
-            event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
+            event.replyEmbeds(builder1.build()).setEphemeral(false).queue();
         }
     }
 }
