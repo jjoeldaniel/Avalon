@@ -1,7 +1,6 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.joel.lavaplayer.GuildMusicManager;
 import me.joel.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -21,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 public class Play extends ListenerAdapter {
 
     public static HashMap<AudioPlayer, MessageChannelUnion> playing = new HashMap<>();
-    public static HashMap<AudioTrack, Member> requester = new HashMap<>();
     private static Member member;
 
     @Override
@@ -74,10 +72,6 @@ public class Play extends ListenerAdapter {
                 PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(), link);
             }
 
-            if (PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.queue.size() == 0) {
-                requester.put(guildMusicManager.player.getPlayingTrack(), event.getMember());
-            }
-
             // Store in Map
             AudioPlayer player = guildMusicManager.player;
             playing.put(player, event.getChannel());
@@ -104,9 +98,5 @@ public class Play extends ListenerAdapter {
 
     public static HashMap<AudioPlayer, MessageChannelUnion> getPlaying() {
         return playing;
-    }
-
-    public static HashMap<AudioTrack, Member> getRequester() {
-        return requester;
     }
 }
