@@ -22,6 +22,7 @@ public class Play extends ListenerAdapter {
 
     public static HashMap<AudioPlayer, MessageChannelUnion> playing = new HashMap<>();
     public static HashMap<AudioTrack, Member> requester = new HashMap<>();
+    private static Member member;
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -32,6 +33,7 @@ public class Play extends ListenerAdapter {
         if (event.getGuild() == null) return;
 
         if (invoke.equals("play")) {
+            member = event.getMember();
 
             // Managers
             final AudioManager audioManager = event.getGuild().getAudioManager();
@@ -94,5 +96,17 @@ public class Play extends ListenerAdapter {
         } catch (URISyntaxException e) {
             return false;
         }
+    }
+
+    public static Member getMember() {
+        return member;
+    }
+
+    public static HashMap<AudioPlayer, MessageChannelUnion> getPlaying() {
+        return playing;
+    }
+
+    public static HashMap<AudioTrack, Member> getRequester() {
+        return requester;
     }
 }

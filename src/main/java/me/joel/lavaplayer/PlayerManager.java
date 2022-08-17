@@ -122,7 +122,7 @@ public class PlayerManager {
                             .setTitle(audioPlaylist.getName(), trackURL)
                             .setDescription("`[" + playlistSize + "] songs`")
                             .setThumbnail(trackThumbnail)
-                            .addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false);
+                            .addField("Requested by:", Play.getMember().getAsMention(), false);
 
                     channel.sendMessageEmbeds(builder.build()).queue();
                 }
@@ -158,7 +158,7 @@ public class PlayerManager {
 
         EmbedBuilder builder1 = Playing.nowPlaying(audioTrack);
         builder1.setAuthor("Added to queue (#" + queueSize + ")");
-        builder1.addField("Requested by:", me.joel.commands.music.Util.getMember().getAsMention(), false);
+        builder1.addField("Requested by:", Play.getRequester().get(audioTrack).getAsMention(), false);
 
         return builder1;
     }
