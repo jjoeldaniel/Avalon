@@ -69,11 +69,11 @@ public class Toggle extends ListenerAdapter {
         }
     }
 
-    public static boolean insults() {
+    public static boolean insultsEnabled() {
         return insults;
     }
 
-    public static boolean gmgn() {
+    public static boolean gmgnEnabled() {
         return gmgn;
     }
 

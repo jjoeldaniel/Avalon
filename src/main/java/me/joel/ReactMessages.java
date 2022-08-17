@@ -30,7 +30,7 @@ public class ReactMessages extends ListenerAdapter {
             if (event.getMember() == null) return;
             if ((event.getMember()).getUser().isBot()) return;
 
-            if (Toggle.gmgn()) {
+            if (Toggle.gmgnEnabled()) {
                 // Goodnight
                 if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn") && Util.randomWithRange(0, 100) >= 75) {
                     EmbedBuilder builder = new EmbedBuilder()
@@ -48,7 +48,7 @@ public class ReactMessages extends ListenerAdapter {
             }
 
             // Insult
-            if (Toggle.insults()) {
+            if (Toggle.insultsEnabled()) {
                 if (isInsult(messageSent) && Util.randomWithRange(0, 100) >= 80) {
                     event.getMessage().replyEmbeds(randomInsult().build()).queue();
                 }
