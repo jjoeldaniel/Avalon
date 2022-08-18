@@ -2,11 +2,15 @@ package me.joel.commands.music;
 
 import me.joel.lavaplayer.AudioEventAdapter;
 import me.joel.lavaplayer.PlayerManager;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class Activity extends ListenerAdapter {
 
@@ -32,6 +36,14 @@ public class Activity extends ListenerAdapter {
 
             // Close connection
             event.getGuild().getAudioManager().closeAudioConnection();
+
+            // Send message
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setColor(Color.red)
+                    .setTitle("Leaving inactive channel..")
+                    .setDescription("Music queue is cleared\nShuffle/Loop are disabled");
+
+            ((VoiceChannel) channel).sendMessageEmbeds(builder.build()).queue();
         }
     }
 }
