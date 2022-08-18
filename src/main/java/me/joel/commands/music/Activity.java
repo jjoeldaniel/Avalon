@@ -17,12 +17,13 @@ public class Activity extends ListenerAdapter {
         AudioChannel channel = event.getChannelLeft();
 
         // On channel only containing bot
-        while (channel.getMembers().contains(bot) && channel.getMembers().size() == 1) {
+        if (channel.getMembers().contains(bot) && channel.getMembers().size() == 1) {
 
             // Wait 3 minutes
             // TODO: Add 3 minute delay
 
             // Clear queue
+            if (PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() != null) PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.destroy();
             PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.queue.clear();
 
             // Disable shuffle/loop
