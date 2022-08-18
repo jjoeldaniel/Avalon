@@ -1,0 +1,36 @@
+package me.joel.commands.music;
+
+import me.joel.lavaplayer.AudioEventAdapter;
+import me.joel.lavaplayer.PlayerManager;
+import net.dv8tion.jda.api.entities.AudioChannel;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
+
+public class Activity extends ListenerAdapter {
+
+    @Override
+    public void onGuildVoiceLeave(@NotNull GuildVoiceLeaveEvent event) {
+
+        Member bot = event.getGuild().getSelfMember();
+        AudioChannel channel = event.getChannelLeft();
+
+        // On channel only containing bot
+        while (channel.getMembers().contains(bot) && channel.getMembers().size() == 1) {
+
+            // Wait 3 minutes
+            // TODO: Add 3 minute delay
+
+            // Clear queue
+            PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.queue.clear();
+
+            // Disable shuffle/loop
+            AudioEventAdapter.setLoop(false);
+            AudioEventAdapter.setShuffle(false);
+
+            // Close connection
+            event.getGuild().getAudioManager().closeAudioConnection();
+        }
+    }
+}

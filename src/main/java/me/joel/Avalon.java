@@ -62,6 +62,7 @@ public class Avalon {
                 )
                 // Music
                 .addEventListeners(
+                        new me.joel.commands.music.Activity(),
                         new Play(),
                         new Resume(), new Pause(),
                         new Skip(),
