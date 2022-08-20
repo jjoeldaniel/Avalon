@@ -1,5 +1,6 @@
 package me.joel.commands.guild;
 
+import me.joel.commands.mod.Toggle;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -27,6 +28,7 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member info"));
         guildCommandData.add(Commands.context(Command.Type.MESSAGE, "Translate message"));
 
+        event.getJDA().addEventListener(new AFK(), new Confess(), new Join(), new Leave(), new Toggle(), new Translate(), new WhoIs());
         event.getGuild().updateCommands().addCommands(guildCommandData).complete();
     }
 }

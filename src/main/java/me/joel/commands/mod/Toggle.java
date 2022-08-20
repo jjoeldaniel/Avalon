@@ -1,4 +1,4 @@
-package me.joel.commands.guild;
+package me.joel.commands.mod;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;

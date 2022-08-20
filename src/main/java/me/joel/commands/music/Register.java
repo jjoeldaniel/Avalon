@@ -29,6 +29,7 @@ public class Register extends ListenerAdapter {
         musicCommandData.add(Commands.slash("skip", "Skips song").addOption(OptionType.INTEGER, "target", "Removes selected song from queue", false).addOption(OptionType.INTEGER, "num", "Removes \"x\" number of songs", false));
         musicCommandData.add(Commands.slash("seek", "Sets song position").addOption(OptionType.INTEGER, "seconds", "Sets seconds", false).addOption(OptionType.INTEGER, "minutes", "Sets minutes", false).addOption(OptionType.INTEGER, "hours", "Sets hours", false));
 
-        event.getGuild().updateCommands().addCommands(musicCommandData).queue();
+        event.getJDA().addEventListener(new Activity(), new Clear(), new Loop(), new Pause(), new Play(), new Playing(), new Queue(), new Resume(), new Seek(), new Shuffle(), new Skip(), new Util(), new Volume());
+        event.getGuild().updateCommands().addCommands(musicCommandData).complete();
     }
 }

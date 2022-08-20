@@ -29,6 +29,7 @@ public class Register extends ListenerAdapter {
         modCommandData.add(Commands.slash("poll", "Submits poll message").addOption(OptionType.STRING, "message", "Question that will be voted on", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
         modCommandData.add(Commands.slash("purge", "Purges up to 100 messages").addOption(OptionType.INTEGER, "number", "Number of messages to purge", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
 
+        event.getJDA().addEventListener(new Broadcast(), new Poll(), new Purge(), new Toggle());
         event.getGuild().updateCommands().addCommands(modCommandData).complete();
     }
 }

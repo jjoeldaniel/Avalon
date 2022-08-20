@@ -2,12 +2,6 @@ package me.joel;
 
 import javax.security.auth.login.LoginException;
 
-import me.joel.commands.global.*;
-import me.joel.commands.global.TruthOrDare;
-import me.joel.commands.guild.*;
-import me.joel.commands.mod.*;
-import me.joel.commands.music.*;
-import me.joel.games.Blackjack.Blackjack;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -36,50 +30,6 @@ public class Avalon {
                 .addEventListeners(
                         new GuildEvents(),
                         new ReactMessages()
-                )
-                // Global
-                .addEventListeners(
-                        new Avatar(),
-                        new Ball8(),
-                        new Help(),
-                        new Ping(),
-                        new TruthOrDare(),
-                        new CoinFlip()
-                )
-                // Games
-                .addEventListeners(
-                        new Blackjack()
-                )
-                // Mod
-                .addEventListeners(
-                        new Purge(),
-                        new Poll(),
-                        new Broadcast()
-                )
-                // Guild
-                .addEventListeners(
-                        new AFK(),
-                        new Confess(),
-                        new WhoIs(),
-                        new Join(),
-                        new Leave(),
-                        new Translate(),
-                        new Toggle()
-                )
-                // Music
-                .addEventListeners(
-                        new me.joel.commands.music.Activity(),
-                        new Play(),
-                        new Resume(), new Pause(),
-                        new Skip(),
-                        new Shuffle(),
-                        new Volume(),
-                        new Queue(),
-                        new Clear(),
-                        new Seek(),
-                        new Playing(),
-                        new Loop(),
-                        new me.joel.commands.music.Util()
                 )
 
                 .enableCache(CacheFlag.VOICE_STATE)
