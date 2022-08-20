@@ -8,8 +8,10 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
+import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.jetbrains.annotations.NotNull;
 
 public class GuildEvents extends ListenerAdapter {
@@ -38,7 +40,9 @@ public class GuildEvents extends ListenerAdapter {
 
         event.getGuild().getSystemChannel().sendMessageEmbeds(builder.build()).setActionRow(
                         Button.link(inviteLink, "Invite"))
-                .queue();
+                .queue(null, new ErrorHandler()
+                        .handle(ErrorResponse.MISSING_PERMISSIONS,
+                                Throwable::printStackTrace));
     }
 
     @Override
