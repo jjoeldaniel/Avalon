@@ -2,7 +2,6 @@ package me.joel;
 
 import javax.security.auth.login.LoginException;
 
-import me.joel.commands.Register;
 import me.joel.commands.global.*;
 import me.joel.commands.global.TruthOrDare;
 import me.joel.commands.guild.*;
@@ -25,10 +24,17 @@ public class Avalon {
         JDA jda = JDABuilder.createDefault(token)
                 .setStatus(OnlineStatus.ONLINE)
 
+                // Registers
+                .addEventListeners(
+                        new me.joel.commands.mod.Register(),
+                        new me.joel.commands.guild.Register(),
+                        new me.joel.commands.music.Register(),
+                        new me.joel.commands.global.Register()
+                )
+
                 // Events
                 .addEventListeners(
                         new GuildEvents(),
-                        new Register(),
                         new ReactMessages()
                 )
                 // Global
