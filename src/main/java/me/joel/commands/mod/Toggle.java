@@ -23,6 +23,22 @@ public class Toggle extends ListenerAdapter {
             var sub_invoke = event.getSubcommandName();
 
             switch (sub_invoke) {
+                case ("all") -> {
+                    gmgn = !gmgn;
+                    insults = gmgn;
+
+                    EmbedBuilder builder = new EmbedBuilder();
+                    if (gmgn) {
+                        builder.setColor(Color.green);
+                        builder.setDescription("Optional features are now `ON`");
+                    }
+                    else {
+                        builder.setColor(Color.red);
+                        builder.setDescription("Optional features are now `OFF`");
+                    }
+
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                }
                 case ("insults") -> {
                     insults = !insults;
 

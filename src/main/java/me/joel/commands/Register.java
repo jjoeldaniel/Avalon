@@ -44,8 +44,9 @@ public class Register extends ListenerAdapter {
         SubcommandData insults = new SubcommandData("insults", "Toggles insults");
         SubcommandData gmgn = new SubcommandData("goodmorning_goodnight", "Toggles good morning and goodnight messages");
         SubcommandData nowPlaying = new SubcommandData("now_playing", "Toggles Now Playing messages");
+        SubcommandData all = new SubcommandData("all", "Toggles all optional bot features");
 
-        guildCommandData.add(Commands.slash("toggle", "Toggles bot features").addSubcommands(insults, gmgn, nowPlaying).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
+        guildCommandData.add(Commands.slash("toggle", "Toggles bot features").addSubcommands(all, insults, gmgn, nowPlaying).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
 
         // mod
         guildCommandData.add(Commands.slash("broadcast", "Broadcasts message in selected channel").addOption(OptionType.CHANNEL, "channel", "Broadcast channel", true).addOption(OptionType.STRING, "message", "Broadcast Message", true));
@@ -86,8 +87,9 @@ public class Register extends ListenerAdapter {
         SubcommandData insults = new SubcommandData("insults", "Toggles insults");
         SubcommandData gmgn = new SubcommandData("goodmorning_goodnight", "Toggles good morning and goodnight messages");
         SubcommandData nowPlaying = new SubcommandData("now_playing", "Toggles Now Playing messages");
+        SubcommandData all = new SubcommandData("all", "Toggles all optional bot features");
 
-        guildCommandData.add(Commands.slash("toggle", "Toggles bot features").addSubcommands(insults, gmgn, nowPlaying).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
+        guildCommandData.add(Commands.slash("toggle", "Toggles bot features").addSubcommands(all, insults, gmgn, nowPlaying).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
 
         // mod
         guildCommandData.add(Commands.slash("broadcast", "Broadcasts message in selected channel").addOption(OptionType.CHANNEL, "channel", "Broadcast channel", true).addOption(OptionType.STRING, "message", "Broadcast Message", true));
