@@ -117,6 +117,7 @@ public class Register extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         //event.getJDA().updateCommands().queue();
+        System.out.println("Active Bot: " + event.getJDA().getSelfUser().getName());
 
         SubcommandData truth = new SubcommandData("truth", "Generates a random truth question");
         SubcommandData dare = new SubcommandData("dare", "Generates a random dare question");
