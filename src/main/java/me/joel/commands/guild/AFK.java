@@ -82,11 +82,12 @@ public class AFK extends ListenerAdapter {
             // AFK Member
             Member member;
 
-            // Get member, return if null;
-            try {
-                member = event.getMessage().getMentions().getMembers().get(0);
-            }
-            catch (Exception e) { return; }
+            // Get member, return if none mentioned
+            if (event.getMessage().getMentions().getMembers().size() == 0) return;
+            member = event.getMessage().getMentions().getMembers().get(0);
+
+            // Return if mentioned member == event member
+            if (member == event.getMember()) return;
 
             // AFK Mention
             if (member.getEffectiveName().contains("(AFK)")) {
