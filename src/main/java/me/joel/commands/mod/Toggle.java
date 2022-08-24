@@ -9,8 +9,8 @@ import java.awt.*;
 
 public class Toggle extends ListenerAdapter {
 
-    private static boolean insults = false;
-    private static boolean gmgn = false;
+    private static boolean insults = true;
+    private static boolean gmgn = true;
     private static boolean nowPlaying = true;
 
     @Override
