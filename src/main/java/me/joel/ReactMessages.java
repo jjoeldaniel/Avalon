@@ -50,7 +50,13 @@ public class ReactMessages extends ListenerAdapter {
             // Insult
             if (Toggle.insultsEnabled()) {
                 if (isInsult(messageSent) && Util.randomWithRange(0, 100) >= 80) {
-                    event.getMessage().replyEmbeds(randomInsult().build()).queue();
+
+                    String[] insults = {"No you", "Minorly whore", "Shut the fuck up, literally no one is paying attention", "Fuck you", "Your mom", "Stfu", "Bruh", "Dickhead", "Asshole", "Idiot", "You can do better", "Stfu inbred", "Bitch pls", "Shut your mouth", "You disgust me", "Fuck off", "Dumbfuck", "Dumbass", "You're dumb", "Fuck off midget", "I'll fucking roundhouse kick you in the teeth, dumbfuck"};
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Util.randColor())
+                            .setDescription(insults[Util.randomWithRange(0, insults.length-1)]);
+
+                    event.getMessage().replyEmbeds(builder.build()).queue();
                 }
             }
         }
@@ -61,42 +67,5 @@ public class ReactMessages extends ListenerAdapter {
      */
     boolean isInsult(String message) {
         return message.contains("fuck") || (message.contains("cunt")) || (message.contains("slag")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
-    }
-
-    /**
-     * Insult embed
-     * @return Embed
-     */
-    EmbedBuilder randomInsult() {
-        Random rand = new Random();
-
-        List<String> insultList = new ArrayList<>();
-        insultList.add("No you");
-        insultList.add("Fuck you");
-        insultList.add("Your mom");
-        insultList.add("Stfu");
-        insultList.add("Bruh");
-        insultList.add("Dickhead");
-        insultList.add("Asshole");
-        insultList.add("Idiot");
-        insultList.add("You can do better");
-        insultList.add("Stfu inbred");
-        insultList.add("Bitch pls");
-        insultList.add("Shut your mouth");
-        insultList.add("You disgust me");
-        insultList.add("Fuck off");
-        insultList.add("Dumbfuck");
-        insultList.add("Dumbass");
-        insultList.add("You're dumb");
-        insultList.add("Fuck off midget");
-        insultList.add("I'll fucking roundhouse kick you in the teeth, dumbfuck");
-        insultList.add("Shut the fuck up, literally no one is paying attention");
-        insultList.add("Minorly whore");
-
-        int num = rand.nextInt(insultList.size());
-
-        return new EmbedBuilder()
-                .setColor(Util.randColor())
-                .setDescription(insultList.get(num));
     }
 }
