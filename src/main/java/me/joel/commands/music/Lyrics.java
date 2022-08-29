@@ -29,10 +29,10 @@ public class Lyrics extends ListenerAdapter {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
-            else if (!track.getInfo().uri.contains("spotify.com")) {
+            else if (!track.getInfo().uri.contains("spotify.com") || (!track.getInfo().uri.contains("music.apple.com"))) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Color.red)
-                        .setDescription("Only Spotify tracks are supported, sorry!");
+                        .setDescription("Only Spotify/Apple Music tracks are supported, sorry!");
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
