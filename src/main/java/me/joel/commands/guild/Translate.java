@@ -1,5 +1,6 @@
 package me.joel.commands.guild;
 
+import core.GLA;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;

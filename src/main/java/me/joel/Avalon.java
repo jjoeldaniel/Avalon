@@ -73,7 +73,8 @@ public class Avalon {
                         new Seek(),
                         new Playing(),
                         new Loop(),
-                        new me.joel.commands.music.Util()
+                        new me.joel.commands.music.Util(),
+                        new Lyrics()
                 )
 
                 .enableCache(CacheFlag.VOICE_STATE)
