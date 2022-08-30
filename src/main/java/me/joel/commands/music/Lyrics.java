@@ -29,7 +29,7 @@ public class Lyrics extends ListenerAdapter {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
-            else if (!track.getInfo().uri.contains("spotify.com") || (!track.getInfo().uri.contains("music.apple.com"))) {
+            else if (!track.getInfo().uri.startsWith("https://open.spotify.com/") && (!(track.getInfo().uri.contains("https://music.apple.com/")))) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Color.red)
                         .setDescription("Only Spotify/Apple Music tracks are supported, sorry!");
