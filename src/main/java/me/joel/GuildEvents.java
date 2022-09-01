@@ -2,16 +2,15 @@ package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
-import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.jetbrains.annotations.NotNull;
 
 public class GuildEvents extends ListenerAdapter {
@@ -38,11 +37,12 @@ public class GuildEvents extends ListenerAdapter {
                 .addField("Need to contact us?", "Add joel#0005 on Discord for questions!", false)
                 .addField("Want to invite Avalon to another server?", "Click on my profile and click \" Add to Server\" to invite Avalon!", false);
 
-        event.getGuild().getSystemChannel().sendMessageEmbeds(builder.build()).setActionRow(
-                        Button.link(inviteLink, "Invite"))
-                .queue(null, new ErrorHandler()
-                        .handle(ErrorResponse.MISSING_PERMISSIONS,
-                                Throwable::printStackTrace));
+        TextChannel systemChannel = event.getGuild().getSystemChannel();
+
+        if (systemChannel != null) {
+            systemChannel.sendMessageEmbeds(builder.build()).setActionRow(
+                            Button.link(inviteLink, "Invite")).queue();
+        }
     }
 
     @Override
