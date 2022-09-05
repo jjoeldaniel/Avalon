@@ -81,7 +81,7 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 `/loop`  Loops the currently playing song until disabled/cleared/skipped
 
-`/shuffe`  Shuffles music queue
+`/shuffle`  Shuffles music queue
 
 `/skip`  Skips song with an optional song number specific skip
 
