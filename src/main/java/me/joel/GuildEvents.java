@@ -37,10 +37,24 @@ public class GuildEvents extends ListenerAdapter {
                 .addField("Need to contact us?", "Add joel#0005 on Discord for questions!", false)
                 .addField("Want to invite Avalon to another server?", "Click on my profile and click \" Add to Server\" to invite Avalon!", false);
 
-        TextChannel systemChannel = event.getGuild().getSystemChannel();
+        TextChannel channel = event.getGuild().getSystemChannel();
 
-        if (systemChannel != null) {
-            systemChannel.sendMessageEmbeds(builder.build()).setActionRow(
+        // Default to "general" channel if no system channel
+        if (channel == null) {
+            String generalID = Util.findChannel("general", event.getGuild());
+
+            if (generalID != null) {
+                event.getGuild().getTextChannelById(generalID).sendMessageEmbeds(builder.build()).setActionRow(
+                        Button.link(inviteLink, "Invite")).queue();
+            }
+            // Defaults to first guild channel
+            else {
+                event.getGuild().getTextChannels().get(0).sendMessageEmbeds(builder.build()).setActionRow(
+                        Button.link(inviteLink, "Invite")).queue();
+            }
+        }
+        else {
+            channel.sendMessageEmbeds(builder.build()).setActionRow(
                             Button.link(inviteLink, "Invite")).queue();
         }
     }
