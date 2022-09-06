@@ -28,14 +28,19 @@ public class ReactMessages extends ListenerAdapter {
 
             if (Toggle.gmgnEnabled()) {
                 // Goodnight
-                if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn") && Util.randomWithRange(0, 100) >= 75) {
+                if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn")) {
+                    if (Util.randomWithRange(0, 100) >= 50) return;
+
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("goodnight sweetie!");
                     event.getMessage().replyEmbeds(builder.build()).queue();
                 }
                 // Good morning
-                if (messageSent.contains("goodmorning") || messageSent.contains("good morning") || messageSent.equalsIgnoreCase("gm") && Util.randomWithRange(0, 100) >= 75) {
+                int r = Util.randomWithRange(0, 100);
+                if (messageSent.contains("goodmorning") || messageSent.contains("good morning") || messageSent.equalsIgnoreCase("gm")) {
+                    if (Util.randomWithRange(0, 100) >= 50) return;
+
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription("good morning sweetie!");
@@ -45,7 +50,8 @@ public class ReactMessages extends ListenerAdapter {
 
             // Insult
             if (Toggle.insultsEnabled()) {
-                if (isInsult(messageSent) && Util.randomWithRange(0, 100) >= 80) {
+                if (isInsult(messageSent)) {
+                    if (Util.randomWithRange(0, 100) >= 25) return;
 
                     String[] insults = {"No you", "Minorly whore", "Shut the fuck up, literally no one is paying attention", "Fuck you", "Your mom", "Stfu", "Bruh", "Dickhead", "Asshole", "Idiot", "You can do better", "Stfu inbred", "Bitch pls", "Shut your mouth", "You disgust me", "Fuck off", "Dumbfuck", "Dumbass", "You're dumb", "Fuck off midget", "I'll fucking roundhouse kick you in the teeth, dumbfuck"};
                     EmbedBuilder builder = new EmbedBuilder()
