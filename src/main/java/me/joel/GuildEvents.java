@@ -4,7 +4,9 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
@@ -16,6 +18,11 @@ import org.jetbrains.annotations.NotNull;
 public class GuildEvents extends ListenerAdapter {
 
     @Override
+    public void onReady(@NotNull ReadyEvent event) {
+        Console.info("Active Bot: " + event.getJDA().getSelfUser().getName());
+    }
+
+    @Override
     public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
 
         if (event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
@@ -25,7 +32,14 @@ public class GuildEvents extends ListenerAdapter {
     }
 
     @Override
+    public void onGuildLeave(@NotNull GuildLeaveEvent event) {
+        Console.info("Left server: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
+    }
+
+    @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
+        Console.info("Joined server: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
+
         final String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot";
 
         EmbedBuilder builder = new EmbedBuilder()
@@ -47,11 +61,7 @@ public class GuildEvents extends ListenerAdapter {
                 event.getGuild().getTextChannelById(generalID).sendMessageEmbeds(builder.build()).setActionRow(
                         Button.link(inviteLink, "Invite")).queue();
             }
-            // Defaults to first guild channel
-            else {
-                event.getGuild().getTextChannels().get(0).sendMessageEmbeds(builder.build()).setActionRow(
-                        Button.link(inviteLink, "Invite")).queue();
-            }
+            else Console.warn("No system/general channel found for guild: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
         }
         else {
             channel.sendMessageEmbeds(builder.build()).setActionRow(
