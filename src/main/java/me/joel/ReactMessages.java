@@ -37,7 +37,6 @@ public class ReactMessages extends ListenerAdapter {
                     event.getMessage().replyEmbeds(builder.build()).queue();
                 }
                 // Good morning
-                int r = Util.randomWithRange(0, 100);
                 if (messageSent.contains("goodmorning") || messageSent.contains("good morning") || messageSent.equalsIgnoreCase("gm")) {
                     if (Util.randomWithRange(0, 100) >= 50) return;
 
