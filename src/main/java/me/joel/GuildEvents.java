@@ -1,6 +1,8 @@
 package me.joel;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.audit.ActionType;
+import net.dv8tion.jda.api.audit.AuditLogEntry;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -14,6 +16,8 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.concurrent.TimeUnit;
 
 public class GuildEvents extends ListenerAdapter {
 
@@ -117,8 +121,8 @@ public class GuildEvents extends ListenerAdapter {
                     .setTitle("A member has left!")
                     .setDescription
                             (
-                                     user.getAsMention() + " has left " + event.getGuild().getName() +
-                                            "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
+                             user.getAsMention() + " has left " + event.getGuild().getName() +
+                            "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
                             )
                     .setThumbnail(user.getEffectiveAvatarUrl())
                     .setFooter("User: " + user.getName() +"#" + user.getDiscriminator() + " ID: " + user.getId());
@@ -127,7 +131,31 @@ public class GuildEvents extends ListenerAdapter {
             TextChannel channel = event.getGuild().getTextChannelById(Util.findChannel("welcome", event.getGuild()));
 
             if (channel != null) {
-                channel.sendMessageEmbeds(memberLeave.build()).queue();
+
+                event.getGuild().retrieveAuditLogs().queueAfter(1, TimeUnit.SECONDS, (logs) -> {
+                    boolean isBan = false, isKick = false;
+
+                    for (AuditLogEntry log : logs) {
+                        if (log.getTargetIdLong() == event.getUser().getIdLong()) {
+                            isBan = log.getType() == ActionType.BAN;
+                            isKick = log.getType() == ActionType.KICK;
+                            break;
+                        }
+                    }
+
+                    if (isBan) {
+                        memberLeave.setTitle("A member has been banned!");
+                        channel.sendMessageEmbeds(memberLeave.build()).queue();
+                    }
+                    else if (isKick) {
+                        memberLeave.setTitle("A member has been kicked!");
+                        channel.sendMessageEmbeds(memberLeave.build()).queue();
+                    }
+                    else {
+                        channel.sendMessageEmbeds(memberLeave.build()).queue();
+                    }
+
+                });
             }
         }
     }
