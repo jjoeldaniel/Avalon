@@ -136,7 +136,7 @@ public class GuildEvents extends ListenerAdapter {
                     boolean isBan = false, isKick = false;
 
                     for (AuditLogEntry log : logs) {
-                        if (log.getTargetIdLong() == event.getUser().getIdLong()) {
+                        if (log.getTargetIdLong() == user.getIdLong()) {
                             isBan = log.getType() == ActionType.BAN;
                             isKick = log.getType() == ActionType.KICK;
                             break;
