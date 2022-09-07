@@ -1,6 +1,5 @@
 package me.joel.commands.guild;
 
-import core.GLA;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
@@ -14,7 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
 
 public class Translate extends ListenerAdapter {
 
@@ -49,11 +47,6 @@ public class Translate extends ListenerAdapter {
 
             // Send embed
             event.getHook().sendMessageEmbeds(builder.build()).queue();
-
-            // Deletes message after 1 minute
-            try {
-            event.getHook().deleteOriginal().queueAfter(3, TimeUnit.MINUTES); }
-            catch  (Exception ignore) {}
         }
     }
 
