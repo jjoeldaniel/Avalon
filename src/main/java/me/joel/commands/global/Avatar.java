@@ -69,6 +69,26 @@ public class Avatar extends ListenerAdapter {
             // Embed
             EmbedBuilder avatar = new EmbedBuilder()
                     .setTitle(targetName)
+                    .setDescription(member.getAsMention())
+                    .setColor(Util.randColor())
+                    .setImage(targetPFP + "?size=256")
+                    .setFooter("ID: " + member.getId());
+
+            event.replyEmbeds(avatar.build()).queue();
+        }
+        else if (invoke.equals("Get user avatar")) {
+            Member member = event.getTargetMember();
+            String targetName;
+            String targetPFP;
+
+            assert member != null;
+            targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
+            targetPFP = member.getUser().getAvatarUrl();
+
+            // Embed
+            EmbedBuilder avatar = new EmbedBuilder()
+                    .setTitle(targetName)
+                    .setDescription(member.getAsMention())
                     .setColor(Util.randColor())
                     .setImage(targetPFP + "?size=256")
                     .setFooter("ID: " + member.getId());

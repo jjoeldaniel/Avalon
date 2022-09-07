@@ -38,6 +38,7 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.slash("leave", "Request for bot to leave VC"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member avatar"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member info"));
+        guildCommandData.add(Commands.context(Command.Type.USER, "Get user avatar"));
         guildCommandData.add(Commands.context(Command.Type.MESSAGE, "Translate message"));
 
         // toggle
@@ -82,6 +83,7 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.slash("leave", "Request for bot to leave VC"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member avatar"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member info"));
+        guildCommandData.add(Commands.context(Command.Type.USER, "Get user avatar"));
         guildCommandData.add(Commands.context(Command.Type.MESSAGE, "Translate message"));
 
         // toggle
