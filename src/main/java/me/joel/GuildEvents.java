@@ -65,7 +65,7 @@ public class GuildEvents extends ListenerAdapter {
         }
         else {
             channel.sendMessageEmbeds(builder.build()).setActionRow(
-                            Button.link(inviteLink, "Invite")).queue();
+                Button.link(inviteLink, "Invite")).queue();
         }
     }
 
