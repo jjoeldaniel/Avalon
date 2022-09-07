@@ -133,20 +133,11 @@ public class GuildEvents extends ListenerAdapter {
                     .setFooter("User: " + user.getName() +"#" + user.getDiscriminator() + " ID: " + user.getId());
 
             // find welcome channel
-            try {
+            TextChannel channel = event.getGuild().getTextChannelById(Util.findChannel("welcome", event.getGuild()));
 
-                int channelNum = event.getGuild().getTextChannels().size();
-                for (int i = 0; i < channelNum; ++i) {
-
-                    if (event.getGuild().getTextChannels().get(i).getName().contains("welcome")) {
-
-                        event.getGuild().getTextChannels().get(i).sendMessageEmbeds(memberLeave.build()).queue();
-                        return;
-                    }
-                }
+            if (channel != null) {
+                channel.sendMessageEmbeds(memberLeave.build()).queue();
             }
-            // If no welcomeChannel found
-            catch (Exception ignore) {}
         }
     }
 }
