@@ -11,8 +11,6 @@ import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
@@ -24,15 +22,6 @@ public class GuildEvents extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         Console.info("Active Bot: " + event.getJDA().getSelfUser().getName());
-    }
-
-    @Override
-    public void onGuildVoiceJoin(@NotNull GuildVoiceJoinEvent event) {
-
-        if (event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
-            Member member = event.getGuild().getSelfMember();
-            member.deafen(true).queue();
-        }
     }
 
     @Override
@@ -70,17 +59,6 @@ public class GuildEvents extends ListenerAdapter {
         else {
             channel.sendMessageEmbeds(builder.build()).setActionRow(
                 Button.link(inviteLink, "Invite")).queue();
-        }
-    }
-
-    @Override
-    public void onGuildVoiceGuildDeafen(@NotNull GuildVoiceGuildDeafenEvent event) {
-
-        if (event.getMember().getId().equals(event.getJDA().getSelfUser().getId())) {
-            Member member = event.getGuild().getSelfMember();
-            if (member.getVoiceState().inAudioChannel()) {
-                member.deafen(true).queue();
-            }
         }
     }
 
