@@ -15,6 +15,7 @@ import me.joel.commands.music.Play;
 import me.joel.commands.music.Playing;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 import java.awt.*;
