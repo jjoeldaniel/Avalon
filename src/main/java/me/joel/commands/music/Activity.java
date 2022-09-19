@@ -14,6 +14,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Activity extends ListenerAdapter {
 
@@ -23,11 +26,9 @@ public class Activity extends ListenerAdapter {
         Member bot = event.getGuild().getSelfMember();
         AudioChannel channel = event.getChannelLeft();
 
-        // On channel only containing bot
-        if (channel.getMembers().contains(bot) && channel.getMembers().size() == 1) {
-
-            // Wait 3 minutes
-            // TODO: Add 3 minute delay
+        // Wait 3 minutes
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        Runnable task = () -> {
 
             // Clear queue
             if (PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() != null) PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.destroy();
@@ -47,6 +48,11 @@ public class Activity extends ListenerAdapter {
                     .setDescription("Music queue is cleared\nShuffle/Loop are disabled");
 
             ((VoiceChannel) channel).sendMessageEmbeds(builder.build()).queue();
+        };
+
+        if (channel.getMembers().contains(bot) && channel.getMembers().size() == 1) {
+            executor.schedule(task, 30, TimeUnit.SECONDS);
+            executor.shutdown();
         }
     }
 
@@ -55,13 +61,19 @@ public class Activity extends ListenerAdapter {
         Member bot = event.getGuild().getSelfMember();
         AudioChannel channel = null;
 
+        // Get VC
         if (bot.getVoiceState().inAudioChannel()) {
             channel = bot.getVoiceState().getChannel();
         }
 
-        if (channel != null) {
+        // Wait 3 minutes
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        VoiceChannel finalChannel = (VoiceChannel) channel;
+        Runnable task = () -> {
+
             // Clear queue
-            if (PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() != null) PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.destroy();
+            if (PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() != null)
+                PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.destroy();
             PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.queue.clear();
 
             // Disable shuffle/loop
@@ -77,7 +89,13 @@ public class Activity extends ListenerAdapter {
                     .setTitle("Leaving inactive channel..")
                     .setDescription("Music queue is cleared\nShuffle/Loop are disabled");
 
-            ((VoiceChannel) channel).sendMessageEmbeds(builder.build()).queue();
+            finalChannel.sendMessageEmbeds(builder.build()).queue();
+        };
+
+        // If in VC and channel is empty aside from bot
+        if (channel.getMembers().contains(bot) && channel.getMembers().size() == 1) {
+            executor.schedule(task, 30, TimeUnit.SECONDS);
+            executor.shutdown();
         }
     }
 
