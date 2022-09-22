@@ -66,6 +66,8 @@ public class Activity extends ListenerAdapter {
             channel = bot.getVoiceState().getChannel();
         }
 
+        if (channel == null) return;
+
         // Wait 3 minutes
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         VoiceChannel finalChannel = (VoiceChannel) channel;
