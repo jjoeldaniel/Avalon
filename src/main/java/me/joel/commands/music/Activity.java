@@ -51,11 +51,8 @@ public class Activity extends ListenerAdapter {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         Runnable task = () -> {
 
-            // If bot is NOT in VC
-            if (!channel.getMembers().contains(bot)) return;
-
-            // If bot IS in VC and not alone
-            if (channel.getMembers().size() > 1) return;
+            // If bot is NOT in VC or bot IS in VC and not alone
+            if (!channel.getMembers().contains(bot) || channel.getMembers().size() > 1) return;
 
             // Clear queue
             PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.destroy();
@@ -97,14 +94,10 @@ public class Activity extends ListenerAdapter {
 
         // Wait 3 minutes
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        VoiceChannel finalChannel = (VoiceChannel) channel;
         Runnable task = () -> {
 
-            // If bot is NOT in VC
-            if (!channel.getMembers().contains(bot)) return;
-
-            // If bot IS in VC and not alone
-            if (channel.getMembers().size() > 1) return;
+            // If bot is NOT in VC or bot IS in VC and not alone
+            if (!channel.getMembers().contains(bot) || channel.getMembers().size() > 1) return;
 
             // Clear queue
             PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.destroy();
