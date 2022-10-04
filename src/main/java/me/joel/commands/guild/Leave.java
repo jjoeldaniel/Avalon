@@ -2,6 +2,7 @@ package me.joel.commands.guild;
 
 import me.joel.commands.music.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -20,17 +21,25 @@ public class Leave extends ListenerAdapter {
 
         if (invoke.equals("leave")) {
 
+            // JDA AudioManager
+            final AudioManager audioManager = event.getGuild().getAudioManager();
+            final Member bot = event.getGuild().retrieveMemberById("971239438892019743").complete();
+
+            if (event.getMember().hasPermission(Permission.VOICE_MOVE_OTHERS) && bot.getVoiceState().inAudioChannel()) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.green)
+                        .setDescription("Left " + bot.getVoiceState().getChannel().getName() + "!");
+
+                event.replyEmbeds(builder.build()).setEphemeral(false).queue();
+                return;
+            }
+
             EmbedBuilder builder = Util.compareVoice(event.getMember(), Util.getAvalon(event.getGuild()));
 
             if (builder != null) {
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 return;
             }
-
-            // JDA AudioManager
-            final AudioManager audioManager = event.getGuild().getAudioManager();
-
-            Member bot = event.getGuild().retrieveMemberById("971239438892019743").complete();
 
             if (!bot.getVoiceState().inAudioChannel()) {
                 EmbedBuilder noVC = new EmbedBuilder()
