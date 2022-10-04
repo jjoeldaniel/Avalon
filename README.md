@@ -19,7 +19,7 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 ### **4) Where can I contact you if I have questions?**
 
-   Join the [Avalon Support server!](https://discord.gg/BDgCCF7h).
+   Join the [Avalon Support server!](https://discord.gg/AVGhMKTSC6).
 
 ## Commands List
 
