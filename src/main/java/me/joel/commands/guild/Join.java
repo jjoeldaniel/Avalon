@@ -25,6 +25,20 @@ public class Join extends ListenerAdapter {
             final Member bot = event.getGuild().retrieveMemberById("971239438892019743").complete();
             final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
 
+            if (!event.getMember().getVoiceState().inAudioChannel() && event.getChannelType().isAudio() && (event.getMember().hasPermission(Permission.VOICE_MOVE_OTHERS))) {
+                var messageChannel = event.getChannel().asVoiceChannel();
+
+                audioManager.openAudioConnection(messageChannel);
+
+                EmbedBuilder builder1 = new EmbedBuilder()
+                        .setColor(Color.green)
+                        .setDescription("Joined " + messageChannel.getName() + "!");
+
+                event.replyEmbeds(builder1.build()).setEphemeral(false).queue();
+                return;
+
+            }
+
             if (event.getMember().hasPermission(Permission.VOICE_MOVE_OTHERS) && memberChannel != null && bot.getVoiceState().inAudioChannel()) {
 
                 if (bot.getVoiceState().getChannel() == memberChannel) {
