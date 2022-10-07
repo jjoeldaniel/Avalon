@@ -30,7 +30,7 @@ public class Activity extends ListenerAdapter {
         }
 
         Member bot = event.getGuild().getSelfMember();
-        AudioChannel channel = event.getChannelJoined();
+        AudioChannel channel = event.getChannelJoined().asVoiceChannel();
 
         // Wait 3 minutes
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
@@ -84,7 +84,7 @@ public class Activity extends ListenerAdapter {
     public void onGuildVoiceLeave(@NotNull GuildVoiceLeaveEvent event) {
 
         Member bot = event.getGuild().getSelfMember();
-        AudioChannel channel = event.getChannelLeft();
+        AudioChannel channel = event.getChannelLeft().asVoiceChannel();
 
         // Wait 3 minutes
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
@@ -129,7 +129,7 @@ public class Activity extends ListenerAdapter {
 
         // Get VC
         if (!bot.getVoiceState().inAudioChannel()) return;
-        AudioChannel channel = bot.getVoiceState().getChannel();
+        AudioChannel channel = bot.getVoiceState().getChannel().asVoiceChannel();
 
         // Wait 3 minutes
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();

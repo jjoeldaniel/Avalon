@@ -47,7 +47,7 @@ public class Play extends ListenerAdapter {
             event.deferReply().queue();
 
             // Check jda voice state and compare with member voice state
-            final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+            final VoiceChannel memberChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
 
             EmbedBuilder error = new EmbedBuilder()
                     .setDescription("Loading song(s)...")

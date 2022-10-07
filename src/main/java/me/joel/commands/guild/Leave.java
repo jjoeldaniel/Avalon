@@ -49,7 +49,7 @@ public class Leave extends ListenerAdapter {
                 event.replyEmbeds(noVC.build()).setEphemeral(true).queue();
             }
 
-            final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+            final VoiceChannel memberChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
             audioManager.closeAudioConnection();
 
             builder = new EmbedBuilder()
