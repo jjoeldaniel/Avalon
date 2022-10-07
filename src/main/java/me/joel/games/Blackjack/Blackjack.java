@@ -115,7 +115,7 @@ public class Blackjack extends ListenerAdapter {
                         .setColor(Util.randColor());
 
                 event.editMessageEmbeds(builder.build())
-                        .setActionRow(hit.asEnabled(), stand.asEnabled(), menu.asEnabled())
+                        .setActionRow(hit.asEnabled(), stand.asEnabled(), menu.asDisabled())
                         .queue();
 
                 // blackjack
@@ -224,17 +224,14 @@ public class Blackjack extends ListenerAdapter {
                     builder.setTitle("Result: You lost!");
                     builder.setDescription("You have lost `" + bet + "` credits.");
                     builder.setColor(Color.red);
-                    builder.addField("Your total", String.valueOf(total), false);
                 }
                 else if (dealerTotal > 21 && total <= 21) {
                     builder.clearFields().addField("Dealer bust!", "The dealer had `" + dealerTotal + "`.", false);
-                    builder.addField("Your total", String.valueOf(total), false);
                 }
                 else if (dealerTotal == total) {
                     builder.setTitle("Result: You tied!");
                     builder.setColor(Color.gray);
                     builder.setDescription("Your bet of `" + bet + "` has been returned to you");
-                    builder.addField("Your total", String.valueOf(total), false);
                 }
 
                 event.editMessageEmbeds(builder.build())
