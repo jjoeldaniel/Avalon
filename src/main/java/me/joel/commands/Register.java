@@ -1,9 +1,9 @@
 package me.joel.commands;
 
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -21,10 +21,6 @@ import java.util.List;
  */
 public class Register extends ListenerAdapter {
 
-    /**
-     * Registers all guild commands
-     * @param event GuildReadyEvent
-     */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
 
@@ -116,14 +112,8 @@ public class Register extends ListenerAdapter {
         event.getGuild().updateCommands().addCommands(guildCommandData).queue();
     }
 
-    /**
-     * Registers global commands
-     * @param event ReadyEvent
-     */
     @Override
-    public void onReady(@NotNull ReadyEvent event) {
-        //event.getJDA().updateCommands().queue();
-
+    public void onReady(ReadyEvent event) {
         SubcommandData truth = new SubcommandData("truth", "Generates a random truth question");
         SubcommandData dare = new SubcommandData("dare", "Generates a random dare question");
         SubcommandData random = new SubcommandData("random", "Generates a random question");
