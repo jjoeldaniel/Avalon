@@ -4,8 +4,6 @@ import me.joel.lavaplayer.AudioEventAdapter;
 import me.joel.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
-import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildDeafenEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -22,16 +20,16 @@ public class Activity extends ListenerAdapter {
     @Override
     public void onGuildVoiceUpdate(GuildVoiceUpdateEvent event) {
         Member bot = event.getGuild().getSelfMember();
-
         if (!bot.getVoiceState().inAudioChannel()) return;
-        final AudioChannel channel = event.getChannelLeft().asVoiceChannel();
 
         // Wait 3 minutes
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+
+        // Empty VC
         Runnable task1 = () -> {
 
             // If bot is NOT in VC or bot IS in VC and not alone
-            if (!channel.getMembers().contains(bot) || channel.getMembers().size() > 1) return;
+            if (!event.getChannelLeft().getMembers().contains(bot) || event.getChannelLeft().getMembers().size() > 1) return;
 
             // Clear queue
             PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.destroy();
@@ -53,8 +51,10 @@ public class Activity extends ListenerAdapter {
                 event.getGuild().getAudioManager().closeAudioConnection();
             }
 
-            ((VoiceChannel) channel).sendMessageEmbeds(builder.build()).queue();
+            event.getChannelLeft().asVoiceChannel().sendMessageEmbeds(builder.build()).queue();
         };
+
+        // Timeout
         Runnable task2 = () -> {
 
             // If bot is playing
@@ -80,16 +80,16 @@ public class Activity extends ListenerAdapter {
                 event.getGuild().getAudioManager().closeAudioConnection();
             }
 
-            ((VoiceChannel) channel).sendMessageEmbeds(builder.build()).queue();
+            event.getChannelJoined().asVoiceChannel().sendMessageEmbeds(builder.build()).queue();
         };
 
         // If bot in VC and channel only contains bot
-        if (channel.getMembers().contains(bot) && channel.getMembers().size() == 1) {
+        if (event.getChannelLeft() != null && event.getChannelLeft().getMembers().contains(bot) && event.getChannelLeft().getMembers().size() == 1) {
             executor.schedule(task1, 3, TimeUnit.MINUTES);
             executor.shutdown();
         }
         // If bot IS in VC and not playing music
-        else if (channel.getMembers().contains(bot) && PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() == null) {
+        else if (event.getChannelJoined().getMembers().contains(bot) && PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() == null) {
             var queue = PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.queue;
 
             // Gives extra time if queue is not empty
