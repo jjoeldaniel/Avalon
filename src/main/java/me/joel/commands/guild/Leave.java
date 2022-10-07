@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -20,15 +19,18 @@ public class Leave extends ListenerAdapter {
         var invoke = event.getName();
 
         if (invoke.equals("leave")) {
-
-            // JDA AudioManager
-            final AudioManager audioManager = event.getGuild().getAudioManager();
             final Member bot = event.getGuild().retrieveMemberById("971239438892019743").complete();
 
             if (event.getMember().hasPermission(Permission.VOICE_MOVE_OTHERS) && bot.getVoiceState().inAudioChannel()) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Color.green)
                         .setDescription("Left " + bot.getVoiceState().getChannel().getName() + "!");
+
+                // 3 attempts at closing connection
+                for (int i = 0; i < 3; i++) {
+                    if (!bot.getVoiceState().inAudioChannel()) break;
+                    event.getGuild().getAudioManager().closeAudioConnection();
+                }
 
                 event.replyEmbeds(builder.build()).setEphemeral(false).queue();
                 return;
@@ -50,7 +52,12 @@ public class Leave extends ListenerAdapter {
             }
 
             final VoiceChannel memberChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
-            audioManager.closeAudioConnection();
+
+            // 3 attempts at closing connection
+            for (int i = 0; i < 3; i++) {
+                if (!bot.getVoiceState().inAudioChannel()) break;
+                event.getGuild().getAudioManager().closeAudioConnection();
+            }
 
             builder = new EmbedBuilder()
                 .setColor(Color.green)

@@ -26,6 +26,16 @@ public class Join extends ListenerAdapter {
             final VoiceChannel memberChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
 
             if (event.getMember().hasPermission(Permission.VOICE_MOVE_OTHERS) && memberChannel != null && bot.getVoiceState().inAudioChannel()) {
+
+                if (bot.getVoiceState().getChannel() == memberChannel) {
+                    EmbedBuilder builder1 = new EmbedBuilder()
+                            .setColor(Color.red)
+                            .setDescription("Already in " + memberChannel.getName() + "!");
+
+                    event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
+                    return;
+                }
+
                 audioManager.openAudioConnection(memberChannel);
 
                 EmbedBuilder builder1 = new EmbedBuilder()
@@ -43,15 +53,13 @@ public class Join extends ListenerAdapter {
                 return;
             }
 
-            if (bot.getVoiceState().inAudioChannel()) {
-                if (bot.getVoiceState().getChannel() == memberChannel) {
-                    EmbedBuilder builder1 = new EmbedBuilder()
-                            .setColor(Color.red)
-                            .setDescription("Already in " + memberChannel.getName() + "!");
+            if (bot.getVoiceState().getChannel() == memberChannel) {
+                EmbedBuilder builder1 = new EmbedBuilder()
+                        .setColor(Color.red)
+                        .setDescription("Already in " + memberChannel.getName() + "!");
 
-                    event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
-                    return;
-                }
+                event.replyEmbeds(builder1.build()).setEphemeral(true).queue();
+                return;
             }
 
             audioManager.openAudioConnection(memberChannel);
