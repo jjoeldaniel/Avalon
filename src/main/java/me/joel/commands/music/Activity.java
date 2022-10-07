@@ -28,6 +28,45 @@ public class Activity extends ListenerAdapter {
             Member member = event.getGuild().getSelfMember();
             member.deafen(true).queue();
         }
+
+        Member bot = event.getGuild().getSelfMember();
+        AudioChannel channel = event.getChannelJoined();
+
+        // Wait 3 minutes
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        Runnable task = () -> {
+
+            // If bot is playing
+            if (PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() != null) return;
+
+            // Clear queue
+            PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.destroy();
+            PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.queue.clear();
+
+            // Disable shuffle/loop
+            AudioEventAdapter.setLoop(false);
+            AudioEventAdapter.setShuffle(false);
+
+            // Send message
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setColor(Color.red)
+                    .setTitle("Leaving inactive channel..")
+                    .setDescription("Music queue is cleared");
+
+            // 3 attempts at closing connection
+            for (int i = 0; i < 3; i++) {
+                if (!bot.getVoiceState().inAudioChannel()) break;
+                event.getGuild().getAudioManager().closeAudioConnection();
+            }
+
+            ((VoiceChannel) channel).sendMessageEmbeds(builder.build()).queue();
+        };
+
+        // if bot IS in VC and alone
+        if (channel.getMembers().contains(bot) && PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() == null) {
+            executor.schedule(task, 3, TimeUnit.MINUTES);
+            executor.shutdown();
+        }
     }
 
     @Override
@@ -66,7 +105,7 @@ public class Activity extends ListenerAdapter {
             EmbedBuilder builder = new EmbedBuilder()
                     .setColor(Color.red)
                     .setTitle("Leaving inactive channel..")
-                    .setDescription("Music queue is cleared\nShuffle/Loop are disabled");
+                    .setDescription("Music queue is cleared");
 
             // 3 attempts at closing connection
             for (int i = 0; i < 3; i++) {
@@ -111,7 +150,7 @@ public class Activity extends ListenerAdapter {
             EmbedBuilder builder = new EmbedBuilder()
                     .setColor(Color.red)
                     .setTitle("Leaving inactive channel..")
-                    .setDescription("Music queue is cleared\nShuffle/Loop are disabled");
+                    .setDescription("Music queue is cleared");
 
             // 3 attempts at closing connection
             for (int i = 0; i < 3; i++) {
