@@ -23,7 +23,8 @@ public class Activity extends ListenerAdapter {
         if (!bot.getVoiceState().inAudioChannel()) return;
 
         // Wait 3 minutes
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService executor1 = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService executor2 = Executors.newSingleThreadScheduledExecutor();
 
         // Empty VC
         Runnable task1 = () -> {
@@ -85,22 +86,13 @@ public class Activity extends ListenerAdapter {
 
         // If bot in VC and channel only contains bot
         if (event.getChannelLeft() != null && event.getChannelLeft().getMembers().contains(bot) && event.getChannelLeft().getMembers().size() == 1) {
-            executor.schedule(task1, 3, TimeUnit.MINUTES);
-            executor.shutdown();
+            executor1.schedule(task1, 3, TimeUnit.MINUTES);
+            executor1.shutdown();
         }
         // If bot IS in VC and not playing music
         else if (event.getChannelJoined().getMembers().contains(bot) && PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() == null) {
-            var queue = PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).scheduler.queue;
-
-            // Gives extra time if queue is not empty
-            if (queue.isEmpty()) {
-                executor.schedule(task2, 3, TimeUnit.MINUTES);
-                executor.shutdown();
-            }
-            else {
-                executor.schedule(task2, 5, TimeUnit.MINUTES);
-                executor.shutdown();
-            }
+            executor2.schedule(task2, 10, TimeUnit.MINUTES);
+            executor2.shutdown();
         }
     }
 
