@@ -1,5 +1,6 @@
 package me.joel.games;
 
+import me.joel.Console;
 import me.joel.Database;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -21,12 +22,15 @@ public class Bank extends ListenerAdapter {
             try {
                 Database.getWallet(id);
                 bal = Database.getWallet(id);
-            } catch (SQLException ignore) {}
+            } catch (SQLException e) {
+                Console.warn("Failed to retrieve user balance");
+                e.printStackTrace();
+            }
 
             EmbedBuilder builder = new EmbedBuilder()
                     .setColor(Color.green)
                     .setTitle("Bank Balance")
-                    .setDescription("$" + String.valueOf(bal));
+                    .setDescription("$" + bal);
 
             event.replyEmbeds(builder.build()).queue();
         }
