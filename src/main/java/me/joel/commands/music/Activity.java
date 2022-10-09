@@ -20,7 +20,9 @@ public class Activity extends ListenerAdapter {
     @Override
     public void onGuildVoiceUpdate(GuildVoiceUpdateEvent event) {
         Member bot = event.getGuild().getSelfMember();
-        if (!bot.getVoiceState().inAudioChannel()) return;
+
+        // If channel is null or does not contain bot
+        if (event.getChannelLeft() == null || !event.getChannelLeft().getMembers().contains(bot)) return;
 
         // Wait 3 minutes
         ScheduledExecutorService executor1 = Executors.newSingleThreadScheduledExecutor();
@@ -85,12 +87,12 @@ public class Activity extends ListenerAdapter {
         };
 
         // If bot in VC and channel only contains bot
-        if (event.getChannelLeft() != null && event.getChannelLeft().getMembers().contains(bot) && event.getChannelLeft().getMembers().size() == 1) {
+        if (event.getChannelLeft().getMembers().size() == 1) {
             executor1.schedule(task1, 3, TimeUnit.MINUTES);
             executor1.shutdown();
         }
         // If bot IS in VC and not playing music
-        else if (event.getChannelJoined().getMembers().contains(bot) && PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() == null) {
+        else if (PlayerManager.getINSTANCE().getMusicManager(event.getGuild()).player.getPlayingTrack() == null) {
             executor2.schedule(task2, 10, TimeUnit.MINUTES);
             executor2.shutdown();
         }
