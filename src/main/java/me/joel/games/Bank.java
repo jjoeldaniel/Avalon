@@ -19,6 +19,7 @@ public class Bank extends ListenerAdapter {
             int bal = 0;
 
             try {
+                Database.getWallet(id);
                 bal = Database.getWallet(id);
             } catch (SQLException ignore) {}
 
