@@ -16,6 +16,7 @@ public class Database {
 
             conn.createStatement().execute("CREATE TABLE IF NOT EXISTS currency(user_id string UNIQUE, wallet int)");
         } catch (SQLException e) {
+            Console.warn("Unable to initialize DB");
             throw new RuntimeException(e);
         }
     }
@@ -24,21 +25,31 @@ public class Database {
      * @return Connection to DB
      */
     public static Connection getConnect() {
+        String url = "jdbc:sqlite:avalon.sqlite";
+
+        try {
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            Console.warn("Unable to connect to DB");
+            e.printStackTrace();
+        }
+
         return conn;
     }
 
     public static int getWallet(String user_id) throws SQLException {
         String sql = ("SELECT wallet FROM currency WHERE user_id=" + user_id);
-        ResultSet rs = conn.createStatement().executeQuery(sql);
+        ResultSet rs = getConnect().createStatement().executeQuery(sql);
 
         int bal = rs.getInt(1);
 
-        if (bal < 0) {
-            String reset = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", 0)";
-            conn.createStatement().execute(reset);
-            return bal;
+        if (bal <= 0) {
+            String reset = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", 500)";
+            getConnect().createStatement().execute(reset);
+            return 0;
         }
 
+        getConnect().close();
         return bal;
     }
 
@@ -55,14 +66,15 @@ public class Database {
             bal = Database.getWallet(user_id);
         } catch (SQLException ignore) {}
 
-        if (bal - amt < 0) {
-            String sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", 0)";
-            conn.createStatement().execute(sql);
-        }
-        else {
-            String sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", " + bal + amt + ")";
-            conn.createStatement().execute(sql);
-        }
+        int new_bal = bal + amt;
+        String sql;
+
+        // Reset balance to 500 if < 0
+        if (new_bal < 0) sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", 500)";
+        else sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", " + new_bal + ")";
+
+        getConnect().createStatement().execute(sql);
+        getConnect().close();
     }
 
 }
