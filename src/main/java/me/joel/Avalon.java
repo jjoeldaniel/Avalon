@@ -8,6 +8,7 @@ import me.joel.commands.global.TruthOrDare;
 import me.joel.commands.guild.*;
 import me.joel.commands.mod.*;
 import me.joel.commands.music.*;
+import me.joel.games.Bank;
 import me.joel.games.Blackjack.Blackjack;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -43,7 +44,8 @@ public class Avalon {
                 )
                 // Games
                 .addEventListeners(
-                        new Blackjack()
+                        new Blackjack(),
+                        new Bank()
                 )
                 // Mod
                 .addEventListeners(
@@ -87,6 +89,7 @@ public class Avalon {
 
         // Sets status as # of guilds bot is member of
         jda.getPresence().setActivity(Activity.listening(" " + (jda.getGuilds().size()) + " servers!"));
+        Database.connect();
     }
 
 }

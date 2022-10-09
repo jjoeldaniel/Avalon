@@ -1,5 +1,6 @@
 package me.joel.games.Blackjack;
 
+import me.joel.Database;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
@@ -10,6 +11,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 public class Blackjack extends ListenerAdapter {
@@ -129,6 +131,10 @@ public class Blackjack extends ListenerAdapter {
                             .setDescription("You have won `" + profit + "` credits")
                             .setColor(Color.green);
 
+                    try {
+                        Database.modifyWallet(event.getUser().getId(), profit);
+                    } catch (SQLException ignore) {}
+
                     event.getHook().editMessageEmbedsById(messageID, hit21.build())
                             .setActionRow(rules.asEnabled(), menu.asEnabled(), play.asEnabled())
                             .queueAfter(3, TimeUnit.SECONDS);
@@ -157,6 +163,10 @@ public class Blackjack extends ListenerAdapter {
                             .addField("You received:", card, false)
                             .setColor(Color.red);
 
+                    try {
+                        Database.modifyWallet(event.getUser().getId(), -bet);
+                    } catch (SQLException ignore) {}
+
                     event.editMessageEmbeds(builder.build())
                             .setActionRow(menu.asEnabled())
                             .queue();
@@ -168,6 +178,10 @@ public class Blackjack extends ListenerAdapter {
                             .setDescription("You have won `" + profit + "` credits")
                             .addField("You received:", card, false)
                             .setColor(Color.green);
+
+                    try {
+                        Database.modifyWallet(event.getUser().getId(), profit);
+                    } catch (SQLException ignore) {}
 
                     event.editMessageEmbeds(builder.build())
                             .setActionRow(menu.asEnabled())
@@ -224,9 +238,17 @@ public class Blackjack extends ListenerAdapter {
                     builder.setTitle("Result: You lost!");
                     builder.setDescription("You have lost `" + bet + "` credits.");
                     builder.setColor(Color.red);
+
+                    try {
+                        Database.modifyWallet(event.getUser().getId(), -bet);
+                    } catch (SQLException ignore) {}
                 }
                 else if (dealerTotal > 21 && total <= 21) {
                     builder.clearFields().addField("Dealer bust!", "The dealer had `" + dealerTotal + "`.", false);
+
+                    try {
+                        Database.modifyWallet(event.getUser().getId(), profit);
+                    } catch (SQLException ignore) {}
                 }
                 else if (dealerTotal == total) {
                     builder.setTitle("Result: You tied!");
