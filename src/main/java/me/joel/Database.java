@@ -12,9 +12,10 @@ public class Database {
         String url = "jdbc:sqlite:avalon.sqlite";
         try {
             conn = DriverManager.getConnection(url);
-            Console.info("Connection to SQLite has been established");
+            Console.info("Successfully connected to DB");
 
             conn.createStatement().execute("CREATE TABLE IF NOT EXISTS currency(user_id string UNIQUE, wallet int)");
+            Console.info("Successfully initialized DB");
         } catch (SQLException e) {
             Console.warn("Failed to initialize DB");
             throw new RuntimeException(e);
