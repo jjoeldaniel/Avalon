@@ -11,9 +11,11 @@ public class Database {
     public static void connect() {
         String url = "jdbc:sqlite:avalon.sqlite";
         try {
-            conn = DriverManager.getConnection(url);
+            Connection conn = DriverManager.getConnection(url);
 
             conn.createStatement().execute("CREATE TABLE IF NOT EXISTS currency(user_id string UNIQUE, wallet int)");
+            conn.close();
+
             Console.info("Successfully initialized DB");
         } catch (SQLException e) {
             Console.warn("Failed to initialize DB");
@@ -38,7 +40,10 @@ public class Database {
     }
 
     public static int getWallet(String user_id) throws SQLException {
+        String url = "jdbc:sqlite:avalon.sqlite";
         try {
+            conn = DriverManager.getConnection(url);
+
             String sql = ("SELECT wallet FROM currency WHERE user_id=" + user_id);
             ResultSet rs = getConnect().createStatement().executeQuery(sql);
 
@@ -50,19 +55,19 @@ public class Database {
                 return 0;
             }
 
+            conn.close();
             return bal;
         } catch (SQLException e) {
             Console.warn("Failed to connect to DB");
             e.printStackTrace();
         }
 
-        getConnect().close();
         return 0;
     }
 
     /**
      * Perform addition/subtraction on user bank balance
-     * @param user_id Discord ID
+     * @param user_id
      * @param amt Amount that bank balance is to be modified by
      * @throws SQLException
      */
@@ -79,8 +84,9 @@ public class Database {
 
         String sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", " + new_bal + ")";
 
-        getConnect().createStatement().execute(sql);
-        getConnect().close();
+        Connection conn = getConnect();
+        conn.createStatement().execute(sql);
+        conn.close();
     }
 
 }
