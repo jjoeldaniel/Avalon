@@ -72,33 +72,45 @@ public class GuildEvents extends ListenerAdapter {
                 Button.link(inviteLink, "Invite")).queue();
         }
 
-        // Initializes guild
-        Connection conn = Database.getConnect();
-        String sql = "INSERT INTO guild_settings(guild_id) VALUES (" + event.getGuild().getId() + ")";
-
+        // Initializes guild settings
         try {
+            Connection conn = Database.getConnect();
+            String sql = "INSERT INTO guild_settings(guild_id) VALUES (" + event.getGuild().getId() + ")";
+            String sql2 = "INSERT INTO starboard_settings(guild_id) VALUES (" + event.getGuild().getId() + ")";
+
             conn.createStatement().execute(sql);
-        } catch (SQLException e) {
+            conn.createStatement().execute(sql2);
+         } catch (SQLException e) {
             Console.warn("Failed to initialize guild settings");
         }
-
-        // TODO: Initialize starboard settings
-
     }
 
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-        // Initializes guild if nothing found
-        String sql = "SELECT * FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
 
+        // Initializes guild settings if nothing found
         try {
+            String sql = "SELECT * FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
             ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
 
             if (set.getInt(1) == 0) {
                 String sql2 = "INSERT INTO guild_settings(guild_id) VALUES (" + event.getGuild().getId() + ")";
                 Database.getConnect().createStatement().execute(sql2);
             }
+        } catch (SQLException e) {
+            Console.warn("Failed to initialize guild settings");
+            e.printStackTrace();
+        }
 
+        // Initializes guild starboard settings if nothing found
+        try {
+            String sql = "SELECT * FROM starboard_settings WHERE guild_id=" + event.getGuild().getId();
+            ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
+
+            if (set.getInt(1) == 0) {
+                String sql2 = "INSERT INTO starboard_settings(guild_id) VALUES (" + event.getGuild().getId() + ")";
+                Database.getConnect().createStatement().execute(sql2);
+            }
         } catch (SQLException e) {
             Console.warn("Failed to initialize guild settings");
             e.printStackTrace();
