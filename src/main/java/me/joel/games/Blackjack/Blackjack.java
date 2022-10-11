@@ -266,28 +266,6 @@ public class Blackjack extends ListenerAdapter {
                         dealerTotal += Deck.deck.get(Deck.randomCard());
                     }
                 }
-                else if (dealerTotal == 18) {
-                    int r = Util.randomWithRange(0, 100);
-
-                    if (r > 85) {
-                        dealerTotal += Deck.deck.get(Deck.randomCard());
-                    }
-                }
-                else if (dealerTotal == 19) {
-                    int r = Util.randomWithRange(0, 100);
-
-                    if (r > 90) {
-                        dealerTotal += Deck.deck.get(Deck.randomCard());
-                    }
-                }
-                else if (dealerTotal == 20) {
-                    int r = Util.randomWithRange(0, 100);
-
-                    if (r > 95) {
-                        dealerTotal += Deck.deck.get(Deck.randomCard());
-                    }
-
-                }
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .addField("Dealer", "The dealer had `" + dealerTotal + "`.", false)
@@ -297,7 +275,14 @@ public class Blackjack extends ListenerAdapter {
                         .setFooter("If you see this, an error occurred!")
                         .setColor(Color.green);
 
-                if (dealerTotal > total && dealerTotal <= 21) {
+                if (dealerTotal == total) {
+                    builder.setTitle("Result: You tied!");
+                    builder.setColor(Color.gray);
+                    builder.setDescription("Your bet of `" + bet + "` has been returned to you");
+                    builder.setFooter("Balance: $" + bal);
+                    Console.log("Player tied");
+                }
+                else if (dealerTotal > total && dealerTotal <= 21) {
                     builder.setTitle("Result: You lost!");
                     builder.setDescription("You have lost `" + bet + "` credits.");
                     builder.setColor(Color.red);
@@ -331,13 +316,6 @@ public class Blackjack extends ListenerAdapter {
                     } catch (SQLException e) {
                         Console.warn("Failed to modify user balance");
                     }
-                }
-                else if (dealerTotal == total) {
-                    builder.setTitle("Result: You tied!");
-                    builder.setColor(Color.gray);
-                    builder.setDescription("Your bet of `" + bet + "` has been returned to you");
-                    builder.setFooter("Balance: $" + bal);
-                    Console.log("Player tied");
                 }
 
                 event.editMessageEmbeds(builder.build())
