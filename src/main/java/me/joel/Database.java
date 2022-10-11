@@ -38,10 +38,7 @@ public class Database {
     }
 
     public static int getWallet(String user_id) throws SQLException {
-        String url = "jdbc:sqlite:avalon.sqlite";
         try {
-            conn = DriverManager.getConnection(url);
-
             String sql = ("SELECT wallet FROM currency WHERE user_id=" + user_id);
             ResultSet rs = getConnect().createStatement().executeQuery(sql);
 
@@ -53,13 +50,13 @@ public class Database {
                 return 0;
             }
 
-            conn.close();
             return bal;
         } catch (SQLException e) {
             Console.warn("Failed to connect to DB");
             e.printStackTrace();
         }
 
+        getConnect().close();
         return 0;
     }
 
@@ -83,7 +80,7 @@ public class Database {
         String sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", " + new_bal + ")";
 
         getConnect().createStatement().execute(sql);
-        // getConnect().close();
+        getConnect().close();
     }
 
 }
