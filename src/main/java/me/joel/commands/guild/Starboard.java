@@ -2,10 +2,17 @@ package me.joel.commands.guild;
 
 import me.joel.Console;
 import me.joel.Database;
+import me.joel.Util;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Starboard extends ListenerAdapter {
@@ -57,5 +64,60 @@ public class Starboard extends ListenerAdapter {
 
             event.reply("Star limit set to: `" + num + "`").queue();
         }
+    }
+
+    @Override
+    public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
+        if (!event.isFromGuild()) return;
+
+        Emoji star = Emoji.fromUnicode("U+2B50");
+
+        event.retrieveMessage().map(message -> {
+            int count = message.getReaction(star).getCount();
+
+            int limit = 3;
+            String msg = message.getContentStripped();
+            User user = message.getAuthor();
+
+            try {
+                String sql1 = "SELECT star_limit FROM starboard_settings WHERE guild_id=" + event.getGuild().getId();
+                ResultSet set = Database.getConnect().createStatement().executeQuery(sql1);
+
+                limit = set.getInt(1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+            if (count >= limit) {
+
+                // Get ID
+                String sql = "SELECT starboard_ch FROM starboard_settings WHERE guild_id=" + event.getGuild().getId();
+                TextChannel channel;
+                try {
+                    ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
+
+                    String channelID = set.getString(1);
+
+                    if (channelID == null) return null;
+
+                    channel = event.getGuild().getTextChannelById(channelID);
+
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setAuthor(user.getName(), user.getEffectiveAvatarUrl(), user.getEffectiveAvatarUrl())
+                            .setDescription(msg)
+                            .addField("Source", "[Click here](" + event.getJumpUrl() + ")", false)
+                            .setColor(Util.randColor());
+
+                    channel.sendMessageEmbeds(builder.build()).queue();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return null;
+        }).queue();
+
     }
 }
