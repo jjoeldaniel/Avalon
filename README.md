@@ -1,4 +1,6 @@
 # Avalon
+<a href="https://discord.gg/34tcE6Fr4G"><img src="https://img.shields.io/badge/discord-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white" /></a>
+
 Avalon is a Discord bot that includes music, moderation, utility, react-messages, and various fun commands! 
 
 ![Image of floating island with river](https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256)
@@ -16,10 +18,6 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
  ### **3) What permissions does Avalon require?**
  
    Avalon requires various permissions (all previewed when inviting) and for its role to be moved up as high as possible in the role hierarchy.
-
-### **4) Where can I contact you if I have questions?**
-
-   Join the [Avalon Support server!](https://discord.gg/AVGhMKTSC6).
 
 ## Commands List
 
