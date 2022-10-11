@@ -12,7 +12,6 @@ public class Database {
         String url = "jdbc:sqlite:avalon.sqlite";
         try {
             conn = DriverManager.getConnection(url);
-            Console.info("Successfully connected to DB");
 
             conn.createStatement().execute("CREATE TABLE IF NOT EXISTS currency(user_id string UNIQUE, wallet int)");
             Console.info("Successfully initialized DB");
