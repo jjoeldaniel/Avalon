@@ -253,19 +253,13 @@ public class Blackjack extends ListenerAdapter {
             case ("stand") -> {
                 int dealerTotal = Deck.deck.get(Deck.randomCard()) + Deck.deck.get(Deck.randomCard());
 
-                // hit if 11 or under
-                if (dealerTotal <= 11) {
-                    dealerTotal += Deck.deck.get(Deck.randomCard());
-                }
-
-                // hit if <= 16
-                else if (dealerTotal <= 16) {
-                    int r = Util.randomWithRange(0,100);
+                // hit until over 16
+                while (dealerTotal <= 16) {
                     dealerTotal += Deck.deck.get(Deck.randomCard());
                 }
 
                 // decide if dealer wil hit/stand on 16+
-                if (dealerTotal > 16 && dealerTotal < 20) {
+                if (dealerTotal <= 18) {
                     int r = Util.randomWithRange(0, 100);
 
                     // hit, else stand
