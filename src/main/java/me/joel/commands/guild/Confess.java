@@ -1,12 +1,16 @@
 package me.joel.commands.guild;
 
+import me.joel.Database;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Confess extends ListenerAdapter {
 
@@ -40,11 +44,25 @@ public class Confess extends ListenerAdapter {
                 return;
             }
 
-            // Find confessions channel
-            String channelID = Util.findChannel("confess", event.getGuild());
+            // Get ID
+            TextChannel channel = null;
+
+            String sql = "SELECT confession_ch FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
+            try {
+                ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
+
+                String channelID = set.getString(1);
+
+                if (channelID != null) {
+                    channel = event.getGuild().getTextChannelById(channelID);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
             // No channel Found
-            if (channelID == null) {
+            if (channel == null) {
                 EmbedBuilder confessionError = new EmbedBuilder()
                         .setTitle("Error!")
                         .setDescription("No confession channel found!")
@@ -68,7 +86,7 @@ public class Confess extends ListenerAdapter {
                     .setDescription("\"" + message + "\"")
                     .setColor(Color.green);
 
-            event.getGuild().getTextChannelById(channelID).sendMessageEmbeds(confessionPost.build()).queue();
+            channel.sendMessageEmbeds(confessionPost.build()).queue();
             event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();
         }
     }
