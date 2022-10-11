@@ -258,14 +258,35 @@ public class Blackjack extends ListenerAdapter {
                     dealerTotal += Deck.deck.get(Deck.randomCard());
                 }
 
-                // decide if dealer wil hit/stand on 16+
-                if (dealerTotal <= 18) {
+                // rng to hit again
+                if (dealerTotal == 17) {
                     int r = Util.randomWithRange(0, 100);
 
-                    // hit, else stand
-                    if (r > 75) {
+                    if (r > 80) {
                         dealerTotal += Deck.deck.get(Deck.randomCard());
                     }
+                }
+                else if (dealerTotal == 18) {
+                    int r = Util.randomWithRange(0, 100);
+
+                    if (r > 85) {
+                        dealerTotal += Deck.deck.get(Deck.randomCard());
+                    }
+                }
+                else if (dealerTotal == 19) {
+                    int r = Util.randomWithRange(0, 100);
+
+                    if (r > 90) {
+                        dealerTotal += Deck.deck.get(Deck.randomCard());
+                    }
+                }
+                else if (dealerTotal == 20) {
+                    int r = Util.randomWithRange(0, 100);
+
+                    if (r > 95) {
+                        dealerTotal += Deck.deck.get(Deck.randomCard());
+                    }
+
                 }
 
                 EmbedBuilder builder = new EmbedBuilder()
