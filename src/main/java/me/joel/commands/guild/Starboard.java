@@ -71,13 +71,34 @@ public class Starboard extends ListenerAdapter {
         if (!event.isFromGuild()) return;
 
         Emoji star = Emoji.fromUnicode("U+2B50");
+        User reactor = event.getUser();
 
         event.retrieveMessage().map(message -> {
+
+            User user = message.getAuthor();
             int count = message.getReaction(star).getCount();
+
+            //  Checks against self_star
+            if (user == reactor) {
+                String sql = "SELECT star_self FROM main.starboard_settings WHERE guild_id=" + event.getGuild().getId();
+                boolean self_star;
+
+                try {
+                    ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
+
+                    self_star = set.getBoolean(1);
+
+                    if (!self_star) {
+                        count++;
+                        return null;
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
 
             int limit = 3;
             String msg = message.getContentStripped();
-            User user = message.getAuthor();
 
             try {
                 String sql1 = "SELECT star_limit FROM starboard_settings WHERE guild_id=" + event.getGuild().getId();
