@@ -62,7 +62,8 @@ public class Avalon {
                         new Leave(),
                         new Translate(),
                         new Toggle(),
-                        new Mock()
+                        new Mock(),
+                        new ChannelSettings()
                 )
                 // Music
                 .addEventListeners(

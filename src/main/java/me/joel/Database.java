@@ -14,6 +14,8 @@ public class Database {
             Connection conn = DriverManager.getConnection(url);
 
             conn.createStatement().execute("CREATE TABLE IF NOT EXISTS currency(user_id string UNIQUE, wallet int)");
+            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS guild_settings(guild_id string UNIQUE,  confession_ch int, join_ch int, leave_ch int)");
+            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS starboard_settings(guild_id string UNIQUE,  starboard_ch int, star_limit int, star_self int)");
             conn.close();
 
             Console.info("Successfully initialized DB");

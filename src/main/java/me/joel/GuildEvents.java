@@ -67,6 +67,10 @@ public class GuildEvents extends ListenerAdapter {
             channel.sendMessageEmbeds(builder.build()).setActionRow(
                 Button.link(inviteLink, "Invite")).queue();
         }
+
+        // TODO: Initialize channel settings + starboard settings
+
+
     }
 
     @Override
@@ -155,7 +159,7 @@ public class GuildEvents extends ListenerAdapter {
                 final String id = "205862976689799168";
                 final User joel = event.getJDA().getUserById(id);
 
-//                if (event.getAuthor() == joel || event.getAuthor().isBot()) return;
+                if (event.getAuthor() == joel || event.getAuthor().isBot()) return;
                 event.getGuild().retrieveMemberById(id).complete();
 
                 final Member joelMember = event.getGuild().getMemberById(id);
