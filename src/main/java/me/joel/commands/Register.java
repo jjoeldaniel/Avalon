@@ -83,6 +83,7 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.slash("set_join", "Sets channel for join messages").addOption(OptionType.CHANNEL, "channel", "Join channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
         guildCommandData.add(Commands.slash("set_leave", "Sets channel for leave messages").addOption(OptionType.CHANNEL, "channel", "Leave channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
         guildCommandData.add(Commands.slash("set_confess", "Sets channel for confession messages").addOption(OptionType.CHANNEL, "channel", "Confession channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
+        guildCommandData.add(Commands.slash("set_star", "Sets channel for starboard").addOption(OptionType.CHANNEL, "channel", "Starboard channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
 
         // music
         guildCommandData.add(Commands.slash("play", "Requests a song").addOption(OptionType.STRING, "song", "Accepts Spotify, YouTube, or Apple Music", true));
