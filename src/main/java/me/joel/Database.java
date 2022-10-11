@@ -76,12 +76,11 @@ public class Database {
             bal = Database.getWallet(user_id);
         } catch (SQLException ignore) {}
 
+        // Reset balance to 500 if < 100
         int new_bal = bal + amt;
-        String sql;
+        if (new_bal < 100) new_bal = 500;
 
-        // Reset balance to 500 if < 0
-        if (new_bal < 0) sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", 500)";
-        else sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", " + new_bal + ")";
+        String sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", " + new_bal + ")";
 
         getConnect().createStatement().execute(sql);
         // getConnect().close();
