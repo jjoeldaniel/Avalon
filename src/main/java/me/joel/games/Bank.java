@@ -14,14 +14,15 @@ import java.sql.SQLException;
 
 public class Bank extends ListenerAdapter {
 
-    Button refresh = Button.primary("refresh", "Refresh balance");
+    private final Button refresh = Button.primary("refresh", "Refresh balance");
+    private String id = "";
+    private int bal = 0;
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
         if (event.getName().equals("bank")) {
-            String id = event.getMember().getId();
-            int bal = 0;
+            id = event.getMember().getId();
 
             try {
                 Database.getWallet(id);
@@ -44,8 +45,13 @@ public class Bank extends ListenerAdapter {
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
 
         if (event.getComponentId().equals("refresh")) {
-            String id = event.getMember().getId();
-            int bal = 0;
+            if (!event.getMember().getId().equals(id)) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.red)
+                        .setDescription("You can't refresh another persons bank account, silly!");
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
 
             try {
                 Database.getWallet(id);
