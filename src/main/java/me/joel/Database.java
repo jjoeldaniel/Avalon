@@ -62,7 +62,7 @@ public class Database {
 
     /**
      * Perform addition/subtraction on user bank balance
-     * @param user_id
+     * @param user_id Discord ID
      * @param amt Amount that bank balance is to be modified by
      * @throws SQLException
      */
