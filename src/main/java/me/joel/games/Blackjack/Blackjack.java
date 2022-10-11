@@ -22,6 +22,7 @@ public class Blackjack extends ListenerAdapter {
     int total = 0;
     int bet = 100;
     int profit = 125;
+    int bal = 500;
 
     Button rules = Button.primary("rules", "See Rules");
     Button play = Button.success("play", "Play");
@@ -45,14 +46,6 @@ public class Blackjack extends ListenerAdapter {
         if (invoke.equalsIgnoreCase("blackjack")) {
             user = event.getUser();
 
-            // Check wallet
-            try {
-                Database.getWallet(user.getId());
-            } catch (SQLException e) {
-                Console.warn("Failed to retrieve user balance");
-                e.printStackTrace();
-            }
-
             // get bet option
             if (event.getOption("bet") != null) {
                 bet = event.getOption("bet").getAsInt();
@@ -62,6 +55,24 @@ public class Blackjack extends ListenerAdapter {
 
                 // profit is 125% of bet
                 profit = (int) (bet * 1.25);
+            }
+
+            // Check wallet
+            try {
+                bal = Database.getWallet(user.getId());
+
+                if (bet > bal) {
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Color.red)
+                            .setTitle("Bet amount cannot be greater than bank balance!")
+                            .setFooter("Use /bank to check your balance");
+
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                }
+
+            } catch (SQLException e) {
+                Console.warn("Failed to retrieve user balance");
+                e.printStackTrace();
             }
 
             EmbedBuilder builder = menu();
@@ -145,6 +156,7 @@ public class Blackjack extends ListenerAdapter {
                     EmbedBuilder hit21 = new EmbedBuilder()
                             .setTitle("Blackjack!")
                             .setDescription("You have won `" + (profit*1.1) + "` credits")
+                            .setFooter("Balance: $" + (bal+=profit*1.1))
                             .setColor(Color.green);
 
                     profit = (int) (profit*1.1);
@@ -182,6 +194,7 @@ public class Blackjack extends ListenerAdapter {
                             .setDescription("You have lost `" + bet + "` credits.")
                             .addField("Total", "Your total was `" + total + "`.", false)
                             .addField("You received:", card, false)
+                            .setFooter("Balance: $" + (bal-=bet))
                             .setColor(Color.red);
 
                     event.editMessageEmbeds(builder.build())
@@ -204,6 +217,7 @@ public class Blackjack extends ListenerAdapter {
                             .setTitle("Result: You won!")
                             .setDescription("You have won `" + profit + "` credits")
                             .addField("You received:", card, false)
+                            .setFooter("Balance: $" + (bal+=profit))
                             .setColor(Color.green);
 
                     event.editMessageEmbeds(builder.build())
@@ -264,12 +278,14 @@ public class Blackjack extends ListenerAdapter {
                         .addField("Your total", "`" + total + "`" , false)
                         .setDescription("You have won `" + profit + "` credits.")
                         .setTitle("Result: You won!")
+                        .setFooter("If you see this, an error occurred!")
                         .setColor(Color.green);
 
                 if (dealerTotal > total && dealerTotal <= 21) {
                     builder.setTitle("Result: You lost!");
                     builder.setDescription("You have lost `" + bet + "` credits.");
                     builder.setColor(Color.red);
+                    builder.setFooter("Balance: $" + (bal-=bet));
 
                     try {
                         Database.modifyWallet(event.getUser().getId(), -bet);
@@ -281,6 +297,17 @@ public class Blackjack extends ListenerAdapter {
                 else if (dealerTotal > 21 && total <= 21) {
                     builder.clearFields().addField("Dealer bust!", "The dealer had `" + dealerTotal + "`.", false);
                     builder.setDescription("You have won `" + profit + "` credits");
+                    builder.setFooter("Balance: $" + (bal+=profit));
+
+                    try {
+                        Database.modifyWallet(event.getUser().getId(), profit);
+                        Console.log("Player wins");
+                    } catch (SQLException e) {
+                        Console.warn("Failed to modify user balance");
+                    }
+                }
+                else if (total <= 21) {
+                    builder.setFooter("Balance: $" + (bal+=profit));
 
                     try {
                         Database.modifyWallet(event.getUser().getId(), profit);
@@ -293,14 +320,8 @@ public class Blackjack extends ListenerAdapter {
                     builder.setTitle("Result: You tied!");
                     builder.setColor(Color.gray);
                     builder.setDescription("Your bet of `" + bet + "` has been returned to you");
-
-                    event.editMessageEmbeds(builder.build())
-                            .setActionRow(menu)
-                            .queue(null, (exception) -> {
-                                Console.warn(exception.getMessage());
-                            });
-
-                    return;
+                    builder.setFooter("Balance: $" + bal);
+                    Console.log("Player tied");
                 }
 
                 event.editMessageEmbeds(builder.build())
