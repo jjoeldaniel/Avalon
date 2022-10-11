@@ -45,13 +45,13 @@ public class Database {
             conn = DriverManager.getConnection(url);
 
             String sql = ("SELECT wallet FROM currency WHERE user_id=" + user_id);
-            ResultSet rs = getConnect().createStatement().executeQuery(sql);
+            ResultSet rs = conn.createStatement().executeQuery(sql);
 
             int bal = rs.getInt(1);
 
             if (bal < 100) {
                 String reset = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", 500)";
-                getConnect().createStatement().execute(reset);
+                conn.createStatement().execute(reset);
                 return 0;
             }
 
@@ -67,9 +67,9 @@ public class Database {
 
     /**
      * Perform addition/subtraction on user bank balance
-     * @param user_id
+     * @param user_id Discord user ID
      * @param amt Amount that bank balance is to be modified by
-     * @throws SQLException
+     * @throws SQLException Error attempting to communicate with database
      */
     public static void modifyWallet(String user_id, int amt) throws SQLException {
         // Get balance
