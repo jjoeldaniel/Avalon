@@ -78,7 +78,6 @@ public class GuildEvents extends ListenerAdapter {
 
         try {
             conn.createStatement().execute(sql);
-            conn.close();
         } catch (SQLException e) {
             Console.warn("Failed to initialize guild settings");
         }
@@ -90,18 +89,16 @@ public class GuildEvents extends ListenerAdapter {
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         // Initializes guild if nothing found
-        Connection conn = Database.getConnect();
         String sql = "SELECT * FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
 
         try {
-            ResultSet set = conn.createStatement().executeQuery(sql);
+            ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
 
             if (set.getInt(1) == 0) {
                 String sql2 = "INSERT INTO guild_settings(guild_id) VALUES (" + event.getGuild().getId() + ")";
-                conn.createStatement().execute(sql2);
+                Database.getConnect().createStatement().execute(sql2);
             }
 
-            conn.close();
         } catch (SQLException e) {
             Console.warn("Failed to initialize guild settings");
             e.printStackTrace();
@@ -110,78 +107,99 @@ public class GuildEvents extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
-        // paw patrol and avalon server welcome messages
-        if (event.getGuild().getId().equals("645471751316307998") || event.getGuild().getId().equals("971225319153479790")) {
+        Member member = event.getMember();
+        TextChannel channel = null;
 
-            Member member = event.getMember();
-            EmbedBuilder memberJoin = new EmbedBuilder()
-                    .setColor(Util.randColor())
-                    .setTitle("A new member has joined!")
-                    .setDescription
-                            (
-                            "Welcome " + member.getAsMention() + " to " + event.getGuild().getName() +
-                            "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
-                            )
-                    .setThumbnail(member.getEffectiveAvatarUrl())
-                    .setFooter("User: " + member.getUser().getName() +"#" + member.getUser().getDiscriminator() + " ID: " + member.getId());
+        // Get ID
+        String sql = "SELECT join_ch FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
+        try {
+            ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
 
-            // find welcome channel
-            TextChannel channel = event.getGuild().getTextChannelById(Util.findChannel("welcome", event.getGuild()));
+            String channelID = set.getString(1);
 
-            if (channel != null) {
-                channel.sendMessageEmbeds(memberJoin.build()).queue();
+            if (channelID != null) {
+                channel = event.getGuild().getTextChannelById(channelID);
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        if (channel == null) return;
+
+        EmbedBuilder memberJoin = new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setTitle("A new member has joined!")
+                .setDescription
+                        (
+                        "Welcome " + member.getAsMention() + " to " + event.getGuild().getName() +
+                        "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
+                        )
+                .setThumbnail(member.getEffectiveAvatarUrl())
+                .setFooter("User: " + member.getUser().getName() +"#" + member.getUser().getDiscriminator() + " ID: " + member.getId());
+
+        channel.sendMessageEmbeds(memberJoin.build()).queue();
     }
 
     @Override
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
-        // paw patrol and avalon server welcome messages
-        if (event.getGuild().getId().equals("645471751316307998") || event.getGuild().getId().equals("971225319153479790")) {
 
-            User user = event.getUser();
-            EmbedBuilder memberLeave = new EmbedBuilder()
-                    .setColor(Util.randColor())
-                    .setTitle("A member has left!")
-                    .setDescription
-                            (
-                             user.getAsMention() + " has left " + event.getGuild().getName() +
-                            "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
-                            )
-                    .setThumbnail(user.getEffectiveAvatarUrl())
-                    .setFooter("User: " + user.getName() +"#" + user.getDiscriminator() + " ID: " + user.getId());
+        User user = event.getUser();
+        EmbedBuilder memberLeave = new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setTitle("A member has left!")
+                .setDescription
+                        (
+                         user.getAsMention() + " has left " + event.getGuild().getName() +
+                        "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
+                        )
+                .setThumbnail(user.getEffectiveAvatarUrl())
+                .setFooter("User: " + user.getName() +"#" + user.getDiscriminator() + " ID: " + user.getId());
 
-            // find welcome channel
-            TextChannel channel = event.getGuild().getTextChannelById(Util.findChannel("welcome", event.getGuild()));
+        // Get ID
+        TextChannel channel = event.getGuild().getTextChannelById(Util.findChannel("welcome", event.getGuild()));
 
-            if (channel != null) {
+        String sql = "SELECT leave_ch FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
+        try {
+            ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
 
-                event.getGuild().retrieveAuditLogs().queueAfter(1, TimeUnit.SECONDS, (logs) -> {
-                    boolean isBan = false, isKick = false;
+            String channelID = set.getString(1);
 
-                    for (AuditLogEntry log : logs) {
-                        if (log.getTargetIdLong() == user.getIdLong()) {
-                            isBan = log.getType() == ActionType.BAN;
-                            isKick = log.getType() == ActionType.KICK;
-                            break;
-                        }
-                    }
-
-                    if (isBan) {
-                        memberLeave.setTitle("A member has been banned!");
-                        channel.sendMessageEmbeds(memberLeave.build()).queue();
-                    }
-                    else if (isKick) {
-                        memberLeave.setTitle("A member has been kicked!");
-                        channel.sendMessageEmbeds(memberLeave.build()).queue();
-                    }
-                    else {
-                        channel.sendMessageEmbeds(memberLeave.build()).queue();
-                    }
-
-                });
+            if (channelID != null) {
+                channel = event.getGuild().getTextChannelById(channelID);
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+        if (channel == null) return;
+
+        TextChannel finalChannel = channel;
+        event.getGuild().retrieveAuditLogs().queueAfter(1, TimeUnit.SECONDS, (logs) -> {
+            boolean isBan = false, isKick = false;
+
+            for (AuditLogEntry log : logs) {
+                if (log.getTargetIdLong() == user.getIdLong()) {
+                    isBan = log.getType() == ActionType.BAN;
+                    isKick = log.getType() == ActionType.KICK;
+                    break;
+                }
+            }
+
+            if (isBan) {
+                memberLeave.setTitle("A member has been banned!");
+                finalChannel.sendMessageEmbeds(memberLeave.build()).queue();
+            }
+            else if (isKick) {
+                memberLeave.setTitle("A member has been kicked!");
+                finalChannel.sendMessageEmbeds(memberLeave.build()).queue();
+            }
+            else {
+                finalChannel.sendMessageEmbeds(memberLeave.build()).queue();
+            }
+
+        });
     }
 
     @Override

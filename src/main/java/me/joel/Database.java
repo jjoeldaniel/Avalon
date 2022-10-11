@@ -9,14 +9,10 @@ public class Database {
      * Initializes DB
      */
     public static void connect() {
-        String url = "jdbc:sqlite:avalon.sqlite";
         try {
-            Connection conn = DriverManager.getConnection(url);
-
-            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS currency(user_id string UNIQUE, wallet int)");
-            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS guild_settings(guild_id string UNIQUE,  confession_ch int, join_ch int, leave_ch int)");
-            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS starboard_settings(guild_id string UNIQUE,  starboard_ch int, star_limit int, star_self int)");
-            conn.close();
+            getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS currency(user_id string UNIQUE, wallet int)");
+            getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS guild_settings(guild_id string UNIQUE,  confession_ch string, join_ch string, leave_ch string)");
+            getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS starboard_settings(guild_id string UNIQUE,  starboard_ch string, star_limit int, star_self int)");
 
             Console.info("Successfully initialized DB");
         } catch (SQLException e) {
@@ -31,33 +27,32 @@ public class Database {
     public static Connection getConnect() {
         String url = "jdbc:sqlite:avalon.sqlite";
 
-        try {
-            conn = DriverManager.getConnection(url);
-        } catch (SQLException e) {
-            Console.warn("Failed to connect to DB");
-            e.printStackTrace();
+        if (conn == null) {
+            try {
+                conn = DriverManager.getConnection(url);
+                return conn;
+            } catch (SQLException e) {
+                Console.warn("Failed to connect to DB");
+                return null;
+            }
         }
 
         return conn;
     }
 
     public static int getWallet(String user_id) throws SQLException {
-        String url = "jdbc:sqlite:avalon.sqlite";
         try {
-            conn = DriverManager.getConnection(url);
-
             String sql = ("SELECT wallet FROM currency WHERE user_id=" + user_id);
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            ResultSet rs = getConnect().createStatement().executeQuery(sql);
 
             int bal = rs.getInt(1);
 
             if (bal < 100) {
                 String reset = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", 500)";
-                conn.createStatement().execute(reset);
+                getConnect().createStatement().execute(reset);
                 return 0;
             }
 
-            conn.close();
             return bal;
         } catch (SQLException e) {
             Console.warn("Failed to connect to DB");
@@ -85,10 +80,7 @@ public class Database {
         if (new_bal < 100) new_bal = 500;
 
         String sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", " + new_bal + ")";
-
-        Connection conn = getConnect();
-        conn.createStatement().execute(sql);
-        conn.close();
+        getConnect().createStatement().execute(sql);
     }
 
 }

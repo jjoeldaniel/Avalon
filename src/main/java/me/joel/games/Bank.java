@@ -51,6 +51,7 @@ public class Bank extends ListenerAdapter {
                         .setDescription("You can't refresh another persons bank account, silly!");
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
             }
 
             try {
