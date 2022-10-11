@@ -52,6 +52,25 @@ public class ChannelSettings extends ListenerAdapter {
             event.getHook().sendMessage("Leave channel set to: " + ch.getAsMention()).queue();
         }
 
+        if (event.getName().equals("set_star")) {
+            event.deferReply().queue();
+
+            GuildChannelUnion channel = (event.getOption("channel")).getAsChannel();
+
+            TextChannel ch = channel.asTextChannel();;
+
+            String sql = "UPDATE starboard_settings SET starboard_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
+
+            try {
+                Database.getConnect().createStatement().execute(sql);
+            } catch (SQLException e) {
+                Console.warn("Failed to configure guild starboard channel");
+                e.printStackTrace();
+            }
+
+            event.getHook().sendMessage("Starboard channel set to: " + ch.getAsMention()).queue();
+        }
+
         if (event.getName().equals("set_confess")) {
             event.deferReply().queue();
 
