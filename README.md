@@ -1,5 +1,5 @@
 # Avalon
-<a href="https://discord.gg/AVGhMKTSC6"><img src="https://img.shields.io/badge/discord-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white" /></a>
+<a href="https://discord.gg/34tcE6Fr4G"><img src="https://img.shields.io/badge/discord-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white" /></a>
 
 Avalon is a Discord bot that includes music, moderation, utility, react-messages, and various fun commands! 
 
