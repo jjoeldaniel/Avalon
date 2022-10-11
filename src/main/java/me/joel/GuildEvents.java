@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
@@ -20,6 +21,9 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.TimeFormat;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -68,9 +72,40 @@ public class GuildEvents extends ListenerAdapter {
                 Button.link(inviteLink, "Invite")).queue();
         }
 
-        // TODO: Initialize channel settings + starboard settings
+        // Initializes guild
+        Connection conn = Database.getConnect();
+        String sql = "INSERT INTO guild_settings(guild_id) VALUES (" + event.getGuild().getId() + ")";
 
+        try {
+            conn.createStatement().execute(sql);
+            conn.close();
+        } catch (SQLException e) {
+            Console.warn("Failed to initialize guild settings");
+        }
 
+        // TODO: Initialize starboard settings
+
+    }
+
+    @Override
+    public void onGuildReady(@NotNull GuildReadyEvent event) {
+        // Initializes guild if nothing found
+        Connection conn = Database.getConnect();
+        String sql = "SELECT * FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
+
+        try {
+            ResultSet set = conn.createStatement().executeQuery(sql);
+
+            if (set.getInt(1) == 0) {
+                String sql2 = "INSERT INTO guild_settings(guild_id) VALUES (" + event.getGuild().getId() + ")";
+                conn.createStatement().execute(sql2);
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            Console.warn("Failed to initialize guild settings");
+            e.printStackTrace();
+        }
     }
 
     @Override
