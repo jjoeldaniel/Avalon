@@ -36,6 +36,7 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member info"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get user avatar"));
         guildCommandData.add(Commands.context(Command.Type.MESSAGE, "Translate message"));
+        guildCommandData.add(Commands.context(Command.Type.MESSAGE, "Mock"));
 
         // toggle
         SubcommandData insults = new SubcommandData("insults", "Toggles insults");
@@ -81,6 +82,7 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member info"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get user avatar"));
         guildCommandData.add(Commands.context(Command.Type.MESSAGE, "Translate message"));
+        guildCommandData.add(Commands.context(Command.Type.MESSAGE, "Mock"));
 
         // toggle
         SubcommandData insults = new SubcommandData("insults", "Toggles insults");

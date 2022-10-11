@@ -61,7 +61,8 @@ public class Avalon {
                         new Join(),
                         new Leave(),
                         new Translate(),
-                        new Toggle()
+                        new Toggle(),
+                        new Mock()
                 )
                 // Music
                 .addEventListeners(
