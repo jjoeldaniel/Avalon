@@ -25,6 +25,7 @@ public class Help extends ListenerAdapter {
                             Button.success("helpGeneral", "General").asDisabled(),
                             Button.success("helpMod", "Moderation"),
                             Button.success("helpMusic", "Music"),
+                            Button.success("helpConfig", "Config"),
                             Button.link(inviteLink, "Invite"))
                     .queue();
         }
@@ -45,6 +46,7 @@ public class Help extends ListenerAdapter {
                                 Button.success("helpGeneral", "General").asDisabled(),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
+                                Button.success("helpConfig", "Config"),
                                 Button.link(inviteLink, "Invite"))
                         .queue();
             }
@@ -56,6 +58,7 @@ public class Help extends ListenerAdapter {
                                 Button.success("helpGeneral", "General"),
                                 Button.success("helpMod", "Moderation").asDisabled(),
                                 Button.success("helpMusic", "Music"),
+                                Button.success("helpConfig", "Config"),
                                 Button.link(inviteLink, "Invite"))
                         .queue();
             }
@@ -67,6 +70,19 @@ public class Help extends ListenerAdapter {
                                 Button.success("helpGeneral", "General"),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music").asDisabled(),
+                                Button.success("helpConfig", "Config"),
+                                Button.link(inviteLink, "Invite"))
+                        .queue();
+            }
+            case ("helpConfig") -> {
+                EmbedBuilder builder = help(4);
+
+                event.editMessageEmbeds(builder.build())
+                        .setActionRow(
+                                Button.success("helpGeneral", "General"),
+                                Button.success("helpMod", "Moderation"),
+                                Button.success("helpMusic", "Music"),
+                                Button.success("helpConfig", "Config").asDisabled(),
                                 Button.link(inviteLink, "Invite"))
                         .queue();
             }
@@ -125,6 +141,18 @@ public class Help extends ListenerAdapter {
                             `/shuffle` Shuffles music queue
                             `/skip`  Skips song
                             `/seek`  Seeks song position""", false);
+            case 4 -> builder = new EmbedBuilder()
+                    .setColor(Util.randColor())
+                    .setTitle("Avalon Commands")
+                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
+                    .addField("Server Configuration", """
+                            `/set_join` Sets channel for join messages
+                            `/set_leave` Sets channel for leave messages
+                            `/set_leave` Sets channel for confession messages
+                            `/set_confess` Sets channel for Starboard
+                                                        
+                            `/star_limit` Sets required number of stars to be posted on Starboard
+                            `/star_self` Determines if users can star their own posts""", false);
         }
 
         return builder;

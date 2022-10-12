@@ -1,5 +1,5 @@
 # Avalon
-<a href="https://discord.gg/34tcE6Fr4G"><img src="https://img.shields.io/badge/discord-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white" /></a>
+<a href="https://discord.gg/34tcE6Fr4G"><img src="https://img.shields.io/badge/discord-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white" alt="discord support server invite" /></a>
 
 Avalon is a Discord bot that includes music, moderation, utility, react-messages, and various fun commands! 
 
@@ -44,6 +44,23 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 `/join`  Request for bot to join VC
 
 `/leave`  Request for bot to leave VC
+
+**Channel Configuration**
+
+`/set_join` Sets channel for join messages
+
+`/set_leave` Sets channel for leave messages
+
+`/set_leave` Sets channel for confession messages
+
+`/set_confess` Sets channel for Starboard
+
+**Starboard**
+
+`/star_limit` Sets required number of stars to be posted on Starboard
+
+`/star_self` Determines if users can star their own posts
+
 
 **Games**
 
