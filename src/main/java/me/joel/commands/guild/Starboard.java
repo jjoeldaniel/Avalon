@@ -76,6 +76,9 @@ public class Starboard extends ListenerAdapter {
         event.retrieveMessage().map(message -> {
 
             User user = message.getAuthor();
+
+            if (message.getReaction(star) == null) return null;
+
             int count = message.getReaction(star).getCount();
 
             //  Checks against self_star
