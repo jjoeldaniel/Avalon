@@ -11,7 +11,7 @@ public class Database {
     public static void connect() {
         try {
             getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS currency(user_id string UNIQUE, wallet int)");
-            getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS guild_settings(guild_id string UNIQUE,  confession_ch string, join_ch string, leave_ch string)");
+            getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS guild_settings(guild_id string UNIQUE,  confession_ch string, join_ch string, leave_ch string, insults int, gm_gn int, now_playing int)");
             getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS starboard_settings(guild_id string UNIQUE,  starboard_ch string, star_limit int, star_self int)");
 
             Console.info("Successfully initialized DB");

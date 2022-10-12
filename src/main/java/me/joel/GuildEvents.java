@@ -75,7 +75,7 @@ public class GuildEvents extends ListenerAdapter {
         // Initializes guild settings
         try {
             Connection conn = Database.getConnect();
-            String sql = "INSERT INTO guild_settings(guild_id) VALUES (" + event.getGuild().getId() + ")";
+            String sql = "INSERT INTO guild_settings(guild_id, insults, gm_gn, now_playing) VALUES (" + event.getGuild().getId() + ", 1, 1, 1)";
             String sql2 = "INSERT INTO starboard_settings(guild_id, star_limit, star_self) VALUES (" + event.getGuild().getId() + "), 3, 0";
 
             conn.createStatement().execute(sql);
@@ -94,7 +94,7 @@ public class GuildEvents extends ListenerAdapter {
             ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
 
             if (set.getInt(1) == 0) {
-                String sql2 = "INSERT INTO guild_settings(guild_id) VALUES (" + event.getGuild().getId() + ")";
+                String sql2 = "INSERT INTO guild_settings(guild_id, insults, gm_gn, now_playing) VALUES (" + event.getGuild().getId() + ", 1, 1, 1)";
                 Database.getConnect().createStatement().execute(sql2);
             }
         } catch (SQLException e) {
