@@ -66,6 +66,8 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 `/blackjack` Starts a game of Blackjack
 
+`/bank` Provides user bank balance
+
 
 **Moderation Commands**
 
