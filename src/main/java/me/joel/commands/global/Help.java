@@ -112,6 +112,7 @@ public class Help extends ListenerAdapter {
                             `/avatar` Retrieves target profile picture
                             `/whois`  Provides user information
                             `/bank` Provides user bank balance
+                            `/blackjack` Starts a game of blackjack
                             `/afk`  Sets AFK status
                             `/confess` Sends anonymous confession
                             `/8ball`   Asks the magic 8ball a question""", false);
