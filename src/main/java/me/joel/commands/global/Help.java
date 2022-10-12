@@ -152,6 +152,10 @@ public class Help extends ListenerAdapter {
                             `/set_leave` Sets channel for leave messages
                             `/set_leave` Sets channel for confession messages
                             `/set_confess` Sets channel for Starboard
+                            
+                            `/toggle insults` Toggle insults
+                            `/toggle goodmorning_goodnight` Toggles good morning and goodnight replies
+                            `/toggle now_playing` Toggles now playing messages
                                                         
                             `/star_limit` Sets required number of stars to be posted on Starboard
                             `/star_self` Determines if users can star their own posts""", false);
