@@ -169,7 +169,7 @@ public class GuildEvents extends ListenerAdapter {
                 .setFooter("User: " + user.getName() +"#" + user.getDiscriminator() + " ID: " + user.getId());
 
         // Get ID
-        TextChannel channel = event.getGuild().getTextChannelById(Util.findChannel("welcome", event.getGuild()));
+        TextChannel channel = null;
 
         String sql = "SELECT leave_ch FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
         try {
