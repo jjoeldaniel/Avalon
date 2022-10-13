@@ -77,7 +77,7 @@ Go to:
 `/bank` Provides user bank balance
 
 
-<p id='mod'><strong>Moderation Commands</strong>*</p>
+<p id='mod'><strong>Moderation Commands</strong></p>
 
 `/purge`  Purges messages (up to 100)
 
