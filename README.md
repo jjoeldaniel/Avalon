@@ -24,7 +24,7 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 Go to:
 <a href='#general'>General</a>,
 <a href='#config'>Channel Config</a>,
-<a href='#starboard'>Starboard</a>
+<a href='#starboard'>Starboard</a>,
 <a href='#games'>Games</a>,
 <a href='#mod'>Moderation</a>,
 <a href='#music'>Music</a>
