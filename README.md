@@ -25,8 +25,8 @@ Go to:
 <a href='#general'>General</a>,
 <a href='#config'>Channel Config</a>,
 <a href='#starboard'>Starboard</a>
-<a href='#games'>Games</a>
-<a href='#mod'>Moderation</a>
+<a href='#games'>Games</a>,
+<a href='#mod'>Moderation</a>,
 <a href='#music'>Music</a>
 
 <p id='general'><strong>General Commands</strong></p>
