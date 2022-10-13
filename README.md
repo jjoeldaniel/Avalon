@@ -29,7 +29,7 @@ Go to:
 <a href='#mod'>Moderation</a>
 <a href='#music'>Music</a>
 
-<p id='general'>**General Commands**</p>
+<p id='general'><strong>General Commands</strong></p>
 
 `/help`  Lists commands
 
@@ -53,7 +53,7 @@ Go to:
 
 `/leave`  Request for bot to leave VC
 
-<p id='config'>**Channel Configuration**</p>
+<p id='config'><strong>Channel Configuration</strong></p>
 
 `/set_join` Sets channel for join messages
 
@@ -63,21 +63,21 @@ Go to:
 
 `/set_confess` Sets channel for Starboard
 
-<p id='starboard'>**Starboard**</p>
+<p id='starboard'><strong>Starboard</strong></p>
 
 `/star_limit` Sets required number of stars to be posted on Starboard
 
 `/star_self` Determines if users can star their own posts
 
 
-<p id='games'>**Games**</p>
+<p id='games'><strong>Games</strong></p>
 
 `/blackjack` Starts a game of Blackjack
 
 `/bank` Provides user bank balance
 
 
-<p id='mod'>**Moderation Commands**</p>
+<p id='mod'><strong>Moderation Commands</strong>*</p>
 
 `/purge`  Purges messages (up to 100)
 
@@ -88,7 +88,7 @@ Go to:
 `/toggle`  Toggles Avalon features
 
 
-<p id='music'>**Music Commands**</p>
+<p id='music'><strong>Music Commands</strong></p>
 
 `/play`  Plays YouTube and Spotify links
 
