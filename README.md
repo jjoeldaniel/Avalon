@@ -21,7 +21,15 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 ## Commands List
 
-**General Commands**
+Go to:
+<a href='#general'>General</a>,
+<a href='#config'>Channel Config</a>,
+<a href='#starboard'>Starboard</a>
+<a href='#games'>Games</a>
+<a href='#mod'>Moderation</a>
+<a href='#music'>Music</a>
+
+<p id='general'>**General Commands**</p>
 
 `/help`  Lists commands
 
@@ -45,7 +53,7 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 `/leave`  Request for bot to leave VC
 
-**Channel Configuration**
+<p id='config'>**Channel Configuration**</p>
 
 `/set_join` Sets channel for join messages
 
@@ -55,21 +63,21 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 `/set_confess` Sets channel for Starboard
 
-**Starboard**
+<p id='starboard'>**Starboard**</p>
 
 `/star_limit` Sets required number of stars to be posted on Starboard
 
 `/star_self` Determines if users can star their own posts
 
 
-**Games**
+<p id='games'>**Games**</p>
 
 `/blackjack` Starts a game of Blackjack
 
 `/bank` Provides user bank balance
 
 
-**Moderation Commands**
+<p id='mod'>**Moderation Commands**</p>
 
 `/purge`  Purges messages (up to 100)
 
@@ -80,7 +88,7 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 `/toggle`  Toggles Avalon features
 
 
-**Music Commands**
+<p id='music'>**Music Commands**</p>
 
 `/play`  Plays YouTube and Spotify links
 
