@@ -17,7 +17,7 @@ public class ChannelSettings extends ListenerAdapter {
         if (event.getName().equals("set_join")) {
             event.deferReply().queue();
 
-            GuildChannelUnion channel = (event.getOption("channel")).getAsChannel();
+            GuildChannelUnion channel = event.getOption("channel").getAsChannel();
 
             TextChannel ch = channel.asTextChannel();
 
@@ -36,7 +36,7 @@ public class ChannelSettings extends ListenerAdapter {
         if (event.getName().equals("set_leave")) {
             event.deferReply().queue();
 
-            GuildChannelUnion channel = (event.getOption("channel")).getAsChannel();
+            GuildChannelUnion channel = event.getOption("channel").getAsChannel();
 
             TextChannel ch = channel.asTextChannel();
 
@@ -74,7 +74,7 @@ public class ChannelSettings extends ListenerAdapter {
         if (event.getName().equals("set_confess")) {
             event.deferReply().queue();
 
-            GuildChannelUnion channel = (event.getOption("channel")).getAsChannel();
+            GuildChannelUnion channel = event.getOption("channel").getAsChannel();
 
             TextChannel ch = channel.asTextChannel();;
 
