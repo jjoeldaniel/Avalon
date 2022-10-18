@@ -33,6 +33,7 @@ public class GuildEvents extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
+        event.getJDA().retrieveUserById("205862976689799168").complete();
         Console.info("Active Bot: " + event.getJDA().getSelfUser().getName());
     }
 
@@ -221,8 +222,6 @@ public class GuildEvents extends ListenerAdapter {
         if (event.getMessage().getContentRaw().toLowerCase().contains("joel")) {
             if (event.isFromType(ChannelType.TEXT)) {
                 final String id = "205862976689799168";
-
-                event.getJDA().retrieveUserById(id).complete();
                 final User joel = event.getJDA().getUserById(id);
 
                 if (event.getAuthor().getId().equals(id) || event.getAuthor().isBot()) return;
