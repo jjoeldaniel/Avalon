@@ -3,3 +3,9 @@
 
 # ignore .idea/
 /.idea/
+
+*.class
+
+*.properties
+
+*.sqlite
