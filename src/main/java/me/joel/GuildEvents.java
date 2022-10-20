@@ -82,7 +82,7 @@ public class GuildEvents extends ListenerAdapter {
             conn.createStatement().execute(sql);
             conn.createStatement().execute(sql2);
          } catch (SQLException e) {
-            Console.warn("Failed to initialize guild settings");
+            Console.warn("Failed to first-time-initialize guild settings");
         }
     }
 
