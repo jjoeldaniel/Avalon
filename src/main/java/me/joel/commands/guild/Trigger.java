@@ -7,9 +7,9 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.utils.TimeFormat;
 import org.jetbrains.annotations.NotNull;
@@ -27,31 +27,35 @@ public class Trigger extends ListenerAdapter {
     // User ID : Trigger
     static HashMap<String, String> triggers = new HashMap<>();
 
-//    @Override
-//    public void onGuildReady(@NotNull GuildReadyEvent event) {
-//        // TODO: Initialize trigger on bot start from DB
-//
-//        String sql = "SELECT * FROM triggers";
-//
-//        try {
-//            ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
-//            int i = 1;
-//
-//            while (set.next()) {
-//                String id = set.getString(i);
-//                set.next();
-//
-//                String message = set.getString(i);
-//                set.previous();
-//
-//                i++;
-//            }
-//
-//        } catch (SQLException e) {
-//            Console.warn("Unable to initialize Triggers");
-//            e.printStackTrace();
-//        }
-//    }
+    @Override
+    public void onReady(@NotNull ReadyEvent event) {
+        // TODO: Initialize trigger on bot start from DB
+
+        String sql = "SELECT * FROM triggers";
+
+        try {
+            ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
+            int size = 1000;
+
+            try {
+                set.next();
+                for (int i = 1; i < size; i++) {
+                    String id = set.getString(1);
+                    String message = set.getString(2);
+                    set.next();
+
+                    Console.log(id + " : " + message);
+
+                    triggers.put(id, message);
+                }
+            }
+            catch (Exception ignore) {}
+
+        } catch (SQLException e) {
+            Console.warn("Unable to initialize Triggers");
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -95,10 +99,13 @@ public class Trigger extends ListenerAdapter {
 
             // True if ID contains value matching message
             if (triggers.get(id).equals(trigger) && (event.getGuild().getMemberById(id) != null)) {
+                event.getGuild().retrieveMemberById(id).complete();
                 user = event.getGuild().getMemberById(id).getUser();
 
                 // If message is from user
 //                if (event.getMember().getUser() == user) continue;
+
+                // View Permission check
 
                 // Embed
                 EmbedBuilder builder = new EmbedBuilder();
