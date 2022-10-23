@@ -58,31 +58,57 @@ public class Trigger extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (event.getName().equals("trigger")) {
-            String triggerWord = event.getOption("word").getAsString().toLowerCase();
-            String id = event.getUser().getId();
+        if (event.getName().equals("trigger"))
+        {
+            if (event.getSubcommandName().equals("new"))
+            {
+                String triggerWord = event.getOption("word").getAsString().toLowerCase();
+                String id = event.getUser().getId();
 
-            triggers.put(id, triggerWord);
+                triggers.put(id, triggerWord);
 
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setColor(Color.green)
-                    .setDescription("Trigger set!");
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.green)
+                        .setDescription("Trigger set!");
 
-            try {
-                String sql = "REPLACE INTO triggers(user_id, trigger_word) values ('" + id + "', '" + triggerWord + "')";
-                Database.getConnect().createStatement().execute(sql);
+                try {
+                    String sql = "REPLACE INTO triggers(user_id, trigger_word) values ('" + id + "', '" + triggerWord + "')";
+                    Database.getConnect().createStatement().execute(sql);
 
-            } catch (SQLException e) {
-                Console.warn("Unable to add Triggers");
-                e.printStackTrace();
+                } catch (SQLException e) {
+                    Console.warn("Unable to add Triggers");
+                    e.printStackTrace();
 
-                builder.setDescription("Failed to set trigger, try again!");
-                builder.setColor(Color.red);
+                    builder.setDescription("Failed to set trigger, try again!");
+                    builder.setColor(Color.red);
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                return;
             }
+            else if (event.getSubcommandName().equals("reset"))
+            {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.red)
+                        .setDescription("Trigger deleted!");
 
-            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                try {
+                    String sql = "DELETE FROM triggers WHERE user_id=" + event.getUser().getId();
+                    Database.getConnect().createStatement().execute(sql);
+
+                } catch (SQLException e) {
+                    Console.warn("Unable to delete Triggers");
+                    e.printStackTrace();
+
+                    builder.setDescription("Failed to delete trigger, try again!");
+                    builder.setColor(Color.red);
+                    event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                    return;
+                }
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
         }
     }
 
@@ -90,7 +116,7 @@ public class Trigger extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         if (!event.isFromGuild() || event.getMember() == null || event.getMember().getUser().isBot()) return;
 
-        String trigger = event.getMessage().getContentRaw();
+        String trigger = event.getMessage().getContentRaw().toLowerCase();
         User user;
 
         // Check if contains trigger word for user

@@ -55,10 +55,13 @@ public class Register extends ListenerAdapter {
         List<CommandData> guildCommandData = new ArrayList<>();
 
         // general
+        SubcommandData reset = new SubcommandData("reset", "Removes trigger");
+        SubcommandData new_trigger = new SubcommandData("new", "Add/Replace trigger").addOption(OptionType.STRING, "word", "Trigger word", true);
+
         guildCommandData.add(Commands.slash("whois", "Provides user information").addOption(OptionType.MENTIONABLE, "user", "Sends user info", true));
         guildCommandData.add(Commands.slash("afk", "Sets AFK status"));
         guildCommandData.add(Commands.slash("confess", "Sends anonymous confession").addOption(OptionType.STRING, "message", "Confession message", true));
-        guildCommandData.add(Commands.slash("trigger", "Receive a DM when trigger word is mentioned in mutual servers").addOption(OptionType.STRING, "word", "Trigger word", true));
+        guildCommandData.add(Commands.slash("trigger", "Receive a DM when trigger word is mentioned in mutual servers").addSubcommands(new_trigger, reset));
         guildCommandData.add(Commands.slash("join", "Request for bot to join VC"));
         guildCommandData.add(Commands.slash("leave", "Request for bot to leave VC"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member avatar"));
@@ -73,7 +76,6 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.slash("purge", "Purges up to 100 messages").addOption(OptionType.INTEGER, "number", "Number of messages to purge", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
 
         // server config
-
         // toggle
         SubcommandData insults = new SubcommandData("insults", "Toggles insults");
         SubcommandData gmgn = new SubcommandData("goodmorning_goodnight", "Toggles good morning and goodnight messages");
