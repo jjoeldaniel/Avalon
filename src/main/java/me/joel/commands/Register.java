@@ -58,6 +58,7 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.slash("whois", "Provides user information").addOption(OptionType.MENTIONABLE, "user", "Sends user info", true));
         guildCommandData.add(Commands.slash("afk", "Sets AFK status"));
         guildCommandData.add(Commands.slash("confess", "Sends anonymous confession").addOption(OptionType.STRING, "message", "Confession message", true));
+        guildCommandData.add(Commands.slash("trigger", "Receive a DM when trigger word is mentioned in mutual servers").addOption(OptionType.STRING, "word", "Trigger word", true));
         guildCommandData.add(Commands.slash("join", "Request for bot to join VC"));
         guildCommandData.add(Commands.slash("leave", "Request for bot to leave VC"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member avatar"));

@@ -64,7 +64,8 @@ public class Avalon {
                         new Toggle(),
                         new Mock(),
                         new ChannelSettings(),
-                        new Starboard()
+                        new Starboard(),
+                        new Trigger()
                 )
                 // Music
                 .addEventListeners(
