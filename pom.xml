@@ -15,7 +15,7 @@
             <url>https://m2.dv8tion.net/releases</url>
         </repository>
         <repository>
-            <id>jitpack</id>
+            <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
@@ -67,8 +67,8 @@
             <version>2.0.3</version>
         </dependency>
         <dependency>
-            <groupId>com.github.TopiSenpai.LavaSrc</groupId>
-            <artifactId>lavasrc</artifactId>
+            <groupId>com.github.TopiSenpai</groupId>
+            <artifactId>LavaSrc</artifactId>
             <version>3.1.1</version>
         </dependency>
     </dependencies>
