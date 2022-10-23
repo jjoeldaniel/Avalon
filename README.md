@@ -53,6 +53,8 @@ Go to:
 
 `/leave`  Request for bot to leave VC
 
+`/trigger` Configures auto DM on set trigger word
+
 <p id='config'><strong>Channel Configuration</strong></p>
 
 `/set_join` Sets channel for join messages
