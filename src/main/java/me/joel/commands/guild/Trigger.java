@@ -31,8 +31,6 @@ public class Trigger extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        // TODO: Initialize trigger on bot start from DB
-
         String sql = "SELECT * FROM triggers";
 
         try {
