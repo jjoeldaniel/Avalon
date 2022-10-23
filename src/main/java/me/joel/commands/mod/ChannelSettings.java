@@ -33,6 +33,25 @@ public class ChannelSettings extends ListenerAdapter {
             event.getHook().sendMessage("Join channel set to: " + ch.getAsMention()).queue();
         }
 
+        if (event.getName().equals("set_mod")) {
+            event.deferReply().queue();
+
+            GuildChannelUnion channel = event.getOption("channel").getAsChannel();
+
+            TextChannel ch = channel.asTextChannel();
+
+            String sql = "UPDATE guild_settings SET mod_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
+
+            try {
+                Database.getConnect().createStatement().execute(sql);
+            } catch (SQLException e) {
+                Console.warn("Failed to configure guild join channel");
+                e.printStackTrace();
+            }
+
+            event.getHook().sendMessage("Moderation channel set to: " + ch.getAsMention()).queue();
+        }
+
         if (event.getName().equals("set_leave")) {
             event.deferReply().queue();
 

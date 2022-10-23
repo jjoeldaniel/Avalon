@@ -88,6 +88,7 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.slash("set_leave", "Sets channel for leave messages").addOption(OptionType.CHANNEL, "channel", "Leave channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
         guildCommandData.add(Commands.slash("set_confess", "Sets channel for confession messages").addOption(OptionType.CHANNEL, "channel", "Confession channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
         guildCommandData.add(Commands.slash("set_star", "Sets channel for starboard").addOption(OptionType.CHANNEL, "channel", "Starboard channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
+        guildCommandData.add(Commands.slash("set_mod", "Sets moderation channel").addOption(OptionType.CHANNEL, "channel", "Mod channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
 
         guildCommandData.add(Commands.slash("star_limit", "Sets required number of stars to be posted on starboard").addOption(OptionType.INTEGER, "num", "Number of stars", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
         guildCommandData.add(Commands.slash("star_self", "Determines if users can star their own posts").addOption(OptionType.BOOLEAN, "can_star", "User ability to self star", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
