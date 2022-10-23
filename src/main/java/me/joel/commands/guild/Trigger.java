@@ -1,10 +1,13 @@
 package me.joel.commands.guild;
 
+import me.joel.Console;
+import me.joel.Database;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -12,6 +15,8 @@ import net.dv8tion.jda.api.utils.TimeFormat;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,6 +26,32 @@ public class Trigger extends ListenerAdapter {
 
     // User ID : Trigger
     static HashMap<String, String> triggers = new HashMap<>();
+
+//    @Override
+//    public void onGuildReady(@NotNull GuildReadyEvent event) {
+//        // TODO: Initialize trigger on bot start from DB
+//
+//        String sql = "SELECT * FROM triggers";
+//
+//        try {
+//            ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
+//            int i = 1;
+//
+//            while (set.next()) {
+//                String id = set.getString(i);
+//                set.next();
+//
+//                String message = set.getString(i);
+//                set.previous();
+//
+//                i++;
+//            }
+//
+//        } catch (SQLException e) {
+//            Console.warn("Unable to initialize Triggers");
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -33,6 +64,20 @@ public class Trigger extends ListenerAdapter {
             EmbedBuilder builder = new EmbedBuilder()
                     .setColor(Color.green)
                     .setDescription("Trigger set!");
+
+            try {
+                String sql = "REPLACE INTO triggers(user_id, trigger_word) values ('" + id + "', '" + triggerWord + "')";
+                Database.getConnect().createStatement().execute(sql);
+
+            } catch (SQLException e) {
+                Console.warn("Unable to add Triggers");
+                e.printStackTrace();
+
+                builder.setDescription("Failed to set trigger, try again!");
+                builder.setColor(Color.red);
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
+            }
 
             event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
