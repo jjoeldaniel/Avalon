@@ -44,7 +44,7 @@ public class Trigger extends ListenerAdapter {
                     String message = set.getString(2);
                     set.next();
 
-                    if (id.equals("null") || message.equals("null")) break;
+                    if (id.equals("null")) break;
                     triggers.put(id, message);
                 }
             }
