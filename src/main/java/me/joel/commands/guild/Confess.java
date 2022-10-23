@@ -4,8 +4,6 @@ import me.joel.Database;
 import me.joel.GuildEvents;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -14,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 
 public class Confess extends ListenerAdapter {
 
@@ -25,8 +22,19 @@ public class Confess extends ListenerAdapter {
 
         if (event.getGuild() == null) return;
 
-        if (invoke.equals("confess")) {
+        if (event.getSubcommandName() != null && event.getSubcommandName().equals("confession"))
+        {
+            int confession_number = event.getOption("number").getAsInt();
 
+            if (GuildEvents.confession_record.get(event.getGuild()).get(confession_number) == null) {
+                event.reply("Message #" + confession_number + " not found!").setEphemeral(true).queue();
+            }
+            else {
+                event.reply("Message #" + confession_number + " reported!").setEphemeral(true).queue();
+            }
+        }
+        else if (invoke.equals("confess"))
+        {
             String message = event.getOption("message").getAsString();
 
             // If message contains @role or @everyone
@@ -83,7 +91,8 @@ public class Confess extends ListenerAdapter {
             EmbedBuilder confessionPost = new EmbedBuilder()
                     .setTitle("Anonymous Confession #" + (++num))
                     .setDescription("\"" + message + "\"")
-                    .setColor(Util.randColor());
+                    .setColor(Util.randColor())
+                    .setFooter("Use /report " + num + " to report this confession!");
 
             // Submit message
             EmbedBuilder confessionSubmit = new EmbedBuilder()
