@@ -44,8 +44,7 @@ public class Trigger extends ListenerAdapter {
                     String message = set.getString(2);
                     set.next();
 
-                    Console.log(id + " : " + message);
-
+                    if (id.equals("null") || message.equals("null")) break;
                     triggers.put(id, message);
                 }
             }
@@ -60,7 +59,7 @@ public class Trigger extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (event.getName().equals("trigger")) {
-            String triggerWord = event.getOption("word").getAsString();
+            String triggerWord = event.getOption("word").getAsString().toLowerCase();
             String id = event.getUser().getId();
 
             triggers.put(id, triggerWord);
@@ -118,13 +117,13 @@ public class Trigger extends ListenerAdapter {
                 String link = event.getMessage().getJumpUrl();
 
                 // Spam Check
-                // Scans previous 100 messages and returns if message contained trigger word within 30 seconds
+                // Scans previous 100 messages and returns if message contained trigger word within 10 seconds
                 MessageHistory log = event.getChannel().getHistoryBefore(event.getMessageId(), 100).complete();
 
                 for (var message : log.getRetrievedHistory()) {
                     if (message.getContentRaw().contains(trigger)) {
                         long time_diff = event.getMessage().getTimeCreated().toEpochSecond() - message.getTimeCreated().toEpochSecond();
-                        if (time_diff <= 30) return;
+                        if (time_diff <= 10) return;
                     }
                 }
 
