@@ -116,6 +116,7 @@ public class Help extends ListenerAdapter {
                             `/trigger` Configures auto DM on set trigger word
                             `/afk`  Sets AFK status
                             `/confess` Sends anonymous confession
+                            `/report confession` Report a confession by its confession number
                             `/8ball`   Asks the magic 8ball a question""", false);
             case 2 -> builder = new EmbedBuilder()
                     .setColor(Util.randColor())

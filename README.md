@@ -49,6 +49,8 @@ Go to:
 
 `/confess`  Sends anonymous confession (Requires confession channel)
 
+`/report confession` Report a confession by its confession number
+
 `/join`  Request for bot to join VC
 
 `/leave`  Request for bot to leave VC
