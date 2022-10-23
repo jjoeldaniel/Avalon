@@ -61,9 +61,9 @@ Go to:
 
 `/set_leave` Sets channel for leave messages
 
-`/set_leave` Sets channel for confession messages
+`/set_confess` Sets channel for confession messages
 
-`/set_confess` Sets channel for Starboard
+`/set_star` Sets channel for Starboard
 
 <p id='starboard'><strong>Starboard</strong></p>
 

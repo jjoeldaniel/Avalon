@@ -151,8 +151,8 @@ public class Help extends ListenerAdapter {
                     .addField("Server Configuration", """
                             `/set_join` Sets channel for join messages
                             `/set_leave` Sets channel for leave messages
-                            `/set_leave` Sets channel for confession messages
-                            `/set_confess` Sets channel for Starboard
+                            `/set_confess` Sets channel for confession messages
+                            `/set_star` Sets channel for Starboard
                             
                             `/toggle insults` Toggle insults
                             `/toggle goodmorning_goodnight` Toggles good morning and goodnight replies
