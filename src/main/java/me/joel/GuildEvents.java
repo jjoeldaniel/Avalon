@@ -3,33 +3,28 @@ package me.joel;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.audit.ActionType;
 import net.dv8tion.jda.api.audit.AuditLogEntry;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageHistory;
-import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.utils.TimeFormat;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class GuildEvents extends ListenerAdapter {
+
+    // Guild : HashMap<Message, Member>
+    public static HashMap<Guild, HashMap<Integer, Member>> confession_record = new HashMap<>();
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
@@ -116,6 +111,11 @@ public class GuildEvents extends ListenerAdapter {
             Console.warn("Failed to initialize guild settings");
             e.printStackTrace();
         }
+
+        // Initialize confessions
+        HashMap<Integer, Member> map = new HashMap<>();
+        confession_record.put(event.getGuild(), map);
+
     }
 
     @Override

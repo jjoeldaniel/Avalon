@@ -1,8 +1,11 @@
 package me.joel.commands.guild;
 
 import me.joel.Database;
+import me.joel.GuildEvents;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -11,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class Confess extends ListenerAdapter {
 
@@ -72,11 +76,12 @@ public class Confess extends ListenerAdapter {
                 return;
             }
 
-            // Channel found
+            // Get list of confession messages
+            int num = GuildEvents.confession_record.get(event.getGuild()).size();
 
             // Confession Post
             EmbedBuilder confessionPost = new EmbedBuilder()
-                    .setTitle("Anonymous Confession")
+                    .setTitle("Anonymous Confession #" + (++num))
                     .setDescription("\"" + message + "\"")
                     .setColor(Util.randColor());
 
@@ -86,7 +91,10 @@ public class Confess extends ListenerAdapter {
                     .setDescription("\"" + message + "\"")
                     .setColor(Color.green);
 
-            channel.sendMessageEmbeds(confessionPost.build()).queue();
+            int finalNum = num;
+            channel.sendMessageEmbeds(confessionPost.build()).queue(message1 -> {
+                GuildEvents.confession_record.get(event.getGuild()).put(finalNum, event.getMember());
+                    });
             event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();
         }
     }
