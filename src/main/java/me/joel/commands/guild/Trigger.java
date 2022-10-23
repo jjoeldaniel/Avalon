@@ -4,6 +4,8 @@ import me.joel.Console;
 import me.joel.Database;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.entities.User;
@@ -105,6 +107,8 @@ public class Trigger extends ListenerAdapter {
                 if (event.getMember().getUser() == user) continue;
 
                 // View Permission check
+                Member member = event.getGuild().getMemberById(id);
+                if (!member.hasPermission(event.getGuildChannel(), Permission.VIEW_CHANNEL)) return;
 
                 // Embed
                 EmbedBuilder builder = new EmbedBuilder();
