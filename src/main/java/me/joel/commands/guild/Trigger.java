@@ -89,7 +89,7 @@ public class Trigger extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if (!event.isFromGuild() || event.getMember().getUser().isBot()) return;
+        if (!event.isFromGuild() || event.getMember() == null || event.getMember().getUser().isBot()) return;
 
         String trigger = event.getMessage().getContentRaw();
         User user;
@@ -103,7 +103,7 @@ public class Trigger extends ListenerAdapter {
                 user = event.getGuild().getMemberById(id).getUser();
 
                 // If message is from user
-//                if (event.getMember().getUser() == user) continue;
+                if (event.getMember().getUser() == user) continue;
 
                 // View Permission check
 
