@@ -65,6 +65,8 @@ Go to:
 
 `/set_confess` Sets channel for confession messages
 
+`/set_mod` Sets channel for moderation messages
+
 `/set_star` Sets channel for Starboard
 
 <p id='starboard'><strong>Starboard</strong></p>
