@@ -24,7 +24,32 @@ public class Confess extends ListenerAdapter {
 
         if (event.getSubcommandName() != null && event.getSubcommandName().equals("confession"))
         {
+            TextChannel channel = null;
             int confession_number = event.getOption("number").getAsInt();
+
+            try {
+                String sql = "SELECT mod_ch FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
+                ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
+                String channelID = set.getString(1);
+
+                if (channelID != null) {
+                    channel = event.getGuild().getTextChannelById(channelID);
+                }
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            // No channel Found
+            if (channel == null) {
+                EmbedBuilder error = new EmbedBuilder()
+                        .setTitle("Error!")
+                        .setDescription("Your servers moderators haven't configured the bot yet!")
+                        .setColor(Color.red);
+
+                event.replyEmbeds(error.build()).setEphemeral(true).queue();
+                return;
+            }
 
             if (GuildEvents.confession_record.get(event.getGuild()).get(confession_number) == null) {
                 event.reply("Message #" + confession_number + " not found!").setEphemeral(true).queue();
@@ -32,6 +57,9 @@ public class Confess extends ListenerAdapter {
             else {
                 event.reply("Message #" + confession_number + " reported!").setEphemeral(true).queue();
             }
+
+            // TODO: Send report
+
         }
         else if (invoke.equals("confess"))
         {
