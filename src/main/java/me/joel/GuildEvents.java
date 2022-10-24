@@ -23,8 +23,8 @@ import java.util.concurrent.TimeUnit;
 
 public class GuildEvents extends ListenerAdapter {
 
-    // Guild : HashMap<Message, Member>
     public static HashMap<Guild, HashMap<Integer, Member>> confession_record = new HashMap<>();
+    public static HashMap<Guild, HashMap<Integer, String>> message_record = new HashMap<>();
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
@@ -116,6 +116,8 @@ public class GuildEvents extends ListenerAdapter {
         HashMap<Integer, Member> map = new HashMap<>();
         confession_record.put(event.getGuild(), map);
 
+        HashMap<Integer, String> map2 = new HashMap<>();
+        message_record.put(event.getGuild(), map2);
     }
 
     @Override

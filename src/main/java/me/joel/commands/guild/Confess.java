@@ -51,14 +51,22 @@ public class Confess extends ListenerAdapter {
                 return;
             }
 
-            if (GuildEvents.confession_record.get(event.getGuild()).get(confession_number) == null) {
-                event.reply("Message #" + confession_number + " not found!").setEphemeral(true).queue();
-            }
-            else {
-                event.reply("Message #" + confession_number + " reported!").setEphemeral(true).queue();
-            }
+            // TODO: Add action buttons
+            String message = GuildEvents.message_record.get(event.getGuild()).get(confession_number);
 
-            // TODO: Send report
+            // Check if number exists
+            if (message == null) {
+                event.reply("Confession #" + confession_number + " not found!").setEphemeral(true).queue();
+                return;
+            }
+            event.reply("Confession #" + confession_number + " reported!").setEphemeral(true).queue();
+
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setColor(Color.red)
+                    .setTitle("Report")
+                    .addField("Confession #" + confession_number, "\"" + message + "\"", false);
+
+            channel.sendMessageEmbeds(builder.build()).queue();
 
         }
         else if (invoke.equals("confess"))
@@ -130,6 +138,7 @@ public class Confess extends ListenerAdapter {
 
             int finalNum = num;
             channel.sendMessageEmbeds(confessionPost.build()).queue(message1 -> {
+                GuildEvents.message_record.get(event.getGuild()).put(finalNum, message);
                 GuildEvents.confession_record.get(event.getGuild()).put(finalNum, event.getMember());
                     });
             event.replyEmbeds(confessionSubmit.build()).setEphemeral(true).queue();
