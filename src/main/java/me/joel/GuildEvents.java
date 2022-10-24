@@ -28,7 +28,6 @@ public class GuildEvents extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        event.getJDA().retrieveUserById("205862976689799168").complete();
         Console.info("Active Bot: " + event.getJDA().getSelfUser().getName());
     }
 
