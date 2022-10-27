@@ -3,7 +3,7 @@
 
 Avalon is a Discord bot that includes music, moderation, utility, react-messages, and various fun commands! 
 
-![Image of floating island with river](https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256)
+<img width="512" src="https://github.com/jjoeldaniel/periodicallyprogramming/blob/main/img/avalon.png?raw=true" alt="floating island">
  
  ## **FAQ**
  
