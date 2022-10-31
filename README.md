@@ -23,8 +23,7 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
 
 Go to:
 <a href='#general'>General</a>,
-<a href='#config'>Channel Config</a>,
-<a href='#starboard'>Starboard</a>,
+<a href='#config'>Configuration</a>,
 <a href='#games'>Games</a>,
 <a href='#mod'>Moderation</a>,
 <a href='#music'>Music</a>
@@ -57,11 +56,9 @@ Go to:
 
 `/trigger` Configures auto DM on set trigger word
 
-<p id='config'><strong>Channel Configuration</strong></p>
+<p id='config'><strong>Configuration</strong></p>
 
 `/set` Configure channel settings
-
-<p id='starboard'><strong>Starboard</strong></p>
 
 `/star_limit` Sets required number of stars to be posted on Starboard
 
