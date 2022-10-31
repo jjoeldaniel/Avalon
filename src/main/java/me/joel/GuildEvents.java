@@ -33,11 +33,19 @@ public class GuildEvents extends ListenerAdapter {
 
     @Override
     public void onGuildLeave(@NotNull GuildLeaveEvent event) {
+        User owner = event.getGuild().getOwner().getUser();
+        Console.line();
         Console.info("Left server: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
+        Console.info("Owner: " + owner.getName() +"#" + owner.getDiscriminator() + " ID: " + owner.getId());
+        Console.line();
     }
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
+        User owner = event.getGuild().getOwner().getUser();
+        Console.line();
         Console.info("Joined server: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
+        Console.info("Owner: " + owner.getName() +"#" + owner.getDiscriminator() + " ID: " + owner.getId());
+        Console.line();
 
         final String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot";
 
@@ -60,7 +68,6 @@ public class GuildEvents extends ListenerAdapter {
                 event.getGuild().getTextChannelById(generalID).sendMessageEmbeds(builder.build()).setActionRow(
                         Button.link(inviteLink, "Invite")).queue();
             }
-            else Console.warn("No system/general channel found for guild: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
         }
         else {
             channel.sendMessageEmbeds(builder.build()).setActionRow(
@@ -76,7 +83,10 @@ public class GuildEvents extends ListenerAdapter {
             conn.createStatement().execute(sql);
             conn.createStatement().execute(sql2);
          } catch (SQLException e) {
-            Console.warn("Failed to first-time-initialize guild settings");
+            Console.line();
+            Console.warn("Failed to first-time-initialize guild settings for guild: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
+            e.printStackTrace();
+            Console.line();
         }
     }
 
@@ -93,7 +103,7 @@ public class GuildEvents extends ListenerAdapter {
                 Database.getConnect().createStatement().execute(sql2);
             }
         } catch (SQLException e) {
-            Console.warn("Failed to initialize guild settings");
+            Console.warn("Failed to initialize guild settings for guild: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
             e.printStackTrace();
         }
 
@@ -107,7 +117,7 @@ public class GuildEvents extends ListenerAdapter {
                 Database.getConnect().createStatement().execute(sql2);
             }
         } catch (SQLException e) {
-            Console.warn("Failed to initialize guild settings");
+            Console.warn("Failed to initialize guild settings for guild: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
             e.printStackTrace();
         }
 
