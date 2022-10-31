@@ -38,4 +38,8 @@ public class Console {
         System.out.println("[WARN] " + text + " : " + object);
     }
 
+    public static void line() {
+        System.out.println("----------------------------------------");
+    }
+
 }
