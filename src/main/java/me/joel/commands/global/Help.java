@@ -150,11 +150,7 @@ public class Help extends ListenerAdapter {
                     .setTitle("Avalon Commands")
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("Server Configuration", """
-                            `/set_join` Sets channel for join messages
-                            `/set_leave` Sets channel for leave messages
-                            `/set_confess` Sets channel for confession messages
-                            `/set_mod` Sets channel for moderation messages
-                            `/set_star` Sets channel for Starboard
+                            `/set` Configure channel settings
                             
                             `/toggle insults` Toggle insults
                             `/toggle goodmorning_goodnight` Toggles good morning and goodnight replies

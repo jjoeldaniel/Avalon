@@ -59,15 +59,7 @@ Go to:
 
 <p id='config'><strong>Channel Configuration</strong></p>
 
-`/set_join` Sets channel for join messages
-
-`/set_leave` Sets channel for leave messages
-
-`/set_confess` Sets channel for confession messages
-
-`/set_mod` Sets channel for moderation messages
-
-`/set_star` Sets channel for Starboard
+`/set` Configure channel settings
 
 <p id='starboard'><strong>Starboard</strong></p>
 
