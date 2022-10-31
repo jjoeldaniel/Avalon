@@ -38,7 +38,6 @@ public class Broadcast extends ListenerAdapter {
             // Embed
             EmbedBuilder builder = new EmbedBuilder()
                     .setTitle("Message sent!")
-                    .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
                     .setColor(Color.green)
                     .setDescription("\"" + message + "\"");
 
