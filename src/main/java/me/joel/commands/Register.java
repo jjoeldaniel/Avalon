@@ -54,6 +54,13 @@ public class Register extends ListenerAdapter {
     private static List<CommandData> guildCommands() {
         List<CommandData> guildCommandData = new ArrayList<>();
 
+        // Set subcommands
+        SubcommandData join = new SubcommandData("join", "Sets channel for join messages").addOption(OptionType.CHANNEL, "channel", "Join channel", true);
+        SubcommandData mod = new SubcommandData("mod", "Sets channel for leave messages").addOption(OptionType.CHANNEL, "channel", "Mod channel", true);
+        SubcommandData leave = new SubcommandData("leave", "Sets channel for leave messages").addOption(OptionType.CHANNEL, "channel", "Leave channel", true);
+        SubcommandData confess = new SubcommandData("confess", "Sets channel for confession messages").addOption(OptionType.CHANNEL, "channel", "Confess channel", true);
+        SubcommandData star = new SubcommandData("star", "Sets channel for starboard").addOption(OptionType.CHANNEL, "channel", "Star channel", true);
+
         // general
         SubcommandData reset = new SubcommandData("reset", "Removes trigger");
         SubcommandData new_trigger = new SubcommandData("new", "Add/Replace trigger").addOption(OptionType.STRING, "word", "Trigger word", true);
@@ -84,11 +91,7 @@ public class Register extends ListenerAdapter {
         SubcommandData nowPlaying = new SubcommandData("now_playing", "Toggles Now Playing messages");
         guildCommandData.add(Commands.slash("toggle", "Toggles bot features").addSubcommands(insults, gmgn, nowPlaying).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
 
-        guildCommandData.add(Commands.slash("set_join", "Sets channel for join messages").addOption(OptionType.CHANNEL, "channel", "Join channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
-        guildCommandData.add(Commands.slash("set_leave", "Sets channel for leave messages").addOption(OptionType.CHANNEL, "channel", "Leave channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
-        guildCommandData.add(Commands.slash("set_confess", "Sets channel for confession messages").addOption(OptionType.CHANNEL, "channel", "Confession channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
-        guildCommandData.add(Commands.slash("set_star", "Sets channel for starboard").addOption(OptionType.CHANNEL, "channel", "Starboard channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
-        guildCommandData.add(Commands.slash("set_mod", "Sets moderation channel").addOption(OptionType.CHANNEL, "channel", "Mod channel", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
+        guildCommandData.add(Commands.slash("set", "Configure bot settings").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)).addSubcommands(join, mod, leave, confess, star));
 
         guildCommandData.add(Commands.slash("star_limit", "Sets required number of stars to be posted on starboard").addOption(OptionType.INTEGER, "num", "Number of stars", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
         guildCommandData.add(Commands.slash("star_self", "Determines if users can star their own posts").addOption(OptionType.BOOLEAN, "can_star", "User ability to self star", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));

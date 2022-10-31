@@ -14,99 +14,76 @@ public class ChannelSettings extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (event.getName().equals("set_join")) {
+        if (event.getName().equals("set")) {
             event.deferReply().queue();
 
-            GuildChannelUnion channel = event.getOption("channel").getAsChannel();
+            var sub_invoke = event.getSubcommandName();
 
+            GuildChannelUnion channel = event.getOption("channel").getAsChannel();
             TextChannel ch = channel.asTextChannel();
 
-            String sql = "UPDATE guild_settings SET join_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
+            switch (sub_invoke) {
+                case "join" -> {
+                    String sql = "UPDATE guild_settings SET join_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
 
-            try {
-                Database.getConnect().createStatement().execute(sql);
-            } catch (SQLException e) {
-                Console.warn("Failed to configure guild join channel");
-                e.printStackTrace();
+                    try {
+                        Database.getConnect().createStatement().execute(sql);
+                    } catch (SQLException e) {
+                        Console.warn("Failed to configure guild join channel");
+                        e.printStackTrace();
+                    }
+
+                    event.getHook().sendMessage("Join channel set to: " + ch.getAsMention()).queue();
+                }
+                case "mod" -> {
+                    String sql = "UPDATE guild_settings SET mod_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
+
+                    try {
+                        Database.getConnect().createStatement().execute(sql);
+                    } catch (SQLException e) {
+                        Console.warn("Failed to configure guild join channel");
+                        e.printStackTrace();
+                    }
+
+                    event.getHook().sendMessage("Moderation channel set to: " + ch.getAsMention()).queue();
+                }
+                case "leave" -> {
+                    String sql = "UPDATE guild_settings SET leave_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
+
+                    try {
+                        Database.getConnect().createStatement().execute(sql);
+                    } catch (SQLException e) {
+                        Console.warn("Failed to configure guild leave channel");
+                        e.printStackTrace();
+                    }
+
+                    event.getHook().sendMessage("Leave channel set to: " + ch.getAsMention()).queue();
+                }
+                case "star" -> {
+                    String sql = "UPDATE starboard_settings SET starboard_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
+
+                    try {
+                        Database.getConnect().createStatement().execute(sql);
+                    } catch (SQLException e) {
+                        Console.warn("Failed to configure guild starboard channel");
+                        e.printStackTrace();
+                    }
+
+                    event.getHook().sendMessage("Starboard channel set to: " + ch.getAsMention()).queue();
+                }
+                case "confess" -> {
+                    String sql = "UPDATE guild_settings SET confession_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
+
+                    try {
+                        Database.getConnect().createStatement().execute(sql);
+                    } catch (SQLException e) {
+                        Console.warn("Failed to configure guild confession channel");
+                        e.printStackTrace();
+                    }
+
+                    event.getHook().sendMessage("Confession channel set to: " + ch.getAsMention()).queue();
+                }
             }
-
-            event.getHook().sendMessage("Join channel set to: " + ch.getAsMention()).queue();
-        }
-
-        if (event.getName().equals("set_mod")) {
-            event.deferReply().queue();
-
-            GuildChannelUnion channel = event.getOption("channel").getAsChannel();
-
-            TextChannel ch = channel.asTextChannel();
-
-            String sql = "UPDATE guild_settings SET mod_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
-
-            try {
-                Database.getConnect().createStatement().execute(sql);
-            } catch (SQLException e) {
-                Console.warn("Failed to configure guild join channel");
-                e.printStackTrace();
-            }
-
-            event.getHook().sendMessage("Moderation channel set to: " + ch.getAsMention()).queue();
-        }
-
-        if (event.getName().equals("set_leave")) {
-            event.deferReply().queue();
-
-            GuildChannelUnion channel = event.getOption("channel").getAsChannel();
-
-            TextChannel ch = channel.asTextChannel();
-
-            String sql = "UPDATE guild_settings SET leave_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
-
-            try {
-                Database.getConnect().createStatement().execute(sql);
-            } catch (SQLException e) {
-                Console.warn("Failed to configure guild leave channel");
-                e.printStackTrace();
-            }
-
-            event.getHook().sendMessage("Leave channel set to: " + ch.getAsMention()).queue();
-        }
-
-        if (event.getName().equals("set_star")) {
-            event.deferReply().queue();
-
-            GuildChannelUnion channel = (event.getOption("channel")).getAsChannel();
-
-            TextChannel ch = channel.asTextChannel();;
-
-            String sql = "UPDATE starboard_settings SET starboard_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
-
-            try {
-                Database.getConnect().createStatement().execute(sql);
-            } catch (SQLException e) {
-                Console.warn("Failed to configure guild starboard channel");
-                e.printStackTrace();
-            }
-
-            event.getHook().sendMessage("Starboard channel set to: " + ch.getAsMention()).queue();
-        }
-
-        if (event.getName().equals("set_confess")) {
-            event.deferReply().queue();
-
-            GuildChannelUnion channel = event.getOption("channel").getAsChannel();
-
-            TextChannel ch = channel.asTextChannel();;
-
-            String sql = "UPDATE guild_settings SET confession_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
-
-            try {
-                Database.getConnect().createStatement().execute(sql);
-            } catch (SQLException e) {
-                Console.warn("Failed to configure guild confession channel");
-                e.printStackTrace();
-            }
-
-            event.getHook().sendMessage("Confession channel set to: " + ch.getAsMention()).queue();
         }
     }
 }
