@@ -3,7 +3,7 @@
 
 Avalon is a Discord bot that includes music, moderation, utility, react-messages, and various fun commands! 
 
-<img width="512" src="https://github.com/jjoeldaniel/periodicallyprogramming/blob/main/img/avalon.png?raw=true" alt="floating island">
+<img width="256" src="https://github.com/jjoeldaniel/periodicallyprogramming/blob/main/img/avalon.png?raw=true" alt="floating island">
  
  ## **FAQ**
  
@@ -13,7 +13,7 @@ Avalon is a Discord bot that includes music, moderation, utility, react-messages
     
  ### **2) What functions does Avalon provide?**
  
-   Avalon currently supports Music (Spotify, Apple Music, and YouTube), Translation (only to English, sorry!) , Moderation commands (purge , broadcast), Utility commands (ping, av, afk) and Fun commands (8ball, truth or dare).
+   Avalon currently supports Music (Spotify, Apple Music, and YouTube), Translation (only to English, sorry!), Moderation commands (purge , broadcast), Utility commands (ping, av, afk) and Fun commands (Blackjack, 8ball, truth or dare).
 
  ### **3) What permissions does Avalon require?**
  
