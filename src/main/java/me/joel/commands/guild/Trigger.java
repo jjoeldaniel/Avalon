@@ -153,7 +153,7 @@ public class Trigger extends ListenerAdapter {
                 for (var message : log.getRetrievedHistory()) {
                     if (message.getContentRaw().contains(trigger)) {
                         long time_diff = event.getMessage().getTimeCreated().toEpochSecond() - message.getTimeCreated().toEpochSecond();
-                        if (time_diff <= 5) return;
+                        if (time_diff <= 30) return;
                     }
                 }
 
