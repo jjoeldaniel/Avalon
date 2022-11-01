@@ -123,9 +123,11 @@ public class Trigger extends ListenerAdapter {
         for (String id : triggers.keySet()) {
 
             // True if ID contains value matching message
-            if (triggers.get(id).equals(trigger) && (event.getGuild().getMemberById(id) != null)) {
+            if (trigger.contains(triggers.get(id))) {
                 event.getGuild().retrieveMemberById(id).complete();
                 user = event.getGuild().getMemberById(id).getUser();
+
+                Console.debug("Trigger \"" + trigger +  "\" for user: " + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")");
 
                 // If message is from user
                 if (event.getMember().getUser() == user) continue;
@@ -151,7 +153,7 @@ public class Trigger extends ListenerAdapter {
                 for (var message : log.getRetrievedHistory()) {
                     if (message.getContentRaw().contains(trigger)) {
                         long time_diff = event.getMessage().getTimeCreated().toEpochSecond() - message.getTimeCreated().toEpochSecond();
-                        if (time_diff <= 10) return;
+                        if (time_diff <= 5) return;
                     }
                 }
 
