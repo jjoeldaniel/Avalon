@@ -117,7 +117,7 @@ public class GuildEvents extends ListenerAdapter {
                 Database.getConnect().createStatement().execute(sql2);
             }
         } catch (SQLException e) {
-            Console.warn("Failed to initialize guild settings for guild: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
+            Console.warn("Failed to initialize guild starboard settings for guild: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")");
             e.printStackTrace();
         }
 
