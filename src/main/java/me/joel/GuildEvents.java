@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.audit.AuditLogEntry;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
@@ -127,6 +128,19 @@ public class GuildEvents extends ListenerAdapter {
 
         HashMap<Integer, String> map2 = new HashMap<>();
         message_record.put(event.getGuild(), map2);
+    }
+
+    @Override
+    public void onMessageReceived(MessageReceivedEvent event) {
+        if (!event.isFromGuild() || event.getMessage().getMentions().getUsers().isEmpty()) return;
+
+        if (event.getMessage().getMentions().getUsers().contains(event.getJDA().getSelfUser()) && event.getMessage().getMentions().getUsers().size() == 1) {
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setColor(Util.randColor())
+                    .setDescription("Use /help for a list of my commands!");
+
+            event.getChannel().sendMessageEmbeds(builder.build()).queue();
+        }
     }
 
     @Override
