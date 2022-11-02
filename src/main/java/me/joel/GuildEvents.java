@@ -168,18 +168,6 @@ public class GuildEvents extends ListenerAdapter {
     @Override
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
 
-        User user = event.getUser();
-        EmbedBuilder memberLeave = new EmbedBuilder()
-                .setColor(Util.randColor())
-                .setTitle("A member has left!")
-                .setDescription
-                        (
-                         user.getAsMention() + " has left " + event.getGuild().getName() +
-                        "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
-                        )
-                .setThumbnail(user.getEffectiveAvatarUrl())
-                .setFooter("User: " + user.getName() +"#" + user.getDiscriminator() + " ID: " + user.getId());
-
         // Get ID
         TextChannel channel = null;
 
@@ -198,6 +186,18 @@ public class GuildEvents extends ListenerAdapter {
         }
 
         if (channel == null) return;
+
+        User user = event.getUser();
+        EmbedBuilder memberLeave = new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setTitle("A member has left!")
+                .setDescription
+                        (
+                         user.getAsMention() + " has left " + event.getGuild().getName() +
+                        "! There are now " + event.getGuild().getMemberCount() + " members in " + event.getGuild().getName() + "."
+                        )
+                .setThumbnail(user.getEffectiveAvatarUrl())
+                .setFooter("User: " + user.getName() +"#" + user.getDiscriminator() + " ID: " + user.getId());
 
         TextChannel finalChannel = channel;
         event.getGuild().retrieveAuditLogs().queueAfter(1, TimeUnit.SECONDS, (logs) -> {
