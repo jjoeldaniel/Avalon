@@ -56,7 +56,7 @@ public class Register extends ListenerAdapter {
 
         // Set subcommands
         SubcommandData join = new SubcommandData("join", "Sets channel for join messages").addOption(OptionType.CHANNEL, "channel", "Join channel", true);
-        SubcommandData mod = new SubcommandData("mod", "Sets channel for leave messages").addOption(OptionType.CHANNEL, "channel", "Mod channel", true);
+        SubcommandData mod = new SubcommandData("mod", "Sets channel for mod messages").addOption(OptionType.CHANNEL, "channel", "Mod channel", true);
         SubcommandData leave = new SubcommandData("leave", "Sets channel for leave messages").addOption(OptionType.CHANNEL, "channel", "Leave channel", true);
         SubcommandData confess = new SubcommandData("confess", "Sets channel for confession messages").addOption(OptionType.CHANNEL, "channel", "Confess channel", true);
         SubcommandData star = new SubcommandData("star", "Sets channel for starboard").addOption(OptionType.CHANNEL, "channel", "Star channel", true);
