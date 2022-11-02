@@ -1,4 +1,4 @@
-package me.joel.games.Blackjack;
+package me.joel.commands.games.Blackjack;
 
 import me.joel.Console;
 import me.joel.Database;

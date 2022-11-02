@@ -1,4 +1,4 @@
-package me.joel.games;
+package me.joel.commands.games;
 
 import me.joel.Console;
 import me.joel.Database;
