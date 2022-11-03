@@ -15,7 +15,20 @@ public class Database {
             getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS guild_settings(guild_id string UNIQUE,  confession_ch string, join_ch string, leave_ch string, mod_ch string, insults int, gm_gn int, now_playing int)");
             getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS starboard_settings(guild_id string UNIQUE,  starboard_ch string, star_limit int, star_self int)");
 
-            Console.info("Successfully initialized DB");
+            String sql =
+                    "SELECT name " +
+                    "FROM main.sqlite_master " +
+                    "WHERE type='table' " +
+                    "AND name='currency' OR name='guild_settings' OR name='starboard_settings' OR name='triggers'";
+            ResultSet set = getConnect().createStatement().executeQuery(sql);
+
+            int count = 0;
+            while (set.next()) {
+                count++;
+            }
+
+            if (count != 4) Console.info("Successfully initialized DB");
+
         } catch (SQLException e) {
             Console.warn("Failed to initialize DB");
             throw new RuntimeException(e);
