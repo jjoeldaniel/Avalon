@@ -5,50 +5,36 @@ import java.util.Date;
 
 public class Console {
 
-
-    public static void log(String text) {
+    /**
+     ** Current time + date
+     * @return 24hr time in HH:mm:ss and Date in M/d format
+     */
+    private static String getTime() {
         // returns current time in 24hr format
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String str = sdf.format(new Date());
 
-        sdf = new SimpleDateFormat("M/d");
+        sdf = new SimpleDateFormat("M/d/yy");
         String str2 = sdf.format(new Date());
 
-        System.out.println("[LOG] [" + str + " " + str2 + "] " + text);
+        return str + " | " + str2;
+    }
+
+    public static void log(String text) {
+        System.out.println("[LOG] [" + getTime() + "] " + text);
     }
 
     public static void info(String text) {
-        // returns current time in 24hr format
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        String str = sdf.format(new Date());
-
-        sdf = new SimpleDateFormat("M/d");
-        String str2 = sdf.format(new Date());
-
-        System.out.println("[INFO] [" + str + " " + str2 + "] " + text);
+        System.out.println("[INFO] [" + getTime() + "] " + text);
     }
 
 
     public static void debug(String text) {
-        // returns current time in 24hr format
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        String str = sdf.format(new Date());
-
-        sdf = new SimpleDateFormat("M/d");
-        String str2 = sdf.format(new Date());
-
-        System.out.println("[DEBUG] [" + str + " " + str2 + "] " + text);
+        System.out.println("[DEBUG] [" + getTime() + "] " + text);
     }
 
     public static void warn(String text) {
-        // returns current time in 24hr format
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        String str = sdf.format(new Date());
-
-        sdf = new SimpleDateFormat("M/d");
-        String str2 = sdf.format(new Date());
-
-        System.out.println("[WARN] [" + str + " " + str2 + "] " + text);
+        System.out.println("[WARN] [" + getTime() + "] " + text);
     }
 
     public static void line() {
