@@ -11,7 +11,10 @@ public class Console {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String str = sdf.format(new Date());
 
-        System.out.println("[LOG " + str + "] " + text);
+        sdf = new SimpleDateFormat("M/d");
+        String str2 = sdf.format(new Date());
+
+        System.out.println("[LOG " + str + " " + str2 + "] " + text);
     }
 
     public static void info(String text) {
@@ -19,7 +22,10 @@ public class Console {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String str = sdf.format(new Date());
 
-        System.out.println("[INFO " + str + "] " + text);
+        sdf = new SimpleDateFormat("M/d");
+        String str2 = sdf.format(new Date());
+
+        System.out.println("[INFO " + str + " " + str2 + "] " + text);
     }
 
 
@@ -28,7 +34,10 @@ public class Console {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String str = sdf.format(new Date());
 
-        System.out.println("[DEBUG " + str + "] " + text);
+        sdf = new SimpleDateFormat("M/d");
+        String str2 = sdf.format(new Date());
+
+        System.out.println("[DEBUG " + str + " " + str2 + "] " + text);
     }
 
     public static void warn(String text) {
@@ -36,7 +45,10 @@ public class Console {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String str = sdf.format(new Date());
 
-        System.out.println("[WARN " + str + "] " + text);
+        sdf = new SimpleDateFormat("M/d");
+        String str2 = sdf.format(new Date());
+
+        System.out.println("[WARN " + str + " " + str2 + "] " + text);
     }
 
     public static void line() {
