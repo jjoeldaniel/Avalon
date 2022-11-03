@@ -14,7 +14,7 @@ public class Console {
         sdf = new SimpleDateFormat("M/d");
         String str2 = sdf.format(new Date());
 
-        System.out.println("[LOG " + str + " " + str2 + "] " + text);
+        System.out.println("[LOG] [" + str + " " + str2 + "] " + text);
     }
 
     public static void info(String text) {
@@ -25,7 +25,7 @@ public class Console {
         sdf = new SimpleDateFormat("M/d");
         String str2 = sdf.format(new Date());
 
-        System.out.println("[INFO " + str + " " + str2 + "] " + text);
+        System.out.println("[INFO] [" + str + " " + str2 + "] " + text);
     }
 
 
@@ -37,7 +37,7 @@ public class Console {
         sdf = new SimpleDateFormat("M/d");
         String str2 = sdf.format(new Date());
 
-        System.out.println("[DEBUG " + str + " " + str2 + "] " + text);
+        System.out.println("[DEBUG] [" + str + " " + str2 + "] " + text);
     }
 
     public static void warn(String text) {
@@ -48,7 +48,7 @@ public class Console {
         sdf = new SimpleDateFormat("M/d");
         String str2 = sdf.format(new Date());
 
-        System.out.println("[WARN " + str + " " + str2 + "] " + text);
+        System.out.println("[WARN] [" + str + " " + str2 + "] " + text);
     }
 
     public static void line() {
