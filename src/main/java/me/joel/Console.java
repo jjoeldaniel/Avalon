@@ -1,41 +1,42 @@
 package me.joel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Console {
 
 
     public static void log(String text) {
-        System.out.println("[LOG] " + text);
-    }
+        // returns current time in 24hr format
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String str = sdf.format(new Date());
 
-    public static void log(String text, Object object) {
-        System.out.println("[LOG] " + text + " : " + object);
+        System.out.println("[LOG " + str + "] " + text);
     }
-
 
     public static void info(String text) {
-        System.out.println("[INFO] " + text);
-    }
+        // returns current time in 24hr format
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String str = sdf.format(new Date());
 
-    public static void info(String text, Object object) {
-        System.out.println("[INFO] " + text + " : " + object);
+        System.out.println("[INFO " + str + "] " + text);
     }
 
 
     public static void debug(String text) {
-        System.out.println("[DEBUG] " + text);
-    }
+        // returns current time in 24hr format
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String str = sdf.format(new Date());
 
-    public static void debug(String text, Object object) {
-        System.out.println("[DEBUG] " + text + " : " + object);
+        System.out.println("[DEBUG " + str + "] " + text);
     }
-
 
     public static void warn(String text) {
-        System.out.println("[WARN] " + text);
-    }
+        // returns current time in 24hr format
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String str = sdf.format(new Date());
 
-    public static void warn(String text, Object object) {
-        System.out.println("[WARN] " + text + " : " + object);
+        System.out.println("[WARN " + str + "] " + text);
     }
 
     public static void line() {
