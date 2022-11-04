@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.utils.TimeFormat;
 import org.jetbrains.annotations.NotNull;
@@ -124,7 +125,13 @@ public class Trigger extends ListenerAdapter {
 
             // True if ID contains value matching message
             if (trigger.contains(triggers.get(id))) {
-                event.getGuild().retrieveMemberById(id).complete();
+
+                try {
+                    event.getGuild().retrieveMemberById(id).complete();
+                } catch (ErrorResponseException ignore) {
+                    continue;
+                }
+
                 user = event.getGuild().getMemberById(id).getUser();
 
                 Console.debug("Trigger \"" + trigger +  "\" for user: " + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")");
