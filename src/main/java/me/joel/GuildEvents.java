@@ -132,9 +132,7 @@ public class GuildEvents extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if (!event.isFromGuild() || event.getMessage().getMentions().getUsers().isEmpty()) return;
-
-        if (event.getMessage().getMentions().getUsers().contains(event.getJDA().getSelfUser()) && event.getMessage().getMentions().getUsers().size() == 1) {
+        if (event.isFromGuild() || event.getMessage().getContentRaw().equals("<@" + event.getJDA().getSelfUser().getId() +  ">")) {
             EmbedBuilder builder = new EmbedBuilder()
                     .setColor(Util.randColor())
                     .setDescription("Use /help for a list of my commands!");
