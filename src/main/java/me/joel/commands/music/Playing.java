@@ -257,14 +257,23 @@ public class Playing extends ListenerAdapter {
      */
     public static EmbedBuilder nowPlaying(AudioTrack track) {
 
+        boolean isSpotify = track.getInfo().uri.contains("spotify.com");
+
         // Thumbnail
         String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
 
-        return new EmbedBuilder()
+        EmbedBuilder builder = new EmbedBuilder()
                 .setColor(Util.randColor())
                 .setAuthor("Now Playing")
                 .setTitle(track.getInfo().title, track.getInfo().uri)
                 .setDescription("`" + getTrackCurrentTime(track) + " / " + getTrackTotalTime(track) + "`")
                 .setThumbnail(trackThumbnail);
+
+        if (isSpotify) {
+            builder.setTitle(track.getInfo().title + " - " + track.getInfo().author, track.getInfo().uri);
+        }
+
+        return builder;
+
     }
 }
