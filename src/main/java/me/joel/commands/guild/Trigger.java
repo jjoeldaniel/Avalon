@@ -154,13 +154,13 @@ public class Trigger extends ListenerAdapter {
                 String link = event.getMessage().getJumpUrl();
 
                 // Spam Check
-                // Scans previous 100 messages and returns if message contained trigger word within 10 seconds
-                MessageHistory log = event.getChannel().getHistoryBefore(event.getMessageId(), 100).complete();
+                // Scans previous 25 messages and returns if message contained trigger word within 10 seconds
+                MessageHistory log = event.getChannel().getHistoryBefore(event.getMessageId(), 25).complete();
 
                 for (var message : log.getRetrievedHistory()) {
                     if (message.getContentRaw().contains(trigger)) {
                         long time_diff = event.getMessage().getTimeCreated().toEpochSecond() - message.getTimeCreated().toEpochSecond();
-                        if (time_diff <= 30) return;
+                        if (time_diff <= 15) return;
                     }
                 }
 
