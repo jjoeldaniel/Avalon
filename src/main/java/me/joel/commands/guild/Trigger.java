@@ -20,10 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -138,7 +134,7 @@ public class Trigger extends ListenerAdapter {
                 User user = event.getGuild().getMemberById(id).getUser();
 
                 // If message is from user
-                if (event.getMember().getUser() == user) continue;
+//                if (event.getMember().getUser() == user) continue;
 
                 // View Permission check
                 Member member = event.getGuild().getMemberById(id);
@@ -174,24 +170,7 @@ public class Trigger extends ListenerAdapter {
                 // Add messages to list
                 for (Message message : history.getRetrievedHistory()) {
 
-                    // Timestamp
-
-                    // Subtract 8 to convert UTC
-                    int hours = message.getTimeCreated().getHour()-8; if (hours < 0) hours+=12;
-                    int minutes = message.getTimeCreated().getMinute();
-                    int seconds = message.getTimeCreated().getSecond();
-
-                    String hour_string = String.valueOf(hours);
-                    String minute_string = String.valueOf(minutes);
-                    String second_string = String.valueOf(seconds);
-
-                    if (hours < 10) hour_string = "0" + hours;
-                    if (minutes < 10) minute_string = "0" + minutes;
-                    if (seconds < 10) second_string = "0" + seconds;
-
-                    String time = hour_string + ":" + minute_string + ":" + second_string;
-
-                    messages.add("**[" +  time + "] " + message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator() + ":** " + message.getContentRaw() + "\n");
+                    messages.add("**[" +  TimeFormat.TIME_LONG.atTimestamp(message.getTimeCreated().toEpochSecond()*1000) + "] " + message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator() + ":** " + message.getContentRaw() + "\n");
                 }
                 // Reverse messages in order of least -> most recent
                 Collections.reverse(messages);
