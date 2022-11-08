@@ -138,14 +138,14 @@ public class Trigger extends ListenerAdapter {
 
                 user = event.getGuild().getMemberById(id).getUser();
 
-                Console.debug("Trigger \"" + trigger +  "\" for user: " + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")");
-
                 // If message is from user
-//                if (event.getMember().getUser() == user) continue;
+                if (event.getMember().getUser() == user) continue;
 
                 // View Permission check
                 Member member = event.getGuild().getMemberById(id);
                 if (!member.hasPermission(event.getGuildChannel(), Permission.VIEW_CHANNEL)) return;
+
+                Console.debug("Trigger \"" + trigger +  "\" for user: " + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")");
 
                 // Embed
                 EmbedBuilder builder = new EmbedBuilder();
