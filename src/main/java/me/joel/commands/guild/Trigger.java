@@ -122,7 +122,6 @@ public class Trigger extends ListenerAdapter {
         if (!event.isFromGuild() || event.getMember() == null || event.getMember().getUser().isBot()) return;
 
         String trigger = event.getMessage().getContentRaw().toLowerCase();
-        User user;
 
         // Check if contains trigger word for user
         for (String id : triggers.keySet()) {
@@ -136,7 +135,7 @@ public class Trigger extends ListenerAdapter {
                     continue;
                 }
 
-                user = event.getGuild().getMemberById(id).getUser();
+                User user = event.getGuild().getMemberById(id).getUser();
 
                 // If message is from user
                 if (event.getMember().getUser() == user) continue;
@@ -148,16 +147,16 @@ public class Trigger extends ListenerAdapter {
                 Console.debug("Trigger \"" + trigger +  "\" for user: " + user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")");
 
                 // Embed
-                EmbedBuilder builder = new EmbedBuilder();
-                builder.setTitle("Message Trigger");
-                builder.setColor(Util.randColor());
-                builder.setFooter("All timestamps are formatted in PST / UTC+7 !");
-                builder.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
+                EmbedBuilder builder = new EmbedBuilder()
+                    .setTitle("Message Trigger")
+                    .setColor(Util.randColor())
+                    .setFooter("All timestamps are formatted in PST / UTC+7 !")
+                    .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
 
                 // Jump URL
                 String link = event.getMessage().getJumpUrl();
 
-                // Spam Check
+                // Spam Protection
                 // Scans previous 25 messages and returns if message contained trigger word within 10 seconds
                 MessageHistory log = event.getChannel().getHistoryBefore(event.getMessageId(), 25).complete();
 
@@ -176,6 +175,8 @@ public class Trigger extends ListenerAdapter {
                 for (Message message : history.getRetrievedHistory()) {
 
                     // Timestamp
+
+                    // Subtract 8 to convert UTC
                     int hours = message.getTimeCreated().getHour()-8; if (hours < 0) hours+=12;
                     int minutes = message.getTimeCreated().getMinute();
                     int seconds = message.getTimeCreated().getSecond();
@@ -184,15 +185,9 @@ public class Trigger extends ListenerAdapter {
                     String minute_string = String.valueOf(minutes);
                     String second_string = String.valueOf(seconds);
 
-                    if (hours < 10) {
-                        hour_string = "0" + hours;
-                    }
-                    if (minutes < 10) {
-                        minute_string = "0" + minutes;
-                    }
-                    if (seconds < 10) {
-                        second_string = "0" + seconds;
-                    }
+                    if (hours < 10) hour_string = "0" + hours;
+                    if (minutes < 10) minute_string = "0" + minutes;
+                    if (seconds < 10) second_string = "0" + seconds;
 
                     String time = hour_string + ":" + minute_string + ":" + second_string;
 
