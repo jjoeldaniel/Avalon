@@ -134,7 +134,7 @@ public class Trigger extends ListenerAdapter {
                 User user = event.getGuild().getMemberById(id).getUser();
 
                 // If message is from user
-//                if (event.getMember().getUser() == user) continue;
+                if (event.getMember().getUser() == user) continue;
 
                 // View Permission check
                 Member member = event.getGuild().getMemberById(id);
