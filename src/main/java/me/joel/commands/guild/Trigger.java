@@ -172,7 +172,7 @@ public class Trigger extends ListenerAdapter {
                 for (Message message : history.getRetrievedHistory()) {
 
                     // Timestamp
-                    int hours = message.getTimeCreated().getHour() + 17;
+                    int hours = message.getTimeCreated().getHour();
                     int minutes = message.getTimeCreated().getMinute();
                     int seconds = message.getTimeCreated().getSecond();
                     String time = hours + ":" + minutes + ":" + seconds;
