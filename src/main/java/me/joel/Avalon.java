@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
@@ -92,7 +93,12 @@ public class Avalon {
                 .awaitReady();
 
         // Sets status as # of guilds bot is member of
-        jda.getPresence().setActivity(Activity.listening(" " + (jda.getGuilds().size()) + " servers!"));
+        int numOfMembers = 0;
+        for (Guild guild : jda.getGuilds()) {
+            numOfMembers += guild.getMemberCount();
+        }
+
+        jda.getPresence().setActivity(Activity.listening(" " + numOfMembers + " members!"));
         Database.connect();
     }
 
