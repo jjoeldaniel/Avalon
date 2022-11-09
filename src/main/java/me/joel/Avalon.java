@@ -92,7 +92,7 @@ public class Avalon {
                 .build()
                 .awaitReady();
 
-        // Sets status as # of guilds bot is member of
+        // Status = # of members for all guilds
         int numOfMembers = 0;
         for (Guild guild : jda.getGuilds()) {
             numOfMembers += guild.getMemberCount();
