@@ -45,6 +45,7 @@ public class TruthOrDare extends ListenerAdapter {
 
         var invoke = event.getComponentId();
         EmbedBuilder builder = null;
+        builder.setFooter("Member: " + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator());
 
         if (invoke.equals("truth") || invoke.equals("dare") || invoke.equals("randomTruthOrDare")) {
 
@@ -57,7 +58,7 @@ public class TruthOrDare extends ListenerAdapter {
                 }
             }
 
-            event.replyEmbeds(builder.build())
+            event.getChannel().sendMessageEmbeds(builder.build())
                     .addActionRow(
                             Button.success("truth", "Truth"),
                             Button.success("dare", "Dare"),
