@@ -66,7 +66,6 @@ public class PlayerManager {
         if (channel.getType() == ChannelType.TEXT) guild = channel.asTextChannel().getGuild();
         else if (channel.getType() == ChannelType.VOICE) guild = channel.asVoiceChannel().getGuild();
 
-        assert guild != null;
         final GuildMusicManager musicManager = this.getMusicManager(guild);
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
