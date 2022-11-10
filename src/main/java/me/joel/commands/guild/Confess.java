@@ -161,6 +161,7 @@ public class Confess extends ListenerAdapter {
     public void onButtonInteraction(ButtonInteractionEvent event) {
         String button = event.getComponentId();
         Member member = reports.get(event.getMessage().getId());
+        String moderator = event.getUser().getName() + "#" + event.getUser().getDiscriminator();
 
         switch (button) {
             case "timeout": {
@@ -168,19 +169,33 @@ public class Confess extends ListenerAdapter {
 
                 if (member.isTimedOut()) {
                     member.removeTimeout().queue();
-                    event.reply("User is no longer timed out.").queue();
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setDescription("User is no longer timed out.")
+                            .setFooter("Moderator: " + moderator);
+
+                    event.replyEmbeds(builder.build()).queue();
                     return;
                 }
 
                 member.timeoutFor(1, TimeUnit.HOURS).queue();
-                event.reply("User has been timed out for `1` hour.").queue();
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("User has been timed out for `1` hour.")
+                        .setFooter("Moderator: " + moderator);
+                event.replyEmbeds(builder.build()).queue();
+
                 break;
             }
             case "kick": {
                 if (!event.getMember().hasPermission(Permission.KICK_MEMBERS)) return;
 
                 member.kick().queue();
-                event.reply("User has been kicked.").queue();
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("User has been kicked.")
+                        .setFooter("Moderator: " + moderator);
+
+                event.replyEmbeds(builder.build()).queue();
                 event.editButton(Button.success("kick", "Kick").asDisabled()).queue();
                 break;
             }
@@ -188,7 +203,12 @@ public class Confess extends ListenerAdapter {
                 if (!event.getMember().hasPermission(Permission.BAN_MEMBERS)) return;
 
                 member.ban(0, TimeUnit.HOURS).queue();
-                event.reply("User has been kicked.").queue();
+
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setDescription("User has been banned.")
+                        .setFooter("Moderator: " + moderator);
+
+                event.replyEmbeds(builder.build()).queue();
                 event.editButton(Button.success("ban", "Ban").asDisabled()).queue();
                 break;
             }
