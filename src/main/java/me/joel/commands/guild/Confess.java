@@ -165,11 +165,15 @@ public class Confess extends ListenerAdapter {
 
         switch (button) {
             case "timeout": {
-                if (!event.getMember().hasPermission(Permission.MODERATE_MEMBERS) || !event.getMember().canInteract(member)) return;
+                if (!event.getMember().hasPermission(Permission.MODERATE_MEMBERS) && !event.getMember().canInteract(member)) {
+                    event.reply("Missing access!").setEphemeral(true).queue();
+                    return;
+                }
 
                 if (member.isTimedOut()) {
                     member.removeTimeout().queue();
                     EmbedBuilder builder = new EmbedBuilder()
+                            .setColor(Color.green)
                             .setDescription("User is no longer timed out.")
                             .setFooter("Moderator: " + moderator);
 
@@ -187,11 +191,15 @@ public class Confess extends ListenerAdapter {
                 break;
             }
             case "kick": {
-                if (!event.getMember().hasPermission(Permission.KICK_MEMBERS) || !event.getMember().canInteract(member)) return;
+                if (!event.getMember().hasPermission(Permission.KICK_MEMBERS) && !event.getMember().canInteract(member)) {
+                    event.reply("Missing access!").setEphemeral(true).queue();
+                    return;
+                }
 
                 member.kick().queue();
 
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.red)
                         .setDescription("User has been kicked.")
                         .setFooter("Moderator: " + moderator);
 
@@ -200,11 +208,15 @@ public class Confess extends ListenerAdapter {
                 break;
             }
             case "ban": {
-                if (!event.getMember().hasPermission(Permission.BAN_MEMBERS) || !event.getMember().canInteract(member)) return;
+                if (!event.getMember().hasPermission(Permission.BAN_MEMBERS) && !event.getMember().canInteract(member)) {
+                    event.reply("Missing access!").setEphemeral(true).queue();
+                    return;
+                }
 
                 member.ban(0, TimeUnit.HOURS).queue();
 
                 EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.red)
                         .setDescription("User has been banned.")
                         .setFooter("Moderator: " + moderator);
 
