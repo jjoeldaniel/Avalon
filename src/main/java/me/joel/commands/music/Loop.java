@@ -42,6 +42,24 @@ public class Loop extends ListenerAdapter {
 
             EmbedBuilder builder1;
 
+            /* Checks for long overflow
+
+            See Playing.nowPlaying() for full explanation
+             */
+            try {
+                Math.addExact(PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack().getInfo().length, 1);
+            }
+            catch (ArithmeticException e) {
+                EmbedBuilder builder2 = new EmbedBuilder()
+                        .setColor(Color.red)
+                        .setDescription("/loop is unavailable for YouTube streams");
+
+                // disables loop
+                AudioEventAdapter.setLoop(false);
+
+                event.replyEmbeds(builder2.build()).setEphemeral(true).queue();
+            }
+
             if (AudioEventAdapter.isShuffling()) {
                 builder1 = new EmbedBuilder()
                         .setColor(Color.red)
