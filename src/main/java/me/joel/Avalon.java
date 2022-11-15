@@ -2,6 +2,7 @@ package me.joel;
 
 import javax.security.auth.login.LoginException;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import me.joel.commands.Register;
 import me.joel.commands.global.*;
 import me.joel.commands.global.TruthOrDare;
@@ -23,7 +24,13 @@ public class Avalon {
     public static void main(String[] args) throws LoginException, InterruptedException {
 
         // Grab from properties
-        final String token = Util.loadProperty("DISCORD_TOKEN");
+        Dotenv dotenv = Dotenv.configure()
+                .ignoreIfMalformed()
+                .ignoreIfMissing()
+                .systemProperties()
+                .load();
+
+        final String token = System.getProperty("DISCORD_TOKEN");
 
         JDA jda = JDABuilder.createDefault(token)
                 .setStatus(OnlineStatus.ONLINE)

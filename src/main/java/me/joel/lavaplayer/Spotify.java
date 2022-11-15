@@ -19,6 +19,9 @@ import java.util.concurrent.CompletionException;
  */
 public class Spotify {
 
+    static final String client_id = System.getProperty("SPOTIFY_CLIENT_ID");
+    static final String client_secret = System.getProperty("SPOTIFY_CLIENT_SECRET");
+
     /**
      * SpotifyAPI
      * <p>
@@ -26,8 +29,8 @@ public class Spotify {
      * </p>
      */
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
-            .setClientId(Util.loadProperty("SPOTIFY_CLIENT_ID"))
-            .setClientSecret(Util.loadProperty("SPOTIFY_CLIENT_SECRET"))
+            .setClientId(client_id)
+            .setClientSecret(client_secret)
             .build();
 
     /**

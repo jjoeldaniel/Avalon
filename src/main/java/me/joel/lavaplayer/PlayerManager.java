@@ -33,8 +33,8 @@ public class PlayerManager {
         this.audioPlayerManager = new DefaultAudioPlayerManager();
 
         // Spotify Source Manager
-        var client_id = Util.loadProperty("SPOTIFY_CLIENT_ID");
-        var client_secret = Util.loadProperty("SPOTIFY_CLIENT_SECRET");
+        var client_id = System.getProperty("SPOTIFY_CLIENT_ID");
+        var client_secret = System.getProperty("SPOTIFY_CLIENT_SECRET");
 
         SpotifyConfig spotifyConfig = new SpotifyConfig();
         spotifyConfig.setClientId(client_id);
