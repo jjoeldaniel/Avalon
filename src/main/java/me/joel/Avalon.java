@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class Avalon {
     public static void main(String[] args) throws LoginException, InterruptedException {
 
-        // Grab from properties
+        // Grab from .env
         Dotenv dotenv = Dotenv.configure()
                 .ignoreIfMalformed()
                 .ignoreIfMissing()
