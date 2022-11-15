@@ -58,19 +58,14 @@ public class Play extends ListenerAdapter {
             // Joins VC
             audioManager.openAudioConnection(memberChannel);
 
-            String link = event.getOption("song").getAsString();
-
-            // Valid links
-            if (isURL(link) && !link.contains("/track/")) {
-                PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(),link);
-            }
+            String trackURL = event.getOption("song").getAsString();
 
             // Invalid links
-            else {
-                link = ("ytsearch:" + link + " audio");
-                // Plays song
-                PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(), link);
+            if (!isURL(trackURL) || trackURL.contains("/track/")) {
+                trackURL = ("ytsearch:" + trackURL + " audio");
             }
+
+            PlayerManager.getINSTANCE().loadAndPlay(event.getChannel(),trackURL);
 
             // Store in Map
             AudioPlayer player = guildMusicManager.player;
