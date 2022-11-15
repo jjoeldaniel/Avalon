@@ -37,6 +37,21 @@ public class Seek extends ListenerAdapter {
                 return;
             }
 
+            /* Checks for long overflow
+
+            See Playing.nowPlaying() for full explanation
+             */
+            try {
+                Math.addExact(track.getInfo().length, 1);
+            }
+            catch (ArithmeticException e) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.red)
+                        .setDescription("/seek is unavailable for YouTube streams");
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            }
+
             long seconds = 0;
             long minutes = 0;
             long hours = 0;
