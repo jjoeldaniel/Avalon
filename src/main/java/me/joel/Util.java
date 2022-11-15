@@ -4,10 +4,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
 import java.util.Random;
 
 public class Util {
@@ -51,34 +47,6 @@ public class Util {
                 .setDescription("An error has occurred!")
                 .setColor(Color.red)
                 .setFooter("Use /help for the commands list");
-    }
-
-    /**
-     * Loads config.properties
-     * @param key Property key
-     * @return Key value or null if key not found
-     */
-    public static String loadProperty(String key) {
-        String value = null;
-
-        try {
-            File file = new File(System.getProperty("user.dir")).getAbsoluteFile();
-            String configPath = file.getAbsolutePath() + "\\config.properties";
-
-            FileInputStream propsInput = new FileInputStream(configPath);
-            Properties prop = new Properties();
-            prop.load(propsInput);
-
-            value = prop.getProperty(key);
-        }
-        catch (IOException e) {
-            System.out.println("----------------------------------------");
-            System.out.println("ERROR: Failed to load property for KEY: " + key + "\n");
-            e.printStackTrace();
-            System.out.println("----------------------------------------");
-        }
-
-        return value;
     }
 
     /**
