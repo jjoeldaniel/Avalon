@@ -1,6 +1,5 @@
 package me.joel.lavaplayer;
 
-import com.github.topisenpai.lavasrc.applemusic.AppleMusicSourceManager;
 import com.github.topisenpai.lavasrc.plugin.SpotifyConfig;
 import com.github.topisenpai.lavasrc.spotify.SpotifySourceManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
@@ -42,9 +41,6 @@ public class PlayerManager {
         spotifyConfig.setClientSecret(client_secret);
 
         this.audioPlayerManager.registerSourceManager(new SpotifySourceManager(null, client_id, client_secret, "us", this.audioPlayerManager));
-
-        // Apple Music Source Manager
-        this.audioPlayerManager.registerSourceManager(new AppleMusicSourceManager(null, "us", this.audioPlayerManager));
 
         AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
         AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
