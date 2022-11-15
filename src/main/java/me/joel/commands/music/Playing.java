@@ -47,10 +47,8 @@ public class Playing extends ListenerAdapter {
                 return;
             }
 
-            Console.debug("test");
             EmbedBuilder builder = nowPlaying(track);
             builder.setFooter("");
-            Console.debug("passed");
 
             // uses custom emojis from avalon support server
             Guild guild = event.getJDA().getGuildById("971225319153479790");
