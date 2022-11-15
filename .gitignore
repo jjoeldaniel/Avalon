@@ -9,3 +9,5 @@
 *.properties
 
 *.sqlite
+
+*.env
