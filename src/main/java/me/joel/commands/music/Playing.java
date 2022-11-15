@@ -1,6 +1,7 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import me.joel.Console;
 import me.joel.lavaplayer.AudioEventAdapter;
 import me.joel.lavaplayer.PlayerManager;
 import me.joel.Util;
@@ -34,6 +35,8 @@ public class Playing extends ListenerAdapter {
 
             AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
 
+            Console.debug(track.getInfo().title);
+
             if (track == null) {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor(Color.red)
@@ -44,8 +47,10 @@ public class Playing extends ListenerAdapter {
                 return;
             }
 
+            Console.debug("test");
             EmbedBuilder builder = nowPlaying(track);
             builder.setFooter("");
+            Console.debug("passed");
 
             // uses custom emojis from avalon support server
             Guild guild = event.getJDA().getGuildById("971225319153479790");
@@ -261,6 +266,30 @@ public class Playing extends ListenerAdapter {
 
         // Thumbnail
         String trackThumbnail = PlayerManager.getThumbnail(track.getInfo().uri);
+
+        /* Checks for long overflow
+
+        Explanation: If adding 1 to the track.length results in an overflow, then the original number was likely
+        not valid to begin with.
+
+        In this case, this is only the result of attempting to access a YouTube stream videos length
+         */
+        try {
+            Math.addExact(track.getInfo().length, 1);
+        }
+        catch (ArithmeticException e) {
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setColor(Util.randColor())
+                    .setAuthor("Now Playing")
+                    .setTitle(track.getInfo().title, track.getInfo().uri)
+                    .setThumbnail(trackThumbnail);
+
+            if (isSpotify) {
+                builder.setTitle(track.getInfo().title + " - " + track.getInfo().author, track.getInfo().uri);
+            }
+
+            return builder;
+        }
 
         EmbedBuilder builder = new EmbedBuilder()
                 .setColor(Util.randColor())
