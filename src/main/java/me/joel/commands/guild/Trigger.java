@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.TimeFormat;
 import org.jetbrains.annotations.NotNull;
 
@@ -183,7 +184,9 @@ public class Trigger extends ListenerAdapter {
 
                 // DM
                 user.openPrivateChannel()
-                        .flatMap(channel -> channel.sendMessageEmbeds(builder.build()))
+                        .flatMap(channel -> channel.sendMessageEmbeds(builder.build()).addActionRow(
+                                Button.secondary("server-id", "Server: " + event.getGuild().getName()).asDisabled()
+                        ))
                         .queue();
             }
         }
