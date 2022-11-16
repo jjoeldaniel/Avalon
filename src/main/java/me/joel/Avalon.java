@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Avalon {
-    public static void main(String[] args) throws LoginException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 
         // Grab from .env
         Dotenv dotenv = Dotenv.configure()
@@ -71,7 +71,7 @@ public class Avalon {
                         new Translate(),
                         new Toggle(),
                         new Mock(),
-                        new ChannelSettings(),
+                        new GuildSettings(),
                         new Starboard(),
                         new Trigger()
                 )
