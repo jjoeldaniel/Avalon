@@ -62,6 +62,8 @@ Go to:
 
 `/star` Configure starboard settings
 
+`/toggle`  Toggles Avalon features
+
 
 <p id='games'><strong>Games</strong></p>
 
@@ -77,8 +79,6 @@ Go to:
 `/poll` Submits poll to be voted on
 
 `/broadcast`  Sends message as Avalon
-
-`/toggle`  Toggles Avalon features
 
 
 <p id='music'><strong>Music Commands</strong></p>

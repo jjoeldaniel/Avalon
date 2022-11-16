@@ -125,7 +125,6 @@ public class Help extends ListenerAdapter {
                     .addField("Moderation Commands", """
                             `/purge`  Purges messages (up to 100)
                             `/poll` Submits poll to be voted on
-                            `/toggle`  Toggles Avalon features
                             `/broadcast`  Sends message as Avalon""", false);
             case 3 -> builder = new EmbedBuilder()
                     .setColor(Util.randColor())
@@ -153,9 +152,7 @@ public class Help extends ListenerAdapter {
                             `/set` Configure server settings
                             `/star` Configure starboard settings
                                                         
-                            `/toggle insults` Toggle insults
-                            `/toggle goodmorning_goodnight` Toggles good morning and goodnight replies
-                            `/toggle now_playing` Toggles now playing messages""", false);
+                            `/toggle`  Toggles Avalon features""", false);
         }
 
         return builder;
