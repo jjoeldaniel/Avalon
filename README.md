@@ -58,11 +58,9 @@ Go to:
 
 <p id='config'><strong>Configuration</strong></p>
 
-`/set` Configure channel settings
+`/set` Configure server settings
 
-`/star_limit` Sets required number of stars to be posted on Starboard
-
-`/star_self` Determines if users can star their own posts
+`/star` Configure starboard settings
 
 
 <p id='games'><strong>Games</strong></p>

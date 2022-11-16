@@ -150,14 +150,12 @@ public class Help extends ListenerAdapter {
                     .setTitle("Avalon Commands")
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("Server Configuration", """
-                            `/set` Configure channel settings
-                            
+                            `/set` Configure server settings
+                            `/star` Configure starboard settings
+                                                        
                             `/toggle insults` Toggle insults
                             `/toggle goodmorning_goodnight` Toggles good morning and goodnight replies
-                            `/toggle now_playing` Toggles now playing messages
-                                                        
-                            `/star_limit` Sets required number of stars to be posted on Starboard
-                            `/star_self` Determines if users can star their own posts""", false);
+                            `/toggle now_playing` Toggles now playing messages""", false);
         }
 
         return builder;
