@@ -151,7 +151,6 @@ public class Help extends ListenerAdapter {
                     .addField("Server Configuration", """
                             `/set` Configure server settings
                             `/star` Configure starboard settings
-                                                        
                             `/toggle`  Toggles Avalon features""", false);
         }
 
