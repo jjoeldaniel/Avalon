@@ -20,23 +20,13 @@ public class Starboard extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
-        if (event.getName().equals("star_self")) {
-            boolean can_star = event.getOption("can_star").getAsBoolean();
+        if (event.getName().equals("star")) {
 
-            if (can_star) {
-                String sql = "UPDATE starboard_settings SET star_self=1 WHERE guild_id=" + event.getGuild().getId();
+            if (event.getSubcommandName().equals("limit")) {
+                int num = event.getOption("num").getAsInt();
+                if (num <= 0) num = 1;
 
-                try {
-                    Database.getConnect().createStatement().execute(sql);
-                } catch (SQLException e) {
-                    Console.warn("Failed to configure starboard settings");
-                    e.printStackTrace();
-                }
-
-                event.reply("Users can now star their own messages").queue();
-            }
-            else {
-                String sql = "UPDATE starboard_settings SET star_self=0 WHERE guild_id=" + event.getGuild().getId();
+                String sql = "UPDATE starboard_settings SET star_limit= " + num + " WHERE guild_id=" + event.getGuild().getId();
 
                 try {
                     Database.getConnect().createStatement().execute(sql);
@@ -45,24 +35,37 @@ public class Starboard extends ListenerAdapter {
                     e.printStackTrace();
                 }
 
-                event.reply("Users can no longer star their own messages").queue();
-            }
-        }
-
-        if (event.getName().equals("star_limit")) {
-            int num = event.getOption("num").getAsInt();
-            if (num <= 0) num = 1;
-
-            String sql = "UPDATE starboard_settings SET star_limit= " + num + " WHERE guild_id=" + event.getGuild().getId();
-
-            try {
-                Database.getConnect().createStatement().execute(sql);
-            } catch (SQLException e) {
-                Console.warn("Failed to configure starboard settings");
-                e.printStackTrace();
+                event.reply("Star limit set to: `" + num + "`").queue();
             }
 
-            event.reply("Star limit set to: `" + num + "`").queue();
+            else if (event.getSubcommandName().equals("self")) {
+                boolean can_star = event.getOption("can_star").getAsBoolean();
+
+                if (can_star) {
+                    String sql = "UPDATE starboard_settings SET star_self=1 WHERE guild_id=" + event.getGuild().getId();
+
+                    try {
+                        Database.getConnect().createStatement().execute(sql);
+                    } catch (SQLException e) {
+                        Console.warn("Failed to configure starboard settings");
+                        e.printStackTrace();
+                    }
+
+                    event.reply("Users can now star their own messages").queue();
+                }
+                else {
+                    String sql = "UPDATE starboard_settings SET star_self=0 WHERE guild_id=" + event.getGuild().getId();
+
+                    try {
+                        Database.getConnect().createStatement().execute(sql);
+                    } catch (SQLException e) {
+                        Console.warn("Failed to configure starboard settings");
+                        e.printStackTrace();
+                    }
+
+                    event.reply("Users can no longer star their own messages").queue();
+                }
+            }
         }
     }
 
