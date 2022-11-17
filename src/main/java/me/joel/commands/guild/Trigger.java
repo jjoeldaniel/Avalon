@@ -126,20 +126,16 @@ public class Trigger extends ListenerAdapter {
             // True if ID contains value matching message
             if (trigger.contains(triggers.get(id))) {
 
+                Member member = null;
+
                 try {
-                    event.getGuild().retrieveMemberById(id).complete();
+                    member = event.getGuild().retrieveMemberById(id).complete();
                 } catch (ErrorResponseException ignore) {
                     continue;
                 }
 
-                User user = event.getGuild().getMemberById(id).getUser();
-
-                // If message is from user
-                if (event.getMember().getUser() == user) continue;
-
-                // View Permission check
-                Member member = event.getGuild().getMemberById(id);
-                if (!member.hasPermission(event.getGuildChannel(), Permission.VIEW_CHANNEL)) return;
+                // Self trigger and View Permission check
+                if (event.getMember() == member || !member.hasPermission(event.getGuildChannel(), Permission.VIEW_CHANNEL)) continue;
 
                 // Embed
                 EmbedBuilder builder = new EmbedBuilder()
@@ -148,19 +144,18 @@ public class Trigger extends ListenerAdapter {
                     .setFooter("All timestamps are formatted in PST / UTC+7 !")
                     .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
 
-                // Jump URL
-                String link = event.getMessage().getJumpUrl();
-
                 // Spam Protection
                 // Scans previous 25 messages and returns if message contained trigger word within 10 seconds
                 MessageHistory log = event.getChannel().getHistoryBefore(event.getMessageId(), 25).complete();
 
+                long time_diff = 0;
                 for (var message : log.getRetrievedHistory()) {
                     if (message.getContentRaw().contains(trigger)) {
-                        long time_diff = event.getMessage().getTimeCreated().toEpochSecond() - message.getTimeCreated().toEpochSecond();
-                        if (time_diff <= 15) return;
+                        time_diff = event.getMessage().getTimeCreated().toEpochSecond() - message.getTimeCreated().toEpochSecond();
+                        if (time_diff <= 15) break;
                     }
                 }
+                if (time_diff <= 15) continue;
 
                 // Retrieve last 4 messages in channel message history
                 MessageHistory history = event.getChannel().getHistoryBefore(event.getMessageId(), 4).complete();
@@ -180,10 +175,10 @@ public class Trigger extends ListenerAdapter {
                 // Finish embed
                 String message = String.join("", messages);
                 builder.setDescription(message);
-                builder.addField("**Source Message**", "[Jump to](" + link + ")" , false);
+                builder.addField("**Source Message**", "[Jump to](" + event.getMessage().getJumpUrl() + ")" , false);
 
                 // DM
-                user.openPrivateChannel()
+                member.getUser().openPrivateChannel()
                         .flatMap(channel -> channel.sendMessageEmbeds(builder.build()).addActionRow(
                                 Button.secondary("server-id", "Server: " + event.getGuild().getName()).asDisabled()
                         ))
