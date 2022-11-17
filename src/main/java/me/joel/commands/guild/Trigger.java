@@ -163,14 +163,15 @@ public class Trigger extends ListenerAdapter {
 
                 // Add messages to list
                 for (Message message : history.getRetrievedHistory()) {
-
-                    messages.add("**[" +  TimeFormat.TIME_LONG.atTimestamp(message.getTimeCreated().toEpochSecond()*1000) + "] " + message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator() + ":** " + message.getContentRaw() + "\n");
+                    String member_name =  message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator();
+                    messages.add("**[" +  TimeFormat.TIME_LONG.atTimestamp(message.getTimeCreated().toEpochSecond()*1000) + "] " + member_name + ":** " + message.getContentRaw() + "\n");
                 }
                 // Reverse messages in order of least -> most recent
                 Collections.reverse(messages);
 
                 // Add trigger message
-                builder.addField("", "**[" + TimeFormat.TIME_LONG.now() + "] " + event.getMessage().getAuthor().getName() + "#" + event.getMessage().getAuthor().getDiscriminator() + ":** " + event.getMessage().getContentRaw(), false);
+                String member_name =  event.getMessage().getAuthor().getName() + "#" + event.getMessage().getAuthor().getDiscriminator();
+                builder.addField("", "**[" + TimeFormat.TIME_LONG.now() + "] " + member_name + ":** " + event.getMessage().getContentRaw(), false);
 
                 // Finish embed
                 String message = String.join("", messages);
