@@ -175,7 +175,7 @@ public class GuildEvents extends ListenerAdapter {
                 .setThumbnail(member.getEffectiveAvatarUrl())
                 .setFooter("User: " + member.getUser().getName() +"#" + member.getUser().getDiscriminator() + " ID: " + member.getId());
 
-        channel.sendMessageEmbeds(memberJoin.build()).queue();
+        channel.sendMessageEmbeds(memberJoin.build()).queue((null), (null));
     }
 
     @Override
@@ -226,14 +226,14 @@ public class GuildEvents extends ListenerAdapter {
 
             if (isBan) {
                 memberLeave.setTitle("A member has been banned!");
-                finalChannel.sendMessageEmbeds(memberLeave.build()).queue();
+                finalChannel.sendMessageEmbeds(memberLeave.build()).queue((null), (null));
             }
             else if (isKick) {
                 memberLeave.setTitle("A member has been kicked!");
-                finalChannel.sendMessageEmbeds(memberLeave.build()).queue();
+                finalChannel.sendMessageEmbeds(memberLeave.build()).queue((null), (null));
             }
             else {
-                finalChannel.sendMessageEmbeds(memberLeave.build()).queue();
+                finalChannel.sendMessageEmbeds(memberLeave.build()).queue((null), (null));
             }
 
         });
