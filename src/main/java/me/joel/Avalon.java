@@ -20,20 +20,20 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
-public class Avalon {
-    public static void main(String[] args) throws InterruptedException {
+public class Avalon
+{
+    public static void main( String[] args ) throws InterruptedException
+    {
 
         // Grab from .env
         Dotenv dotenv = Dotenv.configure()
-                .ignoreIfMalformed()
-                .ignoreIfMissing()
                 .systemProperties()
                 .load();
 
-        final String token = System.getProperty("DISCORD_TOKEN");
+        final String token = System.getProperty( "DISCORD_TOKEN" );
 
-        JDA jda = JDABuilder.createDefault(token)
-                .setStatus(OnlineStatus.ONLINE)
+        JDA jda = JDABuilder.createDefault( token )
+                .setStatus( OnlineStatus.ONLINE )
 
                 // Events
                 .addEventListeners(
@@ -92,20 +92,21 @@ public class Avalon {
                         new Lyrics()
                 )
 
-                .enableCache(CacheFlag.VOICE_STATE)
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
-                .setMemberCachePolicy(MemberCachePolicy.ALL)
+                .enableCache( CacheFlag.VOICE_STATE )
+                .enableIntents( GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS )
+                .setMemberCachePolicy( MemberCachePolicy.ALL )
 
                 .build()
                 .awaitReady();
 
         // Status = # of members for all guilds
         int numOfMembers = 0;
-        for (Guild guild : jda.getGuilds()) {
+        for ( Guild guild : jda.getGuilds() )
+        {
             numOfMembers += guild.getMemberCount();
         }
 
-        jda.getPresence().setActivity(Activity.listening(" " + numOfMembers + " members!"));
+        jda.getPresence().setActivity( Activity.listening( " " + numOfMembers + " members!" ) );
         Database.connect();
     }
 
