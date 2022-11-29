@@ -165,7 +165,7 @@ public class Confess extends ListenerAdapter {
 
         switch (button) {
             case "timeout": {
-                if (!event.getMember().canInteract(member)) {
+                if (!event.getMember().canInteract(member) || !member.hasPermission( Permission.MODERATE_MEMBERS )) {
                     event.reply("Missing access!").setEphemeral(true).queue();
                     break;
                 }
@@ -191,7 +191,7 @@ public class Confess extends ListenerAdapter {
                 break;
             }
             case "kick": {
-                if (!event.getMember().canInteract(member)) {
+                if (!event.getMember().canInteract(member) || !member.hasPermission( Permission.KICK_MEMBERS )) {
                     event.reply("Missing access!").setEphemeral(true).queue();
                     return;
                 }
@@ -208,7 +208,7 @@ public class Confess extends ListenerAdapter {
                 break;
             }
             case "ban": {
-                if (!event.getMember().canInteract(member)) {
+                if (!event.getMember().canInteract(member) || !member.hasPermission( Permission.BAN_MEMBERS )) {
                     event.reply("Missing access!").setEphemeral(true).queue();
                     return;
                 }
