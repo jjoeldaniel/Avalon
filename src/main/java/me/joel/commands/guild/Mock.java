@@ -97,8 +97,6 @@ public class Mock extends ListenerAdapter {
         String jsonString = EntityUtils.toString(response.getEntity());
         JSONObject jsonObject = new JSONObject(jsonString);
 
-        System.out.println(jsonObject.toString(4));
-
         return jsonObject.getJSONObject( "data" ).getString( "url" );
     }
 }
