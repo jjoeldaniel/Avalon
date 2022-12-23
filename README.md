@@ -29,49 +29,49 @@ Go to:
 <a href='#mod'>Moderation</a>,
 <a href='#music'>Music</a>
 
-| <p id='general'><strong>General Commands</strong></p>                          | Description                                                                      |
-| --------------------- | ------------------------------------------------------ |
-| `/help`               | List commands                                          |
-| `/ping`               | Pings bot                                              |
-| `/coinflip`           | Flips a coin                                           |
-| `/truth`              | Requests truth                                         |
-| `/dare`               | Requests dare                                          |
-| `/afk`                | Sets AFK status                                        |
-| `/avatar`             |  Retrieves user (or target) profile picture            |
-| `/8ball`              | Asks the magic 8ball a question                        |
-| `/confess`            | Sends anonymous confession                             |
-| `/report confession`  | Report a confession by its confession number           |
-| `/join`               | Request for bot to join VC                             |
-| `/leave`              | Request for bot to leave VC                            |
-| `/trigger`            | Configures auto DM on set trigger word                 |
+| <p id='general'><strong>General Commands</strong></p> | Description                                  |
+|-------------------------------------------------------|----------------------------------------------|
+| `/help`                                               | List commands                                |
+| `/ping`                                               | Pings bot                                    |
+| `/coinflip`                                           | Flips a coin                                 |
+| `/truth`                                              | Requests truth                               |
+| `/dare`                                               | Requests dare                                |
+| `/afk`                                                | Sets AFK status                              |
+| `/avatar`                                             | Retrieves user (or target) profile picture   |
+| `/8ball`                                              | Asks the magic 8ball a question              |
+| `/confess`                                            | Sends anonymous confession                   |
+| `/report confession`                                  | Report a confession by its confession number |
+| `/join`                                               | Request for bot to join VC                   |
+| `/leave`                                              | Request for bot to leave VC                  |
+| `/trigger`                                            | Configures auto DM on set trigger word       |
 
-| <p id='config'><strong>Configuration</strong></p>                       | Description                                                               |
-| --------------- | ----------------------------------------------------- |
-| `/set`          | Configure server settings                             |
-| `/star`         | Configure starboard settings                          |
-| `/toggle`       | Toggles Avalon features                               |
+| <p id='config'><strong>Configuration</strong></p> | Description                  |
+|---------------------------------------------------|------------------------------|
+| `/set`                                            | Configure server settings    |
+| `/star`                                           | Configure starboard settings |
+| `/toggle`                                         | Toggles Avalon features      |
 
-| <p id='games'><strong>Games</strong></p>                                | Description                                                               |
-| --------------- | ----------------------------------------------------- |
-| `/blackjack`    | Starts a game of Blackjack                            |
-| `/bank`         | Provides user bank balance                            |
+| <p id='games'><strong>Games</strong></p> | Description                |
+|------------------------------------------|----------------------------|
+| `/blackjack`                             | Starts a game of Blackjack |
+| `/bank`                                  | Provides user bank balance |
 
-| <p id='mod'><strong>Moderation Commands</strong></p>                    | Description                                                               |
-| --------------- | ----------------------------------------------------- |
-| `/purge`        | Purges messages (up to 100)                           |
-| `/poll`         | Submits poll to be voted on                           |
-| `/broadcast`    | Sends message as Avalon                               |
+| <p id='mod'><strong>Moderation Commands</strong></p> | Description                 |
+|------------------------------------------------------|-----------------------------|
+| `/purge`                                             | Purges messages (up to 100) |
+| `/poll`                                              | Submits poll to be voted on |
+| `/broadcast`                                         | Sends message as Avalon     |
 
-| <p id='music'><strong>Music Commands</strong></p>                       | Description                                                               |
-| -------------- | ------------------------------------------------------ |
-| `/play`        | Plays Youtube and Spotify                              |
-| `/pause`       | Pauses playback                                        |
-| `/resume`      | Resumes playback                                       |
-| `/clear`       | Clears queue                                           |
-| `/queue`       | Displays song queue                                    |
-| `/playing`     | Displays currently playing song                        |
-| `/volume`      | Sets volume                                            |
-| `/loop`        | Loops the currently playing song                       |
-| `/shuffle`     | Shuffles music queue                                   |
-| `/skip`        | Skips song with an optional song number specific skip  |
-| `/seek`        | Seeks song position                                    |
+| <p id='music'><strong>Music Commands</strong></p> | Description                                           |
+|---------------------------------------------------|-------------------------------------------------------|
+| `/play`                                           | Plays Youtube and Spotify                             |
+| `/pause`                                          | Pauses playback                                       |
+| `/resume`                                         | Resumes playback                                      |
+| `/clear`                                          | Clears queue                                          |
+| `/queue`                                          | Displays song queue                                   |
+| `/playing`                                        | Displays currently playing song                       |
+| `/volume`                                         | Sets volume                                           |
+| `/loop`                                           | Loops the currently playing song                      |
+| `/shuffle`                                        | Shuffles music queue                                  |
+| `/skip`                                           | Skips song with an optional song number specific skip |
+| `/seek`                                           | Seeks song position                                   |
