@@ -8,6 +8,7 @@ import me.joel.commands.guild.AFK;
 import me.joel.commands.guild.Confess;
 import me.joel.commands.guild.Join;
 import me.joel.commands.guild.Leave;
+import me.joel.commands.guild.Mock;
 import me.joel.commands.guild.Starboard;
 import me.joel.commands.guild.Translate;
 import me.joel.commands.guild.Trigger;
