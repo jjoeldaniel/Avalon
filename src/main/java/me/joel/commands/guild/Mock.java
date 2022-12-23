@@ -37,21 +37,7 @@ public class Mock extends ListenerAdapter {
                 return;
             }
 
-            StringBuilder mock = new StringBuilder();
-
-            for (int i = 0; i < message.length(); i++) {
-
-                String character = String.valueOf(message.charAt(i));
-
-                // capitalize letters at even index
-                if (i % 2 == 0) {
-                    mock.append(character.toUpperCase());
-                }
-                else {
-                    mock.append(character);
-                }
-
-            }
+            StringBuilder mock = new StringBuilder(message);
 
             try
             {
