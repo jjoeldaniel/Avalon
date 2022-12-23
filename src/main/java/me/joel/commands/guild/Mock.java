@@ -67,7 +67,7 @@ public class Mock extends ListenerAdapter {
             {
                 EmbedBuilder builder = new EmbedBuilder()
                         .setColor( Color.red )
-                        .setDescription( "Unknown error occured, try again later!" );
+                        .setDescription( "Unknown error occurred, try again later!" );
 
                 event.replyEmbeds( builder.build() ).setEphemeral( true ).queue();
             }
@@ -93,11 +93,14 @@ public class Mock extends ListenerAdapter {
             bottomText.append( arr[i] ).append( " " );
         }
 
+        String username = System.getProperty( "IMGFLIP_USERNAME" );
+        String password = System.getProperty( "IMGFLIP_PASSWORD" );
+
         // Request parameters and other properties
         List<NameValuePair> params = new ArrayList<>(5);
         params.add(new BasicNameValuePair("template_id", "102156234"));
-        params.add(new BasicNameValuePair("username", "JoelRico"));
-        params.add(new BasicNameValuePair("password", "U%y#qsACd%PXuSK$4o68"));
+        params.add(new BasicNameValuePair("username", username));
+        params.add(new BasicNameValuePair("password", password));
         params.add(new BasicNameValuePair("text0", topText.toString()));
         params.add(new BasicNameValuePair("text1", bottomText.toString()));
         httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
@@ -107,6 +110,8 @@ public class Mock extends ListenerAdapter {
 
         String jsonString = EntityUtils.toString(response.getEntity());
         JSONObject jsonObject = new JSONObject(jsonString);
+
+        System.out.println(jsonObject.toString(4));
 
         return jsonObject.getJSONObject( "data" ).getString( "url" );
     }
