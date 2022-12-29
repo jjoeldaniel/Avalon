@@ -4,10 +4,12 @@
 # ignore .idea/
 /.idea/
 
-*.class
+/target/
 
 *.properties
 
 *.sqlite
 
 *.env
+
+/.vscode/
