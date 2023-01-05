@@ -87,7 +87,7 @@ public class Register extends ListenerAdapter {
         SubcommandData nowPlaying = new SubcommandData("now_playing", "Toggles Now Playing messages");
         guildCommandData.add(Commands.slash("toggle", "Toggles bot features").addSubcommands(insults, gmgn, nowPlaying).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
 
-        guildCommandData.add(Commands.slash("set", "Configure bot settings").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)).addSubcommands(join, mod, leave, confess, star));
+        guildCommandData.add(Commands.slash("config", "Configure bot settings").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)).addSubcommands(join, mod, leave, confess, star));
 
         SubcommandData limit = new SubcommandData("limit", "Sets required number of stars to be posted on starboard").addOption(OptionType.INTEGER, "num", "Number of stars", true);
         SubcommandData self = new SubcommandData("self", "Determines if users can star their own posts").addOption(OptionType.BOOLEAN, "can_star", "User ability to self star", true);

@@ -6,7 +6,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import me.joel.Util;
-import me.joel.commands.mod.Toggle;
+import me.joel.commands.guild_config.Toggle;
 import me.joel.commands.music.Play;
 import me.joel.commands.music.Playing;
 import me.joel.commands.music.Skip;

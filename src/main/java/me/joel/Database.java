@@ -10,8 +10,6 @@ public class Database {
      */
     public static void connect() {
         try {
-            getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS currency(user_id string UNIQUE, wallet int)");
-            getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS triggers(user_id string UNIQUE, trigger_word string)");
             getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS guild_settings(guild_id string UNIQUE,  confession_ch string, join_ch string, leave_ch string, mod_ch string, insults int, gm_gn int, now_playing int)");
             getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS starboard_settings(guild_id string UNIQUE,  starboard_ch string, star_limit int, star_self int)");
 
@@ -19,7 +17,7 @@ public class Database {
                     "SELECT name " +
                     "FROM main.sqlite_master " +
                     "WHERE type='table' " +
-                    "AND name='currency' OR name='guild_settings' OR name='starboard_settings' OR name='triggers'";
+                    "AND name='guild_settings' OR name='starboard_settings'";
             ResultSet set = getConnect().createStatement().executeQuery(sql);
 
             int count = 0;
@@ -27,7 +25,7 @@ public class Database {
                 count++;
             }
 
-            if (count != 4) Console.info("Successfully initialized DB");
+            if (count != 2) Console.info("Successfully initialized DB");
 
         } catch (SQLException e) {
             Console.warn("Failed to initialize DB");
@@ -52,49 +50,6 @@ public class Database {
         }
 
         return conn;
-    }
-
-    public static int getWallet(String user_id) throws SQLException {
-        try {
-            String sql = ("SELECT wallet FROM currency WHERE user_id=" + user_id);
-            ResultSet rs = getConnect().createStatement().executeQuery(sql);
-
-            int bal = rs.getInt(1);
-
-            if (bal < 100) {
-                String reset = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", 500)";
-                getConnect().createStatement().execute(reset);
-                return 0;
-            }
-
-            return bal;
-        } catch (SQLException e) {
-            Console.warn("Failed to connect to DB");
-            e.printStackTrace();
-        }
-
-        return 0;
-    }
-
-    /**
-     * Perform addition/subtraction on user bank balance
-     * @param user_id Discord user ID
-     * @param amt Amount that bank balance is to be modified by
-     * @throws SQLException Error attempting to communicate with database
-     */
-    public static void modifyWallet(String user_id, int amt) throws SQLException {
-        // Get balance
-        int bal = 0;
-        try {
-            bal = Database.getWallet(user_id);
-        } catch (SQLException ignore) {}
-
-        // Reset balance to 500 if < 100
-        int new_bal = bal + amt;
-        if (new_bal < 100) new_bal = 500;
-
-        String sql = "REPLACE INTO currency(user_id, wallet) values (" + user_id + ", " + new_bal + ")";
-        getConnect().createStatement().execute(sql);
     }
 
 }

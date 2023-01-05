@@ -1,4 +1,4 @@
-package me.joel.commands.mod;
+package me.joel.commands.guild_config;
 
 import me.joel.Console;
 import me.joel.Database;
@@ -14,7 +14,7 @@ public class GuildSettings extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (event.getName().equals("set")) {
+        if (event.getName().equals("config")) {
             event.deferReply().queue();
 
             var sub_invoke = event.getSubcommandName();

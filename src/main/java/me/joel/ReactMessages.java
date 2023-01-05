@@ -1,6 +1,6 @@
 package me.joel;
 
-import me.joel.commands.mod.Toggle;
+import me.joel.commands.guild_config.Toggle;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

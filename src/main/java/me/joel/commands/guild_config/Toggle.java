@@ -1,4 +1,4 @@
-package me.joel.commands.mod;
+package me.joel.commands.guild_config;
 
 import me.joel.Database;
 import net.dv8tion.jda.api.EmbedBuilder;

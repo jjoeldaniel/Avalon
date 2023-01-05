@@ -1,4 +1,4 @@
-package me.joel.commands.guild;
+package me.joel.commands.guild_config;
 
 import me.joel.Console;
 import me.joel.Database;
