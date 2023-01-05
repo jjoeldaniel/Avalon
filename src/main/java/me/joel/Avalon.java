@@ -15,8 +15,6 @@ import me.joel.commands.guild.Trigger;
 import me.joel.commands.guild.WhoIs;
 import me.joel.commands.mod.*;
 import me.joel.commands.music.*;
-import me.joel.commands.games.Bank;
-import me.joel.commands.games.Blackjack.Blackjack;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -55,11 +53,6 @@ public class Avalon
                         new Ping(),
                         new TruthOrDare(),
                         new CoinFlip()
-                )
-                // Games
-                .addEventListeners(
-                        new Blackjack(),
-                        new Bank()
                 )
                 // Mod
                 .addEventListeners(
