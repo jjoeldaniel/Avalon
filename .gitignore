@@ -1,7 +1,5 @@
-# ignore out/
 /out/
 
-# ignore .idea/
 /.idea/
 
 /target/
@@ -11,5 +9,7 @@
 *.sqlite
 
 *.env
+
+/src/main/resources/
 
 /.vscode/
