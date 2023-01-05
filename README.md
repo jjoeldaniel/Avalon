@@ -2,9 +2,7 @@
 
 <a href="https://discord.gg/t5bMCmQMjD"><img src="https://img.shields.io/badge/discord-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white" alt="discord support server invite" /></a>
 
-Avalon is a Discord bot that includes music, moderation, utility, react-messages, and various fun commands!
-
-<img width="256" src="https://github.com/jjoeldaniel/periodicallyprogramming/blob/main/img/avalon.png?raw=true" alt="floating island">
+> Avalon is a Discord bot that includes music, moderation, utility, react-messages, and various fun commands!
  
  ## **FAQ**
  
