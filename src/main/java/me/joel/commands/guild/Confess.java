@@ -36,7 +36,7 @@ public class Confess extends ListenerAdapter {
             int confession_number = event.getOption("number").getAsInt();
 
             try {
-                String sql = "SELECT mod_ch FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
+                String sql = "SELECT mod_ch FROM \"public\".\"guild_settings\" WHERE guild_id=" + event.getGuild().getId();
                 ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
                 String channelID = set.getString(1);
 
@@ -107,7 +107,7 @@ public class Confess extends ListenerAdapter {
             // Get ID
             TextChannel channel = null;
 
-            String sql = "SELECT confession_ch FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
+            String sql = "SELECT confession_ch FROM \"public\".\"guild_settings\" WHERE guild_id=" + event.getGuild().getId();
             try {
                 ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
 
