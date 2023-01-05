@@ -10,6 +10,4 @@
 
 *.env
 
-/src/main/resources/
-
 /.vscode/
