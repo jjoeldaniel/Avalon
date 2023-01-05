@@ -26,7 +26,7 @@ public class Starboard extends ListenerAdapter {
                 int num = event.getOption("num").getAsInt();
                 if (num <= 0) num = 1;
 
-                String sql = "UPDATE starboard_settings SET star_limit= " + num + " WHERE guild_id=" + event.getGuild().getId();
+                String sql = "UPDATE \"public\".\"starboard_settings\" SET star_limit= " + num + " WHERE guild_id=" + event.getGuild().getId();
 
                 try {
                     Database.getConnect().createStatement().execute(sql);
@@ -42,7 +42,7 @@ public class Starboard extends ListenerAdapter {
                 boolean can_star = event.getOption("can_star").getAsBoolean();
 
                 if (can_star) {
-                    String sql = "UPDATE starboard_settings SET star_self=1 WHERE guild_id=" + event.getGuild().getId();
+                    String sql = "UPDATE \"public\".\"starboard_settings\" SET star_self=1 WHERE guild_id=" + event.getGuild().getId();
 
                     try {
                         Database.getConnect().createStatement().execute(sql);
@@ -54,7 +54,7 @@ public class Starboard extends ListenerAdapter {
                     event.reply("Users can now star their own messages").queue();
                 }
                 else {
-                    String sql = "UPDATE starboard_settings SET star_self=0 WHERE guild_id=" + event.getGuild().getId();
+                    String sql = "UPDATE \"public\".\"starboard_settings\" SET star_self=0 WHERE guild_id=" + event.getGuild().getId();
 
                     try {
                         Database.getConnect().createStatement().execute(sql);
@@ -86,7 +86,7 @@ public class Starboard extends ListenerAdapter {
 
             //  Checks against self_star
             if (user == reactor) {
-                String sql = "SELECT star_self FROM main.starboard_settings WHERE guild_id=" + event.getGuild().getId();
+                String sql = "SELECT star_self FROM \"public\".\"starboard_settings\" WHERE guild_id=" + event.getGuild().getId();
                 boolean self_star;
 
                 try {
@@ -107,7 +107,7 @@ public class Starboard extends ListenerAdapter {
             String msg = message.getContentStripped();
 
             try {
-                String sql1 = "SELECT star_limit FROM starboard_settings WHERE guild_id=" + event.getGuild().getId();
+                String sql1 = "SELECT star_limit FROM \"public\".\"starboard_settings\" WHERE guild_id=" + event.getGuild().getId();
                 ResultSet set = Database.getConnect().createStatement().executeQuery(sql1);
 
                 limit = set.getInt(1);
@@ -119,7 +119,7 @@ public class Starboard extends ListenerAdapter {
             if (count >= limit) {
 
                 // Get ID
-                String sql = "SELECT starboard_ch FROM starboard_settings WHERE guild_id=" + event.getGuild().getId();
+                String sql = "SELECT starboard_ch FROM \"public\".\"starboard_settings\" WHERE guild_id=" + event.getGuild().getId();
                 TextChannel channel;
                 try {
                     ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
