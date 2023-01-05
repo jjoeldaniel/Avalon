@@ -4,14 +4,12 @@ import io.github.cdimascio.dotenv.Dotenv;
 import me.joel.commands.Register;
 import me.joel.commands.global.*;
 import me.joel.commands.global.TruthOrDare;
-import me.joel.commands.guild.AFK;
 import me.joel.commands.guild.Confess;
 import me.joel.commands.guild.Join;
 import me.joel.commands.guild.Leave;
 import me.joel.commands.guild.Mock;
 import me.joel.commands.guild.Starboard;
 import me.joel.commands.guild.Translate;
-import me.joel.commands.guild.Trigger;
 import me.joel.commands.guild.WhoIs;
 import me.joel.commands.mod.*;
 import me.joel.commands.music.*;
@@ -62,7 +60,6 @@ public class Avalon
                 )
                 // Guild
                 .addEventListeners(
-                        new AFK(),
                         new Confess(),
                         new WhoIs(),
                         new Join(),
@@ -71,8 +68,7 @@ public class Avalon
                         new Toggle(),
                         new Mock(),
                         new GuildSettings(),
-                        new Starboard(),
-                        new Trigger()
+                        new Starboard()
                 )
                 // Music
                 .addEventListeners(
