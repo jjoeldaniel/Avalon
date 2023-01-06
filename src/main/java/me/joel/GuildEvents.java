@@ -121,6 +121,9 @@ public class GuildEvents extends ListenerAdapter
             String sql = "SELECT * FROM \"public\".\"guild_settings\" WHERE guild_id=" +guild.getId();
             ResultSet set = Database.getConnect().createStatement().executeQuery( sql );
 
+            sql = "SELECT * FROM \"public\".\"starboard_settings\" WHERE guild_id=" +guild.getId();
+            ResultSet set2 = Database.getConnect().createStatement().executeQuery( sql );
+
             if ( !set.next() )
             {
                 String sql2 =
@@ -164,6 +167,17 @@ public class GuildEvents extends ListenerAdapter
                 GuildSettings.gm_gn.put(guild, set.getBoolean(7));
                 // now playing
                 GuildSettings.now_playing.put(guild, set.getBoolean(8));
+
+                // starboard channel
+                set2.next();
+                var starboard_channel = set2.getString(2);
+
+                GuildSettings.starboard_channel.put(guild, starboard_channel);
+
+                // star limit
+                GuildSettings.starboard_limit.put(guild, set2.getInt(3));
+                // star self
+                GuildSettings.starboard_self.put(guild, set2.getBoolean(4));
             }
         }
         catch ( SQLException e )
