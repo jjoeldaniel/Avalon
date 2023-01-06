@@ -39,7 +39,6 @@ Go to:
 | `/report confession`                                  | Report a confession by its confession number |
 | `/join`                                               | Request for bot to join VC                   |
 | `/leave`                                              | Request for bot to leave VC                  |
-| `/trigger`                                            | Configures auto DM on set trigger word       |
 
 | <p id='config'><strong>Configuration</strong></p> | Description                  |
 |---------------------------------------------------|------------------------------|
