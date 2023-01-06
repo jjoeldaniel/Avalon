@@ -105,6 +105,8 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.slash("seek", "Sets song position").addOption(OptionType.INTEGER, "seconds", "Sets seconds", false).addOption(OptionType.INTEGER, "minutes", "Sets minutes", false).addOption(OptionType.INTEGER, "hours", "Sets hours", false));
         guildCommandData.add(Commands.slash("lyrics", "Fetches Spotify/Apple Music song lyrics"));
 
+        guildCommandData.addAll(me.joel.commands.reminders.Commands.guildCommands());
+
         return guildCommandData;
     }
 }
