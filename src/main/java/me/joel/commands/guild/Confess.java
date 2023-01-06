@@ -3,6 +3,7 @@ package me.joel.commands.guild;
 import me.joel.Database;
 import me.joel.GuildEvents;
 import me.joel.Util;
+import me.joel.commands.guild_config.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -35,21 +36,8 @@ public class Confess extends ListenerAdapter {
             TextChannel channel = null;
             int confession_number = event.getOption("number").getAsInt();
 
-            try {
-                String sql = "SELECT mod_ch FROM \"public\".\"guild_settings\" WHERE guild_id=" + event.getGuild().getId();
-                ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
-                String channelID = set.getString(1);
-
-                if (channelID != null) {
-                    channel = event.getGuild().getTextChannelById(channelID);
-                }
-            }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
-
             // No channel Found
-            if (channel == null) {
+            if (GuildSettings.confession_channel.get(event.getGuild()) == null) {
                 EmbedBuilder error = new EmbedBuilder()
                         .setTitle("Error!")
                         .setDescription("Your servers moderators haven't configured the bot yet!")
@@ -57,6 +45,9 @@ public class Confess extends ListenerAdapter {
 
                 event.replyEmbeds(error.build()).setEphemeral(true).queue();
                 return;
+            }
+            else {
+                channel = event.getGuild().getTextChannelById(GuildSettings.confession_channel.get(event.getGuild()));
             }
 
             String message = GuildEvents.message_record.get(event.getGuild()).get(confession_number);
@@ -110,6 +101,7 @@ public class Confess extends ListenerAdapter {
             String sql = "SELECT confession_ch FROM \"public\".\"guild_settings\" WHERE guild_id=" + event.getGuild().getId();
             try {
                 ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
+                set.next();
 
                 String channelID = set.getString(1);
 
