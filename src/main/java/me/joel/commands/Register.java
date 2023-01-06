@@ -1,11 +1,9 @@
 package me.joel.commands;
 
-import me.joel.commands.reminders.Reminder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
@@ -14,8 +12,6 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,26 +21,13 @@ import java.util.List;
  */
 public class Register extends ListenerAdapter {
 
-    // SLF4J Logger
-    final Logger log = LoggerFactory.getLogger( Register.class );
-
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-        try {
-            event.getGuild().updateCommands().addCommands(guildCommands()).queue();
-        }
-        catch (ErrorResponseException e) {
-            log.error(e.toString());
-        }
+        event.getGuild().updateCommands().addCommands(guildCommands()).queue();
     }
     @Override
     public void onGuildJoin(@NotNull GuildJoinEvent event) {
-        try {
-            event.getGuild().updateCommands().addCommands(guildCommands()).queue();
-        }
-        catch (ErrorResponseException e) {
-            log.error(e.toString());
-        }
+        event.getGuild().updateCommands().addCommands(guildCommands()).queue();
     }
 
     @Override
