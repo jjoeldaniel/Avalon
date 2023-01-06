@@ -72,6 +72,16 @@ public class GuildSettings extends ListenerAdapter {
                 builder.addField("Starboard channel", "Not set", false);
             }
 
+            builder.addField("Star Limit", String.valueOf(starboard_limit.get(event.getGuild())), false);
+
+            if (starboard_self.get(event.getGuild()))
+            {
+                builder.addField("Self Star", "Activated", false);
+            }
+            else {
+                builder.addField("Self Star", "Deactivated", false);
+            }
+
             if (insults.get(event.getGuild()))
             {
                 builder.addField("Insults", "Activated", false);
