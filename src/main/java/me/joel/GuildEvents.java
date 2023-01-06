@@ -1,5 +1,6 @@
 package me.joel;
 
+import me.joel.commands.guild_config.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.audit.ActionType;
@@ -86,9 +87,9 @@ public class GuildEvents extends ListenerAdapter
         try
         {
             Connection conn = Database.getConnect();
-            String sql = "INSERT INTO guild_settings(guild_id, insults, gm_gn, now_playing) VALUES (" + event.getGuild()
+            String sql = "INSERT INTO \"public\".\"guild_settings\"(guild_id, insults, gm_gn, now_playing) VALUES (" + event.getGuild()
                     .getId() + ", 1, 1, 1)";
-            String sql2 = "INSERT INTO starboard_settings(guild_id, star_limit, star_self) VALUES (" + event.getGuild()
+            String sql2 = "INSERT INTO \"public\".\"starboard_settings\"(guild_id, star_limit, star_self) VALUES (" + event.getGuild()
                     .getId() + "), 3, 0";
 
             conn.createStatement().execute( sql );
@@ -105,54 +106,72 @@ public class GuildEvents extends ListenerAdapter
     @Override
     public void onGuildReady( @NotNull GuildReadyEvent event )
     {
+        Guild guild = event.getGuild();
+
+        // Initialize confessions
+        HashMap<Integer, Member> map = new HashMap<>();
+        confession_record.put( guild, map );
+
+        HashMap<Integer, String> map2 = new HashMap<>();
+        message_record.put( guild, map2 );
 
         // Initializes guild settings if nothing found
         try
         {
-            String sql = "SELECT * FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
+            String sql = "SELECT * FROM \"public\".\"guild_settings\" WHERE guild_id=" +guild.getId();
             ResultSet set = Database.getConnect().createStatement().executeQuery( sql );
 
-            if ( set.getInt( 1 ) == 0 )
+            if ( !set.next() )
             {
                 String sql2 =
-                        "INSERT INTO guild_settings(guild_id, insults, gm_gn, now_playing) VALUES (" + event.getGuild()
+                        "INSERT INTO \"public\".\"guild_settings\"(guild_id, insults, gm_gn, now_playing) VALUES (" + guild
                                 .getId() + ", 1, 1, 1)";
                 Database.getConnect().createStatement().execute( sql2 );
-            }
-        }
-        catch ( SQLException e )
-        {
-            log.error( "Failed to initialize guild settings for guild: " + event.getGuild().getName() + " ("
-                    + event.getGuild().getId() + ")" );
-        }
 
-        // Initializes guild starboard settings if nothing found
-        try
-        {
-            String sql = "SELECT * FROM starboard_settings WHERE guild_id=" + event.getGuild().getId();
-            ResultSet set = Database.getConnect().createStatement().executeQuery( sql );
-
-            if ( set.getInt( 1 ) == 0 )
-            {
-                String sql2 =
-                        "INSERT INTO starboard_settings(guild_id, star_limit, star_self) VALUES (" + event.getGuild()
+                sql2 =
+                        "INSERT INTO \"public\".\"starboard_settings\"(guild_id, star_limit, star_self) VALUES (" + guild
                                 .getId() + ", 3, 0)";
                 Database.getConnect().createStatement().execute( sql2 );
             }
+            // Syncs settings here
+            else
+            {
+                var confession_channel = set.getString(2);
+                var join_channel = set.getString(3);
+                var leave_channel = set.getString(4);
+                var mod_channel = set.getString(5);
+
+                // confession channel
+                if (set.getLong(2) != 0) {
+                    GuildSettings.confession_channel.put(guild, confession_channel);
+                }
+                // join channel
+                if (set.getLong(3) != 0) {
+                    GuildSettings.join_channel.put(guild, join_channel);
+                }
+                // leave channel
+                if (set.getLong(4) != 0) {
+                    GuildSettings.leave_channel.put(guild, leave_channel);
+                }
+                // mod channel
+                if (set.getLong(5) != 0) {
+                    GuildSettings.mod_channel.put(guild, mod_channel);
+                }
+
+                // insults
+                GuildSettings.insults.put(guild, set.getBoolean(6));
+                // gm gn
+                GuildSettings.gm_gn.put(guild, set.getBoolean(7));
+                // now playing
+                GuildSettings.now_playing.put(guild, set.getBoolean(8));
+            }
         }
         catch ( SQLException e )
         {
-            log.error(
-                    "Failed to initialize guild starboard settings for guild: " + event.getGuild().getName() + " ("
-                            + event.getGuild().getId() + ")" );
+            e.printStackTrace();
+            log.error( "Failed to initialize guild settings for guild: " + event.getGuild().getName() + " ("
+                    + event.getGuild().getId() + ")" );
         }
-
-        // Initialize confessions
-        HashMap<Integer, Member> map = new HashMap<>();
-        confession_record.put( event.getGuild(), map );
-
-        HashMap<Integer, String> map2 = new HashMap<>();
-        message_record.put( event.getGuild(), map2 );
     }
 
     @Override
@@ -176,12 +195,13 @@ public class GuildEvents extends ListenerAdapter
         Member member = event.getMember();
         TextChannel channel = null;
 
-        // Get ID
-        String sql = "SELECT join_ch FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
-
         try
         {
-            ResultSet set = Database.getConnect().createStatement().executeQuery( sql );
+            var psat = Database.getConnect().prepareStatement("SELECT join_ch FROM \"public\".\"guild_settings\" WHERE guild_id=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            psat.setString(1, event.getGuild().getId());
+
+            ResultSet set = psat.executeQuery();
+            set.next();
 
             String channelID = set.getString( 1 );
 
@@ -227,10 +247,13 @@ public class GuildEvents extends ListenerAdapter
         // Get ID
         TextChannel channel = null;
 
-        String sql = "SELECT leave_ch FROM guild_settings WHERE guild_id=" + event.getGuild().getId();
+        String sql = "SELECT leave_ch FROM \"public\".\"guild_settings\" WHERE guild_id=" + event.getGuild().getId();
         try
         {
-            ResultSet set = Database.getConnect().createStatement().executeQuery( sql );
+            var psat = Database.getConnect().prepareStatement("SELECT leave_ch FROM \"public\".\"guild_settings\" WHERE guild_id=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            psat.setString(1, event.getGuild().getId());
+
+            ResultSet set = psat.executeQuery();
 
             String channelID = set.getString( 1 );
 
