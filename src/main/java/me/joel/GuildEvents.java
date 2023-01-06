@@ -191,7 +191,6 @@ public class GuildEvents extends ListenerAdapter
     @Override
     public void onMessageReceived( MessageReceivedEvent event )
     {
-
         if ( event.isFromGuild() && event.getMessage().getContentRaw()
                 .equals( "<@" + event.getJDA().getSelfUser().getId() + ">" ) )
         {
@@ -207,33 +206,11 @@ public class GuildEvents extends ListenerAdapter
     public void onGuildMemberJoin( @NotNull GuildMemberJoinEvent event )
     {
         Member member = event.getMember();
-        TextChannel channel = null;
 
-        try
-        {
-            var psat = Database.getConnect().prepareStatement("SELECT join_ch FROM \"public\".\"guild_settings\" WHERE guild_id=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            psat.setString(1, event.getGuild().getId());
+        String channelID = GuildSettings.join_channel.get( event.getGuild() );
+        if ( channelID == null ) return;
 
-            ResultSet set = psat.executeQuery();
-            set.next();
-
-            String channelID = set.getString( 1 );
-
-            if ( channelID != null )
-            {
-                channel = event.getGuild().getTextChannelById( channelID );
-            }
-
-        }
-        catch ( SQLException e )
-        {
-            log.error( e.toString() );
-        }
-
-        if ( channel == null )
-        {
-            return;
-        }
+        TextChannel channel = event.getGuild().getTextChannelById( channelID );
 
         EmbedBuilder memberJoin = new EmbedBuilder()
                 .setColor( Util.randColor() )
@@ -258,34 +235,10 @@ public class GuildEvents extends ListenerAdapter
     public void onGuildMemberRemove( @NotNull GuildMemberRemoveEvent event )
     {
 
-        // Get ID
-        TextChannel channel = null;
+        String channelID = GuildSettings.leave_channel.get( event.getGuild() );
+        if ( channelID == null ) return;
 
-        String sql = "SELECT leave_ch FROM \"public\".\"guild_settings\" WHERE guild_id=" + event.getGuild().getId();
-        try
-        {
-            var psat = Database.getConnect().prepareStatement("SELECT leave_ch FROM \"public\".\"guild_settings\" WHERE guild_id=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            psat.setString(1, event.getGuild().getId());
-
-            ResultSet set = psat.executeQuery();
-
-            String channelID = set.getString( 1 );
-
-            if ( channelID != null )
-            {
-                channel = event.getGuild().getTextChannelById( channelID );
-            }
-
-        }
-        catch ( SQLException e )
-        {
-            log.error( e.toString() );
-        }
-
-        if ( channel == null )
-        {
-            return;
-        }
+        TextChannel channel = event.getGuild().getTextChannelById( channelID );
 
         User user = event.getUser();
         EmbedBuilder memberLeave = new EmbedBuilder()
@@ -300,7 +253,6 @@ public class GuildEvents extends ListenerAdapter
                 .setThumbnail( user.getEffectiveAvatarUrl() )
                 .setFooter( "User: " + user.getName() + "#" + user.getDiscriminator() + " ID: " + user.getId() );
 
-        TextChannel finalChannel = channel;
         event.getGuild().retrieveAuditLogs().queueAfter( 1, TimeUnit.SECONDS, ( logs ) -> {
             boolean isBan = false, isKick = false;
 
@@ -314,21 +266,21 @@ public class GuildEvents extends ListenerAdapter
                 }
             }
 
-            if ( event.getGuild().getSelfMember().hasPermission( finalChannel, Permission.MESSAGE_SEND ) )
+            if ( event.getGuild().getSelfMember().hasPermission( channel, Permission.MESSAGE_SEND ) )
             {
                 if ( isBan )
                 {
                     memberLeave.setTitle( "A member has been banned!" );
-                    finalChannel.sendMessageEmbeds( memberLeave.build() ).queue( ( null ), ( null ) );
+                    channel.sendMessageEmbeds( memberLeave.build() ).queue( ( null ), ( null ) );
                 }
                 else if ( isKick )
                 {
                     memberLeave.setTitle( "A member has been kicked!" );
-                    finalChannel.sendMessageEmbeds( memberLeave.build() ).queue( ( null ), ( null ) );
+                    channel.sendMessageEmbeds( memberLeave.build() ).queue( ( null ), ( null ) );
                 }
                 else
                 {
-                    finalChannel.sendMessageEmbeds( memberLeave.build() ).queue( ( null ), ( null ) );
+                    channel.sendMessageEmbeds( memberLeave.build() ).queue( ( null ), ( null ) );
                 }
             }
         } );
