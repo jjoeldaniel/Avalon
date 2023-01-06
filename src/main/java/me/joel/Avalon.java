@@ -88,6 +88,11 @@ public class Avalon
                         new me.joel.commands.music.Util(),
                         new Lyrics()
                 )
+                // Triggers
+                .addEventListeners(
+                        new me.joel.commands.reminders.Reminder(),
+                        new me.joel.commands.reminders.Register()
+                )
 
                 .enableCache( CacheFlag.VOICE_STATE )
                 .enableIntents( GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS )
