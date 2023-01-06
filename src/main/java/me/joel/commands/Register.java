@@ -58,14 +58,11 @@ public class Register extends ListenerAdapter {
         SubcommandData star = new SubcommandData("star", "Sets channel for starboard").addOption(OptionType.CHANNEL, "channel", "Star channel", true);
 
         // general
-        SubcommandData reset = new SubcommandData("reset", "Removes trigger");
-        SubcommandData new_trigger = new SubcommandData("new", "Add/Replace trigger").addOption(OptionType.STRING, "word", "Trigger word", true);
         SubcommandData report_confess = new SubcommandData("confession", "Report a confession by its confession number").addOption(OptionType.INTEGER, "number", "Confession number", true);
 
         guildCommandData.add(Commands.slash("whois", "Provides user information").addOption(OptionType.MENTIONABLE, "user", "Sends user info", true));
         guildCommandData.add(Commands.slash("afk", "Sets AFK status"));
         guildCommandData.add(Commands.slash("confess", "Sends anonymous confession").addOption(OptionType.STRING, "message", "Confession message", true));
-        guildCommandData.add(Commands.slash("trigger", "Receive a DM when trigger word is mentioned in mutual servers").addSubcommands(new_trigger, reset));
         guildCommandData.add(Commands.slash("join", "Request for bot to join VC"));
         guildCommandData.add(Commands.slash("leave", "Request for bot to leave VC"));
         guildCommandData.add(Commands.slash("report", "Report").addSubcommands(report_confess));
