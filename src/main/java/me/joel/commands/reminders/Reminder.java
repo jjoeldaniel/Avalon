@@ -61,7 +61,7 @@ public class Reminder extends ListenerAdapter
     public void onSlashCommandInteraction( @NotNull SlashCommandInteractionEvent event )
     {
 
-        if (!isValidInteraction( event ) )
+        if (!isValidInteraction( event ) || !( event.getName().equals( Commands.REMINDER ) ) )
         {
             return;
         }
