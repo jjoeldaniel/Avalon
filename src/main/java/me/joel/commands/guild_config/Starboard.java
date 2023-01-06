@@ -35,11 +35,13 @@ public class Starboard extends ListenerAdapter {
                     e.printStackTrace();
                 }
 
+                GuildSettings.starboard_limit.put(event.getGuild(), num);
                 event.reply("Star limit set to: `" + num + "`").queue();
             }
 
             else if (event.getSubcommandName().equals("self")) {
                 boolean can_star = event.getOption("can_star").getAsBoolean();
+                GuildSettings.starboard_self.put(event.getGuild(), can_star);
 
                 if (can_star) {
                     String sql = "UPDATE \"public\".\"starboard_settings\" SET star_self=1 WHERE guild_id=" + event.getGuild().getId();
@@ -91,6 +93,7 @@ public class Starboard extends ListenerAdapter {
 
                 try {
                     ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
+                    set.next();
 
                     self_star = set.getBoolean(1);
 
@@ -109,6 +112,7 @@ public class Starboard extends ListenerAdapter {
             try {
                 String sql1 = "SELECT star_limit FROM \"public\".\"starboard_settings\" WHERE guild_id=" + event.getGuild().getId();
                 ResultSet set = Database.getConnect().createStatement().executeQuery(sql1);
+                set.next();
 
                 limit = set.getInt(1);
             } catch (SQLException e) {
@@ -123,6 +127,7 @@ public class Starboard extends ListenerAdapter {
                 TextChannel channel;
                 try {
                     ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
+                    set.next();
 
                     String channelID = set.getString(1);
 
