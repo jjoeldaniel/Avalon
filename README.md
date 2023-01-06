@@ -12,7 +12,7 @@
     
  ### **2) What functions does Avalon provide?**
  
-   Avalon currently supports Music (Spotify and YouTube), Translation (only to English, sorry!), Moderation commands (purge , broadcast), Utility commands (ping, av, afk) and Fun commands (Blackjack, 8ball, truth or dare).
+   Avalon currently supports Music (Spotify and YouTube), Translation (only to English, sorry!), Moderation commands (purge , broadcast), Utility commands (ping, avatar, poll) and Fun commands (8ball, truth or dare).
 
 ### **3) What permissions does Avalon require?**
 
@@ -23,7 +23,6 @@ Avalon requires various permissions (all previewed when inviting) and for its ro
 Go to:
 <a href='#general'>General</a>,
 <a href='#config'>Configuration</a>,
-<a href='#games'>Games</a>,
 <a href='#mod'>Moderation</a>,
 <a href='#music'>Music</a>
 
@@ -45,14 +44,9 @@ Go to:
 
 | <p id='config'><strong>Configuration</strong></p> | Description                  |
 |---------------------------------------------------|------------------------------|
-| `/set`                                            | Configure server settings    |
+| `/config`                                         | Configure server settings    |
 | `/star`                                           | Configure starboard settings |
 | `/toggle`                                         | Toggles Avalon features      |
-
-| <p id='games'><strong>Games</strong></p> | Description                |
-|------------------------------------------|----------------------------|
-| `/blackjack`                             | Starts a game of Blackjack |
-| `/bank`                                  | Provides user bank balance |
 
 | <p id='mod'><strong>Moderation Commands</strong></p> | Description                 |
 |------------------------------------------------------|-----------------------------|
