@@ -17,18 +17,15 @@ public class Avatar extends ListenerAdapter {
         var invoke = event.getName();
 
         if (invoke.equals("avatar")) {
-            String targetName;
             String targetPFP;
 
             // DMs
             if (!event.isFromGuild()) {
                 User user = event.getOption("user").getAsUser();
-                targetName = user.getName() + "#" + user.getDiscriminator();
                 targetPFP = user.getEffectiveAvatarUrl();
 
                 // Embed
                 EmbedBuilder avatar = new EmbedBuilder()
-                        .setTitle(targetName)
                         .setColor(Util.randColor())
                         .setImage(targetPFP + "?size=256")
                         .setFooter("ID: " + user.getId());
@@ -38,13 +35,10 @@ public class Avatar extends ListenerAdapter {
             }
             // Server
             Member member = event.getOption("user").getAsMember();
-            assert member != null;
-            targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
             targetPFP = member.getEffectiveAvatarUrl();
 
             // Embed
             EmbedBuilder avatar = new EmbedBuilder()
-                    .setTitle(targetName)
                     .setColor(Util.randColor())
                     .setImage(targetPFP + "?size=256")
                     .setFooter("ID: " + member.getId());
@@ -62,13 +56,10 @@ public class Avatar extends ListenerAdapter {
             String targetName;
             String targetPFP;
 
-            assert member != null;
-            targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
             targetPFP = member.getEffectiveAvatarUrl();
 
             // Embed
             EmbedBuilder avatar = new EmbedBuilder()
-                    .setTitle(targetName)
                     .setDescription(member.getAsMention())
                     .setColor(Util.randColor())
                     .setImage(targetPFP + "?size=256")
@@ -78,16 +69,12 @@ public class Avatar extends ListenerAdapter {
         }
         else if (invoke.equals("Get user avatar")) {
             Member member = event.getTargetMember();
-            String targetName;
             String targetPFP;
 
-            assert member != null;
-            targetName = member.getEffectiveName() + "#" + member.getUser().getDiscriminator();
             targetPFP = member.getUser().getAvatarUrl();
 
             // Embed
             EmbedBuilder avatar = new EmbedBuilder()
-                    .setTitle(targetName)
                     .setDescription(member.getAsMention())
                     .setColor(Util.randColor())
                     .setImage(targetPFP + "?size=256")
