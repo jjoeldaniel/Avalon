@@ -1,5 +1,6 @@
 package me.joel;
 
+import me.joel.commands.guild_config.GuildSettings;
 import me.joel.commands.guild_config.Toggle;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
@@ -26,7 +27,7 @@ public class ReactMessages extends ListenerAdapter {
             if (event.getMember() == null) return;
             if ((event.getMember()).getUser().isBot()) return;
 
-            if (Toggle.gmgnEnabled()) {
+            if (GuildSettings.gm_gn.get(event.getGuild())) {
                 // Goodnight
                 if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn")) {
                     int r = Util.randomWithRange(0, 100);
@@ -50,7 +51,7 @@ public class ReactMessages extends ListenerAdapter {
             }
 
             // Insult
-            if (Toggle.insultsEnabled()) {
+            if (GuildSettings.insults.get(event.getGuild())) {
                 if (isInsult(messageSent)) {
                     int r = Util.randomWithRange(0, 100);
                     if (r >= 25) return;
