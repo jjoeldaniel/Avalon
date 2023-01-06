@@ -31,6 +31,7 @@ public class Avalon
 
         // Grab from .env
         Dotenv dotenv = Dotenv.configure()
+                .ignoreIfMissing()
                 .systemProperties()
                 .load();
 
