@@ -85,6 +85,7 @@ public class Register extends ListenerAdapter {
         SubcommandData insults = new SubcommandData("insults", "Toggles insults");
         SubcommandData gmgn = new SubcommandData("goodmorning_goodnight", "Toggles good morning and goodnight messages");
         SubcommandData nowPlaying = new SubcommandData("now_playing", "Toggles Now Playing messages");
+        guildCommandData.add(Commands.slash("config_view", "View server config").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
         guildCommandData.add(Commands.slash("toggle", "Toggles bot features").addSubcommands(insults, gmgn, nowPlaying).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
 
         guildCommandData.add(Commands.slash("config", "Configure bot settings").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)).addSubcommands(join, mod, leave, confess, star));
