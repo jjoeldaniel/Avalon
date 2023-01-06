@@ -15,14 +15,14 @@ import java.util.HashMap;
 
 public class GuildSettings extends ListenerAdapter {
 
-    public static HashMap<Guild, String> starboard_channel = new HashMap<>();
+    public static HashMap<Guild, Long> starboard_channel = new HashMap<>();
     public static HashMap<Guild, Integer> starboard_limit = new HashMap<>();
     public static HashMap<Guild, Boolean> starboard_self = new HashMap<>();
 
-    public static HashMap<Guild, String> confession_channel = new HashMap<>();
-    public static HashMap<Guild, String> mod_channel = new HashMap<>();
-    public static HashMap<Guild, String> join_channel = new HashMap<>();
-    public static HashMap<Guild, String> leave_channel = new HashMap<>();
+    public static HashMap<Guild, Long> confession_channel = new HashMap<>();
+    public static HashMap<Guild, Long> mod_channel = new HashMap<>();
+    public static HashMap<Guild, Long> join_channel = new HashMap<>();
+    public static HashMap<Guild, Long> leave_channel = new HashMap<>();
 
     public static HashMap<Guild, Boolean> insults = new HashMap<>();
     public static HashMap<Guild, Boolean> now_playing = new HashMap<>();
@@ -126,7 +126,7 @@ public class GuildSettings extends ListenerAdapter {
                     try {
                         Database.getConnect().createStatement().execute(sql);
                         event.getHook().sendMessage("Join channel set to: " + ch.getAsMention()).queue();
-                        join_channel.put(event.getGuild(), ch.getId());
+                        join_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
                         Console.warn("Failed to configure guild join channel");
                         e.printStackTrace();
@@ -138,7 +138,7 @@ public class GuildSettings extends ListenerAdapter {
                     try {
                         Database.getConnect().createStatement().execute(sql);
                         event.getHook().sendMessage("Moderation channel set to: " + ch.getAsMention()).queue();
-                        mod_channel.put(event.getGuild(), ch.getId());
+                        mod_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
                         Console.warn("Failed to configure guild join channel");
                         e.printStackTrace();
@@ -150,7 +150,7 @@ public class GuildSettings extends ListenerAdapter {
                     try {
                         Database.getConnect().createStatement().execute(sql);
                         event.getHook().sendMessage("Leave channel set to: " + ch.getAsMention()).queue();
-                        leave_channel.put(event.getGuild(), ch.getId());
+                        leave_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
                         Console.warn("Failed to configure guild leave channel");
                         e.printStackTrace();
@@ -162,7 +162,7 @@ public class GuildSettings extends ListenerAdapter {
                     try {
                         Database.getConnect().createStatement().execute(sql);
                         event.getHook().sendMessage("Starboard channel set to: " + ch.getAsMention()).queue();
-                        starboard_channel.put(event.getGuild(), ch.getId());
+                        starboard_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
                         Console.warn("Failed to configure guild starboard channel");
                         e.printStackTrace();
@@ -174,7 +174,7 @@ public class GuildSettings extends ListenerAdapter {
                     try {
                         Database.getConnect().createStatement().execute(sql);
                         event.getHook().sendMessage("Confession channel set to: " + ch.getAsMention()).queue();
-                        starboard_channel.put(event.getGuild(), ch.getId());
+                        starboard_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
                         Console.warn("Failed to configure guild confession channel");
                         e.printStackTrace();

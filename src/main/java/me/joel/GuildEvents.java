@@ -139,10 +139,10 @@ public class GuildEvents extends ListenerAdapter
             // Syncs settings here
             else
             {
-                var confession_channel = set.getString(2);
-                var join_channel = set.getString(3);
-                var leave_channel = set.getString(4);
-                var mod_channel = set.getString(5);
+                var confession_channel = set.getLong(2);
+                var join_channel = set.getLong(3);
+                var leave_channel = set.getLong(4);
+                var mod_channel = set.getLong(5);
 
                 // confession channel
                 if (set.getLong(2) != 0) {
@@ -170,7 +170,7 @@ public class GuildEvents extends ListenerAdapter
 
                 // starboard channel
                 set2.next();
-                var starboard_channel = set2.getString(2);
+                var starboard_channel = set2.getLong(2);
 
                 GuildSettings.starboard_channel.put(guild, starboard_channel);
 
@@ -207,7 +207,7 @@ public class GuildEvents extends ListenerAdapter
     {
         Member member = event.getMember();
 
-        String channelID = GuildSettings.join_channel.get( event.getGuild() );
+        var channelID = GuildSettings.join_channel.get( event.getGuild() );
         if ( channelID == null ) return;
 
         TextChannel channel = event.getGuild().getTextChannelById( channelID );
@@ -235,7 +235,7 @@ public class GuildEvents extends ListenerAdapter
     public void onGuildMemberRemove( @NotNull GuildMemberRemoveEvent event )
     {
 
-        String channelID = GuildSettings.leave_channel.get( event.getGuild() );
+        var channelID = GuildSettings.leave_channel.get( event.getGuild() );
         if ( channelID == null ) return;
 
         TextChannel channel = event.getGuild().getTextChannelById( channelID );
