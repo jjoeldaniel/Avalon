@@ -1,7 +1,6 @@
 package me.joel.lavaplayer;
 
-//import com.github.topisenpai.lavasrc.plugin.SpotifyConfig;
-//import com.github.topisenpai.lavasrc.spotify.SpotifySourceManager;
+import com.github.topisenpai.lavasrc.spotify.SpotifySourceManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -36,11 +35,7 @@ public class PlayerManager {
         var client_id = System.getProperty("SPOTIFY_CLIENT_ID");
         var client_secret = System.getProperty("SPOTIFY_CLIENT_SECRET");
 
-//        SpotifyConfig spotifyConfig = new SpotifyConfig();
-//        spotifyConfig.setClientId(client_id);
-//        spotifyConfig.setClientSecret(client_secret);
-
-//        this.audioPlayerManager.registerSourceManager(new SpotifySourceManager(null, client_id, client_secret, "us", this.audioPlayerManager));
+        this.audioPlayerManager.registerSourceManager(new SpotifySourceManager(null, client_id, client_secret, "us", this.audioPlayerManager));
 
         AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
         AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
