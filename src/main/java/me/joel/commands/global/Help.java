@@ -111,10 +111,6 @@ public class Help extends ListenerAdapter {
                             `/dare`   Requests dare
                             `/avatar` Retrieves target profile picture
                             `/whois`  Provides user information
-                            `/bank` Provides user bank balance
-                            `/blackjack` Starts a game of blackjack
-                            `/trigger` Configures auto DM on set trigger word
-                            `/afk`  Sets AFK status
                             `/confess` Sends anonymous confession
                             `/report confession` Report a confession by its confession number
                             `/8ball`   Asks the magic 8ball a question""", false);
@@ -149,7 +145,7 @@ public class Help extends ListenerAdapter {
                     .setTitle("Avalon Commands")
                     .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
                     .addField("Server Configuration", """
-                            `/set` Configure server settings
+                            `/config` Configure server settings
                             `/star` Configure starboard settings
                             `/toggle`  Toggles Avalon features""", false);
         }
