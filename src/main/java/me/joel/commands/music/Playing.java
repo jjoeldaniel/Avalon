@@ -1,7 +1,6 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import me.joel.Console;
 import me.joel.lavaplayer.AudioEventAdapter;
 import me.joel.lavaplayer.PlayerManager;
 import me.joel.Util;
@@ -34,8 +33,6 @@ public class Playing extends ListenerAdapter {
             final AudioManager audioManager = event.getGuild().getAudioManager();
 
             AudioTrack track = PlayerManager.getINSTANCE().getMusicManager(audioManager.getGuild()).player.getPlayingTrack();
-
-            Console.debug(track.getInfo().title);
 
             if (track == null) {
                 EmbedBuilder builder = new EmbedBuilder()
