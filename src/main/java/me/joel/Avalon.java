@@ -1,5 +1,7 @@
 package me.joel;
 
+import java.sql.SQLException;
+
 import io.github.cdimascio.dotenv.Dotenv;
 import me.joel.commands.Register;
 import me.joel.commands.global.*;
@@ -23,6 +25,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Avalon
 {
@@ -34,6 +38,9 @@ public class Avalon
                 .ignoreIfMissing()
                 .systemProperties()
                 .load();
+
+        // SL4FJ Logger
+        final Logger log = LoggerFactory.getLogger( Avalon.class );
 
         final String token = System.getProperty( "DISCORD_TOKEN" );
 
@@ -109,7 +116,16 @@ public class Avalon
         }
 
         jda.getPresence().setActivity( Activity.listening( " " + numOfMembers + " members!" ) );
-        Database.connect();
+
+        try
+        {
+            Database.initialize();
+            me.joel.commands.reminders.Database.initialize();
+        }
+        catch ( SQLException e )
+        {
+            log.error( "Error connecting/initializing database", e );
+        }
     }
 
 }
