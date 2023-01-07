@@ -1,24 +1,27 @@
 package me.joel;
-import org.postgresql.util.PSQLException;
 
 import java.sql.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Database {
 
     private static Connection conn = null;
 
+    // SL4FJ Logger
+    final private static Logger log = LoggerFactory.getLogger( Database.class );
+
     /**
      * Initializes DB
      */
-    public static void connect() {
-        try {
-            getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS guild_settings(guild_id bigint PRIMARY KEY,  confession_ch bigint, join_ch bigint, leave_ch bigint, mod_ch bigint, insults int, gm_gn int, now_playing int)");
-            getConnect().createStatement().execute("CREATE TABLE IF NOT EXISTS starboard_settings(guild_id bigint PRIMARY KEY,  starboard_ch bigint, star_limit int, star_self int)");
+    public static void initialize() throws SQLException {
 
-        } catch (SQLException e) {
-            Console.warn("Failed to initialize DB");
-            throw new RuntimeException(e);
+        try ( Connection conn = getConnect() ) {
+            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS guild_settings(guild_id bigint PRIMARY KEY,  confession_ch bigint, join_ch bigint, leave_ch bigint, mod_ch bigint, insults int, gm_gn int, now_playing int)");
+            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS starboard_settings(guild_id bigint PRIMARY KEY,  starboard_ch bigint, star_limit int, star_self int)");
         }
+
     }
 
     /**
@@ -32,11 +35,12 @@ public class Database {
         final String PASSWORD = System.getProperty( "DATABASE_PASSWORD" );
 
         if (conn == null) {
+
             try {
                 conn = DriverManager.getConnection( URL, USER, PASSWORD );
                 return conn;
             } catch (SQLException e) {
-                Console.warn("Failed to connect to DB");
+                log.error( "Error connecting to database", e );
                 return null;
             }
         }
