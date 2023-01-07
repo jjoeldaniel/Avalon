@@ -53,7 +53,6 @@ public class Avatar extends ListenerAdapter {
 
         if (invoke.equals("Get member avatar")) {
             Member member = event.getTargetMember();
-            String targetName;
             String targetPFP;
 
             targetPFP = member.getEffectiveAvatarUrl();
