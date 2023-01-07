@@ -1,6 +1,7 @@
 # Avalon
 
 [![discord invite](https://img.shields.io/badge/discord-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/t5bMCmQMjD)
+[![docker](https://img.shields.io/badge/docker-%232496ED.svg?&style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/repository/docker/jjoeldaniel/avalon-discord)
 
 > A multi-purpose Discord bot  that includes music, moderation, utility, and more!
 
