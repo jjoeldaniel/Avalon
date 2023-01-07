@@ -1,17 +1,17 @@
 # Avalon
 
-<a href="https://discord.gg/t5bMCmQMjD"><img src="https://img.shields.io/badge/discord-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white" alt="discord support server invite" /></a>
+[![discord invite](https://img.shields.io/badge/discord-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/t5bMCmQMjD)
 
 > A multi-purpose Discord bot  that includes music, moderation, utility, and more!
- 
- ## **FAQ**
- 
- ### **1) What is the command list?**
- 
+
+## **FAQ**
+
+### **1) What is the command list?**
+
    Use `/help` for the complete commands list.
-    
- ### **2) What functions does Avalon provide?**
- 
+
+### **2) What functions does Avalon provide?**
+
    Avalon currently supports Music (Spotify and YouTube), Translation (only to English, sorry!), Moderation commands (purge , broadcast), Utility commands (ping, avatar, poll) and Fun commands (8ball, truth or dare).
 
 ### **3) What permissions does Avalon require?**
@@ -21,12 +21,15 @@ Avalon requires various permissions (all previewed when inviting) and for its ro
 ## Commands List
 
 Go to:
-<a href='#general'>General</a>,
-<a href='#config'>Configuration</a>,
-<a href='#mod'>Moderation</a>,
-<a href='#music'>Music</a>
+[General](#general),
+[Reminders](#reminders),
+[Configuration](#configuration),
+[Moderation](#moderation),
+[Music](#music)
 
-| <p id='general'><strong>General Commands</strong></p> | Description                                  |
+### General
+
+| Command                                               | Description                                  |
 |-------------------------------------------------------|----------------------------------------------|
 | `/help`                                               | List commands                                |
 | `/ping`                                               | Pings bot                                    |
@@ -40,19 +43,35 @@ Go to:
 | `/join`                                               | Request for bot to join VC                   |
 | `/leave`                                              | Request for bot to leave VC                  |
 
-| <p id='config'><strong>Configuration</strong></p> | Description                  |
+### Reminders
+
+| Command                                               | Description                                  |
+|-------------------------------------------------------|----------------------------------------------|
+| `/reminder new`                                       | Add a new reminder                           |
+| `/reminder list`                                      | Lists all stored reminders                   |
+| `/reminder reset`                                     | Resets all stored reminders                  |
+| `/reminder delete`                                    | Delete a stored reminder                     |
+| `/reminder toggle`                                    | Toggles notifications                        |
+
+### Configuration
+
+| Command                                           | Description                  |
 |---------------------------------------------------|------------------------------|
 | `/config`                                         | Configure server settings    |
 | `/star`                                           | Configure starboard settings |
 | `/toggle`                                         | Toggles Avalon features      |
 
-| <p id='mod'><strong>Moderation Commands</strong></p> | Description                 |
+### Moderation
+
+| Command                                              | Description                 |
 |------------------------------------------------------|-----------------------------|
 | `/purge`                                             | Purges messages (up to 100) |
 | `/poll`                                              | Submits poll to be voted on |
 | `/broadcast`                                         | Sends message as Avalon     |
 
-| <p id='music'><strong>Music Commands</strong></p> | Description                                           |
+### Music
+
+| Command                                           | Description                                           |
 |---------------------------------------------------|-------------------------------------------------------|
 | `/play`                                           | Plays Youtube and Spotify                             |
 | `/pause`                                          | Pauses playback                                       |
