@@ -23,6 +23,7 @@ public class Help extends ListenerAdapter {
             event.replyEmbeds(builder.build()).setEphemeral(true)
                     .addActionRow(
                             Button.success("helpGeneral", "General").asDisabled(),
+                            Button.success("helpReminder", "Reminders"),
                             Button.success("helpMod", "Moderation"),
                             Button.success("helpMusic", "Music"),
                             Button.success("helpConfig", "Config"),
@@ -44,6 +45,20 @@ public class Help extends ListenerAdapter {
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
                                 Button.success("helpGeneral", "General").asDisabled(),
+                                Button.success("helpReminder", "Reminders"),
+                                Button.success("helpMod", "Moderation"),
+                                Button.success("helpMusic", "Music"),
+                                Button.success("helpConfig", "Config"),
+                                Button.link(inviteLink, "Invite"))
+                        .queue();
+            }
+            case ("helpReminder") -> {
+                EmbedBuilder builder = help(5);
+
+                event.editMessageEmbeds(builder.build())
+                        .setActionRow(
+                                Button.success("helpGeneral", "General"),
+                                Button.success("helpReminder", "Reminders").asDisabled(),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
                                 Button.success("helpConfig", "Config"),
@@ -56,6 +71,7 @@ public class Help extends ListenerAdapter {
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
                                 Button.success("helpGeneral", "General"),
+                                Button.success("helpReminder", "Reminders"),
                                 Button.success("helpMod", "Moderation").asDisabled(),
                                 Button.success("helpMusic", "Music"),
                                 Button.success("helpConfig", "Config"),
@@ -68,6 +84,7 @@ public class Help extends ListenerAdapter {
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
                                 Button.success("helpGeneral", "General"),
+                                Button.success("helpReminder", "Reminders"),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music").asDisabled(),
                                 Button.success("helpConfig", "Config"),
@@ -80,6 +97,7 @@ public class Help extends ListenerAdapter {
                 event.editMessageEmbeds(builder.build())
                         .setActionRow(
                                 Button.success("helpGeneral", "General"),
+                                Button.success("helpReminder", "Reminders"),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
                                 Button.success("helpConfig", "Config").asDisabled(),
@@ -100,54 +118,59 @@ public class Help extends ListenerAdapter {
 
         switch (setting) {
             case 1 -> builder = new EmbedBuilder()
-                    .setColor(Util.randColor())
-                    .setTitle("Avalon Commands")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
-                    .addField("General Commands", """
-                            `/help`  Lists commands
-                            `/ping`  Pings bot
-                            `/coinflip` Flips a coin
-                            `/truth` Requests truth
-                            `/dare`   Requests dare
-                            `/avatar` Retrieves target profile picture
-                            `/whois`  Provides user information
-                            `/confess` Sends anonymous confession
-                            `/report confession` Report a confession by its confession number
-                            `/8ball`   Asks the magic 8ball a question""", false);
+                .setColor(Util.randColor())
+                .setTitle("Avalon Commands")
+                .addField("General Commands", """
+                        `/help`  Lists commands
+                        `/ping`  Pings bot
+                        `/coinflip` Flips a coin
+                        `/truth` Requests truth
+                        `/dare`   Requests dare
+                        `/avatar` Retrieves target profile picture
+                        `/whois`  Provides user information
+                        `/confess` Sends anonymous confession
+                        `/report confession` Report a confession by its confession number
+                        `/8ball`   Asks the magic 8ball a question""", false);
             case 2 -> builder = new EmbedBuilder()
-                    .setColor(Util.randColor())
-                    .setTitle("Avalon Commands")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
-                    .addField("Moderation Commands", """
-                            `/purge`  Purges messages (up to 100)
-                            `/poll` Submits poll to be voted on
-                            `/broadcast`  Sends message as Avalon""", false);
+                .setColor(Util.randColor())
+                .setTitle("Avalon Commands")
+                .addField("Moderation Commands", """
+                        `/purge`  Purges messages (up to 100)
+                        `/poll` Submits poll to be voted on
+                        `/broadcast`  Sends message as Avalon""", false);
             case 3 -> builder = new EmbedBuilder()
-                    .setColor(Util.randColor())
-                    .setTitle("Avalon Commands")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
-                    .addField("Music Commands", """
-                            `/play`  Plays YouTube, Spotify, Apple Music
-                            `/pause` Pauses playback
-                            `/resume` Resumes playback
-                            `/clear`  Clears queue
-                            `/queue`  Displays song queue
-                            `/playing` Displays currently playing song
-                            `/join`  Requests for bot to join VC
-                            `/leave` Requests for bot to leave VC
-                            `/volume`  Sets volume
-                            `/loop`  Loops the currently playing song
-                            `/shuffle` Shuffles music queue
-                            `/skip`  Skips song
-                            `/seek`  Seeks song position""", false);
+                .setColor(Util.randColor())
+                .setTitle("Avalon Commands")
+                .addField("Music Commands", """
+                        `/play`  Plays YouTube, Spotify, Apple Music
+                        `/pause` Pauses playback
+                        `/resume` Resumes playback
+                        `/clear`  Clears queue
+                        `/queue`  Displays song queue
+                        `/playing` Displays currently playing song
+                        `/join`  Requests for bot to join VC
+                        `/leave` Requests for bot to leave VC
+                        `/volume`  Sets volume
+                        `/loop`  Loops the currently playing song
+                        `/shuffle` Shuffles music queue
+                        `/skip`  Skips song
+                        `/seek`  Seeks song position""", false);
             case 4 -> builder = new EmbedBuilder()
-                    .setColor(Util.randColor())
-                    .setTitle("Avalon Commands")
-                    .setThumbnail("https://cdn.discordapp.com/avatars/971239438892019743/a40528ce063fc40a62d86d09bb1aa087.png?size=256")
-                    .addField("Server Configuration", """
-                            `/config` Configure server settings
-                            `/star` Configure starboard settings
-                            `/toggle`  Toggles Avalon features""", false);
+                .setColor(Util.randColor())
+                .setTitle("Avalon Commands")
+                .addField("Server Configuration", """
+                        `/config` Configure server settings
+                        `/star` Configure starboard settings
+                        `/toggle`  Toggles Avalon features""", false);
+            case 5 -> builder = new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setTitle("Avalon Commands")
+                .addField("Reminder Commands", """
+                        `/reminder new`  Add a new reminder
+                        `/reminder list`  Lists all stored reminders
+                        `/reminder reset`  Resets all stored reminders
+                        `/reminder delete`  Delete a stored reminder
+                        `/reminder toggle`  Toggles notifications""", false);
         }
 
         return builder;
