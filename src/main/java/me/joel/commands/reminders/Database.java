@@ -41,7 +41,7 @@ public class Database
      *
      * @throws SQLException On failure to interact with database
      */
-    public static void initializeDatabase() throws SQLException
+    public static void initialize() throws SQLException
     {
         String sql = """
                 CREATE TABLE IF NOT EXISTS triggers(
@@ -335,33 +335,6 @@ public class Database
             while ( set.next() )
             {
                 String userID = set.getString( "user_id" );
-                insertData( triggerMap, triggerToggle, userID, set );
-            }
-        }
-    }
-
-    /**
-     * Sync member's in-memory trigger with database
-     *
-     * @param member        Event member
-     * @param triggerMap    In-memory trigger map
-     * @param triggerToggle In-memory trigger toggle map
-     * @throws SQLException On failure to interact with database
-     */
-    public static void syncUserData( Member member, HashMap<String, LinkedHashSet<String>> triggerMap,
-                                     HashMap<String, Boolean> triggerToggle ) throws SQLException
-    {
-        String userID = member.getId();
-        String sql = String.format( """
-                SELECT * FROM triggers
-                WHERE user_id = %s;""", userID );
-
-        try ( Connection conn = getConnect() )
-        {
-            ResultSet set = conn.createStatement().executeQuery( sql );
-
-            if ( set.next() )
-            {
                 insertData( triggerMap, triggerToggle, userID, set );
             }
         }
