@@ -1,6 +1,5 @@
 package me.joel.commands.guild_config;
 
-import me.joel.Console;
 import me.joel.Database;
 import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -12,10 +11,16 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Starboard extends ListenerAdapter {
+
+    // SL4FJ Logger
+    final Logger log = LoggerFactory.getLogger( Starboard.class );
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -31,8 +36,7 @@ public class Starboard extends ListenerAdapter {
                 try {
                     Database.getConnect().createStatement().execute(sql);
                 } catch (SQLException e) {
-                    Console.warn("Failed to configure starboard settings");
-                    e.printStackTrace();
+                    log.error("Failed to configure starboard settings", e);
                 }
 
                 GuildSettings.starboard_limit.put(event.getGuild(), num);
@@ -49,8 +53,7 @@ public class Starboard extends ListenerAdapter {
                     try {
                         Database.getConnect().createStatement().execute(sql);
                     } catch (SQLException e) {
-                        Console.warn("Failed to configure starboard settings");
-                        e.printStackTrace();
+                        log.error("Failed to configure starboard settings", e);
                     }
 
                     event.reply("Users can now star their own messages").queue();
@@ -61,8 +64,7 @@ public class Starboard extends ListenerAdapter {
                     try {
                         Database.getConnect().createStatement().execute(sql);
                     } catch (SQLException e) {
-                        Console.warn("Failed to configure starboard settings");
-                        e.printStackTrace();
+                        log.error("Failed to configure starboard settings", e);
                     }
 
                     event.reply("Users can no longer star their own messages").queue();

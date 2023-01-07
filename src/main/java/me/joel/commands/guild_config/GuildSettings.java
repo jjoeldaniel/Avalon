@@ -1,6 +1,5 @@
 package me.joel.commands.guild_config;
 
-import me.joel.Console;
 import me.joel.Database;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -9,6 +8,9 @@ import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -27,6 +29,9 @@ public class GuildSettings extends ListenerAdapter {
     public static HashMap<Guild, Boolean> insults = new HashMap<>();
     public static HashMap<Guild, Boolean> now_playing = new HashMap<>();
     public static HashMap<Guild, Boolean> gm_gn = new HashMap<>();
+
+    // SL4FJ Logger
+    final Logger log = LoggerFactory.getLogger( GuildSettings.class );
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -128,8 +133,7 @@ public class GuildSettings extends ListenerAdapter {
                         event.getHook().sendMessage("Join channel set to: " + ch.getAsMention()).queue();
                         join_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
-                        Console.warn("Failed to configure guild join channel");
-                        e.printStackTrace();
+                        log.error("Failed to configure guild join channel", e);
                     }
                 }
                 case "mod" -> {
@@ -140,8 +144,7 @@ public class GuildSettings extends ListenerAdapter {
                         event.getHook().sendMessage("Moderation channel set to: " + ch.getAsMention()).queue();
                         mod_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
-                        Console.warn("Failed to configure guild join channel");
-                        e.printStackTrace();
+                        log.error("Failed to configure guild join channel", e);
                     }
                 }
                 case "leave" -> {
@@ -152,8 +155,7 @@ public class GuildSettings extends ListenerAdapter {
                         event.getHook().sendMessage("Leave channel set to: " + ch.getAsMention()).queue();
                         leave_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
-                        Console.warn("Failed to configure guild leave channel");
-                        e.printStackTrace();
+                        log.error("Failed to configure guild leave channel", e);
                     }
                 }
                 case "star" -> {
@@ -164,8 +166,7 @@ public class GuildSettings extends ListenerAdapter {
                         event.getHook().sendMessage("Starboard channel set to: " + ch.getAsMention()).queue();
                         starboard_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
-                        Console.warn("Failed to configure guild starboard channel");
-                        e.printStackTrace();
+                        log.error("Failed to configure guild starboard channel", e);
                     }
                 }
                 case "confess" -> {
@@ -176,8 +177,7 @@ public class GuildSettings extends ListenerAdapter {
                         event.getHook().sendMessage("Confession channel set to: " + ch.getAsMention()).queue();
                         starboard_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
-                        Console.warn("Failed to configure guild confession channel");
-                        e.printStackTrace();
+                        log.error("Failed to configure guild confession channel", e);
                     }
                 }
             }
