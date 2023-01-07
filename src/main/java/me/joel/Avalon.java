@@ -2,7 +2,6 @@ package me.joel;
 
 import java.sql.SQLException;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import me.joel.commands.Register;
 import me.joel.commands.global.*;
 import me.joel.commands.global.TruthOrDare;
@@ -33,16 +32,10 @@ public class Avalon
     public static void main( String[] args ) throws InterruptedException
     {
 
-        // Grab from .env
-        Dotenv dotenv = Dotenv.configure()
-                .ignoreIfMissing()
-                .systemProperties()
-                .load();
-
         // SL4FJ Logger
         final Logger log = LoggerFactory.getLogger( Avalon.class );
 
-        final String token = System.getProperty( "DISCORD_TOKEN" );
+        final String token = System.getenv( "DISCORD_TOKEN" );
 
         JDA jda = JDABuilder.createDefault( token )
                 .setStatus( OnlineStatus.ONLINE )

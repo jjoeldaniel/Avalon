@@ -30,9 +30,9 @@ public class Database {
     public static Connection getConnect() {
         // Constants
 
-        final String URL = System.getProperty( "DATABASE_URL" );
-        final String USER = System.getProperty( "DATABASE_USER" );
-        final String PASSWORD = System.getProperty( "DATABASE_PASSWORD" );
+        final String URL = System.getenv( "DATABASE_URL" );
+        final String USER = System.getenv( "DATABASE_USER" );
+        final String PASSWORD = System.getenv( "DATABASE_PASSWORD" );
 
         if (conn == null) {
 

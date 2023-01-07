@@ -18,8 +18,8 @@ import java.util.concurrent.CompletionException;
  */
 public class Spotify {
 
-    static final String client_id = System.getProperty("SPOTIFY_CLIENT_ID");
-    static final String client_secret = System.getProperty("SPOTIFY_CLIENT_SECRET");
+    static final String client_id = System.getenv("SPOTIFY_CLIENT_ID");
+    static final String client_secret = System.getenv("SPOTIFY_CLIENT_SECRET");
 
     /**
      * SpotifyAPI
