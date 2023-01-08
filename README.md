@@ -65,6 +65,7 @@ Go to:
 | Command                                           | Description                  |
 |---------------------------------------------------|------------------------------|
 | `/config`                                         | Configure server settings    |
+| `/config_view`                                    | View server settings         |
 | `/star`                                           | Configure starboard settings |
 | `/toggle`                                         | Toggles Avalon features      |
 

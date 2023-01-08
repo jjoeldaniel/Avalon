@@ -152,6 +152,7 @@ public class Help extends ListenerAdapter {
                 .setTitle("Avalon Commands")
                 .addField("Server Configuration", """
                         `/config` Configure server settings
+                        `/config_view` View server settings
                         `/star` Configure starboard settings
                         `/toggle`  Toggles Avalon features""", false);
             case 5 -> builder = new EmbedBuilder()
