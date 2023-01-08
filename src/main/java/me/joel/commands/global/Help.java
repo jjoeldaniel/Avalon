@@ -10,8 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class Help extends ListenerAdapter {
 
-    final String inviteLink = "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot";
-
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
 
@@ -26,8 +24,7 @@ public class Help extends ListenerAdapter {
                             Button.success("helpReminder", "Reminders"),
                             Button.success("helpMod", "Moderation"),
                             Button.success("helpMusic", "Music"),
-                            Button.success("helpConfig", "Config"),
-                            Button.link(inviteLink, "Invite"))
+                            Button.success("helpConfig", "Config"))
                     .queue();
         }
     }
@@ -48,8 +45,7 @@ public class Help extends ListenerAdapter {
                                 Button.success("helpReminder", "Reminders"),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
-                                Button.success("helpConfig", "Config"),
-                                Button.link(inviteLink, "Invite"))
+                                Button.success("helpConfig", "Config"))
                         .queue();
             }
             case ("helpReminder") -> {
@@ -61,8 +57,7 @@ public class Help extends ListenerAdapter {
                                 Button.success("helpReminder", "Reminders").asDisabled(),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
-                                Button.success("helpConfig", "Config"),
-                                Button.link(inviteLink, "Invite"))
+                                Button.success("helpConfig", "Config"))
                         .queue();
             }
             case ("helpMod") -> {
@@ -74,8 +69,7 @@ public class Help extends ListenerAdapter {
                                 Button.success("helpReminder", "Reminders"),
                                 Button.success("helpMod", "Moderation").asDisabled(),
                                 Button.success("helpMusic", "Music"),
-                                Button.success("helpConfig", "Config"),
-                                Button.link(inviteLink, "Invite"))
+                                Button.success("helpConfig", "Config"))
                         .queue();
             }
             case ("helpMusic") -> {
@@ -87,8 +81,7 @@ public class Help extends ListenerAdapter {
                                 Button.success("helpReminder", "Reminders"),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music").asDisabled(),
-                                Button.success("helpConfig", "Config"),
-                                Button.link(inviteLink, "Invite"))
+                                Button.success("helpConfig", "Config"))
                         .queue();
             }
             case ("helpConfig") -> {
@@ -100,8 +93,7 @@ public class Help extends ListenerAdapter {
                                 Button.success("helpReminder", "Reminders"),
                                 Button.success("helpMod", "Moderation"),
                                 Button.success("helpMusic", "Music"),
-                                Button.success("helpConfig", "Config").asDisabled(),
-                                Button.link(inviteLink, "Invite"))
+                                Button.success("helpConfig", "Config").asDisabled())
                         .queue();
             }
         }
@@ -160,6 +152,7 @@ public class Help extends ListenerAdapter {
                 .setTitle("Avalon Commands")
                 .addField("Server Configuration", """
                         `/config` Configure server settings
+                        `/config_view` View server settings
                         `/star` Configure starboard settings
                         `/toggle`  Toggles Avalon features""", false);
             case 5 -> builder = new EmbedBuilder()
