@@ -5,6 +5,12 @@
 
 > A multi-purpose Discord bot  that includes music, moderation, utility, and more!
 
+## **Table of Contents**
+
+- [FAQ](#faq)
+- [Commands List](#commands-list)
+- [Building From Source](#building-from-source)
+
 ## **FAQ**
 
 ### **1) What is the command list?**
@@ -19,7 +25,7 @@
 
 Avalon requires various permissions (all previewed when inviting) and for its role to be moved up as high as possible in the role hierarchy.
 
-## Commands List
+## **Commands List**
 
 Go to:
 [General](#general),
@@ -85,3 +91,21 @@ Go to:
 | `/shuffle`                                        | Shuffles music queue                                  |
 | `/skip`                                           | Skips song with an optional song number specific skip |
 | `/seek`                                           | Seeks song position                                   |
+
+## **Building From Source**
+
+1) Clone the repo
+
+   `git clone https://github.com/jjoeldaniel/Avalon.git`
+
+2) Build with Maven
+
+   `mvn`
+
+3) Place your env text file in /target/ alongside the jar file
+
+   - Follow the template provided in [example-env.txt](https://github.com/jjoeldaniel/Avalon/blob/main/example-env.txt)
+
+4) Run jar
+
+   `java -jar avalon-v1-jar-with-dependencies.jar`
