@@ -79,8 +79,8 @@ public class Mock extends ListenerAdapter {
             bottomText.append( arr[i] ).append( " " );
         }
 
-        String username = System.getProperty( "IMGFLIP_USERNAME" );
-        String password = System.getProperty( "IMGFLIP_PASSWORD" );
+        String username = System.getenv( "IMGFLIP_USERNAME" );
+        String password = System.getenv( "IMGFLIP_PASSWORD" );
 
         // Request parameters and other properties
         List<NameValuePair> params = new ArrayList<>(5);
