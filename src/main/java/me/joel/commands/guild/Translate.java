@@ -4,15 +4,14 @@ import me.joel.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+import java.awt.Color;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import com.google.cloud.translate.Translation;
+import com.google.cloud.translate.Translate.TranslateOption;
+import com.google.cloud.translate.TranslateOptions;
 
 public class Translate extends ListenerAdapter {
 
@@ -23,59 +22,59 @@ public class Translate extends ListenerAdapter {
 
         if (invoke.equals("Translate message")) {
 
-            // Attempts translation, ignores and returns null on exception
             String text = event.getTarget().getContentDisplay();
-            String translation = null;
-            try {
-                translation = translate(text);
-            } catch (IOException ignore) {}
-
-            EmbedBuilder builder = new EmbedBuilder();
-
-            // On Exception
-            if (translation == null) {
-                builder = Util.genericError();
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                return;
-            }
-
             event.deferReply().queue();
 
-            translation = translation.replace("&#39;", "'");
-            translation = translation.replace("&quot;", "\"");
-            builder.setTitle("Translated Text").setDescription("\"" + translation + "\"").setColor(Util.randColor());
-
-            // Send embed
-            event.getHook().sendMessageEmbeds(builder.build()).queue();
+            try {
+                EmbedBuilder builder = translate(text);
+                event.getHook().sendMessageEmbeds(builder.build()).queue();
+            } 
+            catch (Exception e) {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor(Color.RED)
+                        .setDescription("An error occurred while translating the message. Please try again later.");
+                event.getHook().sendMessageEmbeds(builder.build()).queue();
+            }
         }
     }
 
     /**
-     * Translates messages using Google API (limit of 5,000 requests daily)
+     * Translates messages using Google API (limit of 16,000 characters daily)
      * @param text Message pre-translation
      * @return Translated text
-     * @throws IOException API Exception
      */
-    private static String translate(String text) throws IOException {
+    private static EmbedBuilder translate(String text) {
 
-        // Google script URL
-        String urlStr = "https://script.google.com/macros/s/AKfycbzCWLTSgDZTKaSyE3sgcb2KTcFDNMvpL1nH1gRXFhMDV3by792WUjxviYk3lPxic7Wf3Q/exec" +
-                "?q=" + URLEncoder.encode(text, StandardCharsets.UTF_8) +
-                "&target=" + "en" +
-                "&source=" + "";
-        URL url = new URL(urlStr);
+        var translate = TranslateOptions.getDefaultInstance().getService();
+        
+        String originLanguage = translate.detect(text).getLanguage();
 
-        StringBuilder response = new StringBuilder();
+        if (originLanguage.equals("en")) {
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setColor(Util.randColor())
+                    .setDescription("The message is already in English!");
 
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestProperty("User-Agent", "Mozilla/5.0");
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+            return builder;
         }
-        in.close();
-        return response.toString();
+
+        String targetLanguage = "en";
+        
+        Translation translation = translate.translate(
+            text,
+            TranslateOption.sourceLanguage(originLanguage),
+            TranslateOption.targetLanguage("en")
+        );
+
+        String translatedText = translation.getTranslatedText();
+
+        EmbedBuilder builder = new EmbedBuilder()
+                .setColor(Util.randColor())
+                .setTitle("Translation")
+                .addField("Original [" + originLanguage + "]", text, false)
+                .addField("Translation [" + targetLanguage + "]", translatedText, false)
+                .setFooter("Powered by Google Translate");
+
+        return builder;
+
     }
 }
