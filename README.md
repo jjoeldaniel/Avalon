@@ -96,11 +96,15 @@ Go to:
 
 1) Clone the repo
 
-   `git clone https://github.com/jjoeldaniel/Avalon.git`
+   ```console
+   git clone https://github.com/jjoeldaniel/Avalon.git
+   ```
 
 2) Build with Maven
 
-   `mvn`
+   ```console
+   mvn
+   ```
 
 3) Place your env text file in /target/ alongside the jar file
 
@@ -108,4 +112,6 @@ Go to:
 
 4) Run jar
 
-   `java -jar avalon-v1-jar-with-dependencies.jar`
+   ```console
+   java -jar avalon-v1-jar-with-dependencies.jar
+   ```
