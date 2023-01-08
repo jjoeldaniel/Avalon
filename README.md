@@ -104,7 +104,7 @@ Go to:
 2) Build with Maven
 
    ```console
-   mvn
+   mvn clean compile assembly:single
    ```
 
 3) Place your env text file in /target/ alongside the jar file
