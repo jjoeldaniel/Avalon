@@ -171,8 +171,6 @@ public class GuildEvents extends ListenerAdapter
                 GuildSettings.now_playing.put(guild, set.getBoolean(8));
 
                 // starboard channel
-                set2.next();
-
                 var starboard_channel = set2.getLong(2);
                 
                 if (set2.getLong(2) != 0) {
