@@ -20,11 +20,20 @@ public class ReactMessages extends ListenerAdapter {
             }
 
             // Grabs user input
-            String messageSent = event.getMessage().getContentRaw().toLowerCase();
+            String messageSent =  event.getMessage().getContentRaw().toLowerCase();
 
             // Check for bot
             if (event.getMember() == null) return;
             if ((event.getMember()).getUser().isBot()) return;
+
+            if (messageSent.equalsIgnoreCase( "<@" + event.getJDA().getSelfUser().getId() + ">" ) )
+            {
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setColor( Util.randColor() )
+                        .setDescription( "Use /help for a list of my commands!" );
+    
+                event.getChannel().sendMessageEmbeds( builder.build() ).queue();
+            }
 
             if (GuildSettings.gm_gn.get(event.getGuild())) {
                 // Goodnight
