@@ -130,8 +130,10 @@ public class GuildEvents extends ListenerAdapter
                         "INSERT INTO \"public\".\"guild_settings\"(guild_id, insults, gm_gn, now_playing) VALUES (" + guild
                                 .getId() + ", 1, 1, 1)";
                 Database.getConnect().createStatement().execute( sql2 );
-
-                sql2 =
+            }
+            if ( !set2.next() )
+            {
+                String sql2 =
                         "INSERT INTO \"public\".\"starboard_settings\"(guild_id, star_limit, star_self) VALUES (" + guild
                                 .getId() + ", 3, 0)";
                 Database.getConnect().createStatement().execute( sql2 );
@@ -170,9 +172,12 @@ public class GuildEvents extends ListenerAdapter
 
                 // starboard channel
                 set2.next();
-                var starboard_channel = set2.getLong(2);
 
-                GuildSettings.starboard_channel.put(guild, starboard_channel);
+                var starboard_channel = set2.getLong(2);
+                
+                if (set2.getLong(2) != 0) {
+                    GuildSettings.starboard_channel.put(guild, starboard_channel);
+                }
 
                 // star limit
                 GuildSettings.starboard_limit.put(guild, set2.getInt(3));
@@ -185,20 +190,6 @@ public class GuildEvents extends ListenerAdapter
             e.printStackTrace();
             log.error( "Failed to initialize guild settings for guild: " + event.getGuild().getName() + " ("
                     + event.getGuild().getId() + ")" );
-        }
-    }
-
-    @Override
-    public void onMessageReceived( MessageReceivedEvent event )
-    {
-        if ( event.isFromGuild() && event.getMessage().getContentRaw()
-                .equals( "<@" + event.getJDA().getSelfUser().getId() + ">" ) )
-        {
-            EmbedBuilder builder = new EmbedBuilder()
-                    .setColor( Util.randColor() )
-                    .setDescription( "Use /help for a list of my commands!" );
-
-            event.getChannel().sendMessageEmbeds( builder.build() ).queue();
         }
     }
 
