@@ -86,14 +86,13 @@ public class GuildEvents extends ListenerAdapter
         // Initializes guild settings
         try
         {
-            Connection conn = Database.getConnect();
             String sql = "INSERT INTO \"public\".\"guild_settings\"(guild_id, insults, gm_gn, now_playing) VALUES (" + event.getGuild()
                     .getId() + ", 1, 1, 1)";
             String sql2 = "INSERT INTO \"public\".\"starboard_settings\"(guild_id, star_limit, star_self) VALUES (" + event.getGuild()
                     .getId() + "), 3, 0";
 
-            conn.createStatement().execute( sql );
-            conn.createStatement().execute( sql2 );
+            Database.getConnect().createStatement().execute( sql );
+            Database.getConnect().createStatement().execute( sql2 );
         }
         catch ( SQLException e )
         {

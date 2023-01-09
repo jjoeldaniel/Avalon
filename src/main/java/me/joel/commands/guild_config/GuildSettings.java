@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 
 public class GuildSettings extends ListenerAdapter {
@@ -35,6 +35,10 @@ public class GuildSettings extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+
+        final String URL = System.getenv( "DATABASE_URL" );
+        final String USER = System.getenv( "DATABASE_USER" );
+        final String PASSWORD = System.getenv( "DATABASE_PASSWORD" );
 
         if (event.getName().equals("config_view")) {
             Guild guild = event.getGuild();
@@ -126,43 +130,25 @@ public class GuildSettings extends ListenerAdapter {
 
             switch (sub_invoke) {
                 case "join" -> {
-                    String sql = "UPDATE \"public\".\"guild_settings\" SET join_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
-
-                    try {
-                        Database.getConnect().createStatement().execute(sql);
-                        event.getHook().sendMessage("Join channel set to: " + ch.getAsMention()).queue();
-                        join_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
-                    } catch (SQLException e) {
-                        log.error("Failed to configure guild join channel", e);
-                    }
+                    updateChannel("join_ch", event.getGuild(), ch.getId());
+                    join_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
+                    event.getHook().sendMessage("Join channel set to: " + ch.getAsMention()).queue();
                 }
                 case "mod" -> {
-                    String sql = "UPDATE \"public\".\"guild_settings\" SET mod_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
-
-                    try {
-                        Database.getConnect().createStatement().execute(sql);
-                        event.getHook().sendMessage("Moderation channel set to: " + ch.getAsMention()).queue();
-                        mod_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
-                    } catch (SQLException e) {
-                        log.error("Failed to configure guild join channel", e);
-                    }
+                    updateChannel("mod_ch", event.getGuild(), ch.getId());
+                    mod_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
+                    event.getHook().sendMessage("Mod channel set to: " + ch.getAsMention()).queue();
                 }
                 case "leave" -> {
-                    String sql = "UPDATE \"public\".\"guild_settings\" SET leave_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
-
-                    try {
-                        Database.getConnect().createStatement().execute(sql);
-                        event.getHook().sendMessage("Leave channel set to: " + ch.getAsMention()).queue();
-                        leave_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
-                    } catch (SQLException e) {
-                        log.error("Failed to configure guild leave channel", e);
-                    }
+                    updateChannel("leave_ch", event.getGuild(), ch.getId());
+                    leave_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
+                    event.getHook().sendMessage("Leave channel set to: " + ch.getAsMention()).queue();
                 }
                 case "star" -> {
                     String sql = "UPDATE \"public\".\"starboard_settings\" SET starboard_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
 
-                    try {
-                        Database.getConnect().createStatement().execute(sql);
+                    try (Connection conn = DriverManager.getConnection( URL, USER, PASSWORD )) {
+                        conn.createStatement().execute( sql );
                         event.getHook().sendMessage("Starboard channel set to: " + ch.getAsMention()).queue();
                         starboard_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
                     } catch (SQLException e) {
@@ -170,17 +156,25 @@ public class GuildSettings extends ListenerAdapter {
                     }
                 }
                 case "confess" -> {
-                    String sql = "UPDATE \"public\".\"guild_settings\" SET confession_ch=" + ch.getId() + " WHERE guild_id=" + event.getGuild().getId();
-
-                    try {
-                        Database.getConnect().createStatement().execute(sql);
-                        event.getHook().sendMessage("Confession channel set to: " + ch.getAsMention()).queue();
-                        starboard_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
-                    } catch (SQLException e) {
-                        log.error("Failed to configure guild confession channel", e);
-                    }
+                    updateChannel("confession_ch", event.getGuild(), ch.getId());
+                    confession_channel.put(event.getGuild(), Long.valueOf( ch.getId() ) );
+                    event.getHook().sendMessage("Confession channel set to: " + ch.getAsMention()).queue();
                 }
             }
+        }
+    }
+
+    void updateChannel(String type, Guild guild, String ch_id) {
+        final String URL = System.getenv( "DATABASE_URL" );
+        final String USER = System.getenv( "DATABASE_USER" );
+        final String PASSWORD = System.getenv( "DATABASE_PASSWORD" );
+
+        String sql = "UPDATE \"public\".\"guild_settings\" SET " + type + "=" + ch_id + " WHERE guild_id=" + guild.getId();
+
+        try (Connection conn = DriverManager.getConnection( URL, USER, PASSWORD )) {
+            conn.createStatement().execute( sql );
+        } catch (SQLException e) {
+            log.error("Failed to configure guild " + type + " channel", e);
         }
     }
 }
