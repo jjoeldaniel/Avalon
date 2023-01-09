@@ -95,25 +95,19 @@ public class Confess extends ListenerAdapter {
                 return;
             }
 
-            // Get ID
-            TextChannel channel = null;
+            // No channel Found
+            if (!GuildSettings.confession_channel.containsKey(event.getGuild())) {
+                EmbedBuilder confessionError = new EmbedBuilder()
+                        .setTitle("Error!")
+                        .setDescription("No confession channel found!")
+                        .setColor(Color.red);
 
-            String sql = "SELECT confession_ch FROM \"public\".\"guild_settings\" WHERE guild_id=" + event.getGuild().getId();
-            try {
-                ResultSet set = Database.getConnect().createStatement().executeQuery(sql);
-                set.next();
-
-                String channelID = set.getString(1);
-
-                if (channelID != null) {
-                    channel = event.getGuild().getTextChannelById(channelID);
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
+                event.replyEmbeds(confessionError.build()).setEphemeral(true).queue();
+                return;
             }
 
-            // No channel Found
+            TextChannel channel = event.getGuild().getTextChannelById(GuildSettings.confession_channel.get(event.getGuild()));
+
             if (channel == null) {
                 EmbedBuilder confessionError = new EmbedBuilder()
                         .setTitle("Error!")
