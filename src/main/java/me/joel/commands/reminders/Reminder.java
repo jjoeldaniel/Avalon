@@ -328,7 +328,7 @@ public class Reminder extends ListenerAdapter
                 Member member = event.getGuild().getMemberById( id );
 
                 // Skip if message is self-triggered or member is missing view permissions
-                if ( event.getMember() == member || !member.hasPermission( event.getGuildChannel(),
+                if ( member == null || event.getMember() == member || !member.hasPermission( event.getGuildChannel(),
                         Permission.VIEW_CHANNEL ) )
                 {
                     continue;
