@@ -46,7 +46,6 @@ Go to:
 | `/dare`                                               | Requests dare                                |
 | `/avatar`                                             | Retrieves user (or target) profile picture   |
 | `/8ball`                                              | Asks the magic 8ball a question              |
-| `/confess`                                            | Sends anonymous confession                   |
 | `/join`                                               | Request for bot to join VC                   |
 | `/leave`                                              | Request for bot to leave VC                  |
 

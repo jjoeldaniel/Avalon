@@ -120,8 +120,6 @@ public class Help extends ListenerAdapter {
                         `/dare`   Requests dare
                         `/avatar` Retrieves target profile picture
                         `/whois`  Provides user information
-                        `/confess` Sends anonymous confession
-                        `/report confession` Report a confession by its confession number
                         `/8ball`   Asks the magic 8ball a question""", false);
             case 2 -> builder = new EmbedBuilder()
                 .setColor(Util.randColor())
@@ -151,10 +149,7 @@ public class Help extends ListenerAdapter {
                 .setColor(Util.randColor())
                 .setTitle("Avalon Commands")
                 .addField("Server Configuration", """
-                        `/config` Configure server settings
-                        `/config_view` View server settings
-                        `/star` Configure starboard settings
-                        `/toggle`  Toggles Avalon features""", false);
+                        `/config` Configure server settings""", false);
             case 5 -> builder = new EmbedBuilder()
                 .setColor(Util.randColor())
                 .setTitle("Avalon Commands")
