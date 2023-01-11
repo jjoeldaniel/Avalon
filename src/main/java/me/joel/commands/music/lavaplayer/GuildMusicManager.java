@@ -1,4 +1,4 @@
-package me.joel.lavaplayer;
+package me.joel.commands.music.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;

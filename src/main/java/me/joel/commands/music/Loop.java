@@ -1,12 +1,13 @@
 package me.joel.commands.music;
 
-import me.joel.lavaplayer.AudioEventAdapter;
-import me.joel.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
+
+import me.joel.commands.music.lavaplayer.AudioEventAdapter;
+import me.joel.commands.music.lavaplayer.PlayerManager;
 
 import java.awt.*;
 

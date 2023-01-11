@@ -50,22 +50,11 @@ public class Register extends ListenerAdapter {
     private static List<CommandData> guildCommands() {
         List<CommandData> guildCommandData = new ArrayList<>();
 
-        // Set subcommands
-        SubcommandData join = new SubcommandData("join", "Sets channel for join messages").addOption(OptionType.CHANNEL, "channel", "Join channel", true);
-        SubcommandData mod = new SubcommandData("mod", "Sets channel for mod messages").addOption(OptionType.CHANNEL, "channel", "Mod channel", true);
-        SubcommandData leave = new SubcommandData("leave", "Sets channel for leave messages").addOption(OptionType.CHANNEL, "channel", "Leave channel", true);
-        SubcommandData confess = new SubcommandData("confess", "Sets channel for confession messages").addOption(OptionType.CHANNEL, "channel", "Confess channel", true);
-        SubcommandData star = new SubcommandData("star", "Sets channel for starboard").addOption(OptionType.CHANNEL, "channel", "Star channel", true);
-
         // general
-        SubcommandData report_confess = new SubcommandData("confession", "Report a confession by its confession number").addOption(OptionType.INTEGER, "number", "Confession number", true);
-
         guildCommandData.add(Commands.slash("whois", "Provides user information").addOption(OptionType.MENTIONABLE, "user", "Sends user info", true));
         guildCommandData.add(Commands.slash("afk", "Sets AFK status"));
-        guildCommandData.add(Commands.slash("confess", "Sends anonymous confession").addOption(OptionType.STRING, "message", "Confession message", true));
         guildCommandData.add(Commands.slash("join", "Request for bot to join VC"));
         guildCommandData.add(Commands.slash("leave", "Request for bot to leave VC"));
-        guildCommandData.add(Commands.slash("report", "Report").addSubcommands(report_confess));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member avatar"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get member info"));
         guildCommandData.add(Commands.context(Command.Type.USER, "Get user avatar"));
@@ -84,12 +73,6 @@ public class Register extends ListenerAdapter {
         SubcommandData nowPlaying = new SubcommandData("now_playing", "Toggles Now Playing messages");
         guildCommandData.add(Commands.slash("config_view", "View server config").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
         guildCommandData.add(Commands.slash("toggle", "Toggles bot features").addSubcommands(insults, gmgn, nowPlaying).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
-
-        guildCommandData.add(Commands.slash("config", "Configure bot settings").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)).addSubcommands(join, mod, leave, confess, star));
-
-        SubcommandData limit = new SubcommandData("limit", "Sets required number of stars to be posted on starboard").addOption(OptionType.INTEGER, "num", "Number of stars", true);
-        SubcommandData self = new SubcommandData("self", "Determines if users can star their own posts").addOption(OptionType.BOOLEAN, "can_star", "User ability to self star", true);
-        guildCommandData.add(Commands.slash("star", "Configure starboard settings").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)).addSubcommands(limit, self));
 
         // music
         guildCommandData.add(Commands.slash("play", "Requests a song").addOption(OptionType.STRING, "song", "Accepts Spotify, YouTube, or Apple Music", true));

@@ -1,4 +1,4 @@
-package me.joel.lavaplayer;
+package me.joel.commands.music.lavaplayer;
 
 import com.github.topisenpai.lavasrc.spotify.SpotifySourceManager;
 import com.github.topisenpai.lavasrc.applemusic.AppleMusicSourceManager;

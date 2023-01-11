@@ -1,8 +1,9 @@
 package me.joel.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import me.joel.lavaplayer.GuildMusicManager;
-import me.joel.lavaplayer.PlayerManager;
+
+import me.joel.commands.music.lavaplayer.GuildMusicManager;
+import me.joel.commands.music.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;

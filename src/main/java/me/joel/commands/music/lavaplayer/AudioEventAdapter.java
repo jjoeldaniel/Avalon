@@ -1,4 +1,4 @@
-package me.joel.lavaplayer;
+package me.joel.commands.music.lavaplayer;
 
 public class AudioEventAdapter extends com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter {
 

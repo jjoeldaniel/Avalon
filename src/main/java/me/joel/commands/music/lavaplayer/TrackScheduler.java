@@ -1,4 +1,4 @@
-package me.joel.lavaplayer;
+package me.joel.commands.music.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
@@ -6,7 +6,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import me.joel.Util;
-import me.joel.commands.guild_config.Toggle;
+import me.joel.commands.mod.Toggle;
 import me.joel.commands.music.Play;
 import me.joel.commands.music.Playing;
 import me.joel.commands.music.Skip;
@@ -78,12 +78,12 @@ public class TrackScheduler extends AudioEventAdapter {
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
         if (endReason.mayStartNext) {
 
-            if ( me.joel.lavaplayer.AudioEventAdapter.isLooping()) {
+            if ( me.joel.commands.music.lavaplayer.AudioEventAdapter.isLooping()) {
                 AudioTrack loop = track.makeClone();
                 this.player.startTrack(loop, false);
             }
 
-            else if ( me.joel.lavaplayer.AudioEventAdapter.isShuffling()) {
+            else if ( me.joel.commands.music.lavaplayer.AudioEventAdapter.isShuffling()) {
                 List<AudioTrack> playlist = queue.stream().toList();
 
                 if (playlist.size() < 1) {

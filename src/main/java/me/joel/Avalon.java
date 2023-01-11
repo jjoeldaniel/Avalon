@@ -5,15 +5,11 @@ import java.sql.SQLException;
 import me.joel.commands.Register;
 import me.joel.commands.global.*;
 import me.joel.commands.global.TruthOrDare;
-import me.joel.commands.guild.Confess;
 import me.joel.commands.guild.Join;
 import me.joel.commands.guild.Leave;
 import me.joel.commands.guild.Mock;
-import me.joel.commands.guild_config.Starboard;
 import me.joel.commands.guild.Translate;
 import me.joel.commands.guild.WhoIs;
-import me.joel.commands.guild_config.GuildSettings;
-import me.joel.commands.guild_config.Toggle;
 import me.joel.commands.mod.*;
 import me.joel.commands.music.*;
 import net.dv8tion.jda.api.JDA;
@@ -34,6 +30,16 @@ public class Avalon
 
         // SL4FJ Logger
         final Logger log = LoggerFactory.getLogger( Avalon.class );
+
+        try
+        {
+            Database.initialize();
+            me.joel.commands.reminders.Database.initialize();
+        }
+        catch ( SQLException e )
+        {
+            log.error( "Error connecting/initializing database", e );
+        }
 
         final String token = System.getenv( "DISCORD_TOKEN" );
 
@@ -63,15 +69,13 @@ public class Avalon
                 )
                 // Guild
                 .addEventListeners(
-                        new Confess(),
                         new WhoIs(),
                         new Join(),
                         new Leave(),
                         new Translate(),
                         new Toggle(),
                         new Mock(),
-                        new GuildSettings(),
-                        new Starboard()
+                        new GuildSettings()
                 )
                 // Music
                 .addEventListeners(
@@ -109,16 +113,6 @@ public class Avalon
         }
 
         jda.getPresence().setActivity( Activity.listening( " " + numOfMembers + " members!" ) );
-
-        try
-        {
-            Database.initialize();
-            me.joel.commands.reminders.Database.initialize();
-        }
-        catch ( SQLException e )
-        {
-            log.error( "Error connecting/initializing database", e );
-        }
     }
 
 }

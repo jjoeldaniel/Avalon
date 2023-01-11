@@ -1,4 +1,4 @@
-package me.joel.lavaplayer;
+package me.joel.commands.music.lavaplayer;
 
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;

@@ -1,18 +1,22 @@
-package me.joel.commands.guild_config;
+package me.joel.commands.mod;
 
-import me.joel.Database;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.sql.ResultSet;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Toggle extends ListenerAdapter {
 
     private static boolean nowPlaying = true;
+
+    final private static String URL = System.getenv( "DATABASE_URL" );
+    final private static String USER = System.getenv( "DATABASE_USER" );
+    final private static String PASSWORD = System.getenv( "DATABASE_PASSWORD" );
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
@@ -25,23 +29,11 @@ public class Toggle extends ListenerAdapter {
 
             switch (sub_invoke) {
                 case ("insults") -> {
-                    String sql = "SELECT insults FROM \"public\".\"guild_settings\" WHERE guild_id= " + event.getGuild().getId();
-                    try {
-                        ResultSet rs = Database.getConnect().createStatement().executeQuery(sql);
-                        rs.next();
-                        int sel = rs.getInt(1);
+                    String sql = "UPDATE \"public\".\"guild_settings\" SET insults = NOT insults WHERE guild_id=" + event.getGuild().getId();
 
-                        // enabled
-                        if (sel == 1) {
-                            String sql2 = "UPDATE \"public\".\"guild_settings\" SET insults=0 WHERE guild_id=" + event.getGuild().getId();
-                            Database.getConnect().createStatement().execute(sql2);
-                        }
-                        // disabled
-                        else if (sel == 0) {
-                            String sql2 = "UPDATE \"public\".\"guild_settings\" SET insults=1 WHERE guild_id=" + event.getGuild().getId();
-                            Database.getConnect().createStatement().execute(sql2);
-                        }
-
+                    // connect here
+                    try ( Connection conn = DriverManager.getConnection( URL, USER, PASSWORD ) ) {
+                        conn.createStatement().execute( sql );
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -62,23 +54,11 @@ public class Toggle extends ListenerAdapter {
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
                 case ("goodmorning_goodnight") -> {
-                    String sql = "SELECT gm_gn FROM \"public\".\"guild_settings\" WHERE guild_id= " + event.getGuild().getId();
-                    try {
-                        ResultSet rs = Database.getConnect().createStatement().executeQuery(sql);
-                        rs.next();
-                        int sel = rs.getInt(1);
+                    String sql = "UPDATE \"public\".\"guild_settings\" SET gm_gn = NOT gm_gn WHERE guild_id=" + event.getGuild().getId();
 
-                        // enabled
-                        if (sel == 1) {
-                            String sql2 = "UPDATE \"public\".\"guild_settings\" SET gm_gn=0 WHERE guild_id=" + event.getGuild().getId();
-                            Database.getConnect().createStatement().execute(sql2);
-                        }
-                        // disabled
-                        else if (sel == 0) {
-                            String sql2 = "UPDATE \"public\".\"guild_settings\" SET gm_gn=1 WHERE guild_id=" + event.getGuild().getId();
-                            Database.getConnect().createStatement().execute(sql2);
-                        }
-
+                    // connect here
+                    try ( Connection conn = DriverManager.getConnection( URL, USER, PASSWORD ) ) {
+                        conn.createStatement().execute( sql );
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -99,23 +79,12 @@ public class Toggle extends ListenerAdapter {
                     event.replyEmbeds(builder.build()).setEphemeral(true).queue();
                 }
                 case ("now_playing") -> {
-                    String sql = "SELECT now_playing FROM \"public\".\"guild_settings\" WHERE guild_id= " + event.getGuild().getId();
-                    try {
-                        ResultSet rs = Database.getConnect().createStatement().executeQuery(sql);
-                        rs.next();
-                        int sel = rs.getInt(1);
+                    
+                    String sql = "UPDATE \"public\".\"guild_settings\" SET now_playing = NOT now_playing WHERE guild_id=" + event.getGuild().getId();
 
-                        // enabled
-                        if (sel == 1) {
-                            String sql2 = "UPDATE \"public\".\"guild_settings\" SET now_playing=0 WHERE guild_id=" + event.getGuild().getId();
-                            Database.getConnect().createStatement().execute(sql2);
-                        }
-                        // disabled
-                        else if (sel == 0) {
-                            String sql2 = "UPDATE \"public\".\"guild_settings\" SET now_playing=1 WHERE guild_id=" + event.getGuild().getId();
-                            Database.getConnect().createStatement().execute(sql2);
-                        }
-
+                    // connect here
+                    try ( Connection conn = DriverManager.getConnection( URL, USER, PASSWORD ) ) {
+                        conn.createStatement().execute( sql );
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

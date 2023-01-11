@@ -1,30 +1,25 @@
 package me.joel;
 
-import me.joel.commands.guild_config.GuildSettings;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.audit.ActionType;
-import net.dv8tion.jda.api.audit.AuditLogEntry;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
-import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
-import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import me.joel.commands.mod.GuildSettings;
+
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 public class GuildEvents extends ListenerAdapter
 {
@@ -33,6 +28,10 @@ public class GuildEvents extends ListenerAdapter
 
     public static HashMap<Guild, HashMap<Integer, Member>> confession_record = new HashMap<>();
     public static HashMap<Guild, HashMap<Integer, String>> message_record = new HashMap<>();
+    
+    final private static String URL = System.getenv( "DATABASE_URL" );
+    final private static String USER = System.getenv( "DATABASE_USER" );
+    final private static String PASSWORD = System.getenv( "DATABASE_PASSWORD" );
 
     @Override
     public void onReady( @NotNull ReadyEvent event )
@@ -86,13 +85,19 @@ public class GuildEvents extends ListenerAdapter
         // Initializes guild settings
         try
         {
-            String sql = "INSERT INTO \"public\".\"guild_settings\"(guild_id, insults, gm_gn, now_playing) VALUES (" + event.getGuild()
-                    .getId() + ", 1, 1, 1)";
-            String sql2 = "INSERT INTO \"public\".\"starboard_settings\"(guild_id, star_limit, star_self) VALUES (" + event.getGuild()
-                    .getId() + "), 3, 0";
+            String sql = "INSERT INTO \"public\".\"guild_settings\"(guild_id) VALUES (" + event.getGuild()
+                    .getId() + "TRUE, TRUE, TRUE)";
 
-            Database.getConnect().createStatement().execute( sql );
-            Database.getConnect().createStatement().execute( sql2 );
+            // insults
+            GuildSettings.insults.put(event.getGuild(), true);
+            // gm gn
+            GuildSettings.gm_gn.put(event.getGuild(), true);
+            // now playing
+            GuildSettings.now_playing.put(event.getGuild(), true);
+
+            try ( Connection conn = DriverManager.getConnection( URL, USER, PASSWORD ) ) {
+                conn.createStatement().execute( sql );
+            }
         }
         catch ( SQLException e )
         {
@@ -107,79 +112,39 @@ public class GuildEvents extends ListenerAdapter
     {
         Guild guild = event.getGuild();
 
-        // Initialize confessions
-        HashMap<Integer, Member> map = new HashMap<>();
-        confession_record.put( guild, map );
-
-        HashMap<Integer, String> map2 = new HashMap<>();
-        message_record.put( guild, map2 );
-
         // Initializes guild settings if nothing found
         try
         {
             String sql = "SELECT * FROM \"public\".\"guild_settings\" WHERE guild_id=" +guild.getId();
-            ResultSet set = Database.getConnect().createStatement().executeQuery( sql );
 
-            sql = "SELECT * FROM \"public\".\"starboard_settings\" WHERE guild_id=" +guild.getId();
-            ResultSet set2 = Database.getConnect().createStatement().executeQuery( sql );
+            try ( Connection conn = DriverManager.getConnection( URL, USER, PASSWORD ) ) {
+                ResultSet set = conn.createStatement().executeQuery( sql );
 
-            if ( !set.next() )
-            {
-                String sql2 =
-                        "INSERT INTO \"public\".\"guild_settings\"(guild_id, insults, gm_gn, now_playing) VALUES (" + guild
-                                .getId() + ", 1, 1, 1)";
-                Database.getConnect().createStatement().execute( sql2 );
-            }
-            if ( !set2.next() )
-            {
-                String sql2 =
-                        "INSERT INTO \"public\".\"starboard_settings\"(guild_id, star_limit, star_self) VALUES (" + guild
-                                .getId() + ", 3, 0)";
-                Database.getConnect().createStatement().execute( sql2 );
-            }
-            // Syncs settings here
-            else
-            {
-                var confession_channel = set.getLong(2);
-                var join_channel = set.getLong(3);
-                var leave_channel = set.getLong(4);
-                var mod_channel = set.getLong(5);
+                if ( !set.next() )
+                {
+                    String sql2 =
+                            "INSERT INTO \"public\".\"guild_settings\" VALUES (" + guild
+                                    .getId() + ", TRUE, TRUE, TRUE)";
+                    conn.createStatement().execute( sql2 );
 
-                // confession channel
-                if (set.getLong(2) != 0) {
-                    GuildSettings.confession_channel.put(guild, confession_channel);
+                    // insults
+                    GuildSettings.insults.put(guild, true);
+                    // gm gn
+                    GuildSettings.gm_gn.put(guild, true);
+                    // now playing
+                    GuildSettings.now_playing.put(guild, true);
                 }
-                // join channel
-                if (set.getLong(3) != 0) {
-                    GuildSettings.join_channel.put(guild, join_channel);
-                }
-                // leave channel
-                if (set.getLong(4) != 0) {
-                    GuildSettings.leave_channel.put(guild, leave_channel);
-                }
-                // mod channel
-                if (set.getLong(5) != 0) {
-                    GuildSettings.mod_channel.put(guild, mod_channel);
-                }
+                // Syncs settings here
+                else
+                {
 
-                // insults
-                GuildSettings.insults.put(guild, set.getBoolean(6));
-                // gm gn
-                GuildSettings.gm_gn.put(guild, set.getBoolean(7));
-                // now playing
-                GuildSettings.now_playing.put(guild, set.getBoolean(8));
-
-                // starboard channel
-                var starboard_channel = set2.getLong(2);
-                
-                if (set2.getLong(2) != 0) {
-                    GuildSettings.starboard_channel.put(guild, starboard_channel);
+                    // insults
+                    GuildSettings.insults.put(guild, set.getBoolean(2));
+                    // gm gn
+                    GuildSettings.gm_gn.put(guild, set.getBoolean(3));
+                    // now playing
+                    GuildSettings.now_playing.put(guild, set.getBoolean(4));
                 }
-
-                // star limit
-                GuildSettings.starboard_limit.put(guild, set2.getInt(3));
-                // star self
-                GuildSettings.starboard_self.put(guild, set2.getBoolean(4));
             }
         }
         catch ( SQLException e )
@@ -188,89 +153,5 @@ public class GuildEvents extends ListenerAdapter
             log.error( "Failed to initialize guild settings for guild: " + event.getGuild().getName() + " ("
                     + event.getGuild().getId() + ")" );
         }
-    }
-
-    @Override
-    public void onGuildMemberJoin( @NotNull GuildMemberJoinEvent event )
-    {
-        Member member = event.getMember();
-
-        var channelID = GuildSettings.join_channel.get( event.getGuild() );
-        if ( channelID == null ) return;
-
-        TextChannel channel = event.getGuild().getTextChannelById( channelID );
-
-        EmbedBuilder memberJoin = new EmbedBuilder()
-                .setColor( Util.randColor() )
-                .setTitle( "A new member has joined!" )
-                .setDescription
-                        (
-                                "Welcome " + member.getAsMention() + " to " + event.getGuild().getName() +
-                                        "! There are now " + event.getGuild().getMemberCount() + " members in "
-                                        + event.getGuild().getName() + "."
-                        )
-                .setThumbnail( member.getEffectiveAvatarUrl() )
-                .setFooter( "User: " + member.getUser().getName() + "#" + member.getUser().getDiscriminator() + " ID: "
-                        + member.getId() );
-
-        if ( event.getGuild().getSelfMember().hasPermission( channel, Permission.MESSAGE_SEND ) )
-        {
-            channel.sendMessageEmbeds( memberJoin.build() ).queue( ( null ), ( null ) );
-        }
-    }
-
-    @Override
-    public void onGuildMemberRemove( @NotNull GuildMemberRemoveEvent event )
-    {
-
-        var channelID = GuildSettings.leave_channel.get( event.getGuild() );
-        if ( channelID == null ) return;
-
-        TextChannel channel = event.getGuild().getTextChannelById( channelID );
-
-        User user = event.getUser();
-        EmbedBuilder memberLeave = new EmbedBuilder()
-                .setColor( Util.randColor() )
-                .setTitle( "A member has left!" )
-                .setDescription
-                        (
-                                user.getAsMention() + " has left " + event.getGuild().getName() +
-                                        "! There are now " + event.getGuild().getMemberCount() + " members in "
-                                        + event.getGuild().getName() + "."
-                        )
-                .setThumbnail( user.getEffectiveAvatarUrl() )
-                .setFooter( "User: " + user.getName() + "#" + user.getDiscriminator() + " ID: " + user.getId() );
-
-        event.getGuild().retrieveAuditLogs().queueAfter( 1, TimeUnit.SECONDS, ( logs ) -> {
-            boolean isBan = false, isKick = false;
-
-            for ( AuditLogEntry log : logs )
-            {
-                if ( log.getTargetIdLong() == user.getIdLong() )
-                {
-                    isBan = log.getType() == ActionType.BAN;
-                    isKick = log.getType() == ActionType.KICK;
-                    break;
-                }
-            }
-
-            if ( event.getGuild().getSelfMember().hasPermission( channel, Permission.MESSAGE_SEND ) )
-            {
-                if ( isBan )
-                {
-                    memberLeave.setTitle( "A member has been banned!" );
-                    channel.sendMessageEmbeds( memberLeave.build() ).queue( ( null ), ( null ) );
-                }
-                else if ( isKick )
-                {
-                    memberLeave.setTitle( "A member has been kicked!" );
-                    channel.sendMessageEmbeds( memberLeave.build() ).queue( ( null ), ( null ) );
-                }
-                else
-                {
-                    channel.sendMessageEmbeds( memberLeave.build() ).queue( ( null ), ( null ) );
-                }
-            }
-        } );
     }
 }
