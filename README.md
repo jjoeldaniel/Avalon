@@ -113,7 +113,7 @@ Go to:
    ```console
    java -jar avalon-v1-jar-with-dependencies.jar
    ```
-   
+
 ## Contributing
 
 Pull requests are welcome! Look through the [issues](https://github.com/jjoeldaniel/Avalon/issues) and/or create one if you have an idea.
