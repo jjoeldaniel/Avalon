@@ -47,7 +47,6 @@ Go to:
 | `/avatar`                                             | Retrieves user (or target) profile picture   |
 | `/8ball`                                              | Asks the magic 8ball a question              |
 | `/confess`                                            | Sends anonymous confession                   |
-| `/report confession`                                  | Report a confession by its confession number |
 | `/join`                                               | Request for bot to join VC                   |
 | `/leave`                                              | Request for bot to leave VC                  |
 
@@ -66,9 +65,6 @@ Go to:
 | Command                                           | Description                  |
 |---------------------------------------------------|------------------------------|
 | `/config`                                         | Configure server settings    |
-| `/config_view`                                    | View server settings         |
-| `/star`                                           | Configure starboard settings |
-| `/toggle`                                         | Toggles Avalon features      |
 
 ### Moderation
 
