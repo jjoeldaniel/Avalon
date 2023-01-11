@@ -1,9 +1,12 @@
 package me.joel.commands.mod;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+
+import me.joel.commands.mod.GuildSettings;
 
 import java.awt.*;
 import java.sql.Connection;
@@ -23,11 +26,45 @@ public class Toggle extends ListenerAdapter {
 
         var invoke = event.getName();
 
-        if (invoke.equals("toggle")) {
+        if (invoke.equals("config")) {
 
             var sub_invoke = event.getSubcommandName();
 
             switch (sub_invoke) {
+                case ("view") -> {
+                    Guild guild = event.getGuild();
+
+                    EmbedBuilder builder = new EmbedBuilder()
+                            .setTitle("Server Configuration");
+
+                    if (GuildSettings.insults.get(event.getGuild()))
+                    {
+                        builder.addField("Insults", "Activated", false);
+                    }
+                    else {
+                        builder.addField("Insults", "Deactivated", false);
+                    }
+
+                    if (GuildSettings.gm_gn.get(event.getGuild()))
+                    {
+                        builder.addField("Gm/Gn Messages", "Activated", false);
+                    }
+                    else {
+                        builder.addField("Gm/Gn Messages", "Deactivated", false);
+                    }
+
+                    if (GuildSettings.now_playing.get(event.getGuild()))
+                    {
+                        builder.addField("Now Playing Messages", "Activated", false);
+                    }
+                    else {
+                        builder.addField("Now Playing", "Deactivated", false);
+                    }
+
+                    builder.setFooter(guild.getId());
+
+                    event.replyEmbeds(builder.build()).queue();
+                }
                 case ("insults") -> {
                     String sql = "UPDATE \"public\".\"guild_settings\" SET insults = NOT insults WHERE guild_id=" + event.getGuild().getId();
 

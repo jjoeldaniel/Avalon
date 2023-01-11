@@ -67,12 +67,11 @@ public class Register extends ListenerAdapter {
         guildCommandData.add(Commands.slash("purge", "Purges up to 100 messages").addOption(OptionType.INTEGER, "number", "Number of messages to purge", true).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
 
         // server config
-        // toggle
         SubcommandData insults = new SubcommandData("insults", "Toggles insults");
+        SubcommandData view = new SubcommandData("view", "View server config");
         SubcommandData gmgn = new SubcommandData("goodmorning_goodnight", "Toggles good morning and goodnight messages");
         SubcommandData nowPlaying = new SubcommandData("now_playing", "Toggles Now Playing messages");
-        guildCommandData.add(Commands.slash("config_view", "View server config").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
-        guildCommandData.add(Commands.slash("toggle", "Toggles bot features").addSubcommands(insults, gmgn, nowPlaying).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
+        guildCommandData.add(Commands.slash("config", "Modify server config").addSubcommands(view, insults, gmgn, nowPlaying).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER)));
 
         // music
         guildCommandData.add(Commands.slash("play", "Requests a song").addOption(OptionType.STRING, "song", "Accepts Spotify, YouTube, or Apple Music", true));
