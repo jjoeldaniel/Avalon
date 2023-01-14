@@ -352,7 +352,7 @@ public class Reminder extends ListenerAdapter
                  * timestamps of the current triggering message and the last triggering message. If the difference
                  * is less than MINIMUM_SECONDS_BETWEEN_MESSAGES, the message should be ignored.
                  */
-                final int MINIMUM_SECONDS_BETWEEN_MESSAGES = 60;
+                final int MINIMUM_SECONDS_BETWEEN_MESSAGES = 30;
                 MessageHistory previousHistory = event.getChannel().getHistoryBefore( event.getMessageId(), 50 ).complete();
 
                 for ( Message message : previousHistory.getRetrievedHistory() )
