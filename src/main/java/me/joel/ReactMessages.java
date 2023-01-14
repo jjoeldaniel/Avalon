@@ -10,6 +10,8 @@ import me.joel.commands.mod.GuildSettings;
 
 public class ReactMessages extends ListenerAdapter {
 
+    final int REPLY_RATE = 25;
+
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
@@ -40,7 +42,7 @@ public class ReactMessages extends ListenerAdapter {
                 // Goodnight
                 if (messageSent.contains("goodnight") || messageSent.contains("good night") || messageSent.equalsIgnoreCase("gn")) {
                     int r = Util.randomWithRange(0, 100);
-                    if (r >= 50) return;
+                    if (r >= REPLY_RATE) return;
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -50,7 +52,7 @@ public class ReactMessages extends ListenerAdapter {
                 // Good morning
                 if (messageSent.contains("goodmorning") || messageSent.contains("good morning") || messageSent.equalsIgnoreCase("gm")) {
                     int r = Util.randomWithRange(0, 100);
-                    if (r >= 50) return;
+                    if (r >= REPLY_RATE) return;
 
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
@@ -63,7 +65,7 @@ public class ReactMessages extends ListenerAdapter {
             if (GuildSettings.insults.get(event.getGuild())) {
                 if (isInsult(messageSent)) {
                     int r = Util.randomWithRange(0, 100);
-                    if (r >= 25) return;
+                    if (r >= REPLY_RATE) return;
 
                     String[] insults = {"No you", "Minorly whore", "Shut the fuck up, literally no one is paying attention", "Fuck you", "Your mom", "Stfu", "Bruh", "Dickhead", "Asshole", "Idiot", "You can do better", "Stfu inbred", "Bitch pls", "Shut your mouth", "You disgust me", "Fuck off", "Dumbfuck", "Dumbass", "You're dumb", "Fuck off midget", "I'll fucking roundhouse kick you in the teeth, dumbfuck"};
                     EmbedBuilder builder = new EmbedBuilder()
