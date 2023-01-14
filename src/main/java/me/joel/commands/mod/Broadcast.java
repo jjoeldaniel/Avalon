@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.internal.utils.PermissionUtil;
 
@@ -36,23 +37,6 @@ public class Broadcast extends ListenerAdapter {
             // Get channel and message
             GuildChannelUnion channel = (event.getOption("channel")).getAsChannel();
 
-            // Return if bot cant see channel
-            if ( PermissionUtil.checkPermission(channel.getPermissionContainer(), event.getGuild().getSelfMember(), Permission.VIEW_CHANNEL)) {
-                EmbedBuilder builder = new EmbedBuilder()
-                    .setDescription("I can't see that channel!")
-                    .setColor(Color.red);
-
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                return;
-            } else if ( PermissionUtil.checkPermission(channel.getPermissionContainer(), event.getGuild().getSelfMember(), Permission.MESSAGE_SEND)) {
-                EmbedBuilder builder = new EmbedBuilder()
-                    .setDescription("I can't message in that channel!")
-                    .setColor(Color.red);
-
-                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
-                return;
-            }
-
             String message = event.getOption("message").getAsString();
 
             // Embed
@@ -64,15 +48,27 @@ public class Broadcast extends ListenerAdapter {
             // Text Channel
             if (channel.getType() == ChannelType.VOICE) {
                 VoiceChannel voiceChannel = channel.asVoiceChannel();
-                voiceChannel.sendMessage(message).queue();
+
+                try {
+                    voiceChannel.sendMessage(message).queue();
+                }
+                catch (InsufficientPermissionException ignore) {
+                    return;
+                }
             }
             // Voice Channel
             else if (channel.getType() == ChannelType.TEXT) {
                 TextChannel textChannel = channel.asTextChannel();
-                textChannel.sendMessage(message).queue();
+                
+                try {
+                    textChannel.sendMessage(message).queue();
+                }
+                catch (InsufficientPermissionException ignore) {
+                    return;
+                }
             }
 
-            event.replyEmbeds(builder.build()).setEphemeral(true).queue(null, null);
+            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
         }
 
     }

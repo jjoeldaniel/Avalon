@@ -11,6 +11,7 @@ import me.joel.commands.music.Play;
 import me.joel.commands.music.Playing;
 import me.joel.commands.music.Skip;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -69,7 +70,13 @@ public class TrackScheduler extends AudioEventAdapter {
         if (queue.size() == 0 || !Toggle.isNowPlaying() || !Skip.sendNowPlaying()) return;
 
         EmbedBuilder builder = Playing.nowPlaying(track);
-        Play.playing.get(player).sendMessageEmbeds(builder.build()).queue(null, null);
+
+        try {
+            Play.playing.get(player).sendMessageEmbeds(builder.build()).queue(null, null);
+        }
+        catch (InsufficientPermissionException ignore) {
+            return;
+        }
     }
 
     @Override
