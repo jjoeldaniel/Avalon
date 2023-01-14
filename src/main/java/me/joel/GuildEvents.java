@@ -48,14 +48,16 @@ public class GuildEvents extends ListenerAdapter
     @Override
     public void onGuildJoin( @NotNull GuildJoinEvent event )
     {
-        log.info( "Joined server: " + event.getGuild().getName() + " (" + event.getGuild().getId() + ")" );
+        Guild guild = event.getGuild();
+
+        log.info( "Joined server: " + guild.getName() + " (" + guild.getId() + ")" );
 
         final String inviteLink =
                 "https://discord.com/api/oauth2/authorize?client_id=971239438892019743&permissions=8&scope=applications.commands%20bot";
 
         EmbedBuilder builder = new EmbedBuilder()
                 .setThumbnail( event.getJDA().getSelfUser().getAvatarUrl() )
-                .setTitle( "Thank you for inviting Avalon to " + event.getGuild().getName() + "!" )
+                .setTitle( "Thank you for inviting Avalon to " + guild.getName() + "!" )
                 .setColor( Util.randColor() )
                 .setDescription( "Make sure to use /help to get the full commands list!" )
                 .addBlankField( false )
@@ -63,7 +65,7 @@ public class GuildEvents extends ListenerAdapter
                 .addField( "Want to invite Avalon to another server?",
                         "Click on my profile and click \" Add to Server\" to invite Avalon!", false );
 
-        TextChannel channel = event.getGuild().getSystemChannel();
+        TextChannel channel = guild.getSystemChannel();
 
         // Default to "general" channel if no system channel
         if ( channel == null )
@@ -72,7 +74,7 @@ public class GuildEvents extends ListenerAdapter
 
             if ( generalID != null )
             {
-                event.getGuild().getTextChannelById( generalID ).sendMessageEmbeds( builder.build() ).setActionRow(
+                guild.getTextChannelById( generalID ).sendMessageEmbeds( builder.build() ).setActionRow(
                         Button.link( inviteLink, "Invite" ) ).queue( null, null );
             }
         }
@@ -82,28 +84,46 @@ public class GuildEvents extends ListenerAdapter
                     Button.link( inviteLink, "Invite" ) ).queue( null, null );
         }
 
-        // Initializes guild settings
+        // Initializes guild settings if nothing found
         try
         {
-            String sql = "INSERT INTO \"public\".\"guild_settings\"(guild_id) VALUES (" + event.getGuild()
-                    .getId() + "TRUE, TRUE, TRUE)";
-
-            // insults
-            GuildSettings.insults.put(event.getGuild(), true);
-            // gm gn
-            GuildSettings.gm_gn.put(event.getGuild(), true);
-            // now playing
-            GuildSettings.now_playing.put(event.getGuild(), true);
+            String sql = "SELECT * FROM \"public\".\"guild_settings\" WHERE guild_id=" +guild.getId();
 
             try ( Connection conn = DriverManager.getConnection( URL, USER, PASSWORD ) ) {
-                conn.createStatement().execute( sql );
+                ResultSet set = conn.createStatement().executeQuery( sql );
+
+                if ( !set.next() )
+                {
+                    String sql2 =
+                            "INSERT INTO \"public\".\"guild_settings\" VALUES (" + guild
+                                    .getId() + ", TRUE, TRUE, TRUE)";
+                    conn.createStatement().execute( sql2 );
+
+                    // insults
+                    GuildSettings.insults.put(guild, true);
+                    // gm gn
+                    GuildSettings.gm_gn.put(guild, true);
+                    // now playing
+                    GuildSettings.now_playing.put(guild, true);
+                }
+                // Syncs settings here
+                else
+                {
+
+                    // insults
+                    GuildSettings.insults.put(guild, set.getBoolean(2));
+                    // gm gn
+                    GuildSettings.gm_gn.put(guild, set.getBoolean(3));
+                    // now playing
+                    GuildSettings.now_playing.put(guild, set.getBoolean(4));
+                }
             }
         }
         catch ( SQLException e )
         {
-            log.error(
-                    "Failed to first-time-initialize guild settings for guild: " + event.getGuild().getName() + " ("
-                            + event.getGuild().getId() + ")" );
+            e.printStackTrace();
+            log.error( "Failed to initialize guild settings for guild: " + event.getGuild().getName() + " ("
+                    + event.getGuild().getId() + ")" );
         }
     }
 
