@@ -4,6 +4,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.jetbrains.annotations.NotNull;
 
 import me.joel.commands.mod.GuildSettings;
@@ -82,6 +86,25 @@ public class ReactMessages extends ListenerAdapter {
      * @return True if message contains insult
      */
     boolean isInsult(String message) {
-        return message.contains("fuck") || (message.contains("cunt")) || (message.contains("slag")) || (message.contains("prick") || (message.contains("slut")) || (message.contains("asshole")) || (message.contains("bastard")) || (message.contains("twat")) || (message.contains("bitch")) || (message.contains("dick")));
+        ArrayList<String> insults = new ArrayList<>(
+            Arrays.asList(
+                "fuck",
+                "cunt",
+                "slag",
+                "prick",
+                "slut",
+                "asshole",
+                "bastard",
+                "twat",
+                "bitch",
+                "dick",
+                "whore"
+            )
+        );
+
+        for ( var x : insults ) {
+            if ( message.contains(x) ) return true;
+        }
+        return false;
     }
 }
