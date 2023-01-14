@@ -373,7 +373,7 @@ public class Reminder extends ListenerAdapter
 
                             if ( difference < MINIMUM_SECONDS_BETWEEN_MESSAGES )
                             {
-                                break userLoop;
+                                continue userLoop;
                             }
                         }
                     }
