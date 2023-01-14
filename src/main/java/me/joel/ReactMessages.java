@@ -71,8 +71,30 @@ public class ReactMessages extends ListenerAdapter {
                     int r = Util.randomWithRange(0, 100);
                     if (r >= REPLY_RATE) return;
 
-                    String[] insults = {"No you", "Minorly whore", "Shut the fuck up, literally no one is paying attention", "Fuck you", "Your mom", "Stfu", "Bruh", "Dickhead", "Asshole", "Idiot", "You can do better", "Stfu inbred", "Bitch pls", "Shut your mouth", "You disgust me", "Fuck off", "Dumbfuck", "Dumbass", "You're dumb", "Fuck off midget", "I'll fucking roundhouse kick you in the teeth, dumbfuck"};
-                    EmbedBuilder builder = new EmbedBuilder()
+                    String[] insults = {
+                        "No you",
+                        "Shut the fuck up, literally no one is paying attention",
+                        "Fuck you",
+                        "Your mom",
+                        "Stfu",
+                        "Fuck around and find out",
+                        "Bruh",
+                        "Dickhead",
+                        "Asshole",
+                        "Idiot",
+                        "You can do better",
+                        "Stfu inbred",
+                        "Bitch pls",
+                        "Shut your mouth",
+                        "You disgust me",
+                        "Fuck off",
+                        "Dumbfuck",
+                        "Dumbass",
+                        "You're dumb",
+                        "Fuck off midget",
+                        "I'll fucking roundhouse kick you in the teeth, dumbfuck"};
+                    
+                        EmbedBuilder builder = new EmbedBuilder()
                             .setColor(Util.randColor())
                             .setDescription(insults[Util.randomWithRange(0, insults.length-1)]);
 
@@ -86,21 +108,20 @@ public class ReactMessages extends ListenerAdapter {
      * @return True if message contains insult
      */
     boolean isInsult(String message) {
-        ArrayList<String> insults = new ArrayList<>(
-            Arrays.asList(
-                "fuck",
-                "cunt",
-                "slag",
-                "prick",
-                "slut",
-                "asshole",
-                "bastard",
-                "twat",
-                "bitch",
-                "dick",
-                "whore"
-            )
-        );
+
+        String[] insults = {
+            "fuck",
+            "cunt",
+            "slag",
+            "prick",
+            "slut",
+            "asshole",
+            "bastard",
+            "twat",
+            "bitch",
+            "dick",
+            "whore"
+        };
 
         for ( var x : insults ) {
             if ( message.contains(x) ) return true;
