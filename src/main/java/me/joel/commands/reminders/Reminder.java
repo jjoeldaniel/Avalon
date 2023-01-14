@@ -345,6 +345,40 @@ public class Reminder extends ListenerAdapter
                     continue;
                 }
 
+                /*
+                 * Spam Check
+                 * 
+                 * Spam check should be done by checking the last 50 messages in the channel and comparing the
+                 * timestamps of the current triggering message and the last triggering message. If the difference
+                 * is less than MINIMUM_SECONDS_BETWEEN_MESSAGES, the message should be ignored.
+                 */
+                final int MINIMUM_SECONDS_BETWEEN_MESSAGES = 60;
+                MessageHistory previousHistory = event.getChannel().getHistoryBefore( event.getMessageId(), 50 ).complete();
+
+                for ( Message message : previousHistory.getRetrievedHistory() )
+                {
+
+                    // Check if message contains trigger phrase
+                    if ( inSet( message.getContentRaw().toLowerCase(), reminderMap.get( id ) ) )
+                    {
+
+                        // Check if message was sent by the same user
+                        if ( !message.getAuthor().getId().equals( member.getId() ) )
+                        {
+
+                            // Check if the difference between the current message and the previous message is less than MINIMUM_SECONDS_BETWEEN_MESSAGES
+                            long difference = event.getMessage().getTimeCreated().toEpochSecond() - message.getTimeCreated()
+                                    .toEpochSecond();
+
+                            if ( difference < MINIMUM_SECONDS_BETWEEN_MESSAGES )
+                            {
+                                return;
+                            }
+                        }
+                    }
+                }
+
+
                 // Embed
                 EmbedBuilder builder = new EmbedBuilder()
                         .setTitle( "Message Reminder" )
