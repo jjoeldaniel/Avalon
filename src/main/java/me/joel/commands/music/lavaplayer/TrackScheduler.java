@@ -69,7 +69,7 @@ public class TrackScheduler extends AudioEventAdapter {
         if (queue.size() == 0 || !Toggle.isNowPlaying() || !Skip.sendNowPlaying()) return;
 
         EmbedBuilder builder = Playing.nowPlaying(track);
-        Play.playing.get(player).sendMessageEmbeds(builder.build()).queue();
+        Play.playing.get(player).sendMessageEmbeds(builder.build()).queue(null, null);
     }
 
     @Override

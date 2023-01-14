@@ -52,7 +52,7 @@ public class Broadcast extends ListenerAdapter {
                 textChannel.sendMessage(message).queue();
             }
 
-            event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+            event.replyEmbeds(builder.build()).setEphemeral(true).queue(null, null);
         }
 
     }
