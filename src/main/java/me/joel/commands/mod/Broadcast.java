@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.internal.utils.PermissionUtil;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -33,6 +35,17 @@ public class Broadcast extends ListenerAdapter {
 
             // Get channel and message
             GuildChannelUnion channel = (event.getOption("channel")).getAsChannel();
+
+            // Return if bot cant see channel
+            if ( PermissionUtil.checkPermission(channel.getPermissionContainer(), event.getGuild().getSelfMember(), Permission.MESSAGE_SEND)) {
+                EmbedBuilder builder = new EmbedBuilder()
+                    .setDescription("I can't see that channel!")
+                    .setColor(Color.red);
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
+            }
+
             String message = event.getOption("message").getAsString();
 
             // Embed
