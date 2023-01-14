@@ -395,6 +395,18 @@ public class Reminder extends ListenerAdapter
             return;
         }
 
+        if ( reminderMap.get(event.getMember().getId()).isEmpty() )
+        {
+            event.replyEmbeds( new EmbedBuilder()
+                    .setColor( Color.red )
+                    .setTitle( "Error" )
+                    .setDescription( "You have no reminders set." )
+                    .build() )
+                    .setEphemeral( true )
+                    .queue();
+            return;
+        }
+
         List<String> list = new ArrayList<>( reminderMap.get( event.getMember().getId() ) );
 
         switch ( event.getComponentId() )
