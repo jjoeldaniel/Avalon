@@ -37,9 +37,16 @@ public class Broadcast extends ListenerAdapter {
             GuildChannelUnion channel = (event.getOption("channel")).getAsChannel();
 
             // Return if bot cant see channel
-            if ( PermissionUtil.checkPermission(channel.getPermissionContainer(), event.getGuild().getSelfMember(), Permission.MESSAGE_SEND)) {
+            if ( PermissionUtil.checkPermission(channel.getPermissionContainer(), event.getGuild().getSelfMember(), Permission.VIEW_CHANNEL)) {
                 EmbedBuilder builder = new EmbedBuilder()
                     .setDescription("I can't see that channel!")
+                    .setColor(Color.red);
+
+                event.replyEmbeds(builder.build()).setEphemeral(true).queue();
+                return;
+            } else if ( PermissionUtil.checkPermission(channel.getPermissionContainer(), event.getGuild().getSelfMember(), Permission.MESSAGE_SEND)) {
+                EmbedBuilder builder = new EmbedBuilder()
+                    .setDescription("I can't message in that channel!")
                     .setColor(Color.red);
 
                 event.replyEmbeds(builder.build()).setEphemeral(true).queue();
