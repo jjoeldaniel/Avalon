@@ -355,6 +355,7 @@ public class Reminder extends ListenerAdapter
                 final int MINIMUM_SECONDS_BETWEEN_MESSAGES = 30;
                 MessageHistory previousHistory = event.getChannel().getHistoryBefore( event.getMessageId(), 50 ).complete();
 
+                historyLoop:
                 for ( Message message : previousHistory.getRetrievedHistory() )
                 {
 
@@ -372,7 +373,7 @@ public class Reminder extends ListenerAdapter
 
                             if ( difference < MINIMUM_SECONDS_BETWEEN_MESSAGES )
                             {
-                                return;
+                                break historyLoop;
                             }
                         }
                     }
