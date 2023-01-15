@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.awt.Color;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.cloud.translate.Translation;
@@ -65,7 +66,7 @@ public class Translate extends ListenerAdapter {
             TranslateOption.targetLanguage("en")
         );
 
-        String translatedText = translation.getTranslatedText();
+        String translatedText = StringEscapeUtils.unescapeHtml4(translation.getTranslatedText());
 
         EmbedBuilder builder = new EmbedBuilder()
                 .setColor(Util.randColor())
