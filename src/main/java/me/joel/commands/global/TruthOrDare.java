@@ -58,8 +58,8 @@ public class TruthOrDare extends ListenerAdapter {
             }
 
             builder.setFooter("Member: " + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator());
-            event.getChannel().sendMessageEmbeds(builder.build())
-                    .addActionRow(
+            event.editMessageEmbeds(builder.build())
+                    .setActionRow(
                             Button.success("truth", "Truth"),
                             Button.success("dare", "Dare"),
                             Button.danger("randomTruthOrDare", "Random")
