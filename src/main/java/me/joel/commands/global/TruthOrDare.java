@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class TruthOrDare extends ListenerAdapter {
@@ -178,7 +180,7 @@ public class TruthOrDare extends ListenerAdapter {
         truth[99] = "Who would you bring with you on a deserted island?";
         truth[100] = "What was your most humbling moment?";
 
-        return truth[num];
+        return StringEscapeUtils.unescapeHtml4(truth[num]);
     }
 
     /**
@@ -214,7 +216,7 @@ public class TruthOrDare extends ListenerAdapter {
         dare[22] = "Send a true and embarrassing confession in confessions before today ends.";
         dare[23] = "Do one thing the person above you tells you to do.";
 
-        return dare[num];
+        return StringEscapeUtils.unescapeHtml4(dare[num]);
     }
 
     /**
