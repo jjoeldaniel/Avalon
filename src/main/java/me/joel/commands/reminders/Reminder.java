@@ -430,7 +430,7 @@ public class Reminder extends ListenerAdapter
             return;
         }
 
-        if ( reminderMap.get(event.getMember().getId()).isEmpty() )
+        if ( reminderMap.get(event.getMember().getId()) == null || reminderMap.get(event.getMember().getId()).isEmpty() )
         {
             event.replyEmbeds( new EmbedBuilder()
                     .setColor( Color.red )
